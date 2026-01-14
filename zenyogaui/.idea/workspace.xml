@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9005b9f2-3169-4d78-b4ae-f06afeb0d825" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/kotlin/com/example/mobile_app/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/kotlin/com/example/mobile_app/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/res/values-night/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/res/values-night/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/my_classes_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/my_classes_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/studio_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/studio_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/yoga_type_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/yoga_type_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/class_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/class_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/user_class_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/user_class_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/user_class_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/user_class_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/test/core_test.dart" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/lib/services/providers/user_service.dart" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="320dQwiVrRRmSRNqCyVqqxpw4Mq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Debug&quot;,
+    &quot;Flutter.mobile.dart.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/Documents/FIT/RSIIZENYoga/ZENYoga/rs2seminarski/zenyogaapp/zenyogaui&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.21494253&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;device.mirroring&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\mobile_app\assets" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\mobile_app\lib\core" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\zenyogaui\lib\widgets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\desktop_app\assets" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\mobile_app\assets" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\packages\core\lib" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\packages\core\lib\core" />
+      <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\desktop_app\lib" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.mobile.dart">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mobile.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter.mobile.dart" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9005b9f2-3169-4d78-b4ae-f06afeb0d825" name="Changes" comment="" />
+      <created>1756561418885</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756561418885</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Dobar posao!">
+      <option name="closed" value="true" />
+      <created>1765320494412</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1765320494412</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Dobar posao!">
+      <option name="closed" value="true" />
+      <created>1765320522052</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765320522052</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Dobar posao!">
+      <option name="closed" value="true" />
+      <created>1765320566634</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1765320566634</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Dobar posao!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dobar posao!" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_instructor_dialog.dart</url>
+          <line>1</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="dart-exception" />
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

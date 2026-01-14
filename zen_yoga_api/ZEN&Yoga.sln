@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZEN&Yoga.WebAPI", "ZEN&YogaWebAPI\ZEN&Yoga.WebAPI.csproj", "{54EFDE97-2343-4804-A5EB-768793BBFED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZEN&Yoga.Services", "ZEN&Yoga.Services\ZEN&Yoga.Services.csproj", "{10836907-F61F-4C28-B3AB-DF76C2851BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZEN&Yoga.Models", "ZEN&Yoga.Models\ZEN&Yoga.Models.csproj", "{9E1E7EF6-31E7-4232-BE46-D33A390D547D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundWorker", "BackgroundWorker\BackgroundWorker.csproj", "{5EDD3B53-5575-4C3B-9F56-A62E4AB61FC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54EFDE97-2343-4804-A5EB-768793BBFED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54EFDE97-2343-4804-A5EB-768793BBFED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54EFDE97-2343-4804-A5EB-768793BBFED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54EFDE97-2343-4804-A5EB-768793BBFED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10836907-F61F-4C28-B3AB-DF76C2851BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10836907-F61F-4C28-B3AB-DF76C2851BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10836907-F61F-4C28-B3AB-DF76C2851BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10836907-F61F-4C28-B3AB-DF76C2851BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1E7EF6-31E7-4232-BE46-D33A390D547D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1E7EF6-31E7-4232-BE46-D33A390D547D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1E7EF6-31E7-4232-BE46-D33A390D547D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1E7EF6-31E7-4232-BE46-D33A390D547D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EDD3B53-5575-4C3B-9F56-A62E4AB61FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDD3B53-5575-4C3B-9F56-A62E4AB61FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDD3B53-5575-4C3B-9F56-A62E4AB61FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDD3B53-5575-4C3B-9F56-A62E4AB61FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
