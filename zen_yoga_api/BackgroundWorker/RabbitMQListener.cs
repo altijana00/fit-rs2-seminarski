@@ -4,24 +4,31 @@ using RabbitMQ.Client;
 using System.Text.Json;
 using System.Text;
 using ZEN_Yoga.Models;
+using Microsoft.Extensions.Configuration;
 
 public class RabbitMqListener : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly string _rabbitHost;
+    private readonly string _rabbitQueue;
 
-    public RabbitMqListener(IServiceScopeFactory scopeFactory)
+
+    public RabbitMqListener(IServiceScopeFactory scopeFactory, IConfiguration configuration)
     {
+        _rabbitHost = configuration["RabbitMQ:Host"] ?? "rabbitmq";
+        _rabbitQueue = configuration["RabbitMQ:Queue"] ?? "rabbitmq";
+
         _scopeFactory = scopeFactory;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
+        var factory = new ConnectionFactory() { HostName = _rabbitHost };
         using var connection = await factory.CreateConnectionAsync();
         using var channel = await connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
-            queue: "events",
+            queue: _rabbitQueue,
             durable: false,
             autoDelete: false,
             exclusive: false,
@@ -30,7 +37,7 @@ public class RabbitMqListener : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            var result = await channel.BasicGetAsync("events", true);
+            var result = await channel.BasicGetAsync(_rabbitQueue, true);
 
             if (result != null)
             {

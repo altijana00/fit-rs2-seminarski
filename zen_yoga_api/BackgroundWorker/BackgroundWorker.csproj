@@ -19,11 +19,5 @@
   <ItemGroup>
     <ProjectReference Include="..\ZEN&amp;Yoga.Models\ZEN&amp;Yoga.Models.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<None Update="firebase.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
 	
 </Project>

@@ -81,7 +81,7 @@ namespace ZEN_YogaWebAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DurationInDays = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DurationInDays = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,6 +212,26 @@ namespace ZEN_YogaWebAPI.Migrations
                     table.PrimaryKey("PK_StudioAnalytics", x => x.Id);
                     table.ForeignKey(
                         name: "FK_StudioAnalytics_Studios_StudioId",
+                        column: x => x.StudioId,
+                        principalTable: "Studios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudioGalleries",
+                columns: table => new
+                {
+                    GalleryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudioId = table.Column<int>(type: "int", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudioGalleries", x => x.GalleryId);
+                    table.ForeignKey(
+                        name: "FK_StudioGalleries_Studios_StudioId",
                         column: x => x.StudioId,
                         principalTable: "Studios",
                         principalColumn: "Id",
@@ -434,6 +454,17 @@ namespace ZEN_YogaWebAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "SubscriptionTypes",
+                columns: new[] { "Id", "Description", "DurationInDays", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Access for 30 days.", 30, "1 Month" },
+                    { 2, "Access for 90 days.", 90, "3 Months" },
+                    { 3, "Access for 180 days.", 180, "6 Months" },
+                    { 4, "Access for 365 days.", 365, "1 Year" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "YogaTypes",
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
@@ -448,8 +479,64 @@ namespace ZEN_YogaWebAPI.Migrations
                 columns: new[] { "Id", "CityId", "DateOfBirth", "Email", "FirstName", "Gender", "LastName", "PasswordHash", "PasswordSalt", "ProfileImageUrl", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@email.com", "Test1", "M", "", "", "", "", 4 },
-                    { 2, 2, new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "test2@email.com", "Test2", "F", "", "", "", "", 4 }
+                    { 1, 1, new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "owner@edu.fit.ba", "Test1", "M", "", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 2 },
+                    { 2, 2, new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@edu.fit.ba", "Test2", "F", "", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 1 },
+                    { 3, 3, new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "amir.hodzic@email.com", "Amir", "M", "Hodžić", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
+                    { 4, 4, new DateTime(1989, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lejla.kovacevic@email.com", "Lejla", "F", "Kovačević", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
+                    { 5, 5, new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "nermin.hadzic@email.com", "Nermin", "M", "Hadžić", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
+                    { 6, 6, new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "instructor@edu.fit.ba", "Amina", "F", "Mehmedović", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 3 },
+                    { 7, 7, new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "haris.begic@email.com", "Haris", "M", "Begić", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "", 3 },
+                    { 8, 8, new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "selma.delic@email.com", "Selma", "F", "Delić", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "", 3 },
+                    { 9, 9, new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "participant@edu.fit.ba", "Kenan", "M", "Musić", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 4 },
+                    { 10, 10, new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "marija.petrovic@email.com", "Marija", "F", "Petrović", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "", 4 },
+                    { 11, 11, new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "adnan.karic@email.com", "Adnan", "M", "Karić", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "", 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Studios",
+                columns: new[] { "Id", "Address", "CityId", "ContactEmail", "ContactPhone", "Description", "Name", "OwnerId", "ProfileImageUrl" },
+                values: new object[,]
+                {
+                    { 1, "123 Main St", 3, "contact@zenyoga.com", "123-456-7890", "Peaceful yoga studio", "Zen Yoga Center", 1, "" },
+                    { 2, "456 Oak St", 4, "contact@lotusstudio.com", "234-567-8901", "Modern yoga classes", "Lotus Studio", 1, "" },
+                    { 3, "789 Pine St", 9, "contact@harmonyyoga.com", "345-678-9012", "Yoga for all levels", "Harmony Yoga", 3, "" },
+                    { 4, "101 Maple St", 6, "contact@sunriseyoga.com", "456-789-0123", "Morning yoga and meditation", "Sunrise Yoga", 4, "" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Instructors",
+                columns: new[] { "Id", "Biography", "Certificates", "Diplomas", "StudioId" },
+                values: new object[,]
+                {
+                    { 6, "", "", "", 1 },
+                    { 7, "", "", "", 3 },
+                    { 8, "", "", "", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Classes",
+                columns: new[] { "Id", "Description", "EndDate", "InstructorId", "Location", "MaxParticipants", "Name", "StartDate", "StudioId", "YogaTypeId" },
+                values: new object[,]
+                {
+                    { 1, "", new DateTime(2026, 1, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 6, "Room 1", 20, "Morning Flow", new DateTime(2026, 1, 20, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1 },
+                    { 2, "", new DateTime(2026, 1, 20, 11, 0, 0, 0, DateTimeKind.Unspecified), 7, "Main Hall", 20, "Power Yoga", new DateTime(2026, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), 3, 2 },
+                    { 3, "", new DateTime(2026, 1, 20, 19, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Relaxing Yin", new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), 3, 3 },
+                    { 4, "", new DateTime(2026, 1, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), 8, "Room 1", 20, "Evening Flow", new DateTime(2026, 1, 21, 7, 0, 0, 0, DateTimeKind.Unspecified), 2, 1 },
+                    { 5, "", new DateTime(2026, 1, 21, 10, 30, 0, 0, DateTimeKind.Unspecified), 8, "Main Hall", 20, "Core Strength", new DateTime(2026, 1, 21, 9, 30, 0, 0, DateTimeKind.Unspecified), 2, 2 },
+                    { 6, "", new DateTime(2026, 1, 21, 19, 30, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Gentle Flow", new DateTime(2026, 1, 21, 18, 30, 0, 0, DateTimeKind.Unspecified), 1, 3 },
+                    { 7, "", new DateTime(2026, 1, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 1", 20, "Dynamic Yoga", new DateTime(2026, 1, 22, 8, 0, 0, 0, DateTimeKind.Unspecified), 3, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserClasses",
+                columns: new[] { "Id", "ClassId", "JoinedAt", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), 9 },
+                    { 2, 3, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), 10 },
+                    { 3, 4, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), 10 },
+                    { 4, 3, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), 11 },
+                    { 5, 7, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), 11 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -495,6 +582,11 @@ namespace ZEN_YogaWebAPI.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_StudioAnalytics_StudioId",
                 table: "StudioAnalytics",
+                column: "StudioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudioGalleries_StudioId",
+                table: "StudioGalleries",
                 column: "StudioId");
 
             migrationBuilder.CreateIndex(
@@ -563,6 +655,9 @@ namespace ZEN_YogaWebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudioAnalytics");
+
+            migrationBuilder.DropTable(
+                name: "StudioGalleries");
 
             migrationBuilder.DropTable(
                 name: "UserClasses");

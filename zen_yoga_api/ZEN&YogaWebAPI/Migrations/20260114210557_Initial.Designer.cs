@@ -12,8 +12,8 @@ using ZEN_Yoga.Models;
 namespace ZEN_YogaWebAPI.Migrations
 {
     [DbContext(typeof(ZenYogaDbContext))]
-    [Migration("20250805161714_SubscriptionType")]
-    partial class SubscriptionType
+    [Migration("20260114210557_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,6 +268,99 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("YogaTypeId");
 
                     b.ToTable("Classes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 6,
+                            Location = "Room 1",
+                            MaxParticipants = 20,
+                            Name = "Morning Flow",
+                            StartDate = new DateTime(2026, 1, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 1,
+                            YogaTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 20, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 7,
+                            Location = "Main Hall",
+                            MaxParticipants = 20,
+                            Name = "Power Yoga",
+                            StartDate = new DateTime(2026, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 3,
+                            YogaTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 20, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 7,
+                            Location = "Room 2",
+                            MaxParticipants = 20,
+                            Name = "Relaxing Yin",
+                            StartDate = new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 3,
+                            YogaTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 21, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 8,
+                            Location = "Room 1",
+                            MaxParticipants = 20,
+                            Name = "Evening Flow",
+                            StartDate = new DateTime(2026, 1, 21, 7, 0, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 2,
+                            YogaTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 21, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 8,
+                            Location = "Main Hall",
+                            MaxParticipants = 20,
+                            Name = "Core Strength",
+                            StartDate = new DateTime(2026, 1, 21, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 2,
+                            YogaTypeId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 21, 19, 30, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 7,
+                            Location = "Room 2",
+                            MaxParticipants = 20,
+                            Name = "Gentle Flow",
+                            StartDate = new DateTime(2026, 1, 21, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 1,
+                            YogaTypeId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "",
+                            EndDate = new DateTime(2026, 1, 22, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            InstructorId = 7,
+                            Location = "Room 1",
+                            MaxParticipants = 20,
+                            Name = "Dynamic Yoga",
+                            StartDate = new DateTime(2026, 1, 22, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 3,
+                            YogaTypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.Instructor", b =>
@@ -295,6 +388,32 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("StudioId");
 
                     b.ToTable("Instructors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 6,
+                            Biography = "",
+                            Certificates = "",
+                            Diplomas = "",
+                            StudioId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Biography = "",
+                            Certificates = "",
+                            Diplomas = "",
+                            StudioId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Biography = "",
+                            Certificates = "",
+                            Diplomas = "",
+                            StudioId = 2
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.Notification", b =>
@@ -461,6 +580,56 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Studios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Main St",
+                            CityId = 3,
+                            ContactEmail = "contact@zenyoga.com",
+                            ContactPhone = "123-456-7890",
+                            Description = "Peaceful yoga studio",
+                            Name = "Zen Yoga Center",
+                            OwnerId = 1,
+                            ProfileImageUrl = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "456 Oak St",
+                            CityId = 4,
+                            ContactEmail = "contact@lotusstudio.com",
+                            ContactPhone = "234-567-8901",
+                            Description = "Modern yoga classes",
+                            Name = "Lotus Studio",
+                            OwnerId = 1,
+                            ProfileImageUrl = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "789 Pine St",
+                            CityId = 9,
+                            ContactEmail = "contact@harmonyyoga.com",
+                            ContactPhone = "345-678-9012",
+                            Description = "Yoga for all levels",
+                            Name = "Harmony Yoga",
+                            OwnerId = 3,
+                            ProfileImageUrl = ""
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "101 Maple St",
+                            CityId = 6,
+                            ContactEmail = "contact@sunriseyoga.com",
+                            ContactPhone = "456-789-0123",
+                            Description = "Morning yoga and meditation",
+                            Name = "Sunrise Yoga",
+                            OwnerId = 4,
+                            ProfileImageUrl = ""
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.StudioAnalytics", b =>
@@ -492,6 +661,27 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("StudioId");
 
                     b.ToTable("StudioAnalytics");
+                });
+
+            modelBuilder.Entity("ZEN_Yoga.Models.StudioGallery", b =>
+                {
+                    b.Property<int>("GalleryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GalleryId"));
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GalleryId");
+
+                    b.HasIndex("StudioId");
+
+                    b.ToTable("StudioGalleries");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.StudioSubscription", b =>
@@ -635,26 +825,152 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 1,
                             CityId = 1,
                             DateOfBirth = new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "test@email.com",
+                            Email = "owner@edu.fit.ba",
                             FirstName = "Test1",
                             Gender = "M",
                             LastName = "",
-                            PasswordHash = "",
-                            PasswordSalt = "",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
+                            PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "",
-                            RoleId = 4
+                            RoleId = 2
                         },
                         new
                         {
                             Id = 2,
                             CityId = 2,
                             DateOfBirth = new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "test2@email.com",
+                            Email = "admin@edu.fit.ba",
                             FirstName = "Test2",
                             Gender = "F",
                             LastName = "",
-                            PasswordHash = "",
-                            PasswordSalt = "",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CityId = 3,
+                            DateOfBirth = new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "amir.hodzic@email.com",
+                            FirstName = "Amir",
+                            Gender = "M",
+                            LastName = "Hodžić",
+                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CityId = 4,
+                            DateOfBirth = new DateTime(1989, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "lejla.kovacevic@email.com",
+                            FirstName = "Lejla",
+                            Gender = "F",
+                            LastName = "Kovačević",
+                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CityId = 5,
+                            DateOfBirth = new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nermin.hadzic@email.com",
+                            FirstName = "Nermin",
+                            Gender = "M",
+                            LastName = "Hadžić",
+                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CityId = 6,
+                            DateOfBirth = new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "instructor@edu.fit.ba",
+                            FirstName = "Amina",
+                            Gender = "F",
+                            LastName = "Mehmedović",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CityId = 7,
+                            DateOfBirth = new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "haris.begic@email.com",
+                            FirstName = "Haris",
+                            Gender = "M",
+                            LastName = "Begić",
+                            PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CityId = 8,
+                            DateOfBirth = new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "selma.delic@email.com",
+                            FirstName = "Selma",
+                            Gender = "F",
+                            LastName = "Delić",
+                            PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CityId = 9,
+                            DateOfBirth = new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "participant@edu.fit.ba",
+                            FirstName = "Kenan",
+                            Gender = "M",
+                            LastName = "Musić",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CityId = 10,
+                            DateOfBirth = new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "marija.petrovic@email.com",
+                            FirstName = "Marija",
+                            Gender = "F",
+                            LastName = "Petrović",
+                            PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
+                            PasswordSalt = "cnMycnMyMTIz",
+                            ProfileImageUrl = "",
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CityId = 11,
+                            DateOfBirth = new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "adnan.karic@email.com",
+                            FirstName = "Adnan",
+                            Gender = "M",
+                            LastName = "Karić",
+                            PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
+                            PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "",
                             RoleId = 4
                         });
@@ -684,6 +1000,43 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserClasses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassId = 2,
+                            JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClassId = 3,
+                            JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClassId = 4,
+                            JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClassId = 3,
+                            JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClassId = 7,
+                            JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 11
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.UserStudio", b =>
@@ -864,6 +1217,17 @@ namespace ZEN_YogaWebAPI.Migrations
                 {
                     b.HasOne("ZEN_Yoga.Models.Studio", "Studio")
                         .WithMany("StudioAnalytics")
+                        .HasForeignKey("StudioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Studio");
+                });
+
+            modelBuilder.Entity("ZEN_Yoga.Models.StudioGallery", b =>
+                {
+                    b.HasOne("ZEN_Yoga.Models.Studio", "Studio")
+                        .WithMany()
                         .HasForeignKey("StudioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

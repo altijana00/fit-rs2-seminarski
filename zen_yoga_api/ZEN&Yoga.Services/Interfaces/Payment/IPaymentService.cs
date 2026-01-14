@@ -12,5 +12,7 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
 
         Task<bool> IsUserPaidMember(int userId, int studioId);
 
+        
+
     }
 }

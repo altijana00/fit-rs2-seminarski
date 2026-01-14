@@ -3,12 +3,13 @@ using Microsoft.Extensions.Hosting;
 using ZEN_Yoga.Models;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 await Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         services.AddDbContext<ZenYogaDbContext>(options =>
-            options.UseSqlServer("server=DESKTOP-S0V3M5R\\SQLEXPRESS;database=190015;User Id=test;Password=seminarski123;trusted_connection=true; Trust Server Certificate=true"));
+            options.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
 
         services.AddHostedService<RabbitMqListener>();
     }).RunConsoleAsync();

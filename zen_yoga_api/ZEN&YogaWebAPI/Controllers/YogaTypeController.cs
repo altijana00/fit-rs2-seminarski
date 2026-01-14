@@ -10,7 +10,7 @@ namespace ZEN_YogaWebAPI.Controllers
     [Route("api/[controller]")]
     public class YogaTypeController : ControllerBase
     {
-
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<YogaTypeResponse>>> GetAll([FromServices] IGetYogaTypeService getYogaTypeService)
         {
@@ -23,7 +23,8 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(yogaTypes);
         }
 
-        [Authorize(Roles = "1")]
+
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getById")]
         public async Task<ActionResult<YogaTypeResponse>> GetById(int id, [FromServices] IGetYogaTypeService getYogaTypeService)
         {

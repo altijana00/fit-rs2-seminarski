@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Services.Interfaces.UserClass;
 using ZEN_Yoga.Services.Interfaces.UserStudio;
 
@@ -7,6 +8,7 @@ namespace ZEN_YogaWebAPI.Controllers
     [Route("api/[controller]")]
     public class UserStudioController : ControllerBase
     {
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpPost("add")]
         public async Task<IActionResult> Add(int userId, int studioId, int subscriptionTypeId, [FromServices] IUpsertUserStudioService upsertUserStudioService)
         {

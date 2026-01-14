@@ -40,6 +40,11 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+}
+
+dependencies {
+    implementation("com.stripe:stripe-android:20.45.0")
 }
 
 flutter {

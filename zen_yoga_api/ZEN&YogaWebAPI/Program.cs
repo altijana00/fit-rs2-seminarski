@@ -60,6 +60,7 @@ builder.Services.AddDbContext<ZenYogaDbContext>(options =>
 {
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions => sqlOptions.MigrationsAssembly("ZEN&Yoga.WebAPI"));
+
     
 
 }, ServiceLifetime.Scoped);
@@ -74,6 +75,11 @@ builder.Services.AddControllers()
 builder.Services.Configure<AzureBlobStorageSettings>
     (
         builder.Configuration.GetSection("AzureBlobStorage")
+    );
+
+builder.Services.Configure<RabbitMqSettings>
+    (
+        builder.Configuration.GetSection("RabbitMQ")
     );
 
 
@@ -217,6 +223,7 @@ builder.Services.AddCors(options =>
 
 
 
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -234,5 +241,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ZenYogaDbContext>();
+
+    db.Database.Migrate();
+}
 
 app.Run();

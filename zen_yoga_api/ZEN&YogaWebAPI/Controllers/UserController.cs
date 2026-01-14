@@ -135,8 +135,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no user with this ID!" });
         }
 
-        //[Authorize(Roles = "1,2,3,4")]
-        [AllowAnonymous]
+        [Authorize(Roles = "1,2,3,4")]
         [HttpPatch("updateUserPassword")]
         public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, [FromServices] IUpsertUserService<RegisterUser> upsertUserService, string token)
         {

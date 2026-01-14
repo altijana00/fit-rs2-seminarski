@@ -1,8 +1,14 @@
 import 'package:core/dto/responses/user_response_dto.dart';
+import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zenyogaui/widgets/statistics_screen_view.dart';
 import 'package:zenyogaui/widgets/studios_table_source.dart';
 import 'package:zenyogaui/widgets/users_table_source.dart';
+
+import '../core/theme.dart';
+
+//import '../../../../shared/dto/responses/user_response_dto.dart';
 
 
 
@@ -51,7 +57,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 icon: Icon(Icons.bar_chart),
                 label: Text("Statistics"),
               ),
+
             ],
+
+
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await context.read<AuthProvider>().logout();
+
+              if (!context.mounted) return;
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/',
+                    (_) => false,
+              );
+            },
+            child: const Text("Logout"),
           ),
           const VerticalDivider(thickness: 1, width: 1),
           // This expands to fill the remaining space

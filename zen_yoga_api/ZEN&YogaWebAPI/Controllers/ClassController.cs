@@ -29,7 +29,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getById")]
         public async Task<ActionResult<ClassResponse>> GetById([FromServices] IGetClassService getClassService, int id)
         {
@@ -42,7 +42,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(clasRes);
         }
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getByInstructorId")]
         public async Task<ActionResult<ClassResponse>> GetByInstructorId([FromServices] IGetClassService getClassService, int instructorId, [FromQuery] ClassQuery? classQuery)
         {
@@ -55,7 +55,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getByStudioId")]
         public async Task<ActionResult<ClassResponse>> GetByStudioId([FromServices] IGetClassService getClassService, int studioId)
         {
@@ -113,7 +113,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no class with this ID!" });
         }
 
-
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("groupped")]
         public async Task<ActionResult<GrouppedClasses>> GetGroupped([FromServices] IGetClassService getClassService)
         {
@@ -126,6 +126,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(grouppedClasses);
         }
 
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("studioGroupped")]
         public async Task<ActionResult<GrouppedClasses>> GetStudioGroupped([FromServices] IGetClassService getClassService, int studioId)
         {

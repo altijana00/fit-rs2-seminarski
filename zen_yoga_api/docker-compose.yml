@@ -1,13 +1,74 @@
 services:
 
+  zenyoga-database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Seminarski123!
+      - MSSQL_PID=Developer
+    ports:
+      - 14533:1433
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S zenyoga-database -U sa -P Seminarski123! -Q "SELECT 1" -C
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - zenyoga-network
+
+  zenyoga-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:DefaultConnection=server=zenyoga-database,1433;database=190015;User Id=sa;Password=Seminarski123!;Trust Server Certificate=true;
+      - AzureBlobStorage:ConnectionString=DefaultEndpointsProtocol=https;AccountName=zenyoga;AccountKey=5KPv3p7SI/+q91ZHtVWl8F47eRgK3Zpjh0rLUXjy5Exb+XfOT5dIHbQiMx/jSEYlSx6zHNlegw43+AStUUKbJg==;EndpointSuffix=core.windows.net
+      - AzureBlobStorage:UserPhotosContainer=user-photos
+      - AzureBlobStorage:StudioPhotosContainer=studio-photos
+      - RabbitMQ:Host=rabbitmq
+      - RabbitMQ:Port=5672
+      - RabbitMQ:User=guest
+      - RabbitMQ:Password=guest
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 8080:8080
+    networks:
+      - zenyoga-network
+    links:
+      - zenyoga-database
+    
+    depends_on:
+      zenyoga-database:
+        condition: service_healthy
+
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     ports: 
       - "5672:5672"
       - "15672:15672"
     networks:
-      - app-networks
+      zenyoga-network:
+        aliases:
+          - rabbitmq
+
+  zenyoga-worker:
+    build:
+      context: .      
+      dockerfile: Worker-Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=server=zenyoga-database,1433;database=190015;User Id=sa;Password=Seminarski123!;Trust Server Certificate=true;
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Queue=events
+    networks:
+      - zenyoga-network
+    depends_on:
+      zenyoga-database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
 
 networks:
-  app-networks:
+  zenyoga-network:
     driver: bridge

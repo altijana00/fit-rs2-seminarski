@@ -66,7 +66,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(instructors);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = "1, 2, 3")]
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromServices] IUpsertInstructorService<AddInstructor> upsertInstructorService,
                                             [FromServices] IGetUserService getUserService, 

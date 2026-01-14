@@ -32,13 +32,14 @@ dependencies:
     sdk: flutter
   provider: ^6.0.5
   dio: ^5.3.2
-  flutter_secure_storage: ^9.2.4
   jwt_decoder: ^2.0.1
   json_annotation: ^4.9.0 # Check pub.dev for the latest version
   image_picker: ^1.0.7
+  flutter_secure_storage: ^9.2.4
   intl: ^0.19.0
   core:
     path: ../../packages/core
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,7 +55,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  build_runner: ^2.7.0 # Check pub.dev for the latest version
   json_serializable: ^6.11.0 # Check pub.dev for the latest version
 
 # For information on the generic Dart part of this file, see the

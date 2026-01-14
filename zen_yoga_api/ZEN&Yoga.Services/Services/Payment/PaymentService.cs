@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Payment;
 
 namespace ZEN_Yoga.Services.Services.Payment
@@ -15,9 +17,13 @@ namespace ZEN_Yoga.Services.Services.Payment
     public class PaymentService : IPaymentService
     {
         private readonly ZenYogaDbContext _dbContext;
-        public PaymentService(ZenYogaDbContext dbContext)
+
+        private readonly RabbitMqSettings _rabbitMqSettings;
+
+        public PaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options)
         {
             _dbContext = dbContext;
+            _rabbitMqSettings = options.Value;
         }
 
         public async Task<bool> AddPayment(int userId, int studioId)
@@ -29,22 +35,17 @@ namespace ZEN_Yoga.Services.Services.Payment
                 return false;
             }
 
-            //var payment = new Models.Payment()
-            //{
-            //    UserId = userId,
-            //    StudioId = studioId,
-            //    SubscriptionTypeId = subscriptionId,
-            //    CreatedAt = DateTime.Now,
-            //    PaymentDate = DateTime.Now,
-            //    Amount = subscription.Price,
-            //    Status = "procsessing"
-            //};
-
-            //await _dbContext.Payments.AddAsync(payment);
-            //await _dbContext.SaveChangesAsync();
+           
 
 
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory()
+            {
+                HostName = _rabbitMqSettings.Host!,
+                Port = int.Parse(_rabbitMqSettings.Port!),
+                UserName = _rabbitMqSettings.User!,
+                Password = _rabbitMqSettings.Password!
+            };
+
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
 
@@ -63,7 +64,7 @@ namespace ZEN_Yoga.Services.Services.Payment
                 SubscriptionTypeId = 1,
                 CreatedAt = DateTime.Now,
                 PaymentDate = DateTime.Now,
-                Amount = 100,
+                Amount = 50,
                 Status = "procsessing"
             };
 
@@ -73,6 +74,8 @@ namespace ZEN_Yoga.Services.Services.Payment
 
             return true;
         }
+
+    
 
         public async Task<bool> IsUserPaidMember(int userId, int studioId)
         {
