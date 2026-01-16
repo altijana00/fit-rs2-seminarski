@@ -147,6 +147,18 @@ class _SignupFormState extends State<SignupForm> {
             child: const Text("Next"),
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.deepGreen),
           ),
+          const SizedBox(height: 15),
+          Center(
+            child:
+            GestureDetector(
+              onTap: () {
+
+                Navigator.of(context).pushNamed('/');
+              },
+              child: Text('Already have an account? Log in.', style: TextStyle(decoration: TextDecoration.underline)),
+            )
+          ),
+
         ],
       ),
     );
@@ -218,6 +230,17 @@ class _SignupFormState extends State<SignupForm> {
                 )
                     : const Text("Sign up"),
 
+              ),
+              const SizedBox(height: 15),
+              Center(
+                  child:
+                  GestureDetector(
+                    onTap: () {
+
+                      Navigator.of(context).pushNamed('/');
+                    },
+                    child: Text('Already have an account? Log in.', style: TextStyle(decoration: TextDecoration.underline)),
+                  )
               ),
 
             ],

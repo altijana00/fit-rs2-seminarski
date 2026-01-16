@@ -11,7 +11,7 @@ namespace ZEN_YogaWebAPI.Controllers
     public class CityController : ControllerBase
     {
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        
         [HttpGet("getAll")]
         public async Task<ActionResult<List<CityResponse>>> GetAll([FromServices] IGetCityService getCityService)
         {
@@ -24,7 +24,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(cities);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        
         [HttpGet("getById")]
         public async Task<ActionResult<CityResponse>> GetById([FromServices] IGetCityService getCityService, int id)
         {

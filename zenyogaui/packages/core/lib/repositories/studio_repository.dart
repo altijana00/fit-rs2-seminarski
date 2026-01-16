@@ -16,6 +16,11 @@ class StudioRepository {
     return jsonList.map((json) => StudioResponseDto.fromJson(json)).toList();
   }
 
+  Future<StudioResponseDto> getStudioByInstructor(int id) async {
+    final json = await api.getStudioByInstructor(id);
+    return StudioResponseDto.fromJson(json);
+  }
+
   Future<StudioResponseDto> getStudioByOwnerAndStudioName(int id, String name) async {
     final json = await api.getStudioByOwnerAndStudioName(id, name);
     return StudioResponseDto.fromJson(json);

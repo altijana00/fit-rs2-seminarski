@@ -3,6 +3,7 @@ import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
+import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
@@ -172,64 +173,87 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
   Widget _buildFilters(_InstructorClassesTableData data) {
     return Padding(
       padding: const EdgeInsets.all(12),
-      child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
-        children: [
-          SizedBox(
-            width: 260,
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                labelText: "Search classes",
-                prefixIcon: Icon(Icons.search),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+
+            // -------- SEARCH INPUT --------
+            SizedBox(
+              width: 260,
+              child: TextField(
+                controller: _searchController,
+                textInputAction: TextInputAction.search,
+                onSubmitted: (value) {
+                  _filter.search = value.trim();
+                  _refresh();
+                },
+                decoration: const InputDecoration(
+                  labelText: "Search classes",
+                  prefixIcon: Icon(Icons.search),
+                ),
+
               ),
             ),
-          ),
 
-          ElevatedButton.icon(
-            icon: const Icon(Icons.search),
-            label: const Text("Search"),
-            onPressed: () {
-              _filter.search = _searchController.text.trim();
-              _refresh();
-            },
-          ),
+            const SizedBox(width: 12),
 
-          DropdownButton<int?>(
-            hint: const Text("Yoga Type"),
-            value: _filter.yogaTypeId,
-            items: [
-              const DropdownMenuItem(value: null, child: Text("All yoga types")),
-              ...data.yogaTypeNames.entries.map(
-                    (e) => DropdownMenuItem(
-                  value: e.key,
-                  child: Text(e.value),
-                ),
+            // -------- SEARCH BUTTON --------
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.lavender,
+                minimumSize: const Size(90, 48),
               ),
-            ],
-            onChanged: (value) {
-              _filter.yogaTypeId = value;
-              _refresh();
-            },
-          ),
+              onPressed: () {
+                _filter.search = _searchController.text.trim();
+                _refresh();
+              },
+              child: const Text("Search"),
+            ),
 
+            const SizedBox(width: 12),
 
-          TextButton.icon(
-            icon: const Icon(Icons.clear),
-            label: const Text("Reset"),
-            onPressed: () {
-              _searchController.clear();
-              _filter
-                ..search = null
-                ..yogaTypeId = null;
-              _refresh();
-            },
-          ),
-        ],
+            // -------- YOGA TYPE DROPDOWN --------
+            DropdownButton<int?>(
+              value: _filter.yogaTypeId,
+              hint: const Text("Yoga Type"),
+              onChanged: (value) {
+                _filter.yogaTypeId = value;
+                _refresh();
+              },
+              items: [
+                const DropdownMenuItem(
+                  value: null,
+                  child: Text("All yoga types"),
+                ),
+                ...data.yogaTypeNames.entries.map(
+                      (e) => DropdownMenuItem(
+                    value: e.key,
+                    child: Text(e.value),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(width: 12),
+
+            // -------- RESET BUTTON --------
+            TextButton(
+              onPressed: () {
+                _searchController.clear();
+                _filter
+                  ..search = null
+                  ..yogaTypeId = null;
+                _refresh();
+              },
+              child: const Text("Reset"),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 
   /* ================= BUILD ================= */
 
@@ -237,119 +261,264 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
   Widget build(BuildContext context) {
     final user = ModalRoute.of(context)!.settings.arguments as UserResponseDto;
 
+
+
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Instructor Dashboard")),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Welcome, ${user.firstName} ${user.lastName}!",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+        body: FutureBuilder<StudioResponseDto?>(
+            future: context.read<StudioProvider>().repository.getStudioByInstructor(user.id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            const SizedBox(height: 20),
+              final studio = snapshot.data;
 
-            ElevatedButton.icon(
-              icon: const Icon(Icons.add),
-              label: const Text("Add Class"),
-              style: ElevatedButton.styleFrom(fixedSize: const Size(120, 32)),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (ctx) => AddClassDialog(
-                    onAddDto: (newClass) async {
-                      await context
-                          .read<ClassProvider>()
-                          .repository
-                          .addClass(newClass, user.id);
+              if (studio == null) {
 
-                      _refresh();
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Class added successfully"),
-                          backgroundColor: AppColors.deepGreen,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 24),
-
-            Expanded(
-              child: FutureBuilder<_InstructorClassesTableData>(
-                future: _tableFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        "Error: ${snapshot.error}",
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
-                  }
-
-                  final data = snapshot.data!;
-
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                return Center(
+                  child: Column(
                       children: [
-                        _buildFilters(data),
-                        if(data.classes.isEmpty)
-                          const Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Center(
-                              child: Text(
-                                "No classes found for the selected filters",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          )
-                        else
-                          PaginatedDataTable(
-                            header: const Text("My Classes"),
-                            rowsPerPage: 10,
-                            showCheckboxColumn: false,
-                            columns: const [
-                              DataColumn(label: Text("Name")),
-                              DataColumn(label: Text("Yoga Type")),
-                              DataColumn(label: Text("Studio")),
-                              DataColumn(label: Text("Start")),
-                              DataColumn(label: Text("End")),
-                              DataColumn(label: Text("Max")),
-                              DataColumn(label: Text("Location")),
-                              DataColumn(label: Text("Actions")),
-                            ],
-                            source: InstructorClassesTableSource(
-                              classes: data.classes,
-                              studioNames: data.studioNames,
-                              yogaTypeNames: data.yogaTypeNames,
-                              onEditRequest: _confirmEdit,
-                              onDeleteRequest: _confirmDelete,
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Image.asset(
+                            'assets/logo.png',
+                            height: 64,
                           ),
+                        ),
+                        Center(
+                          child: Text(
+                            "You are not assigned to any studio yet...",
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Center(
+                            child:
+                            GestureDetector(
+                              onTap: () {
+
+                                Navigator.of(context).pushNamed('/');
+                              },
+                              child: Text('Log out.', style: TextStyle(decoration: TextDecoration.underline)),
+                            )
+                        ),
                       ],
                     )
-                  );
 
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+
+                );
+
+              }
+
+              return Row(
+                children: [
+
+                  // ================= LEFT SIDEBAR =================
+                  Container(
+                    width: 72,
+                    color: AppColors.lavender,
+                    child: Column(
+                      children: [
+                        const Spacer(),
+
+                        const Divider(color: Colors.white),
+
+                        IconButton(
+                          tooltip: "Logout",
+                          icon: const Icon(Icons.logout, color: AppColors.deepGreen),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text("Logout"),
+                                content: const Text("Are you sure you want to logout?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: const Text("Cancel"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(ctx);
+                                      await context.read<AuthProvider>().logout();
+
+                                      if (!context.mounted) return;
+
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil('/', (_) => false);
+                                    },
+                                    child: const Text("Logout"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+
+                  // ================= MAIN CONTENT =================
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          // -------- HEADER --------
+                          Text(
+                            "Welcome, ${user.firstName} ${user.lastName}!",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+
+
+                          // -------- TABLE AREA --------
+                          Expanded(
+                            child: FutureBuilder<_InstructorClassesTableData>(
+                              future: _tableFuture,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(
+                                      "Error: ${snapshot.error}",
+                                      style:
+                                      const TextStyle(color: Colors.red),
+                                    ),
+                                  );
+                                }
+
+                                final data = snapshot.data!;
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    _buildFilters(data),
+
+                                    const SizedBox(height: 12),
+
+                                    // -------- ADD CLASS --------
+                                    ElevatedButton.icon(
+                                      icon: const Icon(Icons.add),
+                                      label: const Text("Add Class"),
+                                      style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(120, 32),
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => AddClassDialog(
+                                            onAddDto: (newClass) async {
+                                              await context
+                                                  .read<ClassProvider>()
+                                                  .repository
+                                                  .addClass(newClass, user.id);
+
+                                              _refresh();
+
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(
+                                                  content: Text("Class added successfully"),
+                                                  backgroundColor: AppColors.deepGreen,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    ),
+
+                                    const SizedBox(height: 24),
+
+                                    Expanded(
+                                      child: data.classes.isEmpty
+                                          ? const Center(
+                                        child: Text(
+                                          "No classes found for the selected filters",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      )
+                                          : SingleChildScrollView(
+                                        child: PaginatedDataTable(
+                                          header:
+                                          const Text("My Classes"),
+                                          rowsPerPage: 10,
+                                          showCheckboxColumn: false,
+                                          columns: const [
+                                            DataColumn(
+                                                label: Text("Name")),
+                                            DataColumn(
+                                                label:
+                                                Text("Yoga Type")),
+                                            DataColumn(
+                                                label:
+                                                Text("Studio")),
+                                            DataColumn(
+                                                label:
+                                                Text("Start")),
+                                            DataColumn(
+                                                label: Text("End")),
+                                            DataColumn(
+                                                label: Text("Max")),
+                                            DataColumn(
+                                                label:
+                                                Text("Location")),
+                                            DataColumn(
+                                                label:
+                                                Text("Actions")),
+                                          ],
+                                          source:
+                                          InstructorClassesTableSource(
+                                            classes: data.classes,
+                                            studioNames:
+                                            data.studioNames,
+                                            yogaTypeNames:
+                                            data.yogaTypeNames,
+                                            onEditRequest:
+                                            _confirmEdit,
+                                            onDeleteRequest:
+                                            _confirmDelete,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+        )
     );
   }
+
 
   /* ================= ACTIONS ================= */
 
@@ -417,262 +586,3 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
 
 
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:zenyogaui/dto/responses/class_response_dto.dart';
-// import 'package:zenyogaui/services/providers/studio_service.dart';
-// import 'package:zenyogaui/services/providers/yoga-type_service.dart';
-// import 'package:intl/intl.dart';
-//
-// import '../core/theme.dart';
-// import '../models/class_model.dart';
-// import '../models/user_model.dart';
-// import '../services/providers/class_service.dart';
-// import '../widgets/add_class_dialog.dart';
-// import '../widgets/edit_class_dialog.dart';
-//
-//
-// final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
-//
-// class _InstructorDashboardData {
-//   final List<ClassResponseDto> classes;
-//   final Map<int, String> studioNames;
-//   final Map<int, String> yogaTypeNames;
-//
-//   _InstructorDashboardData({
-//    required this.classes,
-//    required this.studioNames,
-//    required this.yogaTypeNames,
-// });
-// }
-//
-// class InstructorDashboard extends StatelessWidget {
-//   const InstructorDashboard({super.key});
-//
-//
-//
-//   Future<_InstructorDashboardData> _loadDashboardData(
-//       ClassProvider classProvider,
-//       StudioProvider studioProvider,
-//       YogaTypeProvider yogaTypeProvider,
-//       int instructorId
-//       ) async {
-//     final classes = await classProvider.repository.getByInstructorId(instructorId);
-//
-//     final studios = await studioProvider.repository.getAllStudios();
-//     final yogaTypes = await yogaTypeProvider.repository.getAllYogaTypes();
-//
-//     final studioMap = {
-//       for(final s in studios) if (s.id != null) s.id!: s.name,
-//     };
-//
-//     final yogaTypeMap = {
-//       for(final y in yogaTypes) y.id: y.name
-//     };
-//
-//     return _InstructorDashboardData(classes: classes, studioNames: studioMap, yogaTypeNames: yogaTypeMap);
-//   }
-//
-//   @override
-//   Widget build (BuildContext context){
-//     final user = ModalRoute.of(context)!.settings.arguments as UserModel;
-//     final classProvider = Provider.of<ClassProvider>(context);
-//
-//
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Instructor Dashboard")),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               "Welcome, ${user.firstName} ${user.lastName}!",
-//               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//             ),
-//             Container(
-//               margin: const EdgeInsets.only(top:20.0, bottom: 40.0),
-//               child: ElevatedButton.icon(
-//                 onPressed: () {
-//                   showDialog(
-//                     context: context,
-//                     builder: (ctx) => AddClassDialog(
-//                       onAddDto: (newClass) async {
-//                         try{
-//                           await classProvider.repository.addClass(newClass, user.id);
-//
-//                           ScaffoldMessenger.of(context).showSnackBar(
-//                             const SnackBar(
-//                               content: Text("Class added successfully"),
-//                               backgroundColor: AppColors.deepGreen,
-//                             ),
-//                           );
-//
-//                           classProvider.notifyListeners();
-//                         } catch (e) {
-//                           ScaffoldMessenger.of(context).showSnackBar(
-//                             SnackBar(content: Text(e.toString())),
-//                           );
-//                         }
-//
-//                       },
-//                     ),
-//                   );
-//                 },
-//                 style: ElevatedButton.styleFrom(fixedSize: const Size(110, 30)),
-//                 icon: Icon(Icons.add),
-//                 label: Text("Add Class"),
-//               ),
-//             ),
-//
-//
-//
-//
-//             Expanded(
-//               child: FutureBuilder<_InstructorDashboardData>(
-//                 future: _loadDashboardData(
-//                     classProvider,
-//                     context.read<StudioProvider>(),
-//                     context.read<YogaTypeProvider>(),
-//                     user.id
-//                 ),
-//
-//                 builder: (context, snapshot) {
-//                   if (snapshot.connectionState == ConnectionState.waiting) {
-//                     return Center(child: CircularProgressIndicator());
-//                   }
-//
-//                   if (snapshot.hasError) {
-//                     return Center(
-//                       child: Text(
-//                         "Error: ${snapshot.error}",
-//                         style: TextStyle(color: Colors.red),
-//                       ),
-//                     );
-//                   }
-//
-//                   if (!snapshot.hasData || snapshot.data!.classes.isEmpty) {
-//                     return Center(child: Text("No classes found"));
-//                   }
-//
-//                   final data = snapshot.data!;
-//                   final classes = data.classes;
-//
-//                   return SingleChildScrollView(
-//                     scrollDirection: Axis.horizontal,
-//                     child: DataTable(
-//                       columnSpacing: 20,
-//
-//                       columns: const [
-//                         DataColumn(label: Text("Name")),
-//                         DataColumn(label: Text("Yoga Type")),
-//                         DataColumn(label: Text("Studio")),
-//                         DataColumn(label: Text("Start")),
-//                         DataColumn(label: Text("End")),
-//                         DataColumn(label: Text("Max")),
-//                         DataColumn(label: Text("Location")),
-//                         DataColumn(label: Text("Actions")),
-//                       ],
-//                       rows: classes.map((c) {
-//                         return DataRow(cells: [
-//                           DataCell(Text(c.name)),
-//                           DataCell(Text(data.yogaTypeNames[c.yogaTypeId] ?? "-")),
-//                           DataCell(Text(data.studioNames[c.studioId] ?? "-")),
-//                           DataCell(Text(dateFormatter.format(c.startDate))),
-//                           DataCell(Text(dateFormatter.format(c.endDate))),
-//                           DataCell(Text(c.maxParticipants.toString())),
-//                           DataCell(Text(c.location.toString())),
-//                           DataCell(
-//                             Row(
-//                               mainAxisSize: MainAxisSize.min,
-//                               children: [
-//                                 ElevatedButton.icon(
-//                                   onPressed: () {
-//                                     showDialog(
-//                                       context: context,
-//                                       builder: (ctx) => EditClassDialog(
-//                                         classToEdit: c,
-//                                         onAdd: (newClass) async {
-//                                           try {
-//                                             await classProvider.repository.editClass(newClass, c.id);
-//                                             ScaffoldMessenger.of(context).showSnackBar(
-//                                               const SnackBar(
-//                                                 content: Text("Class updated successfully"),
-//                                                 backgroundColor: AppColors.deepGreen,
-//                                               ),
-//                                             );
-//                                             classProvider.notifyListeners();
-//                                           } catch (e) {
-//                                             ScaffoldMessenger.of(context).showSnackBar(
-//                                               SnackBar(content: Text(e.toString())),
-//                                             );
-//                                           }
-//
-//
-//                                         },
-//                                       ),
-//                                     );
-//                                   },
-//                                   style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30), backgroundColor: Colors.indigo),
-//                                   icon: Icon(Icons.edit),
-//                                   label: Text("Edit"),
-//                                 ),
-//                                 SizedBox(width: 8),
-//                                 ElevatedButton.icon(
-//                                   onPressed: () {
-//                                     showDialog<void>(
-//                                       context: context,
-//                                       barrierDismissible: false,
-//                                       builder: (BuildContext context) {
-//                                         return AlertDialog(
-//                                           title: const Text("Delete class"),
-//                                           content:  SingleChildScrollView(
-//                                             child: ListBody(
-//                                               children: <Widget>[
-//                                                 Text('Deleting the class will remove it from all users and scheduled classes.'),
-//                                                 Text('Are you sure you want to delete the class ${c.name} ?', style: TextStyle(fontWeight: FontWeight.bold),),
-//                                               ],
-//                                             ),
-//                                           ),
-//                                           actions: <Widget>[
-//                                             TextButton(
-//                                               child: const Text('No', style: TextStyle(color: Colors.white)),
-//                                               onPressed: () {
-//                                                 Navigator.of(context).pop();
-//                                               },
-//                                               style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-//
-//                                             ),
-//                                             TextButton(
-//                                               child: const Text('Yes', style: TextStyle(color: Colors.white)),
-//                                               onPressed: () async {
-//                                                 await classProvider.repository.deleteClass(c.id);
-//                                                 Navigator.of(context).pop();
-//                                                 ScaffoldMessenger.of(context).showSnackBar(
-//                                                     SnackBar(content: Text("Class deleted!")));
-//                                               },
-//                                               style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkRed),
-//                                             ),
-//                                           ],
-//                                         );
-//                                       },
-//                                     );
-//                                   }, style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkRed, fixedSize: const Size(80, 30)),label: Text("Delete"), icon: Icon(Icons.delete)),
-//                               ],
-//                             ),
-//                           ),
-//
-//
-//                         ]);
-//                       }).toList(),
-//                     ),
-//                   );
-//                 },
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -10,65 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9005b9f2-3169-4d78-b4ae-f06afeb0d825" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/BackgroundWorker.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/BackgroundWorker.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/RabbitMQListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/RabbitMQListener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/BackgroundWorker/firebase.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Analytics/IStudioAnalytics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Analytics/IStudioAnalytics.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Analytics/StudioAnalyticsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Analytics/StudioAnalyticsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/CityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/CityController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/ClassController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/ClassController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/InstructorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/InstructorController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/RoleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/RoleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/StudioAnalyticsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/StudioAnalyticsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserClassController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserClassController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserStudioController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/UserStudioController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/YogaTypeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/YogaTypeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20250730111501_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20250730111501_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20250805161714_SubscriptionType.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20250805161714_SubscriptionType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20260108141051_StudioGalleries.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/20260108141051_StudioGalleries.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/.metadata" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/.metadata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugins.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/Runner.rc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/flutter_window.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/flutter_window.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/resource.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/resources/app_icon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/runner.exe.manifest" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/utils.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/utils.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/win32_window.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/runner/win32_window.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/desktop_login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/desktop_login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/signup_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/signup_form.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/android/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/studio_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/studio_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +57,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.main.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Debug",
     "Flutter.mobile.dart.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -146,7 +95,7 @@
       <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\zenyogaapp\zenyogaui\apps\mobile_app\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.mobile.dart">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
       <method v="2" />

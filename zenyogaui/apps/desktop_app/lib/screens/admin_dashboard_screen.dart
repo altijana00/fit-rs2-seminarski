@@ -36,6 +36,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       body: Row(
         children: [
+
           NavigationRail(
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
@@ -60,22 +61,51 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
             ],
 
+            trailing: Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Divider(color: Colors.white),
+                  IconButton(
+                    tooltip: "Logout",
+                    icon: const Icon(Icons.logout, color: AppColors.deepGreen),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text("Logout"),
+                          content: const Text("Are you sure you want to logout?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.pop(ctx);
+                                await context.read<AuthProvider>().logout();
 
+                                if (!context.mounted) return;
+
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/',
+                                      (_) => false,
+                                );
+                              },
+                              child: const Text("Logout"),
+                            ),
+                          ],
+                        ),
+                      );
+
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            ),
           ),
-          TextButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await context.read<AuthProvider>().logout();
 
-              if (!context.mounted) return;
-
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/',
-                    (_) => false,
-              );
-            },
-            child: const Text("Logout"),
-          ),
           const VerticalDivider(thickness: 1, width: 1),
           // This expands to fill the remaining space
           Expanded(
@@ -84,6 +114,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        height: 64,
+                      ),
+                    ),
                     Text(
                       "Welcome, ${user.firstName} ${user.lastName}!",
                       style: const TextStyle(

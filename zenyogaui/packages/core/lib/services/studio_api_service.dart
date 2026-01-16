@@ -16,6 +16,15 @@ class StudioApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getStudioByInstructor(int id) async {
+    final response = await dio.get('Studio/getByInstructor?instructorId=$id');
+    if(response.statusCode == 200) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch studio: ${response.data}');
+    }
+  }
+
   Future<Map<String, dynamic>> getStudioByOwnerAndStudioName(int id, String name) async {
     final response = await dio.get('Studio/getByOwnerAndStudioName?ownerId=$id&name=$name');
     if(response.statusCode == 200) {

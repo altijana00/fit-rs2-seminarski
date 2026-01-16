@@ -6,7 +6,6 @@ class DesktopLoginScreen extends StatelessWidget {
   const DesktopLoginScreen({super.key});
 
   void _navigateByRole(BuildContext context, String role) {
-    // example role-based redirect; replace routes with yours
     if (role == '2') {
       Navigator.pushReplacementNamed(context, '/ownerDashboard');
     } else if (role == '3') {
