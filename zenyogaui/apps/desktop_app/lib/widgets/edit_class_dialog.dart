@@ -32,8 +32,8 @@ class _EditClassDialogState extends State<EditClassDialog> {
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
+            spacing: 12.0,
             children: [
-
               TextFormField(
                 controller: TextEditingController(text: widget.classToEdit.name),
                 decoration: InputDecoration(labelText: "Class Name"),
@@ -44,7 +44,7 @@ class _EditClassDialogState extends State<EditClassDialog> {
                 controller: TextEditingController(text: widget.classToEdit.description),
                 decoration: InputDecoration(labelText: "Description"),
                 onSaved: (val) => _description = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a description" : null,
+
                ),
               TextFormField(
                 controller: TextEditingController(text: widget.classToEdit.maxParticipants.toString()),

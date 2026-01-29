@@ -14,6 +14,15 @@ class InstructorApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getById(int id) async {
+    final response = await dio.get('Instructor/getById?id=$id');
+    if(response.statusCode == 200) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch instructor: ${response.data}');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getByStudioId(int studioId) async {
     final response = await dio.get('Instructor/getByStudioId?studioId=$studioId');
     if(response.statusCode == 200) {

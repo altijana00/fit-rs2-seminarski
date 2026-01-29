@@ -107,7 +107,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
 
           const VerticalDivider(thickness: 1, width: 1),
-          // This expands to fill the remaining space
+
           Expanded(
               child: Padding(
                   padding: const EdgeInsets.all(16.0),

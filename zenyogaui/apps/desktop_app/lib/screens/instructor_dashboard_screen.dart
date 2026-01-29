@@ -1,5 +1,6 @@
 import 'package:core/dto/requests/class_filter.dart';
 import 'package:core/dto/responses/class_response_dto.dart';
+import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
@@ -7,6 +8,7 @@ import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
+import 'package:core/services/providers/instructor_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +40,7 @@ class InstructorClassesTableSource extends DataTableSource {
   final List<ClassResponseDto> classes;
   final Map<int, String> studioNames;
   final Map<int, String> yogaTypeNames;
+  final void Function(int) onAddRequest;
   final void Function(ClassResponseDto) onEditRequest;
   final void Function(ClassResponseDto) onDeleteRequest;
 
@@ -47,6 +50,7 @@ class InstructorClassesTableSource extends DataTableSource {
     required this.yogaTypeNames,
     required this.onEditRequest,
     required this.onDeleteRequest,
+    required this.onAddRequest
   });
 
   @override
@@ -265,16 +269,16 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
 
     return Scaffold(
-        body: FutureBuilder<StudioResponseDto?>(
-            future: context.read<StudioProvider>().repository.getStudioByInstructor(user.id),
+        body: FutureBuilder<InstructorResponseDto?>(
+            future: context.read<InstructorProvider>().repository.getById(user.id),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              final studio = snapshot.data;
+              final instructor = snapshot.data;
 
-              if (studio == null) {
+              if (instructor == null) {
 
                 return Center(
                   child: Column(
@@ -370,7 +374,13 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          // -------- HEADER --------
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Image.asset(
+                              'assets/logo.png',
+                              height: 64,
+                            ),
+                          ),
                           Text(
                             "Welcome, ${user.firstName} ${user.lastName}!",
                             style: const TextStyle(
@@ -422,28 +432,8 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                                       style: ElevatedButton.styleFrom(
                                         fixedSize: const Size(120, 32),
                                       ),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) => AddClassDialog(
-                                            onAddDto: (newClass) async {
-                                              await context
-                                                  .read<ClassProvider>()
-                                                  .repository
-                                                  .addClass(newClass, user.id);
+                                      onPressed: () => _confirmAdd(user.id)
 
-                                              _refresh();
-
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text("Class added successfully"),
-                                                  backgroundColor: AppColors.deepGreen,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
                                     ),
 
                                     const SizedBox(height: 24),
@@ -495,10 +485,9 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                                             data.studioNames,
                                             yogaTypeNames:
                                             data.yogaTypeNames,
-                                            onEditRequest:
-                                            _confirmEdit,
-                                            onDeleteRequest:
-                                            _confirmDelete,
+                                            onEditRequest: _confirmEdit,
+                                            onDeleteRequest: _confirmDelete,
+                                            onAddRequest: _confirmAdd
                                           ),
                                         ),
                                       ),
@@ -521,6 +510,27 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
 
   /* ================= ACTIONS ================= */
+
+  void _confirmAdd(int instructorId) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AddClassDialog(
+          onAddDto: (newClass) async {
+            await ctx.read<ClassProvider>().repository.addClass(newClass, instructorId);
+
+            _refresh();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Class added successfully"),
+                backgroundColor: AppColors.deepGreen,
+              ),
+            );
+          },
+        ),
+      );
+  }
+
 
   void _confirmEdit(ClassResponseDto c) {
     showDialog(
@@ -571,7 +581,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Class deleted successfully"),
-                  backgroundColor: Colors.green,
+                  backgroundColor: AppColors.deepGreen,
                 ),
               );
             },

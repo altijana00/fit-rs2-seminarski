@@ -51,6 +51,11 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     });
   }
 
+  Future<void> _reloadStudios() async {
+    setState(() => _loadingStudios = true);
+    await _loadStudios();
+  }
+
   @override Widget build(BuildContext context) {
     final user = ModalRoute .of(context)!.settings.arguments as UserResponseDto;
     final studioProvider = Provider.of<StudioProvider>(context);
@@ -171,6 +176,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 instructorProvider: instructorProvider,
                 studios: studios,
                 cityNames: cityNames!,
+                onReloadStudios: _reloadStudios,
               )
                   : BuildEmployeesTab(
                   context: context,
@@ -192,6 +198,7 @@ class BuildStudiosTab extends StatefulWidget {
   final UserResponseDto user;
   final StudioProvider studioProvider;
   final InstructorProvider instructorProvider;
+  final Future<void> Function() onReloadStudios;
 
   final Map<int, String> cityNames;
 
@@ -203,6 +210,7 @@ class BuildStudiosTab extends StatefulWidget {
     required this.instructorProvider,
     required this.studios,
     required this.cityNames,
+    required this.onReloadStudios
   });
 
   @override BuildStudiosTabState createState() => BuildStudiosTabState();
@@ -212,9 +220,17 @@ class BuildStudiosTabState extends State<BuildStudiosTab>{
 
   @override Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Image.asset(
+            'assets/logo.png',
+            height: 64,
+          ),
+        ),
         Text("Welcome ${widget.user.firstName}!",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
         Container(
           margin: const EdgeInsets.only(top:20.0, bottom: 40.0),
           child: ElevatedButton.icon(
@@ -255,14 +271,7 @@ class BuildStudiosTabState extends State<BuildStudiosTab>{
                 studio: studio,
                 studioProvider: widget.studioProvider,
                 cityNames: widget.cityNames,
-                onDelete: () async {
-                  final fetchedStudios = await widget.studioProvider.repository.getStudioByOwner(widget.user.id);
-
-                  setState(() {
-                    widget.studios.clear();
-                    widget.studios.addAll(fetchedStudios);
-                  });
-                  },
+                onReload: widget.onReloadStudios,
               );
               },
           ),
@@ -295,18 +304,18 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
   StudioResponseDto? selectedStudio;
 
   Widget build(BuildContext context) {
-    final rootContext = context;
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Izaberi studio"),
+        Text("Pick a studio"),
         Container(
           width: 250,
           child: DropdownButtonFormField<StudioResponseDto>(
             isExpanded: true,
             value: selectedStudio,
-            hint: const Text('Izaberi studio'),
+            hint: const Text('Pick a studio'),
             items: widget.studios.map((studio) {
               return DropdownMenuItem<StudioResponseDto>(
                 value: studio,
@@ -332,7 +341,7 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                 if (instructorSnapshot.hasError) {
                   return Center(
                     child: Text("Error loading instructors: ${instructorSnapshot .error}",
-                      style: const TextStyle(color: Colors.red),
+                      style: const TextStyle(color: AppColors.darkRed),
                     ),
                   );
                 }

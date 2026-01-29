@@ -10,7 +10,7 @@ class EditStudioDto {
   final String? address;
   final String? contactEmail;
   final String? contactPhone;
-  final String? profileImageUrl;
+
 
 
   EditStudioDto({
@@ -19,7 +19,7 @@ class EditStudioDto {
     this.address,
     this.contactEmail,
     this.contactPhone,
-    this.profileImageUrl,
+
 
   });
 

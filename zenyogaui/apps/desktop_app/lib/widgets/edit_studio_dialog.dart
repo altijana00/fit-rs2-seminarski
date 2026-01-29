@@ -29,8 +29,10 @@ class _EditStudioDialogState extends State<EditStudioDialog> {
       title: Text("Edit Studio"),
       content: Form(
         key: _formKey,
+
         child: SingleChildScrollView(
           child: Column(
+            spacing: 12.0,
             children: [
 
               TextFormField(

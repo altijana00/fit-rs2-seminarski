@@ -26,7 +26,7 @@ class _AddClassDialogState extends State<AddClassDialog> {
   DateTime? _startDate;
   DateTime? _pickedDate;
   TimeOfDay? _pickedTime;
-  final DateTime _endDate=DateTime.now();
+  DateTime? _endDate;
   int _maxParticipants=50;
   String? _location="";
   final TextEditingController _startDateController = TextEditingController();
@@ -85,6 +85,14 @@ class _AddClassDialogState extends State<AddClassDialog> {
       _pickedTime!.hour,
       _pickedTime!.minute,
     );
+
+    _endDate = DateTime(
+      _pickedDate!.year,
+      _pickedDate!.month,
+      _pickedDate!.day,
+      _pickedTime!.hour+1,
+      _pickedTime!.minute,
+    );
   }
 
 
@@ -94,8 +102,10 @@ class _AddClassDialogState extends State<AddClassDialog> {
       title: Text("Add Class"),
       content: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: SingleChildScrollView(
           child: Column(
+            spacing: 12.0,
             children: [
               FutureBuilder<List<YogaTypeResponseDto>>(
                   future: Provider.of<YogaTypeProvider>(
@@ -144,7 +154,6 @@ class _AddClassDialogState extends State<AddClassDialog> {
               TextFormField(
                 decoration: InputDecoration(labelText: "Description"),
                 onSaved: (val) => _description = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a description" : null,
                ),
 
               TextFormField(
@@ -219,7 +228,7 @@ class _AddClassDialogState extends State<AddClassDialog> {
                 description: _description,
                 location: _location,
                 startDate: _startDate!,
-                endDate: _endDate,
+                endDate: _endDate!,
                 maxParticipants: _maxParticipants,
               ));
               Navigator.pop(context);

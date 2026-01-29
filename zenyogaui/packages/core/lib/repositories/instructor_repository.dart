@@ -21,6 +21,11 @@ class InstructorRepository {
     return jsonList.map((json) => InstructorResponseDto.fromJson(json)).toList();
   }
 
+  Future<InstructorResponseDto> getById(int id) async {
+    final json = await api.getById(id);
+    return InstructorResponseDto.fromJson(json);
+  }
+
   Future<String> addInstructor(AddInstructorDto addInstructorModelDto, String email, int studioId) async {
 
       final json = await api.addInstructor(
