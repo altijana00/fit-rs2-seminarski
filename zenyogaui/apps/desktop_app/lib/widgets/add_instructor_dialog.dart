@@ -27,14 +27,14 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
 
   Future<void> _submit() async {
     setState(() {
-      _emailError = null; // reset previous backend error
+      _emailError = null;
     });
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       try {
-        // Await the API call
+
         await widget.onAdd(
           AddInstructorDto(
             biography: _biography,
@@ -44,10 +44,10 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
           _emailController.text,
         );
 
-        // Only close the dialog if successful
+
         if (mounted) Navigator.pop(context);
       } catch (e) {
-        // Display backend exception as field error inside the form
+
         setState(() {
           _emailError = e.toString();
         });

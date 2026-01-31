@@ -13,7 +13,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_instructor_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_instructor_dialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/signup_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/signup_form.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +58,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.main.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Debug",
     "Flutter.mobile.dart.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -171,6 +176,26 @@
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/packages/core/lib/services/providers/app_analytics_service.dart</url>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart</url>
+          <line>113</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/packages/core/lib/repositories/studio_repository.dart</url>
+          <line>54</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart</url>
+          <line>330</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart</url>
+          <line>317</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

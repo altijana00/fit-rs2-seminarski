@@ -356,15 +356,15 @@ namespace ZEN_Yoga.Models
             new User()
             {
                 Id = 1,
-                FirstName = "Test1",
-                LastName = "",
+                FirstName = "Aiden",
+                LastName = "Morris",
                 CityId = 1,
                 Gender = "M",
                 DateOfBirth = new DateTime(1998, 6, 13),
                 Email = "owner@edu.fit.ba",
                 PasswordHash = PasswordHelpers.HashPassword("test").Hash,
                 PasswordSalt = PasswordHelpers.HashPassword("test").Salt,
-                ProfileImageUrl = "",
+                ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/AidenMorris.jpg",
                 RoleId = 2
 
 
@@ -372,30 +372,30 @@ namespace ZEN_Yoga.Models
             new User()
             {
                 Id = 2,
-                FirstName = "Test2",
-                LastName = "",
+                FirstName = "Mia",
+                LastName = "Lopez",
                 CityId = 2,
                 Gender = "F",
                 DateOfBirth = new DateTime(1995, 6, 3),
                 Email = "admin@edu.fit.ba",
                 PasswordHash = PasswordHelpers.HashPassword("test").Hash,
                 PasswordSalt = PasswordHelpers.HashPassword("test").Salt,
-                ProfileImageUrl = "",
+                ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/MiaLopez.jpg",
                 RoleId = 1
             },
 
             new User()
             {
                 Id = 3,
-                FirstName = "Amir",
-                LastName = "Hodžić",
+                FirstName = "Liam",
+                LastName = "Smith",
                 CityId = 3,
                 Gender = "M",
                 DateOfBirth = new DateTime(1987, 4, 12),
-                Email = "amir.hodzic@email.com",
+                Email = "liam.smith@email.com",
                 PasswordHash = PasswordHelpers.HashPassword("owner123").Hash,
                 PasswordSalt = PasswordHelpers.HashPassword("owner123").Salt,
-                ProfileImageUrl = "",
+                ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg",
                 RoleId = 2
             },
                 new User()
@@ -415,15 +415,15 @@ namespace ZEN_Yoga.Models
                 new User()
                 {
                     Id = 5,
-                    FirstName = "Nermin",
-                    LastName = "Hadžić",
+                    FirstName = "Noah",
+                    LastName = "Brown",
                     CityId = 5,
                     Gender = "M",
                     DateOfBirth = new DateTime(1985, 1, 8),
-                    Email = "nermin.hadzic@email.com",
+                    Email = "noah.brown@email.com",
                     PasswordHash = PasswordHelpers.HashPassword("owner123").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("owner123").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg",
                     RoleId = 2
                 },
                 
@@ -431,86 +431,86 @@ namespace ZEN_Yoga.Models
                 new User()
                 {
                     Id = 6,
-                    FirstName = "Amina",
-                    LastName = "Mehmedović",
+                    FirstName = "Sophia",
+                    LastName = "Davis",
                     CityId = 6,
                     Gender = "F",
                     DateOfBirth = new DateTime(1992, 3, 14),
                     Email = "instructor@edu.fit.ba",
                     PasswordHash = PasswordHelpers.HashPassword("test").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("test").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/SophiaDavis.jpg",
                     RoleId = 3
                 },
                 new User()
                 {
                     Id = 7,
-                    FirstName = "Haris",
-                    LastName = "Begić",
+                    FirstName = "Jackson",
+                    LastName = "Miller",
                     CityId = 7,
                     Gender = "M",
                     DateOfBirth = new DateTime(1990, 7, 19),
-                    Email = "haris.begic@email.com",
+                    Email = "jackson.miller@email.com",
                     PasswordHash = PasswordHelpers.HashPassword("instructor123").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("instructor123").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg",
                     RoleId = 3
                 },
                 new User()
                 {
                     Id = 8,
-                    FirstName = "Selma",
-                    LastName = "Delić",
+                    FirstName = "Amelia",
+                    LastName = "Garcia",
                     CityId = 8,
                     Gender = "F",
                     DateOfBirth = new DateTime(1991, 11, 2),
-                    Email = "selma.delic@email.com",
+                    Email = "amelia.garcia@email.com",
                     PasswordHash = PasswordHelpers.HashPassword("instructor123").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("instructor123").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg",
                     RoleId = 3
                 },
                
                 new User()
                 {
                     Id = 9,
-                    FirstName = "Kenan",
-                    LastName = "Musić",
+                    FirstName = "James",
+                    LastName = "Martinez",
                     CityId = 9,
                     Gender = "M",
                     DateOfBirth = new DateTime(1998, 5, 5),
                     Email = "participant@edu.fit.ba",
                     PasswordHash = PasswordHelpers.HashPassword("test").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("test").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/JamesMartinez.jpg",
                     RoleId = 4
                 },
                 new User()
                 {
                     Id = 10,
-                    FirstName = "Marija",
-                    LastName = "Petrović",
+                    FirstName = "Isabella",
+                    LastName = "Scott",
                     CityId = 10,
                     Gender = "F",
                     DateOfBirth = new DateTime(1997, 10, 17),
-                    Email = "marija.petrovic@email.com",
+                    Email = "isabella.scott@email.com",
                     PasswordHash = PasswordHelpers.HashPassword("participant123").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("participant123").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg",
                     RoleId = 4
                 },
                 new User()
                 {
                     Id = 11,
-                    FirstName = "Adnan",
-                    LastName = "Karić",
+                    FirstName = "Mason",
+                    LastName = "Walker",
                     CityId = 11,
                     Gender = "M",
                     DateOfBirth = new DateTime(1996, 2, 28),
-                    Email = "adnan.karic@email.com",
+                    Email = "mason.walker@email.com",
                     PasswordHash = PasswordHelpers.HashPassword("participant123").Hash,
                     PasswordSalt = PasswordHelpers.HashPassword("participant123").Salt,
-                    ProfileImageUrl = "",
+                    ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg",
                     RoleId = 4
                 }
 
@@ -522,36 +522,287 @@ namespace ZEN_Yoga.Models
            
 
             modelBuilder.Entity<Studio>().HasData(
-                 new Studio { Id = 1, Name = "Zen Yoga Center", Address = "123 Main St", ContactPhone = "123-456-7890", ContactEmail = "contact@zenyoga.com", Description = "Peaceful yoga studio", ProfileImageUrl = "", OwnerId = 1, CityId = 3 },
-                 new Studio { Id = 2, Name = "Lotus Studio", Address = "456 Oak St", ContactPhone = "234-567-8901", ContactEmail = "contact@lotusstudio.com", Description = "Modern yoga classes", ProfileImageUrl = "", OwnerId = 1, CityId = 4 },
-                 new Studio { Id = 3, Name = "Harmony Yoga", Address = "789 Pine St", ContactPhone = "345-678-9012", ContactEmail = "contact@harmonyyoga.com", Description = "Yoga for all levels", ProfileImageUrl = "", OwnerId = 3, CityId = 9 },
-                 new Studio { Id = 4, Name = "Sunrise Yoga", Address = "101 Maple St", ContactPhone = "456-789-0123", ContactEmail = "contact@sunriseyoga.com", Description = "Morning yoga and meditation", ProfileImageUrl = "", OwnerId = 4, CityId = 6 }
+                 new Studio () 
+                 { 
+                     Id = 1, 
+                     Name = "Serene Flow Yoga", 
+                     Address = "123 Main St", 
+                     ContactPhone = "1234567890", 
+                     ContactEmail = "contact@zenyoga.com", 
+                     Description = "Serene Flow Yoga is a tranquil oasis designed for relaxation, self-discovery, and holistic well-being.", 
+                     ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1ProfilePhoto.jpg", 
+                     OwnerId = 1, 
+                     CityId = 3 
+                 },
+                 new Studio () 
+                 { 
+                     Id = 2, 
+                     Name = "Tranquil Lotus Yoga", 
+                     Address = "456 Oak St", 
+                     ContactPhone = "2345678901", 
+                     ContactEmail = "contact@lotusstudio.com", 
+                     Description = "Tranquil Lotus Yoga is a sanctuary for those seeking balance, flexibility, and inner harmony.", 
+                     ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2ProfilePhoto.jpg", 
+                     OwnerId = 1, 
+                     CityId = 3 
+                 },
+                 new Studio () 
+                 { 
+                     Id = 3, 
+                     Name = "Harmony Yoga", 
+                     Address = "789 Pine St", 
+                     ContactPhone = "3456789012", 
+                     ContactEmail = "contact@harmonyyoga.com", 
+                     Description = "Harmony Yoga offers a variety of classes, from gentle restorative yoga to power flows, catering to busy city dwellers seeking balance.", 
+                     ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3ProfilePhoto.jpg", 
+                     OwnerId = 3, 
+                     CityId = 9 
+                 },
+                 new Studio () 
+                 { 
+                     Id = 4, 
+                     Name = "Sunrise Yoga Haven", 
+                     Address = "101 Maple St", 
+                     ContactPhone = "4567890123", 
+                     ContactEmail = "contact@sunriseyoga.com", 
+                     Description = "A peaceful yoga retreat overlooking the town's river, offering sunrise Vinyasa flows and meditation classes to start your day with positivity and energy.", 
+                     ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4ProfilePhoto.jpg", 
+                     OwnerId = 4, 
+                     CityId = 6 
+                 }
             );
 
             modelBuilder.Entity<Instructor>().HasData(
-               new Instructor { Biography = "", Diplomas = "", Certificates = "", Id = 6, StudioId = 1 },
-               new Instructor { Biography = "", Diplomas = "", Certificates = "", Id = 7 ,StudioId = 3 },
-               new Instructor { Biography = "", Diplomas = "", Certificates = "", Id = 8 , StudioId = 2 }
+               new Instructor () 
+               { 
+                   Biography = "Experienced yoga instructor specializing in Hatha and Vinyasa yoga. Passionate about helping students build strength and flexibility.", 
+                   Diplomas = "Certified Yoga Teacher (RYT 200)", 
+                   Certificates = "Advanced Hatha Yoga Certification", 
+                   Id = 6, 
+                   StudioId = 1 
+               },
+               new Instructor () 
+               { 
+                   Biography = "Dedicated instructor with a background in Yin and Restorative yoga. Focuses on deep relaxation and mindfulness.", 
+                   Diplomas = "RYT 500 - Yoga Alliance", 
+                   Certificates = "Meditation & Breathwork Certification", 
+                   Id = 7 ,
+                   StudioId = 3 
+               },
+               new Instructor () 
+               { 
+                   Biography = "Energetic Vinyasa yoga teacher with experience in power yoga and flow sequences. Encourages a dynamic and engaging practice.", 
+                   Diplomas = "RYT 200", 
+                   Certificates = "Power Yoga Certification", 
+                   Id = 8 , 
+                   StudioId = 2 
+               }
            );
 
 
             modelBuilder.Entity<Class>().HasData(
-                 new Class { Id = 1, Name = "Morning Flow", StartDate = new DateTime(2026, 1, 20, 8, 0, 0), EndDate = new DateTime(2026, 1, 20, 9, 0, 0), YogaTypeId = 1, StudioId = 1, InstructorId = 6, Location = "Room 1", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 2, Name = "Power Yoga", StartDate = new DateTime(2026, 1, 20, 10, 0, 0), EndDate = new DateTime(2026, 1, 20, 11, 0, 0), YogaTypeId = 2, StudioId = 3, InstructorId = 7, Location = "Main Hall", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 3, Name = "Relaxing Yin", StartDate = new DateTime(2026, 1, 20, 18, 0, 0), EndDate = new DateTime(2026, 1, 20, 19, 0, 0), YogaTypeId = 3, StudioId = 3, InstructorId = 7, Location = "Room 2", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 4, Name = "Evening Flow", StartDate = new DateTime(2026, 1, 21, 7, 0, 0), EndDate = new DateTime(2026, 1, 21, 8, 0, 0), YogaTypeId = 1, StudioId = 2, InstructorId = 8, Location = "Room 1", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 5, Name = "Core Strength", StartDate = new DateTime(2026, 1, 21, 9, 30, 0), EndDate = new DateTime(2026, 1, 21, 10, 30, 0), YogaTypeId = 2, StudioId = 2, InstructorId = 8, Location = "Main Hall", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 6, Name = "Gentle Flow", StartDate = new DateTime(2026, 1, 21, 18, 30, 0), EndDate = new DateTime(2026, 1, 21, 19, 30, 0), YogaTypeId = 3, StudioId = 1, InstructorId = 7, Location = "Room 2", Description = "", MaxParticipants = 20 },
-                 new Class { Id = 7, Name = "Dynamic Yoga", StartDate = new DateTime(2026, 1, 22, 8, 0, 0), EndDate = new DateTime(2026, 1, 22, 9, 0, 0), YogaTypeId = 1, StudioId = 3, InstructorId = 7, Location = "Room 1", Description = "", MaxParticipants = 20 }
+                 new Class () 
+                 { 
+                     Id = 1, 
+                     Name = "Morning Flow", 
+                     StartDate = new DateTime(2026, 1, 20, 8, 0, 0), 
+                     EndDate = new DateTime(2026, 1, 20, 9, 0, 0), 
+                     YogaTypeId = 1, 
+                     StudioId = 1, 
+                     InstructorId = 6, 
+                     Location = "Room 1", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 2, 
+                     Name = "Power Yoga", 
+                     StartDate = new DateTime(2026, 1, 20, 10, 0, 0), 
+                     EndDate = new DateTime(2026, 1, 20, 11, 0, 0), 
+                     YogaTypeId = 2, 
+                     StudioId = 3, 
+                     InstructorId = 7, 
+                     Location = "Main Hall", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 3, 
+                     Name = "Relaxing Yin", 
+                     StartDate = new DateTime(2026, 1, 20, 18, 0, 0),
+                     EndDate = new DateTime(2026, 1, 20, 19, 0, 0), 
+                     YogaTypeId = 3, 
+                     StudioId = 3, 
+                     InstructorId = 7, 
+                     Location = "Room 2", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 4, 
+                     Name = "Evening Flow", 
+                     StartDate = new DateTime(2026, 1, 21, 7, 0, 0), 
+                     EndDate = new DateTime(2026, 1, 21, 8, 0, 0), 
+                     YogaTypeId = 1, 
+                     StudioId = 2, 
+                     InstructorId = 8, 
+                     Location = "Room 1", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 5, 
+                     Name = "Core Strength", 
+                     StartDate = new DateTime(2026, 1, 21, 9, 30, 0), 
+                     EndDate = new DateTime(2026, 1, 21, 10, 30, 0), 
+                     YogaTypeId = 2, 
+                     StudioId = 2, 
+                     InstructorId = 8, 
+                     Location = "Main Hall", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 6, 
+                     Name = "Gentle Flow", 
+                     StartDate = new DateTime(2026, 1, 21, 18, 30, 0), 
+                     EndDate = new DateTime(2026, 1, 21, 19, 30, 0), 
+                     YogaTypeId = 3, 
+                     StudioId = 1, 
+                     InstructorId = 7, 
+                     Location = "Room 2", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 },
+                 new Class () 
+                 { 
+                     Id = 7, 
+                     Name = "Dynamic Yoga", 
+                     StartDate = new DateTime(2026, 1, 22, 8, 0, 0), 
+                     EndDate = new DateTime(2026, 1, 22, 9, 0, 0), 
+                     YogaTypeId = 1, 
+                     StudioId = 3, 
+                     InstructorId = 7, 
+                     Location = "Room 1", 
+                     Description = "", 
+                     MaxParticipants = 20 
+                 }
             );
 
             modelBuilder.Entity<UserClass>().HasData(
-                 new UserClass { Id = 1, UserId = 9, ClassId = 2, JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) },
-                 new UserClass { Id = 2, UserId = 10, ClassId = 3, JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) },
-                 new UserClass { Id = 3, UserId = 10, ClassId = 4, JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) },
-                 new UserClass { Id = 4, UserId = 11, ClassId = 3, JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) },
-                 new UserClass { Id = 5, UserId = 11, ClassId = 7, JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) }
+                 new UserClass () 
+                 { 
+                     Id = 1, 
+                     UserId = 9, 
+                     ClassId = 2, 
+                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                 },
+                 new UserClass () 
+                 { 
+                     Id = 2, 
+                     UserId = 10, 
+                     ClassId = 3, 
+                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                 },
+                 new UserClass () 
+                 { 
+                     Id = 3, 
+                     UserId = 10, 
+                     ClassId = 4, 
+                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                 },
+                 new UserClass () 
+                 { 
+                     Id = 4, 
+                     UserId = 11, 
+                     ClassId = 3, 
+                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                 },
+                 new UserClass () 
+                 { 
+                     Id = 5, 
+                     UserId = 11, 
+                     ClassId = 7, 
+                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                 }
                  
+            );
+
+            modelBuilder.Entity<StudioGallery>().HasData(
+                
+                new StudioGallery ()
+                {
+                    GalleryId = 1,
+                    StudioId = 1,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery1.jpg"
+                },
+                new StudioGallery()
+                {
+                    GalleryId = 2,
+                    StudioId = 1,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery2.jpg"
+                },
+                new StudioGallery()
+                {
+                    GalleryId = 3,
+                    StudioId = 1,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery3.jpg"
+                },
+                new StudioGallery()
+                {
+                    GalleryId = 4,
+                    StudioId = 1,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery4.jpg"
+                },
+                new StudioGallery()
+                {
+                    GalleryId = 5,
+                    StudioId = 2,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery1.jpg"
+                },
+                new StudioGallery()
+                {
+                    GalleryId = 6,
+                    StudioId = 2,
+                    PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery2.jpg"
+                },
+                 new StudioGallery()
+                 {
+                     GalleryId = 7,
+                     StudioId = 3,
+                     PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery1.jpg"
+                 },
+                  new StudioGallery()
+                  {
+                      GalleryId = 8,
+                      StudioId = 3,
+                      PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery2.jpg"
+                  },
+                   new StudioGallery()
+                   {
+                       GalleryId = 9,
+                       StudioId = 4,
+                       PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery1.jpg"
+                   },
+                    new StudioGallery()
+                    {
+                        GalleryId = 10,
+                        StudioId = 4,
+                        PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery2.jpg"
+                    },
+                     new StudioGallery()
+                     {
+                         GalleryId = 11,
+                         StudioId = 4,
+                         PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery3.jpg"
+                     }
+
+
             );
 
 

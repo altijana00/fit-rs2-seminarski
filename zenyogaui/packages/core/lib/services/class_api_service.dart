@@ -37,6 +37,10 @@ class ClassApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      var resp = Map<String, dynamic>.from(response.data);
+      throw Exception(resp["error"]);
+
     } else {
       throw Exception('Failed to add class: ${response.data}');
     }

@@ -8,7 +8,10 @@ import 'package:core/models/city_model.dart';
 import 'package:core/repositories/instructor_repository.dart';
 import 'package:core/repositories/studio_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../core/theme.dart';
 
 
 class AddStudioStepper extends StatefulWidget {
@@ -127,7 +130,6 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Address"),
-                  validator: (value) => value == null || value.isEmpty ? "Required" : null,
                   onSaved: (value) => _studioData['address'] = value,
                 ),
               ),
@@ -170,14 +172,31 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Contact email"),
                   onSaved: (value) => _studioData['contactEmail'] = value,
+                  validator: (value) {
+                   if(value !=null && (!value.contains('@')))  {
+                     return 'Please enter a valid email format: name@example.com';
+                   }
+                     return null;
+                  }
                 ),
               ),
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                   decoration: const InputDecoration(labelText: "Contact phone"),
                   onSaved: (value) => _studioData['contactPhone'] = value,
+                  // validator: (value) {
+                  //   final n = num.tryParse(value!);
+                  //   if (n != null && (n < 9 || n > 15)) {
+                  //     return 'Please enter a valid phone number with digits only';
+                  //   }
+                  //   return null;
+                  // },
                 ),
               ),
 
@@ -198,11 +217,14 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                     studioPhotoUrl = studiourlphoto;
                   });
                 },
+
+                style: ElevatedButton.styleFrom(fixedSize: const Size(140, 30)),
                 child: Text(
                   selectedImage == null
                       ? "Odaberi sliku"
                       : "Slika odabrana ✔",
                 ),
+
               ),
             ],
           ),
@@ -221,8 +243,15 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: "Email"),
-                //validator: (value) => value == null || value.isEmpty ? "Required" : null,
+                decoration: const InputDecoration(labelText: "Email", suffixIcon: const Tooltip(
+                  message:
+                  "Instructors must already have an account registered with this email.",
+                  waitDuration: Duration(milliseconds: 300),
+                  showDuration: Duration(seconds: 4),
+                  child: Icon(Icons.info_outline),
+                ),
+                ),
+                validator: (value) => value == null || value.isEmpty ? "Required" : null,
                 onSaved: (value) => _instructorData['email'] = value,
               ),
               TextFormField(
@@ -260,7 +289,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                // optionally return created studio info or just close
+
                 Navigator.pop(context, _createdStudio);
               },
               child: const Text("Done"),
@@ -284,8 +313,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
 
         setState(() => _isSubmitting = true);
         try {
-          // try to add studio (use your repository). If addStudio returns the created StudioModel,
-          // save it directly; otherwise, fetch it as you were doing.
+
           await widget.studioRepository.addStudio(
             AddStudioDto(
               ownerId: widget.loggedUser.id,
@@ -305,7 +333,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
 
           setState(() {
             _studioAdded = true;
-            _currentStep = 1; // move to instructor step
+            _currentStep = 1;
           });
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -314,15 +342,12 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
         } finally {
           setState(() => _isSubmitting = false);
         }
-      } else {
-        // validation failed: keep on same step so user can fix fields
       }
     }
 
     // STEP 1: add instructor (optional)
     else if (_currentStep == 1) {
       final form = _instructorFormKey.currentState!;
-      // If user decides to skip, the Skip button (in controls) sets currentStep=2 directly.
       if (form.validate()) {
         form.save();
 
@@ -360,13 +385,11 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
           );
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to add instructor: $e")),
+            SnackBar(content: Text("Failed to add instructor: $e"), backgroundColor: AppColors.darkRed,),
           );
         } finally {
           setState(() => _isSubmitting = false);
         }
-      } else {
-        // invalid instructor form: keep on step 1
       }
     }
 

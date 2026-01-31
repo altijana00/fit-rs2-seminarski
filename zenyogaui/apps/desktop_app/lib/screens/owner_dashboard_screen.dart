@@ -133,7 +133,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                   const Divider(color: Colors.white),
                   IconButton(
                     tooltip: "Logout",
-                    icon: const Icon(Icons.logout, color: AppColors.deepGreen),
+                    icon: const Icon(Icons.logout, color: Colors.white),
                     onPressed: () {
                       showDialog(
                         context: context,

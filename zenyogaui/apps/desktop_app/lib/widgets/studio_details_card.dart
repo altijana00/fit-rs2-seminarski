@@ -116,7 +116,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Delete"),
+            child: const Text("Delete", style: TextStyle(color: AppColors.darkRed),),
           ),
         ],
       ),
@@ -153,7 +153,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// LEFT COLUMN
+
             Expanded(
               flex: 3,
               child: Column(
@@ -179,6 +179,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                       ElevatedButton.icon(
                         icon: const Icon(Icons.edit),
                         label: const Text("Edit"),
+                        style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30)),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -203,7 +204,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                       ElevatedButton.icon(
                         icon: const Icon(Icons.delete),
                         label: const Text("Delete"),
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkRed),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkRed, fixedSize: const Size(80, 30)),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -231,7 +232,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                                     await widget.onReload?.call();
 
                                   },
-                                  child: const Text("Yes"),
+                                  child: const Text("Yes", style: TextStyle(color: AppColors.darkRed),),
                                 ),
                               ],
                             ),
@@ -275,6 +276,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                     )
                         : const Icon(Icons.photo_camera),
                     label: Text(_uploadingProfilePhoto ? "Uploading..." : "Change photo"),
+                    style: ElevatedButton.styleFrom(fixedSize: const Size(140, 30)),
                   ),
                   const SizedBox(height: 12),
                   const Text("Gallery", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -332,6 +334,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                               )
                                   : const Icon(Icons.add_photo_alternate),
                               label: Text(_uploadingGalleryPhoto ? "Uploading..." : "Add gallery photo"),
+                              style: ElevatedButton.styleFrom(fixedSize: const Size(150, 30)),
                             )
                           else
                             const Text(
