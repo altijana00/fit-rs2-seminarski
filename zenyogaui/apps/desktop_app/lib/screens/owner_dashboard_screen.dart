@@ -1,6 +1,8 @@
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
+import 'package:core/models/city_model.dart';
 import 'package:core/models/instructor_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
@@ -24,6 +26,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   List<StudioResponseDto> studios = [];
   bool _loadingStudios = true;
   Map<int, String>? cityNames;
+  List<CityModel> dropdownCities = [];
 
   @override void initState() {
     super.initState();
@@ -48,6 +51,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
       studios = fetchedStudios;
       _loadingStudios = false;
       cityNames = cityMap;
+      dropdownCities = cities;
     });
   }
 
@@ -79,6 +83,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                   loggedUser: user,
                   studioRepository: studioProvider.repository,
                   instructorRepository: instructorProvider .repository,
+                  cities: dropdownCities,
                 ),
               ),
             );
@@ -177,6 +182,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 studios: studios,
                 cityNames: cityNames!,
                 onReloadStudios: _reloadStudios,
+                cities: dropdownCities
               )
                   : BuildEmployeesTab(
                   context: context,
@@ -199,6 +205,7 @@ class BuildStudiosTab extends StatefulWidget {
   final StudioProvider studioProvider;
   final InstructorProvider instructorProvider;
   final Future<void> Function() onReloadStudios;
+  final List<CityModel> cities;
 
   final Map<int, String> cityNames;
 
@@ -210,7 +217,8 @@ class BuildStudiosTab extends StatefulWidget {
     required this.instructorProvider,
     required this.studios,
     required this.cityNames,
-    required this.onReloadStudios
+    required this.onReloadStudios,
+    required this.cities
   });
 
   @override BuildStudiosTabState createState() => BuildStudiosTabState();
@@ -242,6 +250,7 @@ class BuildStudiosTabState extends State<BuildStudiosTab>{
                   loggedUser: widget.user,
                   studioRepository: widget.studioProvider.repository,
                   instructorRepository: widget.instructorProvider .repository,
+                  cities: widget.cities,
                 ),
               ),
             );

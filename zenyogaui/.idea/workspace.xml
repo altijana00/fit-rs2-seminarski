@@ -10,19 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9005b9f2-3169-4d78-b4ae-f06afeb0d825" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_class_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_class_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_studio_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_studio_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_gallery.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_gallery.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_dto.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_dto.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/instructor_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/instructor_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/instructor_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/instructor_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_studio_stepper.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,30 +51,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter.main.dart.executor&quot;: &quot;Debug&quot;,
-    &quot;Flutter.mobile.dart.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/rs2seminarski/zenyogaapp/zenyogaui&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.21494253&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;device.mirroring&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.main.dart.executor": "Run",
+    "Flutter.mobile.dart.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "C:/rs2seminarski/zenyogaapp/zenyogaui",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.21494253",
+    "settings.editor.selected.configurable": "device.mirroring",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DELL\Documents\FIT\RSIIZENYoga\ZENYoga\rs2seminarski\zenyogaapp\zenyogaui\shared" />

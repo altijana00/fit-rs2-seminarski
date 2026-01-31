@@ -4,6 +4,7 @@ import 'package:core/dto/requests/add_instructor_dto.dart';
 import 'package:core/dto/requests/add_studio_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
+import 'package:core/models/city_model.dart';
 import 'package:core/repositories/instructor_repository.dart';
 import 'package:core/repositories/studio_repository.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,13 @@ class AddStudioStepper extends StatefulWidget {
   final UserResponseDto loggedUser;
   final StudioRepository studioRepository;
   final InstructorRepository instructorRepository;
+  final List<CityModel> cities;
   const AddStudioStepper({
     super.key,
     required this.loggedUser,
     required this.studioRepository,
     required this.instructorRepository,
+    required this.cities,
   });
 
   @override
@@ -137,16 +140,30 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: TextFormField(
-                  decoration: const InputDecoration(labelText: "City (id)"),
-                  onSaved: (value) =>
-                  _studioData['cityId'] = int.tryParse(value ?? "0") ?? 0,
-                  validator: (value) =>
-                  value == null || value.isEmpty ? "Required" : null,
-                ),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 16),
+              //   child: TextFormField(
+              //     decoration: const InputDecoration(labelText: "City (id)"),
+              //     onSaved: (value) =>
+              //     _studioData['cityId'] = int.tryParse(value ?? "0") ?? 0,
+              //     validator: (value) =>
+              //     value == null || value.isEmpty ? "Required" : null,
+              //   ),
+              // ),
+
+              DropdownButtonFormField<int>(
+                value: _studioData['cityId'],
+                decoration: const InputDecoration(labelText: "City"),
+                items: widget.cities
+                    .map((c) => DropdownMenuItem<int>(
+                  value: c.id,
+                  child: Text(c.name),
+                ))
+                    .toList(),
+                validator: (v) => v == null ? "Required" : null,
+                onChanged: (v) => setState(() => _studioData['cityId'] = v),
               ),
+              const SizedBox(height: 24),
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
