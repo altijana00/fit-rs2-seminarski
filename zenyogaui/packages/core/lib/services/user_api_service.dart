@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core/dto/requests/update_user_password_dto.dart';
 import 'package:dio/dio.dart';
 
@@ -91,6 +93,43 @@ class UserApiService {
       return Map<String, dynamic>.from(response.data);
     } else {
       throw Exception('Failed to update password: ${response.data}');
+    }
+  }
+
+  Future<String> uploadUserPhoto(File imageFile) async {
+    final fileName = imageFile.path.split('/').last;
+
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        imageFile.path,
+        filename: fileName,
+      ),
+    });
+
+    final response = await dio.post(
+      'User/uploadUserPhoto',
+      data: formData,
+      options: Options(
+        contentType: 'multipart/form-data',
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to upload photo');
+    }
+  }
+
+  Future<String> editUserPhoto(String photoURL, int userId) async {
+    final response = await dio.patch(
+        'User/editUserPhoto?photoUrl=$photoURL&userId=$userId'
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data;
+    } else {
+      throw Exception('Failed to edit photo: ${response.data}');
     }
   }
 }

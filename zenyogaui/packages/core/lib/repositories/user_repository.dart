@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:core/dto/requests/update_user_password_dto.dart';
 
 import '../dto/requests/edit_user_dto.dart';
@@ -44,5 +46,16 @@ class UserRepository {
   Future<String> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto, String token) async {
     final json = await api.updateUserPassword(updateUserPasswordDto, token);
     return json.values.first;
+  }
+
+  Future<String> uploadUserPhoto(File imageFile) async {
+    final  image = await api.uploadUserPhoto(imageFile);
+    return image;
+
+  }
+
+  Future<String> editUserPhoto(String? photoURL, int? userId) async {
+    final json = await api.editUserPhoto(photoURL!, userId!);
+    return json;
   }
 }
