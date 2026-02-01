@@ -57,7 +57,6 @@ namespace ZEN_Yoga.Services.Services.Instructor
                 user.LastName = editInstructor.LastName;
                 user.Email = editInstructor.Email;
                 user.Gender = editInstructor.Gender;
-                user.ProfileImageUrl = editInstructor.ProfileImageUrl;
                 instructor.Biography = editInstructor.Biography;
                 instructor.Certificates = editInstructor.Certificates;
                 instructor.Diplomas = editInstructor.Diplomas;

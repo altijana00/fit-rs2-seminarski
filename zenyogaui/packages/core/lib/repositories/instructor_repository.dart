@@ -2,6 +2,7 @@
 import 'package:core/dto/responses/instructor_response_dto.dart';
 
 import '../dto/requests/add_instructor_dto.dart';
+import '../dto/requests/edit_instructor_dto.dart';
 import '../models/instructor_model.dart';
 import '../services/instructor_api_service.dart';
 
@@ -35,6 +36,11 @@ class InstructorRepository {
 
   Future<String> deleteInstructor(int? instructorId) async {
     final json = await api.deleteInstructor(instructorId!);
+    return json.values.first;
+  }
+
+  Future<String> editInstructor(EditInstructorDto instructor, int instructorId) async {
+    final json = await api.editInstructor(instructor.toJson(), instructorId);
     return json.values.first;
   }
 

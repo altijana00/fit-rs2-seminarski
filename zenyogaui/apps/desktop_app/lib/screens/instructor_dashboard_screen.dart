@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import '../core/theme.dart';
 import '../widgets/add_class_dialog.dart';
 import '../widgets/edit_class_dialog.dart';
+import '../widgets/edit_instructor_dialog.dart';
 
 /* ================= FORMATTERS ================= */
 
@@ -117,6 +118,11 @@ class InstructorDashboard extends StatefulWidget {
 
 class _InstructorDashboardState extends State<InstructorDashboard> {
   late Future<_InstructorClassesTableData> _tableFuture;
+  InstructorResponseDto? _instructor;
+  bool _isLoadingInstructor = true;
+
+
+
 
   final ClassFilter _filter = ClassFilter();
   final TextEditingController _searchController = TextEditingController();
@@ -129,11 +135,32 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
     });
   }
 
+  Future<void> _loadInstructor(int userId) async {
+    setState(() {
+      _isLoadingInstructor = true;
+    });
+
+    final instructor = await context
+        .read<InstructorProvider>()
+        .repository
+        .getById(userId);
+
+    if (!mounted) return;
+
+    setState(() {
+      _instructor = instructor;
+      _isLoadingInstructor = false;
+    });
+  }
+
+
   void _refresh() {
     final classProvider = context.read<ClassProvider>();
     final studioProvider = context.read<StudioProvider>();
     final yogaTypeProvider = context.read<YogaTypeProvider>();
     final user = ModalRoute.of(context)!.settings.arguments as UserResponseDto;
+
+    _loadInstructor(user.id);
 
     setState(() {
       _tableFuture = _loadTableData(
@@ -144,6 +171,8 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
       );
     });
   }
+
+
 
   Future<_InstructorClassesTableData> _loadTableData(
       ClassProvider classProvider,
@@ -263,24 +292,11 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ModalRoute.of(context)!.settings.arguments as UserResponseDto;
-
-
-
+    final instructor = _instructor;
 
     return Scaffold(
-        body: FutureBuilder<InstructorResponseDto?>(
-            future: context.read<InstructorProvider>().repository.getById(user.id),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final instructor = snapshot.data;
-
-              if (instructor == null) {
-
-                return Center(
+          body: _isLoadingInstructor ? const Center(child: CircularProgressIndicator()) :  instructor == null ?
+                Center(
                   child: Column(
                       children: [
                         Padding(
@@ -309,13 +325,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                         ),
                       ],
                     )
-
-
-                );
-
-              }
-
-              return Row(
+                ): Row(
                 children: [
 
                   // ================= LEFT SIDEBAR =================
@@ -325,12 +335,40 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                     child: Column(
                       children: [
                         const Spacer(),
+                        IconButton(
+                          tooltip: "Profile",
+                          icon: const Icon(Icons.person, color: Colors.white),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => EditInstructorDialog(
+                                instructorToEdit: instructor,
+                                onEdit: (updatedInstructor) async {
+                                  await context
+                                      .read<InstructorProvider>()
+                                      .repository
+                                      .editInstructor(updatedInstructor, instructor.id);
+
+                                  _refresh();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Profile details updated successfully"),
+                                      backgroundColor: AppColors.deepGreen,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+
 
                         const Divider(color: Colors.white),
 
                         IconButton(
                           tooltip: "Logout",
-                          icon: const Icon(Icons.logout, color: AppColors.deepGreen),
+                          icon: const Icon(Icons.logout, color: Colors.white),
                           onPressed: () {
                             showDialog(
                               context: context,
@@ -382,7 +420,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                             ),
                           ),
                           Text(
-                            "Welcome, ${user.firstName} ${user.lastName}!",
+                            "Welcome, ${instructor.firstName} ${instructor.lastName}!",
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -432,7 +470,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                                       style: ElevatedButton.styleFrom(
                                         fixedSize: const Size(120, 32),
                                       ),
-                                      onPressed: () => _confirmAdd(user.id)
+                                      onPressed: () => _confirmAdd(instructor.id)
 
                                     ),
 
@@ -502,9 +540,9 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                     ),
                   ),
                 ],
-              );
-            },
-        )
+              ),
+
+
     );
   }
 

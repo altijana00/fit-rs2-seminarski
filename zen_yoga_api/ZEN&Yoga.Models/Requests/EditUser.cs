@@ -20,6 +20,6 @@ namespace ZEN_Yoga.Models.Requests
 
         [EmailAddress(ErrorMessage = "Please enter a valid email address format. (user@example.com)")]
         public required string Email { get; set; }
-        public string? ProfileImageUrl { get; set; }
+        
     }
 }

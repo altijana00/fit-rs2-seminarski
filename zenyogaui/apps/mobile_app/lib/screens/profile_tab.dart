@@ -50,7 +50,7 @@ class _ProfileTabState extends State<ProfileTab> {
     final authProvider = context.read<AuthProvider>();
     final user = authProvider.user!;
     setState(() {
-      _userFuture = Future.value(user); // wrap existing user in a Future
+      _userFuture = Future.value(user);
     });
   }
 

@@ -26,7 +26,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Edit User"),
+      title: Text("Profile Details"),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(

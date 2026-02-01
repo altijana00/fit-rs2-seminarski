@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
@@ -8,6 +9,7 @@ using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.City;
 using ZEN_Yoga.Services.Interfaces.Role;
+using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Services;
 
@@ -123,6 +125,35 @@ namespace ZEN_YogaWebAPI.Controllers
 
             return Ok(new { Message = "Changes saved successfully!" });
         }
+
+        [Authorize(Roles = "1, 2, 3, 4")]
+        [HttpPost("uploadUserPhoto")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded!");
+
+            var photoUrl = await uploadUserPhotoService.UploadUserPhoto(file);
+            return Ok(photoUrl);
+
+        }
+
+        [Authorize(Roles = "1, 2, 3, 4")]
+        [HttpPatch("editUserPhoto")]
+
+        public async Task<IActionResult> EditStudioPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, string photoUrl, int userId)
+        {
+            if (photoUrl.IsNullOrEmpty())
+            {
+                return BadRequest("No file uploaded!");
+            }
+
+            await uploadUserPhotoService.EditUserPhoto(photoUrl, userId);
+            return Ok();
+
+        }
+
 
         [Authorize(Roles = "1")]
         [HttpDelete("delete")]

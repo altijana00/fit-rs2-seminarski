@@ -20,7 +20,7 @@ namespace ZEN_Yoga.Models.Requests
 
         [EmailAddress(ErrorMessage = "Please enter a valid email address format. (user@example.com)")]
         public required string Email { get; set; }
-        public string? ProfileImageUrl { get; set; }
+        
 
         [MaxLength(200, ErrorMessage = "Biography can't contain more than 200 characters.")]
         public string? Biography { get; set; }
