@@ -6,9 +6,11 @@ import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
 import 'package:core/services/providers/studio_service.dart';
+import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zenyogaui/core/theme.dart';
+import 'package:zenyogaui/widgets/edit_user_dialog.dart';
 import '../widgets/add_instructor_dialog.dart';
 import '../widgets/add_studio_stepper.dart';
 import '../widgets/studio_details_card.dart';
@@ -25,6 +27,9 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   bool _loadingStudios = true;
   Map<int, String>? cityNames;
   List<CityModel> dropdownCities = [];
+  UserResponseDto? _user;
+  bool _isLoadingUser = true;
+
 
   @override void initState() {
     super.initState();
@@ -32,6 +37,23 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadStudios();
     });
+  }
+
+  Future<void> _loadUser(int userId) async {
+
+
+    final user = await context
+        .read<UserProvider>()
+        .repository
+        .getUser(userId);
+
+    if (!mounted) return;
+
+    setState(() {
+      _user = user;
+      _isLoadingUser = false;
+    });
+
   }
 
   Future<void> _loadStudios() async {
@@ -45,11 +67,14 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
       for(final c in cities) c.id: c.name
     };
 
+    await _loadUser(user.id);
+
     setState(() {
       studios = fetchedStudios;
       _loadingStudios = false;
       cityNames = cityMap;
       dropdownCities = cities;
+
     });
   }
 
@@ -59,7 +84,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   }
 
   @override Widget build(BuildContext context) {
-    final user = ModalRoute .of(context)!.settings.arguments as UserResponseDto;
+
     final studioProvider = Provider.of<StudioProvider>(context);
     final instructorProvider = Provider.of<InstructorProvider>(context);
 
@@ -78,7 +103,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               context,
               MaterialPageRoute(
                 builder: (context) => AddStudioStepper(
-                  loggedUser: user,
+                  loggedUser: _user!,
                   studioRepository: studioProvider.repository,
                   instructorRepository: instructorProvider .repository,
                   cities: dropdownCities,
@@ -128,6 +153,34 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  const Spacer(),
+                  IconButton(
+                    tooltip: "Profile",
+                    icon: const Icon(Icons.person, color: Colors.white),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => EditUserDialog(
+                          userToEdit: _user!,
+                          onEdit: (updatedUser) async {
+                            await context
+                                .read<UserProvider>()
+                                .repository
+                                .editUser(updatedUser, _user!.id);
+
+                                _loadUser(_user!.id);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Profile details updated successfully"),
+                                backgroundColor: AppColors.deepGreen,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
                   const Divider(color: Colors.white),
                   IconButton(
                     tooltip: "Logout",
@@ -174,7 +227,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               child: _selectedIndex == 0
                   ? BuildStudiosTab(
                 context: context,
-                user: user,
+                user: _user!,
                 studioProvider: studioProvider,
                 instructorProvider: instructorProvider,
                 studios: studios,
@@ -184,7 +237,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               )
                   : BuildEmployeesTab(
                   context: context,
-                  user: user,
+                  user: _user!,
                   instructorProvider: instructorProvider,
                   studioProvider: studioProvider,
                   studios: studios),
@@ -370,14 +423,18 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                             builder: (ctx) => AddInstructorDialog(
                               onAdd: (newInstructor, email) async {
                                 try {
-                                  await widget.instructorProvider.repository .addInstructor(newInstructor, email, selectedStudio!.id!);
+                                  await widget.instructorProvider.repository .addInstructor(newInstructor, email, selectedStudio!.id);
+                                  setState(() {
+                                    _instructorsFuture = widget.instructorProvider.repository
+                                        .getByStudioId(selectedStudio!.id);
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text("Instructor added successfully"),
                                       backgroundColor: AppColors.deepGreen,
                                     ),
                                   );
-                                  widget.instructorProvider.notifyListeners();
+
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(e.toString()), backgroundColor: AppColors.darkRed),
@@ -443,19 +500,17 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                                             if (!context.mounted) return;
 
                                             try {
-                                              // 1️⃣ delete instructor and wait for it to finish
                                               await widget.instructorProvider.repository.deleteInstructor(inst.id);
 
-                                              // 2️⃣ reload the instructors AFTER delete
                                               setState(() {
                                                 _instructorsFuture = widget.instructorProvider.repository
                                                     .getByStudioId(selectedStudio!.id);
                                               });
 
-                                              Navigator.of(context).pop(); // close dialog
+                                              Navigator.of(context).pop();
 
                                               ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Instructor deleted!")),
+                                                const SnackBar(content: Text("Instructor deleted!"), backgroundColor: AppColors.deepGreen),
                                               );
                                             } catch (e) {
                                               Navigator.of(context).pop();

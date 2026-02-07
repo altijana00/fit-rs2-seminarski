@@ -346,7 +346,7 @@ class _UsersTableViewState extends State<UsersTableView> {
       context: context,
       builder: (ctx) => EditUserDialog(
         userToEdit: user,
-        onAdd: (updatedUser) async {
+        onEdit: (updatedUser) async {
           await context
               .read<UserProvider>()
               .repository
