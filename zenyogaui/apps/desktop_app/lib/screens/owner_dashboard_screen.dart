@@ -1,9 +1,7 @@
-import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/models/city_model.dart';
-import 'package:core/models/instructor_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
@@ -311,6 +309,7 @@ class BuildEmployeesTab extends StatefulWidget {
 
 class BuildEmployeesTabState extends State<BuildEmployeesTab>{
   StudioResponseDto? selectedStudio;
+  Future<List<InstructorResponseDto>>? _instructorsFuture;
 
   Widget build(BuildContext context) {
 
@@ -334,6 +333,8 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
             onChanged: (value) {
               setState(() {
                 selectedStudio = value;
+                _instructorsFuture = widget.instructorProvider.repository
+                    .getByStudioId(value!.id);
               });
               },
           ),
@@ -342,7 +343,7 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
 
         if (selectedStudio != null)
           FutureBuilder<List<InstructorResponseDto>>(
-              future: widget.instructorProvider.repository.getByStudioId(selectedStudio!.id!),
+              future:  _instructorsFuture,
               builder: (context, instructorSnapshot) {
                 if (instructorSnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -379,7 +380,7 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                                   widget.instructorProvider.notifyListeners();
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(e.toString())),
+                                    SnackBar(content: Text(e.toString()), backgroundColor: AppColors.darkRed),
                                   );
                                 }
                                 },
@@ -402,7 +403,6 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                           columns: [
                             DataColumn(label: Text("Name")),
                             DataColumn(label: Text("Email")),
-                            DataColumn(label: Text("Biography")),
                             DataColumn(label: Text("Diplomas")),
                             DataColumn(label: Text("Certificates")),
                             DataColumn(label: Text("")), ],
@@ -411,7 +411,6 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                             [
                               DataCell(Text("${inst.firstName} ${inst.lastName}")),
                               DataCell(Text(inst.email)),
-                              DataCell(Text(inst.biography?.isNotEmpty == true ? inst.biography! : "-")),
                               DataCell(Text(inst.diplomas?.isNotEmpty == true ? inst.diplomas! : "-")),
                               DataCell(Text(inst.certificates?.isNotEmpty == true ? inst.certificates! : "-")),
                               DataCell(ElevatedButton.icon(onPressed: (){
@@ -424,7 +423,7 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                                       content: SingleChildScrollView(
                                         child: ListBody(
                                           children: <Widget>[
-                                            Text('Deleting the instructor will remove the user from the app entirely.'),
+
                                             Text('Are you sure you want to delete the instructor ${inst.firstName} ${inst.lastName} ?',
                                               style: TextStyle(fontWeight: FontWeight.bold),
                                             ),
@@ -433,21 +432,44 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                                       ),
                                       actions: <Widget>[
                                         TextButton(
-                                          child: const Text('No', style: TextStyle(color: Colors.white)),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                             },
                                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                                          child: const Text('No', style: TextStyle(color: Colors.white)),
                                         ),
                                         TextButton(
-                                          child: const Text('Yes', style: TextStyle(color: Colors.white)),
                                           onPressed: () async {
-                                            await widget.instructorProvider.repository.deleteInstructor(inst.id);
-                                            Navigator.of(context).pop();
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text("Instructor deleted!")));
+                                            if (!context.mounted) return;
+
+                                            try {
+                                              // 1️⃣ delete instructor and wait for it to finish
+                                              await widget.instructorProvider.repository.deleteInstructor(inst.id);
+
+                                              // 2️⃣ reload the instructors AFTER delete
+                                              setState(() {
+                                                _instructorsFuture = widget.instructorProvider.repository
+                                                    .getByStudioId(selectedStudio!.id);
+                                              });
+
+                                              Navigator.of(context).pop(); // close dialog
+
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(content: Text("Instructor deleted!")),
+                                              );
+                                            } catch (e) {
+                                              Navigator.of(context).pop();
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Error deleting instructor: $e"),
+                                                  backgroundColor: AppColors.darkRed,
+                                                ),
+                                              );
+                                            }
+
                                             },
                                           style: ElevatedButton.styleFrom(backgroundColor: AppColors.darkRed),
+                                          child: const Text('Yes', style: TextStyle(color: Colors.white)),
                                         ),
                                       ],
                                     );

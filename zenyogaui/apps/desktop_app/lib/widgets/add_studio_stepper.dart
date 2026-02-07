@@ -221,8 +221,8 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 style: ElevatedButton.styleFrom(fixedSize: const Size(140, 30)),
                 child: Text(
                   selectedImage == null
-                      ? "Odaberi sliku"
-                      : "Slika odabrana ✔",
+                      ? "Upload profile image"
+                      : "Image picked ✔",
                 ),
 
               ),
