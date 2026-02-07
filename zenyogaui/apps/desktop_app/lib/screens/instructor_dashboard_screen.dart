@@ -136,9 +136,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
   }
 
   Future<void> _loadInstructor(int userId) async {
-    setState(() {
-      _isLoadingInstructor = true;
-    });
+
 
     final instructor = await context
         .read<InstructorProvider>()
@@ -147,20 +145,21 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
     if (!mounted) return;
 
-    setState(() {
       _instructor = instructor;
       _isLoadingInstructor = false;
-    });
+
   }
 
 
-  void _refresh() {
+  Future<void> _refresh() async {
     final classProvider = context.read<ClassProvider>();
     final studioProvider = context.read<StudioProvider>();
     final yogaTypeProvider = context.read<YogaTypeProvider>();
     final user = ModalRoute.of(context)!.settings.arguments as UserResponseDto;
 
-    _loadInstructor(user.id);
+    await _loadInstructor(user.id);
+
+    if (!mounted) return;
 
     setState(() {
       _tableFuture = _loadTableData(
@@ -549,29 +548,32 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
   /* ================= ACTIONS ================= */
 
-  void _confirmAdd(int instructorId) {
-      showDialog(
+  void _confirmAdd(int instructorId) async {
+      await showDialog(
         context: context,
         builder: (ctx) => AddClassDialog(
           onAddDto: (newClass) async {
             await ctx.read<ClassProvider>().repository.addClass(newClass, instructorId);
-
-            _refresh();
-
+            await _refresh();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("Class added successfully"),
                 backgroundColor: AppColors.deepGreen,
               ),
             );
+
           },
         ),
       );
+
+
+
+
   }
 
 
-  void _confirmEdit(ClassResponseDto c) {
-    showDialog(
+  void _confirmEdit(ClassResponseDto c) async {
+    await showDialog(
       context: context,
       builder: (ctx) => EditClassDialog(
         classToEdit: c,
@@ -581,21 +583,26 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
               .repository
               .editClass(updatedClass, c.id);
 
-          _refresh();
-
+          await _refresh();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Class updated successfully"),
               backgroundColor: AppColors.deepGreen,
             ),
           );
+
+
         },
       ),
     );
+
+
+
+
   }
 
-  void _confirmDelete(ClassResponseDto c) {
-    showDialog(
+  void _confirmDelete(ClassResponseDto c) async {
+    await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text("Delete class"),
@@ -615,19 +622,24 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                   .read<ClassProvider>()
                   .repository
                   .deleteClass(c.id);
-              _refresh();
+              await _refresh();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Class deleted successfully"),
                   backgroundColor: AppColors.deepGreen,
                 ),
               );
+
             },
             child: const Text("Yes"),
           ),
         ],
       ),
     );
+
+
+
+
   }
 }
 

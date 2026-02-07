@@ -38,6 +38,7 @@ namespace ZEN_Yoga.Services.Services.Instructor
                    Email = user.Email,
                    RoleId = user.RoleId,
                    CityId = user.CityId,
+                   ProfileImageUrl = user.ProfileImageUrl,
                    Biography = instructor.Biography,
                    Certificates = instructor.Certificates,
                    Diplomas = instructor.Diplomas,
