@@ -93,6 +93,7 @@ builder.Services.AddScoped<IGetUserService, GetUserService>();
 builder.Services.AddScoped<IUpsertUserService<RegisterUser>, UpsertUserService>();
 builder.Services.AddScoped<IDeleteUserService, DeleteUserService>();
 builder.Services.AddScoped<IUserValidatorService, UserValidatorService>();
+builder.Services.AddScoped<IUploadUserPhotoService, UploadUserPhotoService>();
 
 //City
 builder.Services.AddScoped<IGetCityService, GetCityService>();
