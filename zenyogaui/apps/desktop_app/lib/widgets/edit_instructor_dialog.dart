@@ -218,7 +218,8 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
                   : null,
             ),
             IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(Icons.edit, color: Colors.white),
+              style: IconButton.styleFrom(backgroundColor: AppColors.lavender),
               onPressed: () async {
                 final picked = await ImagePicker().pickImage(
                   source: ImageSource.gallery,
