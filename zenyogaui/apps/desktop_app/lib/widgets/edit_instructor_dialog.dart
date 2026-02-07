@@ -229,13 +229,9 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
 
                 final file = File(picked.path);
 
-                final newPhotoUrl =
-                await userProvider.repository.uploadUserPhoto(file);
+                final newPhotoUrl = await userProvider.repository.uploadUserPhoto(file);
 
-                await userProvider.repository.editUserPhoto(
-                  newPhotoUrl,
-                  widget.instructorToEdit.id,
-                );
+                await userProvider.repository.editUserPhoto(newPhotoUrl, widget.instructorToEdit.id);
 
                 setState(() {
                   _profileImageUrl = newPhotoUrl;

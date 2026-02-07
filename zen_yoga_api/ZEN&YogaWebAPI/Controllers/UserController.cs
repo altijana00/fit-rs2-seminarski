@@ -142,7 +142,7 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpPatch("editUserPhoto")]
 
-        public async Task<IActionResult> EditStudioPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, string photoUrl, int userId)
+        public async Task<IActionResult> EditUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, string photoUrl, int userId)
         {
             if (photoUrl.IsNullOrEmpty())
             {
