@@ -29,7 +29,15 @@ namespace ZEN_Yoga.Services.Services.Instructor
             {
                 foreach (var c in classes)
                 {
+
+                    var userClasses = await _dbContext.UserClasses
+                        .Where(uc => uc.ClassId == c.Id)
+                        .ToListAsync();
+
+                    _dbContext.UserClasses.RemoveRange(userClasses);
+
                     _dbContext.Classes.Remove(c);
+
                 }
 
                 _dbContext.Remove(instructor);
