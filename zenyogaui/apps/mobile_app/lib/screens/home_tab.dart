@@ -64,26 +64,6 @@ class HomeTab extends StatelessWidget {
 
             const SizedBox(height: 28),
 
-            // UPCOMING CLASS
-            const Text(
-              "Upcoming class",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(16),
-                child: Text("No upcoming classes"),
-              ),
-            ),
           ],
         ),
       ),

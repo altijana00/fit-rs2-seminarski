@@ -68,7 +68,7 @@ namespace ZEN_Yoga.Services.Services.User
 
         }
 
-        public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword, string token)
+        public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updateUserPassword.UserId);
 
@@ -86,29 +86,6 @@ namespace ZEN_Yoga.Services.Services.User
 
                 await _dbContext.SaveChangesAsync();
 
-
-
-                var factory = new ConnectionFactory() { HostName = "localhost" };
-                using var connection = await factory.CreateConnectionAsync();
-                using var channel = await connection.CreateChannelAsync();
-
-                await channel.QueueDeclareAsync(
-                    queue: "events",
-                    durable: false,
-                    autoDelete: false,
-                    exclusive: false,
-                    arguments: null
-                );
-
-                UpdatePasswordMessage message = new UpdatePasswordMessage()
-                {
-                    Token = token,
-                    Message = "Password reset success"
-                };
-
-                var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
-
-                await channel.BasicPublishAsync("", "events", body);
 
                 return "Ok";
             }

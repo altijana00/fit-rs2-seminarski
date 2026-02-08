@@ -168,9 +168,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1,2,3,4")]
         [HttpPatch("updateUserPassword")]
-        public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, [FromServices] IUpsertUserService<RegisterUser> upsertUserService, string token)
+        public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, [FromServices] IUpsertUserService<RegisterUser> upsertUserService)
         {
-            var result = await upsertUserService.UpdateUserPassword(updateUserPassword, token);
+            var result = await upsertUserService.UpdateUserPassword(updateUserPassword);
 
             if (result == "Ok") return Ok(new { Message = "Password updated"! });
             if (result == "Error") return StatusCode((int)HttpStatusCode.InternalServerError, "An unexpected error occurred.");

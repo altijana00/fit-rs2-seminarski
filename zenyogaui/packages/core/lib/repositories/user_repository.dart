@@ -43,8 +43,8 @@ class UserRepository {
     return json.values.first;
   }
 
-  Future<String> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto, String token) async {
-    final json = await api.updateUserPassword(updateUserPasswordDto, token);
+  Future<String> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto) async {
+    final json = await api.updateUserPassword(updateUserPasswordDto);
     return json.values.first;
   }
 

@@ -48,7 +48,6 @@ class UsersTableSource extends DataTableSource {
     final u = users[index];
 
     return DataRow(cells: [
-      DataCell(Text(u.id.toString())),
       DataCell(Text(u.firstName)),
       DataCell(Text(u.lastName)),
       DataCell(Text(u.email)),
@@ -281,7 +280,6 @@ class _UsersTableViewState extends State<UsersTableView> {
                 rowsPerPage: 10,
                 showCheckboxColumn: false,
                 columns: const [
-                  DataColumn(label: Text("ID")),
                   DataColumn(label: Text("First name")),
                   DataColumn(label: Text("Last name")),
                   DataColumn(label: Text("Email")),

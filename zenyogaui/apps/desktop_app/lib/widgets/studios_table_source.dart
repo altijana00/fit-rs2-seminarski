@@ -39,7 +39,6 @@ class StudiosTableSource extends DataTableSource {
     final s = studios[index];
 
     return DataRow(cells: [
-      DataCell(Text(s.id.toString())),
       DataCell(Text(ownerNames[s.ownerId] ?? "-")),
       DataCell(Text(s.name)),
       DataCell(Text(s.address!)),
@@ -325,7 +324,6 @@ Widget _buildFilters(_StudiosTableData data) {
                       columnSpacing: 20,
                       showCheckboxColumn: false,
                       columns: const [
-                        DataColumn(label: Text("ID")),
                         DataColumn(label: Text("Owner")),
                         DataColumn(label: Text("Name")),
                         DataColumn(label: Text("Address")),

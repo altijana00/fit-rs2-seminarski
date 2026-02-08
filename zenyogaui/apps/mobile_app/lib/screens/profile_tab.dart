@@ -3,7 +3,6 @@ import 'package:core/dto/requests/update_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/user_service.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
@@ -31,18 +30,6 @@ class _ProfileTabState extends State<ProfileTab> {
     _loadUser();
 
 
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final title = message.notification?.title ?? "No title";
-      final body = message.notification?.body ?? "No message";
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("$title\n$body"),
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    });
   }
 
   void _loadUser() {
@@ -248,13 +235,11 @@ class _ProfileTabState extends State<ProfileTab> {
                   );
 
 
-                  await FirebaseMessaging.instance.requestPermission();
-                  final token = await FirebaseMessaging.instance.getToken();
 
                   await context
                       .read<UserProvider>()
                       .repository
-                      .updateUserPassword(updto, token!);
+                      .updateUserPassword(updto);
 
                   Navigator.pop(context);
                   await context.read<AuthProvider>().logout();

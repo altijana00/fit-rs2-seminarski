@@ -84,9 +84,9 @@ class UserApiService {
     }
   }
 
-  Future<Map<String, dynamic>> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto, String token) async {
+  Future<Map<String, dynamic>> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto) async {
     final response = await dio.patch(
-      'User/updateUserPassword?UserId=${updateUserPasswordDto.id}&OldPassword=${updateUserPasswordDto.oldPassword}&NewPassword=${updateUserPasswordDto.newPassword}&token=$token',
+      'User/updateUserPassword?UserId=${updateUserPasswordDto.id}&OldPassword=${updateUserPasswordDto.oldPassword}&NewPassword=${updateUserPasswordDto.newPassword}',
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {

@@ -178,6 +178,7 @@ class _SignupFormState extends State<SignupForm> {
             value: selectedRole,
             decoration: const InputDecoration(labelText: "Role"),
             items: widget.roles
+                .where((r) => r.id !=1)
                 .map((r) => DropdownMenuItem(
               value: r,
               child: Text(r.name),
@@ -200,7 +201,7 @@ class _SignupFormState extends State<SignupForm> {
             decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
             validator: (v) =>
-            v == null || v.length < 6 ? "Min 6 characters" : null,
+            v == null || v.length < 4 ? "Min 4 characters" : null,
             onSaved: (v) => password = v,
           ),
           const SizedBox(height: 12),
