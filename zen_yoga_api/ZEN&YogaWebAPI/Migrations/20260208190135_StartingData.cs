@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZEN_YogaWebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDataSeed : Migration
+    public partial class StartingData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -447,15 +447,15 @@ namespace ZEN_YogaWebAPI.Migrations
                 {
                     { 1, 1, new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "owner@edu.fit.ba", "Aiden", "M", "Morris", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/AidenMorris.jpg", 2 },
                     { 2, 2, new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@edu.fit.ba", "Mia", "F", "Lopez", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/MiaLopez.jpg", 1 },
-                    { 3, 3, new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "liam.smith@email.com", "Liam", "M", "Smith", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg", 2 },
-                    { 4, 4, new DateTime(1989, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lejla.kovacevic@email.com", "Lejla", "F", "Kovačević", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
-                    { 5, 5, new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "noah.brown@email.com", "Noah", "M", "Brown", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg", 2 },
+                    { 3, 3, new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "liam.smith@email.com", "Liam", "M", "Smith", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg", 2 },
+                    { 4, 4, new DateTime(1989, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lejla.kovacevic@email.com", "Lejla", "F", "Kovačević", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 2 },
+                    { 5, 5, new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "noah.brown@email.com", "Noah", "M", "Brown", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg", 2 },
                     { 6, 6, new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "instructor@edu.fit.ba", "Sophia", "F", "Davis", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/SophiaDavis.jpg", 3 },
-                    { 7, 7, new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "jackson.miller@email.com", "Jackson", "M", "Miller", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg", 3 },
-                    { 8, 8, new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "amelia.garcia@email.com", "Amelia", "F", "Garcia", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg", 3 },
+                    { 7, 7, new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "jackson.miller@email.com", "Jackson", "M", "Miller", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg", 3 },
+                    { 8, 8, new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "amelia.garcia@email.com", "Amelia", "F", "Garcia", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg", 3 },
                     { 9, 9, new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "participant@edu.fit.ba", "James", "M", "Martinez", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/JamesMartinez.jpg", 4 },
-                    { 10, 10, new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "isabella.scott@email.com", "Isabella", "F", "Scott", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg", 4 },
-                    { 11, 11, new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "mason.walker@email.com", "Mason", "M", "Walker", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg", 4 }
+                    { 10, 10, new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "isabella.scott@email.com", "Isabella", "F", "Scott", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg", 4 },
+                    { 11, 11, new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "mason.walker@email.com", "Mason", "M", "Walker", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -513,13 +513,13 @@ namespace ZEN_YogaWebAPI.Migrations
                 columns: new[] { "Id", "Description", "EndDate", "InstructorId", "Location", "MaxParticipants", "Name", "StartDate", "StudioId", "YogaTypeId" },
                 values: new object[,]
                 {
-                    { 1, "", new DateTime(2026, 1, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 6, "Room 1", 20, "Morning Flow", new DateTime(2026, 1, 20, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1 },
-                    { 2, "", new DateTime(2026, 1, 20, 11, 0, 0, 0, DateTimeKind.Unspecified), 7, "Main Hall", 20, "Power Yoga", new DateTime(2026, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), 3, 2 },
-                    { 3, "", new DateTime(2026, 1, 20, 19, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Relaxing Yin", new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), 3, 3 },
-                    { 4, "", new DateTime(2026, 1, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), 8, "Room 1", 20, "Evening Flow", new DateTime(2026, 1, 21, 7, 0, 0, 0, DateTimeKind.Unspecified), 2, 1 },
-                    { 5, "", new DateTime(2026, 1, 21, 10, 30, 0, 0, DateTimeKind.Unspecified), 8, "Main Hall", 20, "Core Strength", new DateTime(2026, 1, 21, 9, 30, 0, 0, DateTimeKind.Unspecified), 2, 2 },
-                    { 6, "", new DateTime(2026, 1, 21, 19, 30, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Gentle Flow", new DateTime(2026, 1, 21, 18, 30, 0, 0, DateTimeKind.Unspecified), 1, 3 },
-                    { 7, "", new DateTime(2026, 1, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 1", 20, "Dynamic Yoga", new DateTime(2026, 1, 22, 8, 0, 0, 0, DateTimeKind.Unspecified), 3, 1 }
+                    { 1, "", new DateTime(2026, 2, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 6, "Room 1", 20, "Morning Flow", new DateTime(2026, 2, 20, 8, 0, 0, 0, DateTimeKind.Unspecified), 1, 1 },
+                    { 2, "", new DateTime(2026, 2, 20, 11, 0, 0, 0, DateTimeKind.Unspecified), 7, "Main Hall", 20, "Power Yoga", new DateTime(2026, 2, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), 3, 2 },
+                    { 3, "", new DateTime(2026, 2, 20, 19, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Relaxing Yin", new DateTime(2026, 2, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), 3, 3 },
+                    { 4, "", new DateTime(2026, 2, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), 8, "Room 1", 20, "Evening Flow", new DateTime(2026, 2, 21, 7, 0, 0, 0, DateTimeKind.Unspecified), 2, 1 },
+                    { 5, "", new DateTime(2026, 2, 21, 10, 30, 0, 0, DateTimeKind.Unspecified), 8, "Main Hall", 20, "Core Strength", new DateTime(2026, 2, 21, 9, 30, 0, 0, DateTimeKind.Unspecified), 2, 2 },
+                    { 6, "", new DateTime(2026, 2, 21, 19, 30, 0, 0, DateTimeKind.Unspecified), 7, "Room 2", 20, "Gentle Flow", new DateTime(2026, 2, 21, 18, 30, 0, 0, DateTimeKind.Unspecified), 3, 3 },
+                    { 7, "", new DateTime(2026, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, "Room 1", 20, "Dynamic Yoga", new DateTime(2026, 2, 22, 8, 0, 0, 0, DateTimeKind.Unspecified), 3, 1 }
                 });
 
             migrationBuilder.InsertData(

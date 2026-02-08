@@ -271,12 +271,12 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 1,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 6,
                             Location = "Room 1",
                             MaxParticipants = 20,
                             Name = "Morning Flow",
-                            StartDate = new DateTime(2026, 1, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 1,
                             YogaTypeId = 1
                         },
@@ -284,12 +284,12 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 2,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 20, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 20, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 7,
                             Location = "Main Hall",
                             MaxParticipants = 20,
                             Name = "Power Yoga",
-                            StartDate = new DateTime(2026, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 20, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 3,
                             YogaTypeId = 2
                         },
@@ -297,12 +297,12 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 3,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 20, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 20, 19, 0, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 7,
                             Location = "Room 2",
                             MaxParticipants = 20,
                             Name = "Relaxing Yin",
-                            StartDate = new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 3,
                             YogaTypeId = 3
                         },
@@ -310,12 +310,12 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 4,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 21, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 21, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 8,
                             Location = "Room 1",
                             MaxParticipants = 20,
                             Name = "Evening Flow",
-                            StartDate = new DateTime(2026, 1, 21, 7, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 21, 7, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 2,
                             YogaTypeId = 1
                         },
@@ -323,12 +323,12 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 5,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 21, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 21, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 8,
                             Location = "Main Hall",
                             MaxParticipants = 20,
                             Name = "Core Strength",
-                            StartDate = new DateTime(2026, 1, 21, 9, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 21, 9, 30, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 2,
                             YogaTypeId = 2
                         },
@@ -336,25 +336,25 @@ namespace ZEN_YogaWebAPI.Migrations
                         {
                             Id = 6,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 21, 19, 30, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 21, 19, 30, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 7,
                             Location = "Room 2",
                             MaxParticipants = 20,
                             Name = "Gentle Flow",
-                            StartDate = new DateTime(2026, 1, 21, 18, 30, 0, 0, DateTimeKind.Unspecified),
-                            StudioId = 1,
+                            StartDate = new DateTime(2026, 2, 21, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            StudioId = 3,
                             YogaTypeId = 3
                         },
                         new
                         {
                             Id = 7,
                             Description = "",
-                            EndDate = new DateTime(2026, 1, 22, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2026, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             InstructorId = 7,
                             Location = "Room 1",
                             MaxParticipants = 20,
                             Name = "Dynamic Yoga",
-                            StartDate = new DateTime(2026, 1, 22, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2026, 2, 22, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = 3,
                             YogaTypeId = 1
                         });
@@ -932,7 +932,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Liam",
                             Gender = "M",
                             LastName = "Smith",
-                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg",
                             RoleId = 2
@@ -946,7 +946,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Lejla",
                             Gender = "F",
                             LastName = "Kovačević",
-                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "",
                             RoleId = 2
@@ -960,7 +960,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Noah",
                             Gender = "M",
                             LastName = "Brown",
-                            PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg",
                             RoleId = 2
@@ -988,7 +988,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Jackson",
                             Gender = "M",
                             LastName = "Miller",
-                            PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg",
                             RoleId = 3
@@ -1002,7 +1002,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Amelia",
                             Gender = "F",
                             LastName = "Garcia",
-                            PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg",
                             RoleId = 3
@@ -1030,7 +1030,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Isabella",
                             Gender = "F",
                             LastName = "Scott",
-                            PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg",
                             RoleId = 4
@@ -1044,7 +1044,7 @@ namespace ZEN_YogaWebAPI.Migrations
                             FirstName = "Mason",
                             Gender = "M",
                             LastName = "Walker",
-                            PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
+                            PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg",
                             RoleId = 4
