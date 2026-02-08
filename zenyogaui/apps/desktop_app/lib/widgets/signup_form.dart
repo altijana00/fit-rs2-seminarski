@@ -205,13 +205,6 @@ class _SignupFormState extends State<SignupForm> {
           ),
           const SizedBox(height: 12),
 
-          // TextFormField(
-          //   decoration: const InputDecoration(labelText: "Confirm password"),
-          //   obscureText: true,
-          //   validator: (v) => v != password ? "Passwords do not match" : null,
-          // ),
-          // const SizedBox(height: 24),
-
           Row(
             children: [
               TextButton(

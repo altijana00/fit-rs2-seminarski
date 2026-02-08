@@ -1,4 +1,3 @@
-import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

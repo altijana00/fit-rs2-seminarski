@@ -1,19 +1,3 @@
-// import 'package:flutter/material.dart';
-//
-// class StudiosTab extends StatelessWidget {
-//   const StudiosTab({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text(
-//         "This is the Studios screen",
-//         style: TextStyle(fontSize: 18),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/auth_service.dart';
@@ -179,7 +163,6 @@ class _StudiosTabState extends State<StudiosTab> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ================= FIXED HEADER =================
           Padding(
             padding: const EdgeInsets.only(top: 24, bottom: 12),
             child: Center(
@@ -216,10 +199,7 @@ class _StudiosTabState extends State<StudiosTab> {
               return Expanded(
                 child: Column(
                   children: [
-                    // ================= FILTERS =================
                     _buildFilters(data),
-
-
                     Text(
                       "Recommended for you",
                       style: TextStyle(
@@ -293,9 +273,6 @@ class _StudiosTabState extends State<StudiosTab> {
               return Expanded(
                 child: Column(
                   children: [
-
-
-                    // ================= SCROLLABLE LIST =================
                     Expanded(
                       child: data.studios.isEmpty
                           ? const Center(

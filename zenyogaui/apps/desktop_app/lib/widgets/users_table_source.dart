@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../core/theme.dart';
 import 'edit_user_dialog.dart';
 
-/* ================= TABLE DATA ================= */
+
 
 class _UsersTableData {
   final List<UserResponseDto> users;
@@ -24,7 +24,7 @@ class _UsersTableData {
   });
 }
 
-/* ================= TABLE SOURCE ================= */
+
 
 class UsersTableSource extends DataTableSource {
   final List<UserResponseDto> users;
@@ -93,7 +93,7 @@ class UsersTableSource extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-/* ================= VIEW ================= */
+
 
 class UsersTableView extends StatefulWidget {
   const UsersTableView({super.key});
@@ -154,7 +154,7 @@ class _UsersTableViewState extends State<UsersTableView> {
     );
   }
 
-  /* ================= FILTER UI ================= */
+
 
   Widget _buildFilters(_UsersTableData data) {
     return Padding(
@@ -236,7 +236,7 @@ class _UsersTableViewState extends State<UsersTableView> {
     );
   }
 
-  /* ================= BUILD ================= */
+
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +304,7 @@ class _UsersTableViewState extends State<UsersTableView> {
     );
   }
 
-  /* ================= ACTIONS ================= */
+
 
   void _confirmDelete(UserResponseDto user) {
     showDialog(

@@ -50,7 +50,7 @@ class _StudioGalleryState extends State<StudioGallery> {
       height: _itemSize + 12,
       child: Row(
         children: [
-          /// LEFT BUTTON
+
           IconButton(
             icon: const Icon(Icons.chevron_left),
             onPressed: _scrollController.hasClients &&
@@ -59,7 +59,7 @@ class _StudioGalleryState extends State<StudioGallery> {
                 : null,
           ),
 
-          /// IMAGES
+
           Expanded(
             child: ListView.separated(
               controller: _scrollController,
@@ -75,7 +75,7 @@ class _StudioGalleryState extends State<StudioGallery> {
                   height: _itemSize,
                   child: Stack(
                     children: [
-                      /// IMAGE (SQUARE)
+
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
@@ -88,7 +88,7 @@ class _StudioGalleryState extends State<StudioGallery> {
                         ),
                       ),
 
-                      /// DELETE BUTTON
+
                       Positioned(
                         top: 2,
                         right: 2,
@@ -119,7 +119,7 @@ class _StudioGalleryState extends State<StudioGallery> {
             ),
           ),
 
-          /// RIGHT BUTTON
+
           IconButton(
             icon: const Icon(Icons.chevron_right),
             onPressed: _scrollController.hasClients &&

@@ -8,7 +8,7 @@ import 'package:zenyogaui/widgets/users_table_source.dart';
 
 import '../core/theme.dart';
 
-//import '../../../../shared/dto/responses/user_response_dto.dart';
+
 
 
 
@@ -22,7 +22,7 @@ class AdminDashboard extends StatefulWidget {
 class _AdminDashboardState extends State<AdminDashboard> {
   int _selectedIndex = 0;
 
-  // Screens for each section
+
   final List<Widget> _screens = [
     UsersTableView(),
     StudiosTableView(),

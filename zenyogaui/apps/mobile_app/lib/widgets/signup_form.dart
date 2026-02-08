@@ -1,5 +1,4 @@
 import 'package:core/dto/requests/register_user_dto.dart';
-import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +45,7 @@ class _SignupFormMobileState extends State<SignupFormMobile> {
         dateOfBirth: dateOfBirth,
         email: email!,
         password: password!,
-        roleId: 4, // fixed user/participant role
+        roleId: 4,
         cityId: selectedCityId!,
         profileImageUrl: "test",
       ),
@@ -159,6 +158,19 @@ class _SignupFormMobileState extends State<SignupFormMobile> {
               child: CircularProgressIndicator(strokeWidth: 2),
             )
                 : const Text('Sign up'),
+          ),
+          const SizedBox(height: 24),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/');
+            },
+            child: const Text(
+              'Already a member? Sign in.',
+              style: TextStyle(
+                decoration: TextDecoration.underline,
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       ),

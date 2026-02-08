@@ -36,24 +36,22 @@ import 'package:core/services/user_api_service.dart';
 import 'package:core/services/yoga-type_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:mobile_app/firebase_options.dart';
 import 'package:mobile_app/screens/mobile_home_screen.dart';
 import 'package:mobile_app/screens/mobile_login_screen.dart';
 import 'package:mobile_app/screens/mobile_signup_screen.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/theme.dart';
-import 'package:flutter/material.dart';
+
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = 'pk_test_51SpIJSC1su3FW6hZoRVTn94GOdTOrwYPRzLhy5ZnOnv4xZkaswNIVLusUPOVdFBY2evOKgVzaiEQEqth6UPkzLpy00OPRis5LH';
+  Stripe.publishableKey = Constants.stripeKey;
 
 
 

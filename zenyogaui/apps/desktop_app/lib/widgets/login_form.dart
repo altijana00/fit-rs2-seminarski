@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 
 class LoginForm extends StatefulWidget {
-  final void Function(String role)? onLoginSuccess; // callback to navigate by role
+  final void Function(String role)? onLoginSuccess;
 
   const LoginForm({this.onLoginSuccess, super.key});
 

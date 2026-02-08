@@ -3,7 +3,6 @@ import '../widgets/navigation.dart';
 import 'home_tab.dart';
 import 'my_classes_tab.dart';
 import 'profile_tab.dart';
-import 'settings_tab.dart';
 import 'studios_tab.dart';
 
 
@@ -22,7 +21,6 @@ class _AppShellState extends State<AppShell> {
     StudiosTab(),
     MyClassesTab(),
     ProfileTab(),
-    SettingsTab(),
   ];
 
   void _onBottomNavTapped(int index) {

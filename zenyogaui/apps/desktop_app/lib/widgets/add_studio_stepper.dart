@@ -34,11 +34,11 @@ class AddStudioStepper extends StatefulWidget {
 class _AddStudioStepperState extends State<AddStudioStepper> {
   int _currentStep = 0;
 
-  // separate form keys for each step
+
   final _studioFormKey = GlobalKey<FormState>();
   final _instructorFormKey = GlobalKey<FormState>();
 
-  // temporary maps to store form data
+
   final Map<String, dynamic> _studioData = {};
   final Map<String, dynamic> _instructorData = {};
   StudioResponseDto? _createdStudio;
@@ -105,11 +105,11 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
   }
 
   List<Step> _buildSteps() {
-    // convenience to show editing state for the active step
+
     bool isEditing(int stepIndex) => _currentStep == stepIndex;
 
     return [
-      // Step 0: Studio details
+
       Step(
         title: const Text("Studio Details"),
         content: Form(
@@ -142,16 +142,6 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 ),
               ),
 
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 16),
-              //   child: TextFormField(
-              //     decoration: const InputDecoration(labelText: "City (id)"),
-              //     onSaved: (value) =>
-              //     _studioData['cityId'] = int.tryParse(value ?? "0") ?? 0,
-              //     validator: (value) =>
-              //     value == null || value.isEmpty ? "Required" : null,
-              //   ),
-              // ),
 
               DropdownButtonFormField<int>(
                 value: _studioData['cityId'],
@@ -190,13 +180,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                   ],
                   decoration: const InputDecoration(labelText: "Contact phone"),
                   onSaved: (value) => _studioData['contactPhone'] = value,
-                  // validator: (value) {
-                  //   final n = num.tryParse(value!);
-                  //   if (n != null && (n < 9 || n > 15)) {
-                  //     return 'Please enter a valid phone number with digits only';
-                  //   }
-                  //   return null;
-                  // },
+
                 ),
               ),
 
@@ -235,7 +219,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
             : (isEditing(0) ? StepState.editing : StepState.indexed),
       ),
 
-      // Step 1: Add instructors (optional)
+
       Step(
         title: const Text("Add Instructors"),
         content: Form(
@@ -276,7 +260,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
             : (isEditing(1) ? StepState.editing : StepState.indexed),
       ),
 
-      // Step 2: Confirmation
+
       Step(
         title: const Text("Confirmation"),
         content: Column(
@@ -377,7 +361,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
 
           setState(() {
             _instructorAdded = true;
-            _currentStep = 2; // move to confirmation
+            _currentStep = 2;
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -393,7 +377,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
       }
     }
 
-    // STEP 2: finish
+
     else if (_currentStep == 2) {
       Navigator.pop(context, _createdStudio);
     }

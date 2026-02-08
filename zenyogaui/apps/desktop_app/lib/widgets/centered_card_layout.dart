@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class CenteredCardLayout extends StatelessWidget {
   final Widget child;
-  final String backgroundAsset; // e.g. 'assets/images/background.png'
+  final String backgroundAsset;
 
   const CenteredCardLayout({required this.child, required this.backgroundAsset, super.key});
 
@@ -13,7 +13,7 @@ class CenteredCardLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Background image
+
         Positioned.fill(
           child: Image.asset(
             backgroundAsset,
@@ -21,7 +21,6 @@ class CenteredCardLayout extends StatelessWidget {
           ),
         ),
 
-        // optional blur + dark overlay for better contrast
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),

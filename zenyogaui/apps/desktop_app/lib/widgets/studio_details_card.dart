@@ -50,7 +50,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
 
 
 
-  /// ================= PROFILE PHOTO =================
+
   Future<void> _changeProfilePhoto() async {
     final picked = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -77,7 +77,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
     }
   }
 
-  /// ================= ADD GALLERY PHOTO =================
+
   Future<void> _addGalleryPhoto() async {
     final picked = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -103,7 +103,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
     }
   }
 
-  /// ================= DELETE GALLERY PHOTO =================
+
   Future<void> _deleteGalleryPhoto(String imageUrl) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -261,13 +261,13 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
 
             const SizedBox(width: 16),
 
-            /// RIGHT COLUMN
+
             Expanded(
               flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Profile Image
+
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(

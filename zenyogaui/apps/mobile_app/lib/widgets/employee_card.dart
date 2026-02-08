@@ -1,6 +1,6 @@
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:core/dto/responses/user_response_dto.dart';
+
 
 class EmployeeCard extends StatelessWidget {
   final InstructorResponseDto instructor;

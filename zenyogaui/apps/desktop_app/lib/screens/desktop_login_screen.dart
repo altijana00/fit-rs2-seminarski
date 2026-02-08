@@ -17,7 +17,7 @@ class DesktopLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( // <<< Add this
+    return Scaffold(
       body: CenteredCardLayout(
         backgroundAsset: 'assets/login-back.png',
         child: LoginForm(onLoginSuccess: (role) => _navigateByRole(context, role)),

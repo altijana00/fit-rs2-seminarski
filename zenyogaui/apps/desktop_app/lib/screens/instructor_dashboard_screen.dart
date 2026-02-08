@@ -17,11 +17,9 @@ import '../widgets/add_class_dialog.dart';
 import '../widgets/edit_class_dialog.dart';
 import '../widgets/edit_instructor_dialog.dart';
 
-/* ================= FORMATTERS ================= */
 
 final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
 
-/* ================= TABLE DATA ================= */
 
 class _InstructorClassesTableData {
   final List<ClassResponseDto> classes;
@@ -35,7 +33,7 @@ class _InstructorClassesTableData {
   });
 }
 
-/* ================= TABLE SOURCE ================= */
+
 
 class InstructorClassesTableSource extends DataTableSource {
   final List<ClassResponseDto> classes;
@@ -107,7 +105,7 @@ class InstructorClassesTableSource extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-/* ================= VIEW ================= */
+
 
 class InstructorDashboard extends StatefulWidget {
   const InstructorDashboard({super.key});
@@ -210,7 +208,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
 
-            // -------- SEARCH INPUT --------
+
             SizedBox(
               width: 260,
               child: TextField(
@@ -230,7 +228,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
             const SizedBox(width: 12),
 
-            // -------- SEARCH BUTTON --------
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.lavender,
@@ -245,7 +243,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
             const SizedBox(width: 12),
 
-            // -------- YOGA TYPE DROPDOWN --------
+
             DropdownButton<int?>(
               value: _filter.yogaTypeId,
               hint: const Text("Yoga Type"),
@@ -269,7 +267,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
             const SizedBox(width: 12),
 
-            // -------- RESET BUTTON --------
+
             TextButton(
               onPressed: () {
                 _searchController.clear();
@@ -287,7 +285,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
   }
 
 
-  /* ================= BUILD ================= */
+
 
   @override
   Widget build(BuildContext context) {
@@ -327,7 +325,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                 ): Row(
                 children: [
 
-                  // ================= LEFT SIDEBAR =================
+
                   Container(
                     width: 72,
                     color: AppColors.lavender,
@@ -402,7 +400,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                     ),
                   ),
 
-                  // ================= MAIN CONTENT =================
+
                   Expanded(
                     child: Container(
                       color: Colors.white,
@@ -430,7 +428,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
 
 
-                          // -------- TABLE AREA --------
+
                           Expanded(
                             child: FutureBuilder<_InstructorClassesTableData>(
                               future: _tableFuture,
@@ -462,7 +460,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
                                     const SizedBox(height: 12),
 
-                                    // -------- ADD CLASS --------
+
                                     ElevatedButton.icon(
                                       icon: const Icon(Icons.add),
                                       label: const Text("Add Class"),
@@ -546,7 +544,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
   }
 
 
-  /* ================= ACTIONS ================= */
+
 
   void _confirmAdd(int instructorId) async {
       await showDialog(

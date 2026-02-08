@@ -3,12 +3,11 @@ import 'package:core/dto/requests/update_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/user_service.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
-import '../firebase_options.dart';
+
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -34,8 +33,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final title = message.notification?.title ?? "Bez naslova";
-      final body = message.notification?.body ?? "Bez poruke";
+      final title = message.notification?.title ?? "No title";
+      final body = message.notification?.body ?? "No message";
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -72,12 +71,10 @@ class _ProfileTabState extends State<ProfileTab> {
       ),
     );
 
-    // Refresh user from backend
-    final updatedUser = await context.read<UserProvider>().repository.getUser(userId);
-    // Update AuthProvider.user as well so other tabs get new data
-    context.read<AuthProvider>().user = updatedUser;
 
-    _loadUser(); // rebuild FutureBuilder
+    final updatedUser = await context.read<UserProvider>().repository.getUser(userId);
+    context.read<AuthProvider>().user = updatedUser;
+    _loadUser();
   }
 
   @override
@@ -121,14 +118,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         ? const Icon(Icons.person, size: 60)
                         : null,
                   ),
-                  Positioned(
-                    child: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // TODO: implement profile image edit
-                      },
-                    ),
-                  ),
+
                 ],
               ),
               const SizedBox(height: 24),

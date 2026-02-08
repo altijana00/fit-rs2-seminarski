@@ -26,7 +26,7 @@ class StudioStatisticsDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -46,7 +46,7 @@ class StudioStatisticsDialog extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // KPI cards
+
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
@@ -82,7 +82,7 @@ class StudioStatisticsDialog extends StatelessWidget {
                     },
                   ),
 
-                  // Number of Participants
+
                   FutureBuilder<int>(
                     future: studioProvider.repository.getParticipants(studioId),
                     builder: (context, snapshot) {
@@ -115,7 +115,7 @@ class StudioStatisticsDialog extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // Footer
+
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(

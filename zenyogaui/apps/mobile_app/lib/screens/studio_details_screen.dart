@@ -49,7 +49,7 @@ class StudioDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ===== PROFILE + INFO ROW =====
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -106,7 +106,7 @@ class StudioDetailsScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // ===== GALLERY =====
+
             Text("Gallery", style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             FutureBuilder<List<String>>(
@@ -139,7 +139,7 @@ class StudioDetailsScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // ===== EMPLOYEES =====
+
             Text("Employees", style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             FutureBuilder(
@@ -171,7 +171,7 @@ class StudioDetailsScreen extends StatelessWidget {
               },
             ),
 
-            // ===== YOGA TYPES =====
+
             const SizedBox(height: 24),
             Text("Yoga Types", style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginFormMobile extends StatefulWidget {
-  final VoidCallback? onLoginSuccess; // callback for navigation
+  final VoidCallback? onLoginSuccess;
 
   const LoginFormMobile({this.onLoginSuccess, super.key});
 
@@ -33,7 +33,7 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
     );
 
     if (success) {
-      widget.onLoginSuccess?.call(); // go to home screen
+      widget.onLoginSuccess?.call();
     } else {
       final snackMsg = provider.error ?? 'Login failed';
       ScaffoldMessenger.of(context).showSnackBar(

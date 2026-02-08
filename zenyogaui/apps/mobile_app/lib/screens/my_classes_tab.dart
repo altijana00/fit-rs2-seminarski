@@ -1,5 +1,4 @@
 import 'package:core/dto/responses/class_response_dto.dart';
-import 'package:core/dto/responses/user_classes_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
