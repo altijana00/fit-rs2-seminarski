@@ -25,6 +25,15 @@ class StudioApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getStudioById(int id) async {
+    final response = await dio.get('Studio/getById?id=$id');
+    if(response.statusCode == 200) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch studio: ${response.data}');
+    }
+  }
+
   Future<double> getPayments(int studioId) async {
     final response = await dio.get('StudioAnalytics/getByStudio?studioId=$studioId');
     if(response.statusCode == 200) {

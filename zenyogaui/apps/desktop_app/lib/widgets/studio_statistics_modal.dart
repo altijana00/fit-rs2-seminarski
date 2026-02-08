@@ -13,6 +13,7 @@ class StudioStatisticsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final studioProvider = Provider.of<StudioProvider>(context, listen: false);
 
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

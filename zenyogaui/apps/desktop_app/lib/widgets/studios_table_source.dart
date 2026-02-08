@@ -7,6 +7,7 @@ import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/widgets/studio_statistics_modal.dart';
 import '../core/theme.dart';
 import 'edit_studio_dialog.dart';
 
@@ -23,13 +24,14 @@ class _StudiosTableData {
 }
 
 class StudiosTableSource extends DataTableSource {
+  final BuildContext context;
   final List<StudioResponseDto> studios;
   final Map<int, String> ownerNames;
   final Map<int, String> cityNames;
   final void Function(StudioResponseDto studio) onDeleteRequest;
   final void Function(StudioResponseDto studio) onEditRequest;
 
-  StudiosTableSource({required this.studios, required this.ownerNames, required this.cityNames, required this.onDeleteRequest, required this.onEditRequest});
+  StudiosTableSource({required this.context, required this.studios, required this.ownerNames, required this.cityNames, required this.onDeleteRequest, required this.onEditRequest});
 
   @override
   DataRow getRow(int index) {
@@ -48,6 +50,18 @@ class StudiosTableSource extends DataTableSource {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ElevatedButton.icon(
+              icon: const Icon(Icons.bar_chart),
+              label: const Text("Statistics"),
+              style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30)),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (ctx) => StudioStatisticsDialog(studioId: s.id),
+                );
+              },
+            ),
             ElevatedButton.icon(
               onPressed: () => onEditRequest(s),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo, fixedSize: const Size(80, 30)) , label: Text("Edit"), icon: Icon(Icons.edit)
@@ -322,6 +336,7 @@ Widget _buildFilters(_StudiosTableData data) {
                       ],
 
                       source: StudiosTableSource(
+                          context:context,
                           studios: data.studios,
                           ownerNames: data.ownerNames,
                           cityNames: data.cityNames,
