@@ -27,7 +27,6 @@ namespace ZEN_Yoga.Services.Services.Studio
 
             var classes = await _dbContext.Classes.Where(c => c.StudioId == id).ToListAsync();
             var instructors = await _dbContext.Instructors.Where(i => i.StudioId == id).ToListAsync();
-            var subscriptions = await _dbContext.StudioSubscriptions.Where(ss => ss.StudioId == id).ToListAsync();
             var payments = await _dbContext.Payments.Where(p => p.StudioId == id).ToListAsync();
 
 
@@ -46,7 +45,6 @@ namespace ZEN_Yoga.Services.Services.Studio
                     }
 
                     _dbContext.Instructors.RemoveRange(instructors);
-                    _dbContext.StudioSubscriptions.RemoveRange(subscriptions);
                     _dbContext.Payments.RemoveRange(payments);
 
                     _dbContext.Remove(studio);

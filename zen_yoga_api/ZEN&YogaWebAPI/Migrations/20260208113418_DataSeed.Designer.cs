@@ -12,8 +12,8 @@ using ZEN_Yoga.Models;
 namespace ZEN_YogaWebAPI.Migrations
 {
     [DbContext(typeof(ZenYogaDbContext))]
-    [Migration("20260114210557_Initial")]
-    partial class Initial
+    [Migration("20260208113418_DataSeed")]
+    partial class DataSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -393,25 +393,25 @@ namespace ZEN_YogaWebAPI.Migrations
                         new
                         {
                             Id = 6,
-                            Biography = "",
-                            Certificates = "",
-                            Diplomas = "",
+                            Biography = "Experienced yoga instructor specializing in Hatha and Vinyasa yoga. Passionate about helping students build strength and flexibility.",
+                            Certificates = "Advanced Hatha Yoga Certification",
+                            Diplomas = "Certified Yoga Teacher (RYT 200)",
                             StudioId = 1
                         },
                         new
                         {
                             Id = 7,
-                            Biography = "",
-                            Certificates = "",
-                            Diplomas = "",
+                            Biography = "Dedicated instructor with a background in Yin and Restorative yoga. Focuses on deep relaxation and mindfulness.",
+                            Certificates = "Meditation & Breathwork Certification",
+                            Diplomas = "RYT 500 - Yoga Alliance",
                             StudioId = 3
                         },
                         new
                         {
                             Id = 8,
-                            Biography = "",
-                            Certificates = "",
-                            Diplomas = "",
+                            Biography = "Energetic Vinyasa yoga teacher with experience in power yoga and flow sequences. Encourages a dynamic and engaging practice.",
+                            Certificates = "Power Yoga Certification",
+                            Diplomas = "RYT 200",
                             StudioId = 2
                         });
                 });
@@ -471,9 +471,6 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.Property<int>("StudioId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudioSubscriptionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SubscriptionTypeId")
                         .HasColumnType("int");
 
@@ -484,13 +481,57 @@ namespace ZEN_YogaWebAPI.Migrations
 
                     b.HasIndex("StudioId");
 
-                    b.HasIndex("StudioSubscriptionId");
-
                     b.HasIndex("SubscriptionTypeId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Paymments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 2,
+                            SubscriptionTypeId = 1,
+                            UserId = 10
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.Role", b =>
@@ -588,23 +629,23 @@ namespace ZEN_YogaWebAPI.Migrations
                             Address = "123 Main St",
                             CityId = 3,
                             ContactEmail = "contact@zenyoga.com",
-                            ContactPhone = "123-456-7890",
-                            Description = "Peaceful yoga studio",
-                            Name = "Zen Yoga Center",
+                            ContactPhone = "1234567890",
+                            Description = "Serene Flow Yoga is a tranquil oasis designed for relaxation, self-discovery, and holistic well-being.",
+                            Name = "Serene Flow Yoga",
                             OwnerId = 1,
-                            ProfileImageUrl = ""
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1ProfilePhoto.jpg"
                         },
                         new
                         {
                             Id = 2,
                             Address = "456 Oak St",
-                            CityId = 4,
+                            CityId = 3,
                             ContactEmail = "contact@lotusstudio.com",
-                            ContactPhone = "234-567-8901",
-                            Description = "Modern yoga classes",
-                            Name = "Lotus Studio",
+                            ContactPhone = "2345678901",
+                            Description = "Tranquil Lotus Yoga is a sanctuary for those seeking balance, flexibility, and inner harmony.",
+                            Name = "Tranquil Lotus Yoga",
                             OwnerId = 1,
-                            ProfileImageUrl = ""
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2ProfilePhoto.jpg"
                         },
                         new
                         {
@@ -612,11 +653,11 @@ namespace ZEN_YogaWebAPI.Migrations
                             Address = "789 Pine St",
                             CityId = 9,
                             ContactEmail = "contact@harmonyyoga.com",
-                            ContactPhone = "345-678-9012",
-                            Description = "Yoga for all levels",
+                            ContactPhone = "3456789012",
+                            Description = "Harmony Yoga offers a variety of classes, from gentle restorative yoga to power flows, catering to busy city dwellers seeking balance.",
                             Name = "Harmony Yoga",
                             OwnerId = 3,
-                            ProfileImageUrl = ""
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3ProfilePhoto.jpg"
                         },
                         new
                         {
@@ -624,11 +665,11 @@ namespace ZEN_YogaWebAPI.Migrations
                             Address = "101 Maple St",
                             CityId = 6,
                             ContactEmail = "contact@sunriseyoga.com",
-                            ContactPhone = "456-789-0123",
-                            Description = "Morning yoga and meditation",
-                            Name = "Sunrise Yoga",
+                            ContactPhone = "4567890123",
+                            Description = "A peaceful yoga retreat overlooking the town's river, offering sunrise Vinyasa flows and meditation classes to start your day with positivity and energy.",
+                            Name = "Sunrise Yoga Haven",
                             OwnerId = 4,
-                            ProfileImageUrl = ""
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4ProfilePhoto.jpg"
                         });
                 });
 
@@ -682,37 +723,74 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.HasIndex("StudioId");
 
                     b.ToTable("StudioGalleries");
-                });
 
-            modelBuilder.Entity("ZEN_Yoga.Models.StudioSubscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("StudioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriptionTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubscriptionTypeId");
-
-                    b.HasIndex("StudioId", "SubscriptionTypeId")
-                        .IsUnique();
-
-                    b.ToTable("StudioSubscriptions");
+                    b.HasData(
+                        new
+                        {
+                            GalleryId = 1,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery1.jpg",
+                            StudioId = 1
+                        },
+                        new
+                        {
+                            GalleryId = 2,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery2.jpg",
+                            StudioId = 1
+                        },
+                        new
+                        {
+                            GalleryId = 3,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery3.jpg",
+                            StudioId = 1
+                        },
+                        new
+                        {
+                            GalleryId = 4,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery4.jpg",
+                            StudioId = 1
+                        },
+                        new
+                        {
+                            GalleryId = 5,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery1.jpg",
+                            StudioId = 2
+                        },
+                        new
+                        {
+                            GalleryId = 6,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery2.jpg",
+                            StudioId = 2
+                        },
+                        new
+                        {
+                            GalleryId = 7,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery1.jpg",
+                            StudioId = 3
+                        },
+                        new
+                        {
+                            GalleryId = 8,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery2.jpg",
+                            StudioId = 3
+                        },
+                        new
+                        {
+                            GalleryId = 9,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery1.jpg",
+                            StudioId = 4
+                        },
+                        new
+                        {
+                            GalleryId = 10,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery2.jpg",
+                            StudioId = 4
+                        },
+                        new
+                        {
+                            GalleryId = 11,
+                            PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery3.jpg",
+                            StudioId = 4
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.SubscriptionType", b =>
@@ -826,12 +904,12 @@ namespace ZEN_YogaWebAPI.Migrations
                             CityId = 1,
                             DateOfBirth = new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "owner@edu.fit.ba",
-                            FirstName = "Test1",
+                            FirstName = "Aiden",
                             Gender = "M",
-                            LastName = "",
+                            LastName = "Morris",
                             PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/AidenMorris.jpg",
                             RoleId = 2
                         },
                         new
@@ -840,12 +918,12 @@ namespace ZEN_YogaWebAPI.Migrations
                             CityId = 2,
                             DateOfBirth = new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@edu.fit.ba",
-                            FirstName = "Test2",
+                            FirstName = "Mia",
                             Gender = "F",
-                            LastName = "",
+                            LastName = "Lopez",
                             PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/MiaLopez.jpg",
                             RoleId = 1
                         },
                         new
@@ -853,13 +931,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 3,
                             CityId = 3,
                             DateOfBirth = new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "amir.hodzic@email.com",
-                            FirstName = "Amir",
+                            Email = "liam.smith@email.com",
+                            FirstName = "Liam",
                             Gender = "M",
-                            LastName = "Hodžić",
+                            LastName = "Smith",
                             PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg",
                             RoleId = 2
                         },
                         new
@@ -881,13 +959,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 5,
                             CityId = 5,
                             DateOfBirth = new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "nermin.hadzic@email.com",
-                            FirstName = "Nermin",
+                            Email = "noah.brown@email.com",
+                            FirstName = "Noah",
                             Gender = "M",
-                            LastName = "Hadžić",
+                            LastName = "Brown",
                             PasswordHash = "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg",
                             RoleId = 2
                         },
                         new
@@ -896,12 +974,12 @@ namespace ZEN_YogaWebAPI.Migrations
                             CityId = 6,
                             DateOfBirth = new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "instructor@edu.fit.ba",
-                            FirstName = "Amina",
+                            FirstName = "Sophia",
                             Gender = "F",
-                            LastName = "Mehmedović",
+                            LastName = "Davis",
                             PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/SophiaDavis.jpg",
                             RoleId = 3
                         },
                         new
@@ -909,13 +987,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 7,
                             CityId = 7,
                             DateOfBirth = new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "haris.begic@email.com",
-                            FirstName = "Haris",
+                            Email = "jackson.miller@email.com",
+                            FirstName = "Jackson",
                             Gender = "M",
-                            LastName = "Begić",
+                            LastName = "Miller",
                             PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg",
                             RoleId = 3
                         },
                         new
@@ -923,13 +1001,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 8,
                             CityId = 8,
                             DateOfBirth = new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "selma.delic@email.com",
-                            FirstName = "Selma",
+                            Email = "amelia.garcia@email.com",
+                            FirstName = "Amelia",
                             Gender = "F",
-                            LastName = "Delić",
+                            LastName = "Garcia",
                             PasswordHash = "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg",
                             RoleId = 3
                         },
                         new
@@ -938,12 +1016,12 @@ namespace ZEN_YogaWebAPI.Migrations
                             CityId = 9,
                             DateOfBirth = new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "participant@edu.fit.ba",
-                            FirstName = "Kenan",
+                            FirstName = "James",
                             Gender = "M",
-                            LastName = "Musić",
+                            LastName = "Martinez",
                             PasswordHash = "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/JamesMartinez.jpg",
                             RoleId = 4
                         },
                         new
@@ -951,13 +1029,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 10,
                             CityId = 10,
                             DateOfBirth = new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "marija.petrovic@email.com",
-                            FirstName = "Marija",
+                            Email = "isabella.scott@email.com",
+                            FirstName = "Isabella",
                             Gender = "F",
-                            LastName = "Petrović",
+                            LastName = "Scott",
                             PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg",
                             RoleId = 4
                         },
                         new
@@ -965,13 +1043,13 @@ namespace ZEN_YogaWebAPI.Migrations
                             Id = 11,
                             CityId = 11,
                             DateOfBirth = new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "adnan.karic@email.com",
-                            FirstName = "Adnan",
+                            Email = "mason.walker@email.com",
+                            FirstName = "Mason",
                             Gender = "M",
-                            LastName = "Karić",
+                            LastName = "Walker",
                             PasswordHash = "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=",
                             PasswordSalt = "cnMycnMyMTIz",
-                            ProfileImageUrl = "",
+                            ProfileImageUrl = "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg",
                             RoleId = 4
                         });
                 });
@@ -1169,10 +1247,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ZEN_Yoga.Models.StudioSubscription", "StudioSubscription")
-                        .WithMany()
-                        .HasForeignKey("StudioSubscriptionId");
-
                     b.HasOne("ZEN_Yoga.Models.SubscriptionType", "SubscriptionType")
                         .WithMany()
                         .HasForeignKey("SubscriptionTypeId")
@@ -1186,8 +1260,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Studio");
-
-                    b.Navigation("StudioSubscription");
 
                     b.Navigation("SubscriptionType");
 
@@ -1233,25 +1305,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Studio");
-                });
-
-            modelBuilder.Entity("ZEN_Yoga.Models.StudioSubscription", b =>
-                {
-                    b.HasOne("ZEN_Yoga.Models.Studio", "Studio")
-                        .WithMany("StudioSubscriptions")
-                        .HasForeignKey("StudioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ZEN_Yoga.Models.SubscriptionType", "SubscriptionType")
-                        .WithMany("StudioSubscriptions")
-                        .HasForeignKey("SubscriptionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Studio");
-
-                    b.Navigation("SubscriptionType");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.User", b =>
@@ -1337,13 +1390,6 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.Navigation("StudioInstructors");
 
                     b.Navigation("StudioMembers");
-
-                    b.Navigation("StudioSubscriptions");
-                });
-
-            modelBuilder.Entity("ZEN_Yoga.Models.SubscriptionType", b =>
-                {
-                    b.Navigation("StudioSubscriptions");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.User", b =>

@@ -31,10 +31,8 @@ namespace ZEN_Yoga.Models
             modelBuilder.Entity<Role>().Property(r => r.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Studio>().Property(s => s.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<SubscriptionType>().Property(s => s.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<StudioSubscription>().Property(ss => ss.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<YogaType>().Property(y => y.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<UserClass>().Property(uc => uc.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<UserStudio>().Property(us => us.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<StudioAnalytics>().Property(sa => sa.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<AppAnalytics>().Property(a => a.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<City>().Property(c => c.Id).ValueGeneratedOnAdd();
@@ -49,21 +47,6 @@ namespace ZEN_Yoga.Models
                 .WithOne(u => u.Instructor)
                 .HasForeignKey<Instructor>(i => i.Id)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
-            modelBuilder.Entity<StudioSubscription>()
-                .HasOne(ss => ss.Studio)
-                .WithMany(s => s.StudioSubscriptions)
-                .HasForeignKey(ss => ss.StudioId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            //unique constraint on StudioId + SubscriptionTypeId
-            modelBuilder.Entity<StudioSubscription>()
-                .HasIndex(ss => new { ss.StudioId, ss.SubscriptionTypeId })
-                .IsUnique();
-
-        
-                
 
 
             modelBuilder.Entity<Instructor>()
@@ -117,11 +100,6 @@ namespace ZEN_Yoga.Models
                 .HasForeignKey(us => us.StudioId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Studio>()
-                .HasMany(s => s.StudioSubscriptions)
-                .WithOne(ss => ss.Studio)
-                .HasForeignKey(ss => ss.StudioId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Studio>()
                 .HasMany(s => s.StudioInstructors)
@@ -212,9 +190,7 @@ namespace ZEN_Yoga.Models
 
            
 
-            modelBuilder.Entity<StudioSubscription>()
-                .Property(ss => ss.Price)
-                .HasPrecision(18, 2);
+           
 
             modelBuilder.Entity<Instructor>(entity =>
             {
@@ -805,6 +781,56 @@ namespace ZEN_Yoga.Models
 
             );
 
+            modelBuilder.Entity<Payment>().HasData(
+                new Payment()
+                {
+                    Id = 1,
+                    UserId = 11,
+                    StudioId = 3,
+                    SubscriptionTypeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
+                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
+                    Amount = 50,
+                    Status = "processing"
+                
+                },
+                new Payment()
+                {
+                    Id = 2,
+                    UserId = 9,
+                    StudioId = 3,
+                    SubscriptionTypeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
+                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
+                    Amount = 50,
+                    Status = "processing"
+                },
+                new Payment()
+                {
+                    Id = 3,
+                    UserId = 10,
+                    StudioId = 3,
+                    SubscriptionTypeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
+                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
+                    Amount = 50,
+                    Status = "processing"
+                },
+                new Payment()
+                {
+                    Id = 4,
+                    UserId = 10,
+                    StudioId = 2,
+                    SubscriptionTypeId = 1,
+                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
+                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
+                    Amount = 50,
+                    Status = "processing"
+                }
+            
+
+           );
+
 
 
         }
@@ -820,7 +846,6 @@ namespace ZEN_Yoga.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<Studio> Studios { get; set; }
         public DbSet<StudioAnalytics> StudioAnalytics { get; set; }
-        public DbSet<StudioSubscription> StudioSubscriptions { get; set; }
         public DbSet<UserClass> UserClasses { get; set; }
         public DbSet<UserStudio> UsersStudios { get; set; }
         public DbSet<YogaType> YogaTypes { get; set; }

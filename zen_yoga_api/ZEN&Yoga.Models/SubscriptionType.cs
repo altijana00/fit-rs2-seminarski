@@ -15,6 +15,6 @@ namespace ZEN_Yoga.Models
         public string? Description { get; set; }
         public required int DurationInDays { get; set; }
 
-        public ICollection<StudioSubscription> StudioSubscriptions { get; set; } = new List<StudioSubscription>();
+        
     }
 }

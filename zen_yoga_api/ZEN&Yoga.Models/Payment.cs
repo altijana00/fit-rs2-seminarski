@@ -19,7 +19,6 @@ namespace ZEN_Yoga.Models
         public Studio? Studio { get; set; }
         public int SubscriptionTypeId { get; set; }
         public SubscriptionType? SubscriptionType { get; set; }
-        public StudioSubscription? StudioSubscription { get; set; }
 
         public DateTime PaymentDate { get; set; }
         public decimal Amount { get; set; }

@@ -30,9 +30,6 @@ namespace ZEN_YogaWebAPI.Mapper
 
             CreateMap<SubscriptionType, SubscriptionTypeResponse>();
 
-            CreateMap<StudioSubscription, StudioSubscriptionResponse>();
-            CreateMap<EditSubscription, StudioSubscriptionResponse>();
-            CreateMap<StudioSubscriptionResponse, StudioResponse>();
 
             CreateMap<City, CityResponse>();
 

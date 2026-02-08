@@ -21,11 +21,9 @@ using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
-using ZEN_Yoga.Services.Interfaces.StudioSubscription;
 using ZEN_Yoga.Services.Interfaces.SubscriptionType;
 using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.UserClass;
-using ZEN_Yoga.Services.Interfaces.UserStudio;
 using ZEN_Yoga.Services.Interfaces.YogaType;
 using ZEN_Yoga.Services.Services.Analytics;
 using ZEN_Yoga.Services.Services.BlobStorage;
@@ -36,11 +34,9 @@ using ZEN_Yoga.Services.Services.Notification;
 using ZEN_Yoga.Services.Services.Payment;
 using ZEN_Yoga.Services.Services.Role;
 using ZEN_Yoga.Services.Services.Studio;
-using ZEN_Yoga.Services.Services.StudioSubscription;
 using ZEN_Yoga.Services.Services.SubscriptionType;
 using ZEN_Yoga.Services.Services.User;
 using ZEN_Yoga.Services.Services.UserClass;
-using ZEN_Yoga.Services.Services.UserStudio;
 using ZEN_Yoga.Services.Services.YogaType;
 using ZEN_YogaWebAPI.Mapper;
 using ZEN_YogaWebAPI.Middleware;
@@ -128,10 +124,6 @@ builder.Services.AddScoped<IDeleteStudioGalleryPhotoService, DeleteStudioGallery
 
 
 
-//StudioSubscription
-builder.Services.AddScoped<IGetStudioSubscriptionService, GetStudioSubscriptionService>();
-builder.Services.AddScoped<IUpsertStudioSubscriptionService<AddStudioSubscription>, UpsertStudioSubscriptionService>();
-builder.Services.AddScoped<IDeleteStudioSubscriptionService, DeleteStudioSubscription>();
 
 //UserClass
 builder.Services.AddScoped<IGetUserClassService, GetUserClassService>();
@@ -141,9 +133,6 @@ builder.Services.AddScoped<IDeleteUserClassService, DeleteUserClassService>();
 //SubscriptionType
 builder.Services.AddScoped<IGetSubscriptionTypeService, GetSubscriptionTypeService>();
 builder.Services.AddScoped<ISubscriptionTypeValidatorService, SubscriptionTypeValidatorService>();
-
-//UserStudio
-builder.Services.AddScoped<IUpsertUserStudioService, UpsertUserStudioService>();
 
 
 //YogaType

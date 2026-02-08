@@ -468,9 +468,6 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.Property<int>("StudioId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudioSubscriptionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SubscriptionTypeId")
                         .HasColumnType("int");
 
@@ -481,13 +478,57 @@ namespace ZEN_YogaWebAPI.Migrations
 
                     b.HasIndex("StudioId");
 
-                    b.HasIndex("StudioSubscriptionId");
-
                     b.HasIndex("SubscriptionTypeId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Paymments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 3,
+                            SubscriptionTypeId = 1,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 50m,
+                            CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "processing",
+                            StudioId = 2,
+                            SubscriptionTypeId = 1,
+                            UserId = 10
+                        });
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.Role", b =>
@@ -747,37 +788,6 @@ namespace ZEN_YogaWebAPI.Migrations
                             PhotoUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery3.jpg",
                             StudioId = 4
                         });
-                });
-
-            modelBuilder.Entity("ZEN_Yoga.Models.StudioSubscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("StudioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriptionTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubscriptionTypeId");
-
-                    b.HasIndex("StudioId", "SubscriptionTypeId")
-                        .IsUnique();
-
-                    b.ToTable("StudioSubscriptions");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.SubscriptionType", b =>
@@ -1234,10 +1244,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ZEN_Yoga.Models.StudioSubscription", "StudioSubscription")
-                        .WithMany()
-                        .HasForeignKey("StudioSubscriptionId");
-
                     b.HasOne("ZEN_Yoga.Models.SubscriptionType", "SubscriptionType")
                         .WithMany()
                         .HasForeignKey("SubscriptionTypeId")
@@ -1251,8 +1257,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Studio");
-
-                    b.Navigation("StudioSubscription");
 
                     b.Navigation("SubscriptionType");
 
@@ -1298,25 +1302,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Studio");
-                });
-
-            modelBuilder.Entity("ZEN_Yoga.Models.StudioSubscription", b =>
-                {
-                    b.HasOne("ZEN_Yoga.Models.Studio", "Studio")
-                        .WithMany("StudioSubscriptions")
-                        .HasForeignKey("StudioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ZEN_Yoga.Models.SubscriptionType", "SubscriptionType")
-                        .WithMany("StudioSubscriptions")
-                        .HasForeignKey("SubscriptionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Studio");
-
-                    b.Navigation("SubscriptionType");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.User", b =>
@@ -1402,13 +1387,6 @@ namespace ZEN_YogaWebAPI.Migrations
                     b.Navigation("StudioInstructors");
 
                     b.Navigation("StudioMembers");
-
-                    b.Navigation("StudioSubscriptions");
-                });
-
-            modelBuilder.Entity("ZEN_Yoga.Models.SubscriptionType", b =>
-                {
-                    b.Navigation("StudioSubscriptions");
                 });
 
             modelBuilder.Entity("ZEN_Yoga.Models.User", b =>

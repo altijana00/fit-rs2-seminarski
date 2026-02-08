@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Services.Interfaces.Payment;
-using ZEN_Yoga.Services.Interfaces.UserStudio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -10,12 +9,10 @@ namespace ZEN_YogaWebAPI.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
-        private readonly IUpsertUserStudioService _userStudioService;
 
-        public PaymentController(IPaymentService paymentService, IUpsertUserStudioService userStudioService)
+        public PaymentController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
-            _userStudioService = userStudioService;
         }
 
         [Authorize(Roles = "1, 4")]

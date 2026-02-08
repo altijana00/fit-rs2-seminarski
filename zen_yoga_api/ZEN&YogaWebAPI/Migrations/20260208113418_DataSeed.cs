@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZEN_YogaWebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class DataSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -196,6 +196,43 @@ namespace ZEN_YogaWebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Paymments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StudioId = table.Column<int>(type: "int", nullable: false),
+                    SubscriptionTypeId = table.Column<int>(type: "int", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Paymments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Paymments_Studios_StudioId",
+                        column: x => x.StudioId,
+                        principalTable: "Studios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Paymments_SubscriptionTypes_SubscriptionTypeId",
+                        column: x => x.SubscriptionTypeId,
+                        principalTable: "SubscriptionTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Paymments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StudioAnalytics",
                 columns: table => new
                 {
@@ -234,34 +271,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         name: "FK_StudioGalleries_Studios_StudioId",
                         column: x => x.StudioId,
                         principalTable: "Studios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StudioSubscriptions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudioId = table.Column<int>(type: "int", nullable: false),
-                    SubscriptionTypeId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudioSubscriptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StudioSubscriptions_Studios_StudioId",
-                        column: x => x.StudioId,
-                        principalTable: "Studios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_StudioSubscriptions_SubscriptionTypes_SubscriptionTypeId",
-                        column: x => x.SubscriptionTypeId,
-                        principalTable: "SubscriptionTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -331,49 +340,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         name: "FK_Classes_YogaTypes_YogaTypeId",
                         column: x => x.YogaTypeId,
                         principalTable: "YogaTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Paymments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    StudioId = table.Column<int>(type: "int", nullable: false),
-                    SubscriptionTypeId = table.Column<int>(type: "int", nullable: false),
-                    StudioSubscriptionId = table.Column<int>(type: "int", nullable: true),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Paymments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Paymments_StudioSubscriptions_StudioSubscriptionId",
-                        column: x => x.StudioSubscriptionId,
-                        principalTable: "StudioSubscriptions",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Paymments_Studios_StudioId",
-                        column: x => x.StudioId,
-                        principalTable: "Studios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Paymments_SubscriptionTypes_SubscriptionTypeId",
-                        column: x => x.SubscriptionTypeId,
-                        principalTable: "SubscriptionTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Paymments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -479,17 +445,17 @@ namespace ZEN_YogaWebAPI.Migrations
                 columns: new[] { "Id", "CityId", "DateOfBirth", "Email", "FirstName", "Gender", "LastName", "PasswordHash", "PasswordSalt", "ProfileImageUrl", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "owner@edu.fit.ba", "Test1", "M", "", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 2 },
-                    { 2, 2, new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@edu.fit.ba", "Test2", "F", "", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 1 },
-                    { 3, 3, new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "amir.hodzic@email.com", "Amir", "M", "Hodžić", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
+                    { 1, 1, new DateTime(1998, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "owner@edu.fit.ba", "Aiden", "M", "Morris", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/AidenMorris.jpg", 2 },
+                    { 2, 2, new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@edu.fit.ba", "Mia", "F", "Lopez", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/MiaLopez.jpg", 1 },
+                    { 3, 3, new DateTime(1987, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "liam.smith@email.com", "Liam", "M", "Smith", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/LiamSmith.jpg", 2 },
                     { 4, 4, new DateTime(1989, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lejla.kovacevic@email.com", "Lejla", "F", "Kovačević", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
-                    { 5, 5, new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "nermin.hadzic@email.com", "Nermin", "M", "Hadžić", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "", 2 },
-                    { 6, 6, new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "instructor@edu.fit.ba", "Amina", "F", "Mehmedović", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 3 },
-                    { 7, 7, new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "haris.begic@email.com", "Haris", "M", "Begić", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "", 3 },
-                    { 8, 8, new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "selma.delic@email.com", "Selma", "F", "Delić", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "", 3 },
-                    { 9, 9, new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "participant@edu.fit.ba", "Kenan", "M", "Musić", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "", 4 },
-                    { 10, 10, new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "marija.petrovic@email.com", "Marija", "F", "Petrović", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "", 4 },
-                    { 11, 11, new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "adnan.karic@email.com", "Adnan", "M", "Karić", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "", 4 }
+                    { 5, 5, new DateTime(1985, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "noah.brown@email.com", "Noah", "M", "Brown", "dCFn8YloRhUe3E091YulKFTu1u5AyijVpbXoG0/AfiM=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/NoahBrown.jpg", 2 },
+                    { 6, 6, new DateTime(1992, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "instructor@edu.fit.ba", "Sophia", "F", "Davis", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/SophiaDavis.jpg", 3 },
+                    { 7, 7, new DateTime(1990, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "jackson.miller@email.com", "Jackson", "M", "Miller", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/JacksonMiller.jpg", 3 },
+                    { 8, 8, new DateTime(1991, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "amelia.garcia@email.com", "Amelia", "F", "Garcia", "IZeDbcY+ysVlHxdE5EGsW0cNHJwxOM/6Wko92B90NNQ=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/AmeliaGarcia.jpg", 3 },
+                    { 9, 9, new DateTime(1998, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "participant@edu.fit.ba", "James", "M", "Martinez", "27uiVncQHDx6OR9bs51dPeF2+oxdqjhwTfcnWWVzBpU=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/JamesMartinez.jpg", 4 },
+                    { 10, 10, new DateTime(1997, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "isabella.scott@email.com", "Isabella", "F", "Scott", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/IsabellaScott.jpg", 4 },
+                    { 11, 11, new DateTime(1996, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "mason.walker@email.com", "Mason", "M", "Walker", "YnyxSFNb8Nq7/9u5Now3QZKMz6dPFPQb8jALPTubGXE=", "cnMycnMyMTIz", "https://zenyoga.blob.core.windows.net/user-photos/MasonWalker.jpg", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -497,10 +463,10 @@ namespace ZEN_YogaWebAPI.Migrations
                 columns: new[] { "Id", "Address", "CityId", "ContactEmail", "ContactPhone", "Description", "Name", "OwnerId", "ProfileImageUrl" },
                 values: new object[,]
                 {
-                    { 1, "123 Main St", 3, "contact@zenyoga.com", "123-456-7890", "Peaceful yoga studio", "Zen Yoga Center", 1, "" },
-                    { 2, "456 Oak St", 4, "contact@lotusstudio.com", "234-567-8901", "Modern yoga classes", "Lotus Studio", 1, "" },
-                    { 3, "789 Pine St", 9, "contact@harmonyyoga.com", "345-678-9012", "Yoga for all levels", "Harmony Yoga", 3, "" },
-                    { 4, "101 Maple St", 6, "contact@sunriseyoga.com", "456-789-0123", "Morning yoga and meditation", "Sunrise Yoga", 4, "" }
+                    { 1, "123 Main St", 3, "contact@zenyoga.com", "1234567890", "Serene Flow Yoga is a tranquil oasis designed for relaxation, self-discovery, and holistic well-being.", "Serene Flow Yoga", 1, "https://zenyoga.blob.core.windows.net/studio-photos/Studio1ProfilePhoto.jpg" },
+                    { 2, "456 Oak St", 3, "contact@lotusstudio.com", "2345678901", "Tranquil Lotus Yoga is a sanctuary for those seeking balance, flexibility, and inner harmony.", "Tranquil Lotus Yoga", 1, "https://zenyoga.blob.core.windows.net/studio-photos/Studio2ProfilePhoto.jpg" },
+                    { 3, "789 Pine St", 9, "contact@harmonyyoga.com", "3456789012", "Harmony Yoga offers a variety of classes, from gentle restorative yoga to power flows, catering to busy city dwellers seeking balance.", "Harmony Yoga", 3, "https://zenyoga.blob.core.windows.net/studio-photos/Studio3ProfilePhoto.jpg" },
+                    { 4, "101 Maple St", 6, "contact@sunriseyoga.com", "4567890123", "A peaceful yoga retreat overlooking the town's river, offering sunrise Vinyasa flows and meditation classes to start your day with positivity and energy.", "Sunrise Yoga Haven", 4, "https://zenyoga.blob.core.windows.net/studio-photos/Studio4ProfilePhoto.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -508,9 +474,38 @@ namespace ZEN_YogaWebAPI.Migrations
                 columns: new[] { "Id", "Biography", "Certificates", "Diplomas", "StudioId" },
                 values: new object[,]
                 {
-                    { 6, "", "", "", 1 },
-                    { 7, "", "", "", 3 },
-                    { 8, "", "", "", 2 }
+                    { 6, "Experienced yoga instructor specializing in Hatha and Vinyasa yoga. Passionate about helping students build strength and flexibility.", "Advanced Hatha Yoga Certification", "Certified Yoga Teacher (RYT 200)", 1 },
+                    { 7, "Dedicated instructor with a background in Yin and Restorative yoga. Focuses on deep relaxation and mindfulness.", "Meditation & Breathwork Certification", "RYT 500 - Yoga Alliance", 3 },
+                    { 8, "Energetic Vinyasa yoga teacher with experience in power yoga and flow sequences. Encourages a dynamic and engaging practice.", "Power Yoga Certification", "RYT 200", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Paymments",
+                columns: new[] { "Id", "Amount", "CreatedAt", "PaymentDate", "Status", "StudioId", "SubscriptionTypeId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 50m, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), "processing", 3, 1, 11 },
+                    { 2, 50m, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), "processing", 3, 1, 9 },
+                    { 3, 50m, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), "processing", 3, 1, 10 },
+                    { 4, 50m, new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 1, 14, 10, 0, 0, 0, DateTimeKind.Unspecified), "processing", 2, 1, 10 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudioGalleries",
+                columns: new[] { "GalleryId", "PhotoUrl", "StudioId" },
+                values: new object[,]
+                {
+                    { 1, "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery1.jpg", 1 },
+                    { 2, "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery2.jpg", 1 },
+                    { 3, "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery3.jpg", 1 },
+                    { 4, "https://zenyoga.blob.core.windows.net/studio-photos/Studio1Gallery4.jpg", 1 },
+                    { 5, "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery1.jpg", 2 },
+                    { 6, "https://zenyoga.blob.core.windows.net/studio-photos/Studio2Gallery2.jpg", 2 },
+                    { 7, "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery1.jpg", 3 },
+                    { 8, "https://zenyoga.blob.core.windows.net/studio-photos/Studio3Gallery2.jpg", 3 },
+                    { 9, "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery1.jpg", 4 },
+                    { 10, "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery2.jpg", 4 },
+                    { 11, "https://zenyoga.blob.core.windows.net/studio-photos/Studio4Gallery3.jpg", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -565,11 +560,6 @@ namespace ZEN_YogaWebAPI.Migrations
                 column: "StudioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Paymments_StudioSubscriptionId",
-                table: "Paymments",
-                column: "StudioSubscriptionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Paymments_SubscriptionTypeId",
                 table: "Paymments",
                 column: "SubscriptionTypeId");
@@ -598,17 +588,6 @@ namespace ZEN_YogaWebAPI.Migrations
                 name: "IX_Studios_OwnerId",
                 table: "Studios",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudioSubscriptions_StudioId_SubscriptionTypeId",
-                table: "StudioSubscriptions",
-                columns: new[] { "StudioId", "SubscriptionTypeId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudioSubscriptions_SubscriptionTypeId",
-                table: "StudioSubscriptions",
-                column: "SubscriptionTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClasses_ClassId",
@@ -666,13 +645,10 @@ namespace ZEN_YogaWebAPI.Migrations
                 name: "UserStudio");
 
             migrationBuilder.DropTable(
-                name: "StudioSubscriptions");
+                name: "SubscriptionTypes");
 
             migrationBuilder.DropTable(
                 name: "Classes");
-
-            migrationBuilder.DropTable(
-                name: "SubscriptionTypes");
 
             migrationBuilder.DropTable(
                 name: "Instructors");
