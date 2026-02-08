@@ -39,9 +39,9 @@ class RoleProvider extends ChangeNotifier {
 
     if (token != null && token.isNotEmpty) {
       try {
-        _roles = await repository.getAllRoles();
         _token = token;
         _attachInterceptor(token);
+        _roles = await repository.getAllRoles();
         notifyListeners();
       } catch (e) {
         // invalid token — ignore

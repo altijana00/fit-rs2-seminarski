@@ -86,14 +86,12 @@ class AuthProvider extends ChangeNotifier {
 
       _token = loginUser.token;
 
+      _attachInterceptor(_token!);
+
       await storage.write(key: Constants.jwtStorageKey, value: _token);
       await storage.write(key: Constants.userIdStorageKey, value: loginUser.id);
 
       _user = await userRepository.getUser(int.parse(loginUser.id));
-
-      _attachInterceptor(_token!);
-
-
 
       _loading = false;
       notifyListeners();

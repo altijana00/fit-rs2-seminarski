@@ -40,9 +40,9 @@ class CityProvider extends ChangeNotifier {
 
     if (token != null && token.isNotEmpty) {
       try {
-        _cities = await repository.getAllCities();
         _token = token;
         _attachInterceptor(token);
+        _cities = await repository.getAllCities();
         notifyListeners();
       } catch (e) {
         // invalid token — ignore
