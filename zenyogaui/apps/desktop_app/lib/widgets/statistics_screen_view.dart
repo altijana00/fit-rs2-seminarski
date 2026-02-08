@@ -16,7 +16,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
   void initState() {
     super.initState();
 
-    // Avoid dependOnInheritedWidgetOfExactType error
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<AppAnalyticsProvider>().repository.getAppAnalytics();
     });

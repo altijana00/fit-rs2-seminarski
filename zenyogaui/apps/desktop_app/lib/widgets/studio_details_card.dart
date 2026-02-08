@@ -4,6 +4,7 @@ import 'package:core/services/providers/studio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zenyogaui/core/theme.dart';
+import 'package:zenyogaui/widgets/studio_statistics_modal.dart';
 
 
 import 'edit_studio_dialog.dart';
@@ -176,6 +177,19 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                   const SizedBox(height: 16),
                   Row(
                     children: [
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.bar_chart),
+                        label: const Text("Statistics"),
+                        style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30)),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (_) => const StudioStatisticsDialog(),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 12),
                       ElevatedButton.icon(
                         icon: const Icon(Icons.edit),
                         label: const Text("Edit"),
