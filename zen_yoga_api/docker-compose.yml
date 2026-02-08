@@ -30,6 +30,10 @@ services:
       - RabbitMQ:Port=5672
       - RabbitMQ:User=guest
       - RabbitMQ:Password=guest
+      - JwtSettings:Issuer=myIssuer
+      - JwtSettings:Audience=myAudience
+      - JwtSettings:SecretKey=superSecretKey123457890555555gzfizu6
+      - HashingSettings:Salt=rs2rs2123
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 8080:8080

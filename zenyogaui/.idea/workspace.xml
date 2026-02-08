@@ -11,9 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9005b9f2-3169-4d78-b4ae-f06afeb0d825" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_details_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studios_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studios_table_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/studio_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/studio_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/studio_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

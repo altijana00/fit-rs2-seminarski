@@ -185,7 +185,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                           showDialog(
                             context: context,
                             barrierDismissible: true,
-                            builder: (_) => const StudioStatisticsDialog(),
+                            builder: (ctx) => StudioStatisticsDialog(studioId: _studioId),
                           );
                         },
                       ),

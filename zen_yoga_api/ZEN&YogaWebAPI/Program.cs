@@ -4,11 +4,13 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Analytics;
@@ -78,6 +80,15 @@ builder.Services.Configure<RabbitMqSettings>
         builder.Configuration.GetSection("RabbitMQ")
     );
 
+builder.Services.Configure<JwtSettings>
+    (
+        builder.Configuration.GetSection("JwtSettings")
+    );
+
+builder.Services.Configure<HashingSettings>
+    (
+        builder.Configuration.GetSection("HashingSettings")
+    );
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 
@@ -152,17 +163,23 @@ builder.Services.AddScoped<IStudioAnalyticsService, StudioAnalyticsService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    .AddJwtBearer((options) =>
     {
+        var jwtSettings = builder.Configuration
+            .GetSection("JwtSettings")
+            .Get<JwtSettings>();
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "myIssuer",
-            ValidAudience = "myAudience",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey123457890555555gzfizu6"))
+
+            ValidIssuer = jwtSettings!.Issuer,
+            ValidAudience = jwtSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSettings.SecretKey!))
         };
     });
 
@@ -215,6 +232,12 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+var hashingSettings = app.Services
+    .GetRequiredService<IOptions<HashingSettings>>()
+    .Value;
+
+HashingConfig.Init(hashingSettings);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

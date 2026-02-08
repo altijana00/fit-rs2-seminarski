@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 using System.Text;
 
 
@@ -6,14 +7,13 @@ namespace ZEN_Yoga.Models.Helpers
 {
     public static class PasswordHelpers
     {
-
         private const int KeySize = 32;
         private const int Iterations = 100_000;
 
         public static (string Hash, string Salt) HashPassword(string password)
         {
 
-            byte[] saltBytes = Encoding.UTF8.GetBytes("rs2rs2123");
+            byte[] saltBytes = Encoding.UTF8.GetBytes(HashingConfig.Salt!);
             string salt = Convert.ToBase64String(saltBytes);
 
 

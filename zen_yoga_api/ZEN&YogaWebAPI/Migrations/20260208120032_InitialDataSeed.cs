@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ZEN_YogaWebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class DataSeed : Migration
+    public partial class InitialDataSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

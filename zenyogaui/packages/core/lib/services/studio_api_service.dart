@@ -25,6 +25,26 @@ class StudioApiService {
     }
   }
 
+  Future<double> getPayments(int studioId) async {
+    final response = await dio.get('StudioAnalytics/getByStudio?studioId=$studioId');
+    if(response.statusCode == 200) {
+      return (response.data as num).toDouble();
+    }else {
+      throw Exception('Falied to fetch studio payments: ${response.data}');
+    }
+  }
+
+  Future<int> getParticipants(int studioId) async {
+    final response = await dio.get('StudioAnalytics/getNumberofParticipants?studioId=$studioId');
+    if(response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Falied to fetch studio participants: ${response.data}');
+    }
+  }
+
+
+
   Future<Map<String, dynamic>> getStudioByOwnerAndStudioName(int id, String name) async {
     final response = await dio.get('Studio/getByOwnerAndStudioName?ownerId=$id&name=$name');
     if(response.statusCode == 200) {

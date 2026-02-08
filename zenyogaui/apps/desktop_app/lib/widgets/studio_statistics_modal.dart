@@ -1,11 +1,18 @@
+import 'package:core/services/providers/studio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../core/theme.dart';
 import '../widgets/kpi_card.dart';
 
 class StudioStatisticsDialog extends StatelessWidget {
-  const StudioStatisticsDialog({super.key});
+  final int studioId;
+
+  const StudioStatisticsDialog({super.key, required this.studioId});
 
   @override
   Widget build(BuildContext context) {
+    final studioProvider = Provider.of<StudioProvider>(context, listen: false);
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -45,18 +52,62 @@ class StudioStatisticsDialog extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                children: const [
-                  KpiCard(
-                    title: "Total Instructors",
-                    value: "12",
-                    icon: Icons.people,
-                    color: Colors.blue,
+                children: [
+                  FutureBuilder<double>(
+                    future: studioProvider.repository.getPayments(studioId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const KpiCard(
+                          title: "Total Revenue",
+                          value: "...",
+                          icon: Icons.money,
+                          color: Colors.green,
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return KpiCard(
+                          title: "Total Revenue",
+                          value: "Error",
+                          icon: Icons.money,
+                          color: Colors.green,
+                        );
+                      }
+                      return KpiCard(
+                        title: "Total Revenue",
+                        value: snapshot.data.toString(),
+                        icon: Icons.money,
+                        color: Colors.green,
+                      );
+                    },
                   ),
-                  KpiCard(
-                    title: "Active Classes",
-                    value: "34",
-                    icon: Icons.fitness_center,
-                    color: Colors.green,
+
+                  // Number of Participants
+                  FutureBuilder<int>(
+                    future: studioProvider.repository.getParticipants(studioId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const KpiCard(
+                          title: "Participants",
+                          value: "...",
+                          icon: Icons.people,
+                          color: AppColors.lavender,
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return KpiCard(
+                          title: "Participants",
+                          value: "Error",
+                          icon: Icons.people,
+                          color: AppColors.lavender,
+                        );
+                      }
+                      return KpiCard(
+                        title: "Participants",
+                        value: snapshot.data.toString(),
+                        icon: Icons.people,
+                        color: AppColors.lavender,
+                      );
+                    },
                   ),
                 ],
               ),

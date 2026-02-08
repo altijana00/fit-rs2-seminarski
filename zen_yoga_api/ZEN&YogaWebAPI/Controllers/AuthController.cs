@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ZEN_Yoga.Models.Requests;
+using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.User;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -13,6 +15,13 @@ namespace ZEN_YogaWebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly JwtSettings _jwtSettings;
+
+        public AuthController(IOptions<JwtSettings> options)
+        {
+            _jwtSettings = options.Value;
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginUser loginUser, [FromServices] IGetUserService getUserService)
         {
@@ -32,12 +41,12 @@ namespace ZEN_YogaWebAPI.Controllers
             };
           
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey123457890555555gzfizu6"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "myIssuer",
-                audience: "myAudience",
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(12),
                 signingCredentials: creds

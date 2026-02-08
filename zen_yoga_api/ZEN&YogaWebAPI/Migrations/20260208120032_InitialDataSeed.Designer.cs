@@ -12,8 +12,8 @@ using ZEN_Yoga.Models;
 namespace ZEN_YogaWebAPI.Migrations
 {
     [DbContext(typeof(ZenYogaDbContext))]
-    [Migration("20260208113418_DataSeed")]
-    partial class DataSeed
+    [Migration("20260208120032_InitialDataSeed")]
+    partial class InitialDataSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

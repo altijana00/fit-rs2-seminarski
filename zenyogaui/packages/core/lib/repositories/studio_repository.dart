@@ -21,6 +21,17 @@ class StudioRepository {
     return StudioResponseDto.fromJson(json);
   }
 
+  Future<double> getPayments(int studioId) async {
+    final json = await api.getPayments(studioId);
+    return json;
+  }
+
+  Future<int> getParticipants(int studioId) async {
+    final json = await api.getParticipants(studioId);
+    return json;
+  }
+
+
   Future<StudioResponseDto> getStudioByOwnerAndStudioName(int id, String name) async {
     final json = await api.getStudioByOwnerAndStudioName(id, name);
     return StudioResponseDto.fromJson(json);
