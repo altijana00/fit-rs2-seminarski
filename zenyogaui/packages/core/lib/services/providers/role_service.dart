@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,7 +14,7 @@ class RoleProvider extends ChangeNotifier {
   final FlutterSecureStorage storage;
 
 
-  List<RoleModel>? _roles;
+  List<RoleResponseDto>? _roles;
   String? _token;
 
   String? _error;
@@ -28,7 +29,7 @@ class RoleProvider extends ChangeNotifier {
   }
 
 
-  List<RoleModel>? get roles => _roles;
+  List<RoleResponseDto>? get roles => _roles;
 
   String? get error => _error;
 

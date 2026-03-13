@@ -8,6 +8,7 @@ using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Services.Interfaces.City;
+using ZEN_Yoga.Models.SearchObjects;
 
 namespace ZEN_Yoga.Services.Services.City
 {
@@ -37,6 +38,25 @@ namespace ZEN_Yoga.Services.Services.City
             var city = await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
 
             return _mapper.Map<CityResponse>(city);
+        }
+
+        public async Task<List<CityResponse>> GetCitiesQuery(CityQuery cityQuery)
+        {
+            IQueryable<ZEN_Yoga.Models.City> cities = _dbContext.Cities.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(cityQuery.Search))
+            {
+                var search = cityQuery.Search.ToLower();
+
+                cities = cities.Where(u =>
+                    u.Name.ToLower().Contains(search) 
+                    
+                );
+            }
+
+
+            var result = await cities.ToListAsync();
+            return _mapper.Map<List<CityResponse>>(result);
         }
     }
 }

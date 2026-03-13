@@ -14,7 +14,7 @@ class CityProvider extends ChangeNotifier {
   final FlutterSecureStorage storage;
 
 
-  List<CityModel>? _cities;
+  List<CityResponseDto>? _cities;
   String? _token;
 
   String? _error;
@@ -29,7 +29,7 @@ class CityProvider extends ChangeNotifier {
   }
 
 
-  List<CityModel>? get cities => _cities;
+  List<CityResponseDto>? get cities => _cities;
 
   String? get error => _error;
 

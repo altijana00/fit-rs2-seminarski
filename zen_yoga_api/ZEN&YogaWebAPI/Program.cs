@@ -105,6 +105,8 @@ builder.Services.AddScoped<IUploadUserPhotoService, UploadUserPhotoService>();
 //City
 builder.Services.AddScoped<IGetCityService, GetCityService>();
 builder.Services.AddScoped<ICityValidatorService, CityValidatorService>();
+builder.Services.AddScoped<IDeleteCityService, DeleteCityService>();
+builder.Services.AddScoped<IUpsertCityService<AddCity>, UpsertCityService>();
 
 //Class
 builder.Services.AddScoped<IGetClassService, GetClassService>();
@@ -122,6 +124,8 @@ builder.Services.AddScoped<IDeleteInstructorService, DeleteInstructorService>();
 //Role
 builder.Services.AddScoped<IGetRoleService, GetRoleService>();
 builder.Services.AddScoped<IRoleValidatorService, RoleValidatorService>();
+builder.Services.AddScoped<IDeleteRoleService, DeleteRoleService>();
+builder.Services.AddScoped<IUpsertRoleService<AddRole>, UpsertRoleService>();
 
 //Studio
 builder.Services.AddScoped<IGetStudioService, GetStudioService>();
@@ -144,11 +148,15 @@ builder.Services.AddScoped<IDeleteUserClassService, DeleteUserClassService>();
 //SubscriptionType
 builder.Services.AddScoped<IGetSubscriptionTypeService, GetSubscriptionTypeService>();
 builder.Services.AddScoped<ISubscriptionTypeValidatorService, SubscriptionTypeValidatorService>();
+builder.Services.AddScoped<IDeleteSubscriptionTypeService, DeleteSubscriptionTypeService>();
+builder.Services.AddScoped<IUpsertSubscriptionTypeService<AddSubscriptionType>, UpsertSubscriptionTypeService>();
 
 
 //YogaType
 builder.Services.AddScoped<IGetYogaTypeService, GetYogaTypeService>();
 builder.Services.AddScoped<IYogaTypeValidatorService, YogaTypeValidatorService>();
+builder.Services.AddScoped<IDeleteYogaTypeService, DeleteYogaTypeService>();
+builder.Services.AddScoped<IUpsertYogaTypeService<AddYogaType>, UpsertYogaTypeService>();
 
 
 builder.Services.AddScoped<IAppAnalyticsService, AppAnalyticsService>();

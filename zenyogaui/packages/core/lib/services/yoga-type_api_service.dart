@@ -23,5 +23,30 @@ class YogaTypeApiService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getYogaTypesQuery(String? search) async {
+    final response = await dio.get('YogaType/getYogaTypesQuery',
+      queryParameters: {
+        if(search != null) 'search': search,
+      },
+    );
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch yoga types: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteYogaType(int yogaTypeId) async {
+    final response = await dio.delete(
+      'YogaType/delete?id=$yogaTypeId',
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Failed to delete yoga type: ${response.data}');
+    }
+  }
+
 
 }

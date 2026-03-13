@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Responses;
+using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Role;
 
 namespace ZEN_Yoga.Services.Services.Role
@@ -34,6 +35,24 @@ namespace ZEN_Yoga.Services.Services.Role
             return _mapper.Map<RoleResponse>(role);
         }
 
+        public async Task<List<RoleResponse>> GetRolesQuery(RoleQuery roleQuery)
+        {
+            IQueryable<ZEN_Yoga.Models.Role> roles = _dbContext.Roles.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(roleQuery.Search))
+            {
+                var search = roleQuery.Search.ToLower();
+
+                roles = roles.Where(u =>
+                    u.Name.ToLower().Contains(search) ||
+                    u.Description!.ToLower().Contains(search)
+
+                );
+            }
+
+            var result = await roles.ToListAsync();
+            return _mapper.Map<List<RoleResponse>>(result);
+        }
 
     }
 }

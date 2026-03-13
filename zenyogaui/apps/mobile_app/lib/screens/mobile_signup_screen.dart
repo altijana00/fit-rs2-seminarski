@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class MobileSignupScreen extends StatelessWidget {
 
 
 
-  Future<List<CityModel>> _loadCities(BuildContext context) async {
+  Future<List<CityResponseDto>> _loadCities(BuildContext context) async {
     final cityProvider = context.read<CityProvider>();
     return await cityProvider.repository.getAllCities();
   }
@@ -22,7 +23,7 @@ class MobileSignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<CityModel>>(
+      body: FutureBuilder<List<CityResponseDto>>(
         future: _loadCities(context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

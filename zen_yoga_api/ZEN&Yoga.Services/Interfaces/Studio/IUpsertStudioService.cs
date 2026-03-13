@@ -12,7 +12,6 @@ namespace ZEN_Yoga.Services.Interfaces.Studio
     public interface IUpsertStudioService<TEntity> : IUpsertService<EditStudio> where TEntity : class
     {
         Task Add(AddStudio addStudio);
-
         
     }
 }

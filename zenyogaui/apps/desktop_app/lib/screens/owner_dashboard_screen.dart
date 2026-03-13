@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
@@ -26,7 +27,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   List<StudioResponseDto> studios = [];
   bool _loadingStudios = true;
   Map<int, String>? cityNames;
-  List<CityModel> dropdownCities = [];
+  List<CityResponseDto> dropdownCities = [];
   UserResponseDto? _user;
   bool _isLoadingUser = true;
 
@@ -256,7 +257,7 @@ class BuildStudiosTab extends StatefulWidget {
   final StudioProvider studioProvider;
   final InstructorProvider instructorProvider;
   final Future<void> Function() onReloadStudios;
-  final List<CityModel> cities;
+  final List<CityResponseDto> cities;
 
   final Map<int, String> cityNames;
 

@@ -1,3 +1,5 @@
+import 'package:core/dto/requests/edit_city_dto.dart';
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:dio/dio.dart';
 
 class CityApiService {
@@ -20,6 +22,49 @@ class CityApiService {
       return List<Map<String, dynamic>>.from(response.data);
     } else {
       throw Exception('Falied to fetch cities: ${response.data}');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getCitiesQuery(String? search) async {
+    final response = await dio.get('City/getCitiesQuery',
+      queryParameters: {
+        if(search != null) 'search': search,
+      },
+    );
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch cities: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteCity(int cityId) async {
+    final response = await dio.delete(
+      'City/delete?id=$cityId',
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Failed to delete city: ${response.data}');
+    }
+  }
+
+  Future<CityResponseDto> editCity(EditCityDto cityData, int cityId) async {
+    final response = await dio.put(
+      'City/edit?id=$cityId',
+      data: cityData,
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201){
+      return response.data;
+
+    } else if (response.statusCode == 500) {
+      var resp = response.data;
+      throw Exception(resp["error"]);
+
+    } else{
+      throw Exception('Failed to edit city: ${response.data}');
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:core/dto/requests/add_instructor_dto.dart';
 import 'package:core/dto/requests/add_studio_dto.dart';
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/models/city_model.dart';
@@ -18,7 +19,7 @@ class AddStudioStepper extends StatefulWidget {
   final UserResponseDto loggedUser;
   final StudioRepository studioRepository;
   final InstructorRepository instructorRepository;
-  final List<CityModel> cities;
+  final List<CityResponseDto> cities;
   const AddStudioStepper({
     super.key,
     required this.loggedUser,
