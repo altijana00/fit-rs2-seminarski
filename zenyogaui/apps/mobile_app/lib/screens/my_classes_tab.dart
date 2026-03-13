@@ -6,7 +6,10 @@ import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
+final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
+final DateFormat formattedTime = DateFormat('HH:mm');
 
 class MyClassesTab extends StatefulWidget {
   const MyClassesTab({super.key});
@@ -124,7 +127,7 @@ class MyClassesTabState extends State<MyClassesTab> {
                   child: ListTile(
                     title: Text(c.name),
                     subtitle: Text(
-                        "${c.startDate.hour.toString().padLeft(2,'0')}:${c.startDate.minute.toString()} - Instructor: $instructorName"),
+                        "${c.startDate.hour.toString().padLeft(2,'0')}:${c.startDate.minute.toString().padLeft(2,'0')} - Instructor: $instructorName"),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {

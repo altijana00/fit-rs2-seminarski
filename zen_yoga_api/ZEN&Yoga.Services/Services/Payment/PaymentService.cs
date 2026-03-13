@@ -65,7 +65,7 @@ namespace ZEN_Yoga.Services.Services.Payment
                 CreatedAt = DateTime.Now,
                 PaymentDate = DateTime.Now,
                 Amount = 50,
-                Status = "procsessing"
+                Status = "processing"
             };
 
             var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(paymentMessage));

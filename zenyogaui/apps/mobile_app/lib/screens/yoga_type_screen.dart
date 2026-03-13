@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/payment_controller.dart';
+
+final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
 
 class YogaTypeScreen extends StatelessWidget {
   final YogaTypeModel yogaType;
@@ -76,7 +79,7 @@ class YogaTypeScreen extends StatelessWidget {
                   child: ListTile(
                     title: Text(c.name),
                     subtitle: Text(
-                      "${c.startDate} - Instructor: $instructorName",
+                      "${dateFormatter.format(c.startDate)} - Instructor: $instructorName",
                     ),
                     trailing: ElevatedButton(
                       onPressed: () async {
