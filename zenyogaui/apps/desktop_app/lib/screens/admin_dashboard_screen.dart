@@ -2,6 +2,7 @@ import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/widgets/city_table_source.dart';
 import 'package:zenyogaui/widgets/statistics_screen_view.dart';
 import 'package:zenyogaui/widgets/studios_table_source.dart';
 import 'package:zenyogaui/widgets/users_table_source.dart';
@@ -26,6 +27,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   final List<Widget> _screens = [
     UsersTableView(),
     StudiosTableView(),
+    CitiesTableView(),
     StatisticsScreenView(),
   ];
 
@@ -53,6 +55,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
               NavigationRailDestination(
                 icon: Icon(Icons.home_work),
                 label: Text("Studios"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.location_city),
+                label: Text("Cities"),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.bar_chart),

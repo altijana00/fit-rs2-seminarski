@@ -131,7 +131,7 @@ namespace ZEN_YogaWebAPI.Controllers
              
             if (await deleteInstructorService.Delete(id))
             {
-                return Ok(new { Message = "Instructor and associated classes deleted"! });
+                return Ok(new { Message = "Instructor and associated classes deleted" });
             }
             return BadRequest(new { Message = "There is no instructor with this ID!" });
         }

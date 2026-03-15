@@ -1,4 +1,5 @@
 import 'package:core/dto/requests/studio_filter.dart';
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/models/city_model.dart';
@@ -133,7 +134,7 @@ Future<_StudiosTableData> _loadTableData(
 
   final studios = results[0] as List<StudioResponseDto>;
   final owners = results[1] as List<UserResponseDto>;
-  final cities = results[2] as List<CityModel>;
+  final cities = results[2] as List<CityResponseDto>;
 
   return _StudiosTableData(
       studios: studios,

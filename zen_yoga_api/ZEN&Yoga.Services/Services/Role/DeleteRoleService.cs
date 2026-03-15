@@ -24,9 +24,14 @@ namespace ZEN_Yoga.Services.Services.Role
         public async Task<bool> Delete(int id)
         {
             var role = await _dbContext.Roles.FirstOrDefaultAsync(u => u.Id == id);
+            var users = await _dbContext.Users.Where(u => u.RoleId == id).ToListAsync();
 
             if (role != null)
             {
+                if (users.Any())
+                {
+                    return false;
+                }
 
                 _dbContext.Remove(role);
                 await _dbContext.SaveChangesAsync();

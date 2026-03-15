@@ -45,8 +45,11 @@ class CityApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
-    } else {
-      throw Exception('Failed to delete city: ${response.data}');
+    }  else if (response.statusCode == 500) {
+      var resp = response.data;
+      throw Exception(resp["error"]);
+    } else{
+      throw Exception('Failed to edit city: ${response.data}');
     }
   }
 

@@ -1,4 +1,6 @@
 import 'package:core/dto/requests/user_filter_dto.dart';
+import 'package:core/dto/responses/city_response_dto.dart';
+import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/models/role_model.dart';
@@ -143,8 +145,8 @@ class _UsersTableViewState extends State<UsersTableView> {
     ]);
 
     final users = results[0] as List<UserResponseDto>;
-    final cities = results[1] as List<CityModel>;
-    final roles = results[2] as List<RoleModel>;
+    final cities = results[1] as List<CityResponseDto>;
+    final roles = results[2] as List<RoleResponseDto>;
 
     return _UsersTableData(
       users: users,

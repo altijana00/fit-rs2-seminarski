@@ -24,9 +24,15 @@ namespace ZEN_Yoga.Services.Services.YogaType
         public async Task<bool> Delete(int id)
         {
             var yogaType = await _dbContext.YogaTypes.FirstOrDefaultAsync(u => u.Id == id);
+            var classes = await _dbContext.Classes.Where(c=> c.YogaTypeId == id).ToListAsync();
 
             if (yogaType != null)
             {
+
+                if (classes.Any()) 
+                {
+                    return false;
+                }
 
                 _dbContext.Remove(yogaType);
                 await _dbContext.SaveChangesAsync();

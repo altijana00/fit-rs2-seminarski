@@ -88,9 +88,9 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
-                return Ok(new { Message = "Yoga type deleted"! });
+                return Ok(new { Message = "Yoga type deleted" });
             }
-            return BadRequest(new { Message = "There is no yoga type with this ID!" });
+            return BadRequest(new { Message = "There is no yoga type with this ID or it is currently in use!" });
         }
     }
 }

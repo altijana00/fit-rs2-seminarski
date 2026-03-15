@@ -1,16 +1,9 @@
-import 'package:core/dto/requests/user_filter_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
-import 'package:core/dto/responses/user_response_dto.dart';
-import 'package:core/models/city_model.dart';
-import 'package:core/models/role_model.dart';
 import 'package:core/services/providers/city_service.dart';
-import 'package:core/services/providers/role_service.dart';
-import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
 import 'edit_city_dialog.dart';
-import 'edit_user_dialog.dart';
 import 'package:core/dto/requests/city_filter.dart';
 
 
@@ -221,6 +214,7 @@ class _CitiesTableViewState extends State<CitiesTableView> {
                   showCheckboxColumn: false,
                   columns: const [
                     DataColumn(label: Text("Name")),
+                    DataColumn(label: Text("Actions")),
                   ],
                   source: CitiesTableSource(
                     cities: data.cities,

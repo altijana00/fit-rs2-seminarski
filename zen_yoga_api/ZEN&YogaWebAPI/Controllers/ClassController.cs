@@ -108,7 +108,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
-                return Ok(new { Message = "Class deleted"! });
+                return Ok(new { Message = "Class deleted" });
             }
             return BadRequest(new { Message = "There is no class with this ID!" });
         }

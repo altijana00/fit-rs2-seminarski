@@ -161,7 +161,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
-                return Ok(new { Message = "User deleted"! });
+                return Ok(new { Message = "User deleted" });
             }
             return BadRequest(new { Message = "There is no user with this ID!" });
         }

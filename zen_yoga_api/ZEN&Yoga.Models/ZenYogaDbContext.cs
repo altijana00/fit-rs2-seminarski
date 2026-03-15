@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using ZEN_Yoga.Models.Helpers;
 
 
@@ -269,6 +270,7 @@ namespace ZEN_Yoga.Models
                 new City { Id = 28, Name = "Foča" },
                 new City { Id = 29, Name = "Modriča" },
                 new City { Id = 30, Name = "Neum" }
+               
             );
 
             modelBuilder.Entity<YogaType>().HasData(
@@ -291,6 +293,7 @@ namespace ZEN_Yoga.Models
                     Name = "Yin Yoga",
                     Description = "A meditative practice that targets deep connective tissues through long-held poses, promoting relaxation and flexibility."
                 }
+                
             );
 
 
@@ -324,6 +327,7 @@ namespace ZEN_Yoga.Models
                     Description = "Access for 365 days.",
                     DurationInDays = 365
                 }
+               
 
             );
 

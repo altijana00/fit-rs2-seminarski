@@ -137,7 +137,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
-                return Ok(new { Message = "Studio deleted"! });
+                return Ok(new { Message = "Studio deleted" });
             }
             return BadRequest(new { Message = "There is no studio with this ID!" });
         }

@@ -72,9 +72,9 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
-                return Ok(new { Message = "Subscription type deleted"! });
+                return Ok(new { Message = "Subscription type deleted" });
             }
-            return BadRequest(new { Message = "There is no subscription type with this ID!" });
+            return BadRequest(new { Message = "There is no subscription type with this ID or it is currently in use!" });
         }
     }
 }

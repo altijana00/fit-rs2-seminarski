@@ -24,10 +24,15 @@ namespace ZEN_Yoga.Services.Services.SubscriptionType
         public async Task<bool> Delete(int id)
         {
             var subscriptionType = await _dbContext.SubscriptionTypes.FirstOrDefaultAsync(u => u.Id == id);
+            var payments = await _dbContext.Payments.Where(u=> u.SubscriptionTypeId == id).ToListAsync();
 
             if (subscriptionType != null)
             {
-               
+                if (payments.Any())
+                {
+                    return false;
+                }
+
                 _dbContext.Remove(subscriptionType);
                 await _dbContext.SaveChangesAsync();
                 return true;
