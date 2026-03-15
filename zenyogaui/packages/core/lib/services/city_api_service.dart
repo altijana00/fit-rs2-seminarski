@@ -41,22 +41,30 @@ class CityApiService {
   Future<Map<String, dynamic>> deleteCity(int cityId) async {
     final response = await dio.delete(
       'City/delete?id=$cityId',
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
     }  else if (response.statusCode == 500) {
-      var resp = response.data;
+      var resp = Map<String, dynamic>.from(response.data);
       throw Exception(resp["error"]);
+    } else if (response.statusCode == 400) {
+      throw (response.data["message"]);
     } else{
       throw Exception('Failed to edit city: ${response.data}');
     }
   }
 
-  Future<CityResponseDto> editCity(EditCityDto cityData, int cityId) async {
+  Future<Map<String, dynamic>> editCity(Map<String, dynamic> cityData, int cityId) async {
     final response = await dio.put(
       'City/edit?id=$cityId',
       data: cityData,
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201){

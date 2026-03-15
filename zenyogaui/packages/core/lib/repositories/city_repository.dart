@@ -31,8 +31,9 @@ class CityRepository {
     return json.values.first;
   }
 
-  Future<CityResponseDto> editCity(EditCityDto city, int? cityId) async {
-    return await api.editCity(city, cityId!);
+  Future<String> editCity(EditCityDto city, int? cityId) async {
+    final json =  await api.editCity(city.toJson(), cityId!);
+    return json.values.first;
 
   }
 

@@ -247,17 +247,30 @@ class _CitiesTableViewState extends State<CitiesTableView> {
           ),
           TextButton(
             onPressed: () async {
+
+              if (!context.mounted) return;
+
               Navigator.pop(ctx);
-              await context.read<CityProvider>()
-                  .repository
-                  .deleteCity(city.id);
-              _refresh();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("City deleted successfully"),
-                  backgroundColor: Colors.green,
-                ),
-              );
+              try {
+                await ctx.read<CityProvider>()
+                    .repository
+                    .deleteCity(city.id);
+                _refresh();
+                ScaffoldMessenger.of(ctx).showSnackBar(
+                  const SnackBar(
+                    content: Text("City deleted successfully"),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(ctx).showSnackBar(
+                  SnackBar(
+                    content: Text(e.toString()),
+                    backgroundColor: AppColors.darkRed,
+                  ),
+                );
+              }
+
             },
             child: const Text("Yes"),
           ),
@@ -272,12 +285,12 @@ class _CitiesTableViewState extends State<CitiesTableView> {
       builder: (ctx) => EditCityDialog(
         cityToEdit: city,
         onEdit: (updatedCity) async {
-          await context
+          await ctx
               .read<CityProvider>()
               .repository
               .editCity(updatedCity, city.id);
           _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(ctx).showSnackBar(
             const SnackBar(
               content: Text("City edited successfully"),
               backgroundColor: AppColors.deepGreen,
