@@ -21,12 +21,16 @@ class AuthProvider extends ChangeNotifier {
   String? _error;
   Interceptor? _authInterceptor;
   //UserRepository? _userRepository;
+  final Future<void> Function(String token)? onLogin;
+  final Future<void> Function()? onLogout;
 
   AuthProvider({
     required this.repository,
     required this.dio,
     required this.storage,
-    required this.userRepository
+    required this.userRepository,
+    this.onLogin,   // ✅ DODATI
+    this.onLogout,  // ✅ DODATI
   }) {
     _tryRestoreSession();
   }
@@ -52,6 +56,7 @@ class AuthProvider extends ChangeNotifier {
         _attachInterceptor(token);
 
         _user = await userRepository.getUser(int.parse(userId));
+        await onLogin?.call(token);
         notifyListeners();
       } catch (e) {
         logout();
@@ -92,6 +97,8 @@ class AuthProvider extends ChangeNotifier {
       await storage.write(key: Constants.userIdStorageKey, value: loginUser.id);
 
       _user = await userRepository.getUser(int.parse(loginUser.id));
+      await onLogin?.call(_token!);
+
 
       _loading = false;
       notifyListeners();
@@ -109,6 +116,8 @@ class AuthProvider extends ChangeNotifier {
       dio.interceptors.remove(_authInterceptor!);
       _authInterceptor = null;
     }
+
+    await onLogout?.call();
 
     _loginUser = null;
     _user = null;

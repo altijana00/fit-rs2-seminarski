@@ -42,6 +42,7 @@ using ZEN_Yoga.Services.Services.UserClass;
 using ZEN_Yoga.Services.Services.YogaType;
 using ZEN_YogaWebAPI.Mapper;
 using ZEN_YogaWebAPI.Middleware;
+using ZEN_YogaWebAPI.Notifications;
 using static System.Net.WebRequestMethods;
 
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -236,6 +237,9 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.Services.AddSignalR();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
 
 
 
@@ -269,5 +273,7 @@ using (var scope = app.Services.CreateScope())
 
     db.Database.Migrate();
 }
+
+app.MapHub<NotificationHub>("/hubs/notifications");
 
 app.Run();

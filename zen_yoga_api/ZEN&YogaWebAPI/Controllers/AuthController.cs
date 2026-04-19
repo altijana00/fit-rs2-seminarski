@@ -5,8 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Notifications;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Configurations;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.User;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -23,7 +26,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginUser loginUser, [FromServices] IGetUserService getUserService)
+        public async Task<ActionResult> Login([FromServices] INotificationService notificationService, [FromBody] LoginUser loginUser, [FromServices] IGetUserService getUserService)
         {
 
 
@@ -51,6 +54,12 @@ namespace ZEN_YogaWebAPI.Controllers
                 expires: DateTime.UtcNow.AddHours(12),
                 signingCredentials: creds
             );
+
+            await notificationService.SendToUserAsync(user.Id.ToString(), new AppNotification(
+            Title: "TEST",
+            Message: $"HELLOOOOOOOOOO",
+            Type: "success"
+        ));
 
             return Ok(new
             {

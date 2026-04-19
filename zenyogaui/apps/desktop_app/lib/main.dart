@@ -23,6 +23,7 @@ import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:core/services/role_api_service.dart';
+import 'package:core/services/signalr_service.dart';
 import 'package:core/services/studio_api_service.dart';
 import 'package:core/services/user_api_service.dart';
 import 'package:core/services/yoga-type_api_service.dart';
@@ -36,6 +37,8 @@ import 'package:zenyogaui/screens/instructor_dashboard_screen.dart';
 import 'package:zenyogaui/screens/owner_dashboard_screen.dart';
 import 'core/theme.dart';
 import 'screens/desktop_login_screen.dart';
+import 'package:core/services/providers/notification_provider.dart';
+import 'package:core/widgets/notification_snackbar_listener.dart';
 
 
 
@@ -67,14 +70,14 @@ void main() {
   final roleRepository = RoleRepository(roleApiService);
   final yogaTypeRepository = YogaTypeRepository(yogaTypeApiService);
   final appAnalyticsRepository = AppAnalyticsRepository(appAnalyticsApiService);
-
+  final signalRService = SignalRService();
+  final notificationProvider = NotificationProvider(signalRService);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository ),
-
-
+          create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository, onLogin:  (token) => notificationProvider.connect(token),
+            onLogout: ()      => notificationProvider.disconnect(),  ),
         ),
         ChangeNotifierProvider(
             create: (_) => UserProvider(repository: userRepository, dio: dio, storage: secureStorage)
@@ -100,6 +103,9 @@ void main() {
         ChangeNotifierProvider(
             create: (_) => AppAnalyticsProvider(repository: appAnalyticsRepository, dio: dio, storage: secureStorage)
         ),
+        ChangeNotifierProvider(
+          create: (_) => notificationProvider,
+        ),
       ],
       child: MyApp(),
     ),
@@ -108,6 +114,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +125,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (_) => DesktopLoginScreen(),
-        '/adminDashboard': (_) => AdminDashboard(),
-        '/ownerDashboard': (_) => OwnerDashboard(),
-        '/instructorDashboard': (_) => InstructorDashboard(),
+        '/adminDashboard': (_) => NotificationSnackbarListener(child: AdminDashboard()),
+        '/ownerDashboard':  (_) => NotificationSnackbarListener(child: OwnerDashboard()),
+        '/instructorDashboard': (_) => NotificationSnackbarListener(child: InstructorDashboard()),
         '/signup': (_) => DesktopSignupScreen(),
       },
     );
