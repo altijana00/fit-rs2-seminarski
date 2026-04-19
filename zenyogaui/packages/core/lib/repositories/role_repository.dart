@@ -1,4 +1,6 @@
 
+import '../dto/requests/add_role_dto.dart';
+import '../dto/requests/edit_role_dto.dart';
 import '../dto/responses/role_response_dto.dart';
 import '../models/role_model.dart';
 import '../services/role_api_service.dart';
@@ -26,6 +28,17 @@ class RoleRepository {
 
   Future<String> deleteRole(int? roleId) async {
     final json = await api.deleteRole(roleId!);
+    return json.values.first;
+  }
+
+  Future<String> editRole(EditRoleDto editRoleDto, int? roleId) async {
+    final json =  await api.editRole(editRoleDto.toJson(), roleId!);
+    return json.values.first;
+
+  }
+
+  Future<String> addRole(AddRoleDto addRoleDto) async {
+    final json = await api.addRole(addRoleDto.toJson());
     return json.values.first;
   }
 

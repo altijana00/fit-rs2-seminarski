@@ -54,7 +54,7 @@ class CityApiService {
     } else if (response.statusCode == 400) {
       throw (response.data["message"]);
     } else{
-      throw Exception('Failed to edit city: ${response.data}');
+      throw Exception('Failed to delete city: ${response.data}');
     }
   }
 
@@ -76,6 +76,25 @@ class CityApiService {
 
     } else{
       throw Exception('Failed to edit city: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> addCity(Map<String, dynamic> cityData) async {
+    final response = await dio.post(
+      'City/add',
+      data: cityData,
+        options: Options(
+          validateStatus: (status) => true,
+        )
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      var resp = Map<String, dynamic>.from(response.data);
+      throw Exception(resp["error"]);
+    } else {
+      throw Exception('Failed to add city: ${response.data}');
     }
   }
 

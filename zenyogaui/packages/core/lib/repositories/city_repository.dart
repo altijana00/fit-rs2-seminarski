@@ -1,4 +1,5 @@
 
+import 'package:core/dto/requests/add_city_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
 
 import '../dto/requests/edit_city_dto.dart';
@@ -35,6 +36,11 @@ class CityRepository {
     final json =  await api.editCity(city.toJson(), cityId!);
     return json.values.first;
 
+  }
+
+  Future<String> addCity(AddCityDto addCityDto) async {
+    final json = await api.addCity(addCityDto.toJson());
+    return json.values.first;
   }
 
 }
