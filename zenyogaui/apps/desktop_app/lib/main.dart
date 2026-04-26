@@ -4,6 +4,7 @@ import 'package:core/repositories/auth_repository.dart';
 import 'package:core/repositories/city_repository.dart';
 import 'package:core/repositories/class_repository.dart';
 import 'package:core/repositories/instructor_repository.dart';
+import 'package:core/repositories/notification_repository.dart';
 import 'package:core/repositories/role_repository.dart';
 import 'package:core/repositories/studio_repository.dart';
 import 'package:core/repositories/user_repository.dart';
@@ -13,11 +14,13 @@ import 'package:core/services/auth_api_service.dart';
 import 'package:core/services/city_api_service.dart';
 import 'package:core/services/class_api_service.dart';
 import 'package:core/services/instructor_api_service.dart';
+import 'package:core/services/notification_api_service.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
+import 'package:core/services/providers/notification_service.dart';
 import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -37,7 +40,7 @@ import 'package:zenyogaui/screens/instructor_dashboard_screen.dart';
 import 'package:zenyogaui/screens/owner_dashboard_screen.dart';
 import 'core/theme.dart';
 import 'screens/desktop_login_screen.dart';
-import 'package:core/services/providers/notification_provider.dart';
+import 'package:core/services/providers/realtime_notification_provider.dart';
 import 'package:core/widgets/notification_snackbar_listener.dart';
 
 
@@ -59,6 +62,7 @@ void main() {
   final roleApiService = RoleApiService(dio);
   final yogaTypeApiService = YogaTypeApiService(dio);
   final appAnalyticsApiService = AppAnalyticsApiService(dio);
+  final notificationApiService = NotificationApiService(dio);
 
   //repositories
   final authRepository = AuthRepository(authApiService);
@@ -70,14 +74,15 @@ void main() {
   final roleRepository = RoleRepository(roleApiService);
   final yogaTypeRepository = YogaTypeRepository(yogaTypeApiService);
   final appAnalyticsRepository = AppAnalyticsRepository(appAnalyticsApiService);
+  final notificationRepository = NotificationRepository(notificationApiService);
   final signalRService = SignalRService();
-  final notificationProvider = NotificationProvider(signalRService);
+  final realtimeNotificationProvider = RealtimeNotificationProvider(signalRService);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository, onLogin:  (token) => notificationProvider.connect(token),
-            onLogout: ()      => notificationProvider.disconnect(),  ),
+          create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository, onLogin:  (token) => realtimeNotificationProvider.connect(token),
+            onLogout: ()      => realtimeNotificationProvider.disconnect(),  ),
         ),
         ChangeNotifierProvider(
             create: (_) => UserProvider(repository: userRepository, dio: dio, storage: secureStorage)
@@ -104,7 +109,10 @@ void main() {
             create: (_) => AppAnalyticsProvider(repository: appAnalyticsRepository, dio: dio, storage: secureStorage)
         ),
         ChangeNotifierProvider(
-          create: (_) => notificationProvider,
+            create: (_) => NotificationProvider(repository: notificationRepository, dio: dio, storage: secureStorage)
+        ),
+        ChangeNotifierProvider(
+          create: (_) => realtimeNotificationProvider,
         ),
       ],
       child: MyApp(),

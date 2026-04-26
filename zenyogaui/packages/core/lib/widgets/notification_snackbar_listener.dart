@@ -1,4 +1,4 @@
-import 'package:core/services/providers/notification_provider.dart';
+import 'package:core/services/providers/realtime_notification_provider.dart';
 import 'package:core/services/signalr_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +18,7 @@ class _NotificationSnackbarListenerState
 
   @override
   Widget build(BuildContext context) {
-    // Slušamo samo kada se latest promijeni
-    final latest = context.select<NotificationProvider, AppNotification?>(
+    final latest = context.select<RealtimeNotificationProvider, AppNotification?>(
           (p) => p.latest,
     );
 

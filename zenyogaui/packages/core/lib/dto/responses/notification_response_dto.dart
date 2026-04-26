@@ -2,9 +2,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
 
-part 'notification_model.g.dart';
+part 'notification_response_dto.g.dart';
 @JsonSerializable()
-class NotificationModel {
+class NotificationResponseDto {
   final int id;
   final int userId;
   final String title;
@@ -14,7 +14,7 @@ class NotificationModel {
   final DateTime createdAt;
 
 
-  NotificationModel({
+  NotificationResponseDto({
     required this.id,
     required this.userId,
     required this.title,
@@ -26,7 +26,7 @@ class NotificationModel {
 
   });
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
+  factory NotificationResponseDto.fromJson(Map<String, dynamic> json) => _$NotificationResponseDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+  Map<String, dynamic> toJson() => _$NotificationResponseDtoToJson(this);
 }

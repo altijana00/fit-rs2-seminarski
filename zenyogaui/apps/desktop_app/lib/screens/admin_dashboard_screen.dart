@@ -3,6 +3,7 @@ import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zenyogaui/widgets/city_table_source.dart';
+import 'package:zenyogaui/widgets/notifications_table_source.dart';
 import 'package:zenyogaui/widgets/roles_table_source.dart';
 import 'package:zenyogaui/widgets/statistics_screen_view.dart';
 import 'package:zenyogaui/widgets/studios_table_source.dart';
@@ -31,6 +32,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     CitiesTableView(),
     YogaTypesTableView(),
     RolesTableView(),
+    NotificationsTableView(),
     StatisticsScreenView(),
   ];
 
@@ -72,6 +74,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 label: Text("Roles"),
               ),
               NavigationRailDestination(
+                icon: Icon(Icons.edit_notifications),
+                label: Text("Notifications"),
+              ),
+              NavigationRailDestination(
                 icon: Icon(Icons.bar_chart),
                 label: Text("Statistics"),
               ),
@@ -84,7 +90,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 children: [
                   const Divider(color: Colors.white),
                   IconButton(
-                    tooltip: "Notifications",
+                    tooltip: "My Notifications",
                     icon: const Icon(Icons.notifications, color: AppColors.deepGreen),
                     onPressed: () {
 
