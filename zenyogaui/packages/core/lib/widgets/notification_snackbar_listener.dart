@@ -35,9 +35,9 @@ class _NotificationSnackbarListenerState
 
   void _showSnackbar(BuildContext context, AppNotification n) {
     final (color, icon) = switch (n.type) {
-      'success' => (Colors.green.shade700,  Icons.check_circle_outline),
-      'warning' => (Colors.orange.shade700, Icons.warning_amber_outlined),
-      'error'   => (Colors.red.shade700,    Icons.error_outline),
+      'Success' => (Colors.green.shade700,  Icons.check_circle_outline),
+      'Warning' => (Colors.orange.shade700, Icons.warning_amber_outlined),
+      'Error'   => (Colors.red.shade700,    Icons.error_outline),
       _         => (Colors.blueGrey.shade700, Icons.info_outline),
     };
 

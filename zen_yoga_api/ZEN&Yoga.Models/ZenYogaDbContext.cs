@@ -189,9 +189,13 @@ namespace ZEN_Yoga.Models
                 .Property(sa => sa.TotalRevenue)
                 .HasPrecision(18, 2);
 
-           
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.Notifications)
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-           
+
 
             modelBuilder.Entity<Instructor>(entity =>
             {

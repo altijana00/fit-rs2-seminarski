@@ -37,6 +37,7 @@ namespace ZEN_Yoga.Models
         public ICollection<UserStudio> UserStudios { get; set; } = new List<UserStudio>();
         public ICollection<UserClass> UserClasses { get; set; } = new List<UserClass>();
         public ICollection<Payment> UserPayments { get; set; } = new List<Payment>();
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
         public Instructor? Instructor { get; set; }
 

@@ -40,6 +40,12 @@ namespace ZEN_YogaWebAPI.Mapper
             CreateMap<EditCity, City>();
             CreateMap<AddCity, City>();
 
+            CreateMap<AddNotification, Notification>();
+            CreateMap<EditNotification, Notification>();
+            CreateMap<Notification, NotificationResponse>();
+
+
+
         }
     }
 }

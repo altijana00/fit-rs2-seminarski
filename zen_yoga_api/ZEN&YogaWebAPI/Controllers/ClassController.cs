@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.Class;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.YogaType;
 using ZEN_Yoga.Services.Services;
 using ZEN_Yoga.Services.Services.Class;
@@ -73,7 +76,10 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<IActionResult> Add([FromServices] IUpsertClassService<AddClass> upsertClassService, 
                                              [FromBody] AddClass addClass, 
                                              int instructorId, 
-                                             [FromServices] IYogaTypeValidatorService yogaTypeValidatorService)
+                                             [FromServices] IYogaTypeValidatorService yogaTypeValidatorService,
+                                             [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                             [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService
+            )
         {
             if (addClass == null)
             {
@@ -82,6 +88,22 @@ namespace ZEN_YogaWebAPI.Controllers
 
 
             await upsertClassService.Add(addClass, instructorId, yogaTypeValidatorService);
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "You have added a class",
+                Content = "You have added a class",
+                Type = NotificationType.Success.ToString(),
+                UserId = instructorId
+            };
+
+            await sendInAppNotificationService.SendToUserAsync(instructorId.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
+
 
             return Ok(new { Message = "Class added!" });
         }

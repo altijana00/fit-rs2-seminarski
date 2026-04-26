@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Class;
@@ -77,19 +78,19 @@ namespace ZEN_Yoga.Services.Services.Class
 
             foreach (var c in classesRes)
             {
-                if (c.YogaTypeId == 1)
+                if (c.YogaTypeId == (int)YogaTypes.Hatha)
                 {
                     grouppedClasses.HathaYoga.Add(c);
                 }
                 else
                 {
-                    if (c.YogaTypeId == 2)
+                    if (c.YogaTypeId == (int)YogaTypes.Vinyasa)
                     {
                         grouppedClasses.VinyasaYoga.Add(c);
                     }
                     else
                     {
-                        if (c.YogaTypeId == 3)
+                        if (c.YogaTypeId == (int)YogaTypes.Yin)
                         {
                             grouppedClasses.YinYoga.Add(c);
                         }
@@ -110,19 +111,19 @@ namespace ZEN_Yoga.Services.Services.Class
 
             foreach (var c in classesRes)
             {
-                if (c.YogaTypeId == 1)
+                if (c.YogaTypeId == (int)YogaTypes.Hatha)
                 {
                     grouppedClasses.HathaYoga.Add(c);
                 }
                 else
                 {
-                    if (c.YogaTypeId == 2)
+                    if (c.YogaTypeId == (int)YogaTypes.Vinyasa)
                     {
                         grouppedClasses.VinyasaYoga.Add(c);
                     }
                     else
                     {
-                        if (c.YogaTypeId == 3)
+                        if (c.YogaTypeId == (int)YogaTypes.Hatha)
                         {
                             grouppedClasses.YinYoga.Add(c);
                         }

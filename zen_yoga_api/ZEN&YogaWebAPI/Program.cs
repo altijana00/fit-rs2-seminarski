@@ -32,7 +32,7 @@ using ZEN_Yoga.Services.Services.BlobStorage;
 using ZEN_Yoga.Services.Services.City;
 using ZEN_Yoga.Services.Services.Class;
 using ZEN_Yoga.Services.Services.Instructor;
-using ZEN_Yoga.Services.Services.Notification;
+using ZEN_Yoga.Services.Services.Notifications;
 using ZEN_Yoga.Services.Services.Payment;
 using ZEN_Yoga.Services.Services.Role;
 using ZEN_Yoga.Services.Services.Studio;
@@ -161,9 +161,12 @@ builder.Services.AddScoped<IUpsertYogaTypeService<AddYogaType>, UpsertYogaTypeSe
 
 
 builder.Services.AddScoped<IAppAnalyticsService, AppAnalyticsService>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IStudioAnalyticsService, StudioAnalyticsService>();
+
+builder.Services.AddScoped<IGetNotificationService, GetNotificationService>();
+builder.Services.AddScoped<IUpsertNotificationService<AddNotification>, UpsertNotificationService>();
+builder.Services.AddScoped<IDeleteNotificationService, DeleteNotificationService>();
 
 
 
@@ -238,7 +241,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddSignalR();
-builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ISendInAppNotificationService, SendInAppNotificationService>();
 
 
 

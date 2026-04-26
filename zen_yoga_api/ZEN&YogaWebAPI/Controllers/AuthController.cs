@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ZEN_Yoga.Models;
-using ZEN_Yoga.Models.Notifications;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Notification;
@@ -26,15 +23,11 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromServices] INotificationService notificationService, [FromBody] LoginUser loginUser, [FromServices] IGetUserService getUserService)
+        public async Task<ActionResult> Login([FromServices] IUpsertNotificationService<AddNotification> notificationService, [FromBody] LoginUser loginUser, [FromServices] IGetUserService getUserService)
         {
-
-
             var user = await getUserService.GetByEmailandPassword(loginUser.Email, loginUser.Password);
 
             if (user == null) return Unauthorized("Invalid credentials");
-
-      
 
             var claims = new List<Claim>
             {
@@ -42,7 +35,6 @@ namespace ZEN_YogaWebAPI.Controllers
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString()),
             };
-          
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -55,11 +47,6 @@ namespace ZEN_YogaWebAPI.Controllers
                 signingCredentials: creds
             );
 
-            await notificationService.SendToUserAsync(user.Id.ToString(), new AppNotification(
-            Title: "TEST",
-            Message: $"HELLOOOOOOOOOO",
-            Type: "success"
-        ));
 
             return Ok(new
             {
