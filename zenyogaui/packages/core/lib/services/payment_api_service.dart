@@ -1,4 +1,7 @@
+import 'package:core/models/create_intent_request_model.dart';
 import 'package:dio/dio.dart';
+
+import '../core/constants.dart';
 
 class PaymentApiService {
   final Dio dio;
@@ -6,8 +9,13 @@ class PaymentApiService {
   PaymentApiService(this.dio);
 
   Future<bool> isUserPaidMember(int userId, int studioId) async {
-    final response = await dio.get('Payment/isUserPaidMember?userId=$userId&studioId=$studioId');
-    if(response.statusCode == 200) {
+    final response = await dio.get(
+        'Payment/isUserPaidMember?userId=$userId&studioId=$studioId',
+        options: Options(
+          validateStatus: (status) => true,
+        ));
+
+    if (response.statusCode == 200) {
       return true;
     } else {
       return false;
@@ -16,7 +24,7 @@ class PaymentApiService {
 
   Future<Map<String, dynamic>> addPayment(int userId, int studioId) async {
     final response = await dio.post(
-      'Payment/add?userId=$userId&studioId=$studioId'
+        'Payment/add?userId=$userId&studioId=$studioId'
     );
 
     if (response.statusCode == 200) {
@@ -26,5 +34,14 @@ class PaymentApiService {
     }
   }
 
+  Future<Map<String, dynamic>> createPaymentIntent(
+      Map<String, dynamic> createIntentRequest) async {
+    final response = await dio.post(
+      '${Constants.mobileApiBaseUrl}Payment/create-intent',
+      data: createIntentRequest,
+    );
 
+
+    return Map<String, dynamic>.from(response.data);
+  }
 }

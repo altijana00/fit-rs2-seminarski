@@ -37,9 +37,11 @@ class PaymentProvider extends ChangeNotifier {
         _token = token;
         _attachInterceptor(token);
         notifyListeners();
-      } catch (e) {
-        // invalid token — ignore
+      } on DioException catch (e) {
+        _error = e.response?.data;
+        notifyListeners();
       }
+
     }
   }
 

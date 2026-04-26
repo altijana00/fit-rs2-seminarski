@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/auth_service.dart';
@@ -75,7 +76,7 @@ class _StudiosTabState extends State<StudiosTab> {
     ]);
 
     final studios = results[0] as List<StudioResponseDto>;
-    final cities = results[1] as List<CityModel>;
+    final cities = results[1] as List<CityResponseDto>;
     final recStudios = results[2] as List<StudioResponseDto>;
 
     return _StudiosTabData(

@@ -32,10 +32,6 @@ namespace ZEN_YogaWebAPI.Mapper
             CreateMap<EditRole, Role>();
             CreateMap<AddRole, Role>();
 
-            CreateMap<SubscriptionType, SubscriptionTypeResponse>();
-            CreateMap<EditSubscriptionType, SubscriptionType>();
-            CreateMap<AddSubscriptionType, SubscriptionType>();
-
             CreateMap<City, CityResponse>();
             CreateMap<EditCity, City>();
             CreateMap<AddCity, City>();

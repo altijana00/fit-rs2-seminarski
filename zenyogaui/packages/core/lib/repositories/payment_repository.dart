@@ -2,6 +2,8 @@
 
 
 
+import 'package:core/models/create_intent_request_model.dart';
+
 import '../services/payment_api_service.dart';
 
 class PaymentRepository {
@@ -16,6 +18,12 @@ class PaymentRepository {
   Future<String> addPayment(int userId, int studioId) async {
     final json = await api.addPayment(userId, studioId);
     return json.values.first;
+
+  }
+
+  Future<Map<String, dynamic>> createPaymentIntent(CreateIntentRequest createIntentRequest) async {
+    final json = await api.createPaymentIntent(createIntentRequest.toJson());
+    return json;
 
   }
 

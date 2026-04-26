@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Interfaces.Payment;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -38,6 +40,25 @@ namespace ZEN_YogaWebAPI.Controllers
             return NoContent();
         }
 
-        
+        [Authorize(Roles = "1, 4")]
+        [HttpPost("create-intent")]
+        public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IPaymentService paymentService)
+        {
+            try
+            {
+                var result = await paymentService.CreatePaymentIntentAsync(
+                    request.Amount.ToString(),
+                    request.Currency
+                );
+                return Ok(result);
+            }
+            catch (StripeException ex)
+            {
+                return BadRequest(new { error = ex.StripeError.Message });
+            }
+        }
+
     }
+
+    
 }

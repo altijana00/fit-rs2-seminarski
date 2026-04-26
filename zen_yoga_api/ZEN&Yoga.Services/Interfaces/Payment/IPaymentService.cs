@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZEN_Yoga.Models.Responses;
 
 namespace ZEN_Yoga.Services.Interfaces.Payment
 {
@@ -12,7 +13,6 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
 
         Task<bool> IsUserPaidMember(int userId, int studioId);
 
-        
-
+        Task<CreateIntentResponse> CreatePaymentIntentAsync(string amount, string currency);
     }
 }

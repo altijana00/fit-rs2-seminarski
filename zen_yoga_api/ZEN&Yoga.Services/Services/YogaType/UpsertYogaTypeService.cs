@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
-using ZEN_Yoga.Services.Interfaces.SubscriptionType;
 using ZEN_Yoga.Services.Interfaces.YogaType;
 
 namespace ZEN_Yoga.Services.Services.YogaType

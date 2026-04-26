@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Payment;
 
@@ -20,10 +23,14 @@ namespace ZEN_Yoga.Services.Services.Payment
 
         private readonly RabbitMqSettings _rabbitMqSettings;
 
-        public PaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options)
+        private readonly StripeSettings _stripeSettings;
+
+        public PaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options, IOptions<StripeSettings> stripeSettingsOptions)
         {
             _dbContext = dbContext;
             _rabbitMqSettings = options.Value;
+            _stripeSettings = stripeSettingsOptions.Value;
+            StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
         }
 
         public async Task<bool> AddPayment(int userId, int studioId)
@@ -61,7 +68,6 @@ namespace ZEN_Yoga.Services.Services.Payment
             {
                 UserId = userId,
                 StudioId = studioId,
-                SubscriptionTypeId = 1,
                 CreatedAt = DateTime.Now,
                 PaymentDate = DateTime.Now,
                 Amount = 50,
@@ -75,7 +81,39 @@ namespace ZEN_Yoga.Services.Services.Payment
             return true;
         }
 
-    
+        public async Task<CreateIntentResponse> CreatePaymentIntentAsync(string amount, string currency)
+        {
+            var amountInCents = (int.Parse(amount) * 100).ToString();
+
+            var customer = await new CustomerService().CreateAsync(new CustomerCreateOptions());
+
+            var ephemeralKey = await new EphemeralKeyService().CreateAsync(
+                new EphemeralKeyCreateOptions
+                {
+                    Customer = customer.Id,
+                    StripeVersion = _stripeSettings.StripeVersion
+                }
+            );
+
+            var paymentIntent = await new PaymentIntentService().CreateAsync(
+                new PaymentIntentCreateOptions
+                {
+                    Amount = long.Parse(amountInCents),
+                    Currency = currency,
+                    Customer = customer.Id,
+                    AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
+                    {
+                        Enabled = true
+                    }
+                }
+            );
+
+            return new CreateIntentResponse(
+                ClientSecret: paymentIntent.ClientSecret,
+                Customer: customer.Id,
+                EphemeralKey: ephemeralKey.Secret
+            );
+        }
 
         public async Task<bool> IsUserPaidMember(int userId, int studioId)
         {

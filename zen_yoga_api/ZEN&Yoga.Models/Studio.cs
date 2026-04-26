@@ -36,7 +36,8 @@ namespace ZEN_Yoga.Models
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
 
-       public ICollection<UserStudio> StudioMembers { get; set; } = new List<UserStudio>();
+        public required float MembershipPrice { get; set; }
+
        public ICollection<Instructor> StudioInstructors { get; set; } = new List<Instructor>();
        public ICollection<Class> StudioClasses { get; set; } = new List<Class>();
        public ICollection<StudioAnalytics> StudioAnalytics { get; set; } = new List<StudioAnalytics>();

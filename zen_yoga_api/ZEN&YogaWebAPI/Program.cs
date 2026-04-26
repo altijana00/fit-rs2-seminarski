@@ -23,7 +23,6 @@ using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
-using ZEN_Yoga.Services.Interfaces.SubscriptionType;
 using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.UserClass;
 using ZEN_Yoga.Services.Interfaces.YogaType;
@@ -36,7 +35,6 @@ using ZEN_Yoga.Services.Services.Notifications;
 using ZEN_Yoga.Services.Services.Payment;
 using ZEN_Yoga.Services.Services.Role;
 using ZEN_Yoga.Services.Services.Studio;
-using ZEN_Yoga.Services.Services.SubscriptionType;
 using ZEN_Yoga.Services.Services.User;
 using ZEN_Yoga.Services.Services.UserClass;
 using ZEN_Yoga.Services.Services.YogaType;
@@ -89,6 +87,11 @@ builder.Services.Configure<JwtSettings>
 builder.Services.Configure<HashingSettings>
     (
         builder.Configuration.GetSection("HashingSettings")
+    );
+
+builder.Services.Configure<StripeSettings>
+    (
+        builder.Configuration.GetSection("StripeSettings")
     );
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
@@ -146,12 +149,6 @@ builder.Services.AddScoped<IGetUserClassService, GetUserClassService>();
 builder.Services.AddScoped<IUpsertUserClassService, UpsertUserClassService>();
 builder.Services.AddScoped<IDeleteUserClassService, DeleteUserClassService>();
 
-//SubscriptionType
-builder.Services.AddScoped<IGetSubscriptionTypeService, GetSubscriptionTypeService>();
-builder.Services.AddScoped<ISubscriptionTypeValidatorService, SubscriptionTypeValidatorService>();
-builder.Services.AddScoped<IDeleteSubscriptionTypeService, DeleteSubscriptionTypeService>();
-builder.Services.AddScoped<IUpsertSubscriptionTypeService<AddSubscriptionType>, UpsertSubscriptionTypeService>();
-
 
 //YogaType
 builder.Services.AddScoped<IGetYogaTypeService, GetYogaTypeService>();
@@ -167,6 +164,7 @@ builder.Services.AddScoped<IStudioAnalyticsService, StudioAnalyticsService>();
 builder.Services.AddScoped<IGetNotificationService, GetNotificationService>();
 builder.Services.AddScoped<IUpsertNotificationService<AddNotification>, UpsertNotificationService>();
 builder.Services.AddScoped<IDeleteNotificationService, DeleteNotificationService>();
+
 
 
 

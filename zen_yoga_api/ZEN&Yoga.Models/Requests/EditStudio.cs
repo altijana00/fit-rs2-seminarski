@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace ZEN_Yoga.Models.Requests
 {
     public class EditStudio
@@ -26,5 +19,6 @@ namespace ZEN_Yoga.Models.Requests
         [Phone(ErrorMessage ="Please enter a valid email format. (...)")]
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public required float MembershipPrice { get; set; }
     }
 }

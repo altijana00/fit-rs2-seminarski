@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZEN_Yoga.Models;
 
@@ -11,9 +12,11 @@ using ZEN_Yoga.Models;
 namespace ZEN_YogaWebAPI.Migrations
 {
     [DbContext(typeof(ZenYogaDbContext))]
-    partial class ZenYogaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260426192840_CleaningUpUnusedModels")]
+    partial class CleaningUpUnusedModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -597,9 +600,6 @@ namespace ZEN_YogaWebAPI.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<float>("MembershipPrice")
-                        .HasColumnType("real");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -627,7 +627,6 @@ namespace ZEN_YogaWebAPI.Migrations
                             ContactEmail = "contact@zenyoga.com",
                             ContactPhone = "1234567890",
                             Description = "Serene Flow Yoga is a tranquil oasis designed for relaxation, self-discovery, and holistic well-being.",
-                            MembershipPrice = 50f,
                             Name = "Serene Flow Yoga",
                             OwnerId = 1,
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1ProfilePhoto.jpg"
@@ -640,7 +639,6 @@ namespace ZEN_YogaWebAPI.Migrations
                             ContactEmail = "contact@lotusstudio.com",
                             ContactPhone = "2345678901",
                             Description = "Tranquil Lotus Yoga is a sanctuary for those seeking balance, flexibility, and inner harmony.",
-                            MembershipPrice = 65f,
                             Name = "Tranquil Lotus Yoga",
                             OwnerId = 1,
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2ProfilePhoto.jpg"
@@ -653,7 +651,6 @@ namespace ZEN_YogaWebAPI.Migrations
                             ContactEmail = "contact@harmonyyoga.com",
                             ContactPhone = "3456789012",
                             Description = "Harmony Yoga offers a variety of classes, from gentle restorative yoga to power flows, catering to busy city dwellers seeking balance.",
-                            MembershipPrice = 45f,
                             Name = "Harmony Yoga",
                             OwnerId = 3,
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3ProfilePhoto.jpg"
@@ -666,7 +663,6 @@ namespace ZEN_YogaWebAPI.Migrations
                             ContactEmail = "contact@sunriseyoga.com",
                             ContactPhone = "4567890123",
                             Description = "A peaceful yoga retreat overlooking the town's river, offering sunrise Vinyasa flows and meditation classes to start your day with positivity and energy.",
-                            MembershipPrice = 49.99f,
                             Name = "Sunrise Yoga Haven",
                             OwnerId = 4,
                             ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4ProfilePhoto.jpg"

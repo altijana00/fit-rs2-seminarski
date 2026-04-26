@@ -47,7 +47,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/theme.dart';
 
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +56,8 @@ void main() async{
 
 
 
-  final dio = Dio(BaseOptions(baseUrl: Constants.mobileApiBaseUrl));
+
+  final dio = Dio(BaseOptions(baseUrl: Constants.mobileApiBaseUrl, validateStatus: (status) => true));
   final secureStorage = const FlutterSecureStorage();
 
 
@@ -93,6 +94,7 @@ void main() async{
   final appAnalyticsRepository = AppAnalyticsRepository(appAnalyticsApiService);
   final userClassRepository = UserClassRepository(userClassApiService);
   final paymentRepository = PaymentRepository(paymentApiService);
+
 
   runApp(
     MultiProvider(
@@ -144,6 +146,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Zen&Yoga',
       debugShowCheckedModeBanner: false,
       theme: appTheme,

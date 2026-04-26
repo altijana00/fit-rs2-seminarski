@@ -30,5 +30,7 @@ namespace ZEN_Yoga.Models.Requests
         [Phone(ErrorMessage = "Please enter a valid phone format. (...)")]
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public required float MembershipPrice { get; set; }
+
     }
 }

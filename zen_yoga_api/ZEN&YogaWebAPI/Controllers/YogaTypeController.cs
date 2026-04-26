@@ -4,7 +4,6 @@ using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.SubscriptionType;
 using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.YogaType;
 using ZEN_Yoga.Services.Services;

@@ -34,5 +34,8 @@ namespace ZEN_Yoga.Models.Responses
         [Phone]
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
+
+        public required float MembershipPrice { get; set; }
+
     }
 }

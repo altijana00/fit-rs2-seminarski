@@ -34,7 +34,6 @@ namespace ZEN_Yoga.Models
         public int CityId { get; set; }
         public  City? City { get; set; }
 
-        public ICollection<UserStudio> UserStudios { get; set; } = new List<UserStudio>();
         public ICollection<UserClass> UserClasses { get; set; } = new List<UserClass>();
         public ICollection<Payment> UserPayments { get; set; } = new List<Payment>();
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();

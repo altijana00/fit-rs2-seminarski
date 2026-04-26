@@ -31,7 +31,6 @@ namespace ZEN_Yoga.Models
             modelBuilder.Entity<Class>().Property(c => c.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Role>().Property(r => r.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Studio>().Property(s => s.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<SubscriptionType>().Property(s => s.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<YogaType>().Property(y => y.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<UserClass>().Property(uc => uc.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<StudioAnalytics>().Property(sa => sa.Id).ValueGeneratedOnAdd();
@@ -95,12 +94,6 @@ namespace ZEN_Yoga.Models
                 .HasForeignKey(s => s.CityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Studio>()
-                .HasMany(s => s.StudioMembers)
-                .WithOne(us => us.Studio)
-                .HasForeignKey(us => us.StudioId)
-                .OnDelete(DeleteBehavior.Restrict);
-
 
             modelBuilder.Entity<Studio>()
                 .HasMany(s => s.StudioInstructors)
@@ -127,17 +120,6 @@ namespace ZEN_Yoga.Models
             .OnDelete(DeleteBehavior.Restrict);
 
 
-            modelBuilder.Entity<UserStudio>()
-                .HasOne(us => us.User)
-                .WithMany(u => u.UserStudios)
-                .HasForeignKey(us => us.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserStudio>()
-                .HasOne(us => us.Studio)
-                .WithMany(s => s.StudioMembers)
-                .HasForeignKey(us => us.StudioId)
-                .OnDelete(DeleteBehavior.Cascade);
 
 
 
@@ -172,13 +154,6 @@ namespace ZEN_Yoga.Models
                 .WithMany()
                 .HasForeignKey(p => p.StudioId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.SubscriptionType)
-                .WithMany()
-                .HasForeignKey(p => p.SubscriptionTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
          
 
             modelBuilder.Entity<Payment>()
@@ -300,40 +275,7 @@ namespace ZEN_Yoga.Models
                 
             );
 
-
-            modelBuilder.Entity<SubscriptionType>().HasData(
-                
-                new SubscriptionType()
-                {
-                    Id = 1,
-                    Name = "1 Month",
-                    Description = "Access for 30 days.",
-                    DurationInDays = 30
-                },
-                new SubscriptionType()
-                {
-                    Id = 2,
-                    Name = "3 Months",
-                    Description = "Access for 90 days.",
-                    DurationInDays = 90
-                },
-                new SubscriptionType()
-                {
-                    Id = 3,
-                    Name = "6 Months",
-                    Description = "Access for 180 days.",
-                    DurationInDays = 180
-                },
-                new SubscriptionType()
-                {
-                    Id = 4,
-                    Name = "1 Year",
-                    Description = "Access for 365 days.",
-                    DurationInDays = 365
-                }
-               
-
-            );
+            
 
             modelBuilder.Entity<User>().HasData(
 
@@ -516,7 +458,8 @@ namespace ZEN_Yoga.Models
                      Description = "Serene Flow Yoga is a tranquil oasis designed for relaxation, self-discovery, and holistic well-being.", 
                      ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio1ProfilePhoto.jpg", 
                      OwnerId = 1, 
-                     CityId = 3 
+                     CityId = 3,
+                     MembershipPrice = 50.00f,
                  },
                  new Studio () 
                  { 
@@ -528,7 +471,8 @@ namespace ZEN_Yoga.Models
                      Description = "Tranquil Lotus Yoga is a sanctuary for those seeking balance, flexibility, and inner harmony.", 
                      ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio2ProfilePhoto.jpg", 
                      OwnerId = 1, 
-                     CityId = 3 
+                     CityId = 3,
+                     MembershipPrice = 65.00f,
                  },
                  new Studio () 
                  { 
@@ -540,7 +484,8 @@ namespace ZEN_Yoga.Models
                      Description = "Harmony Yoga offers a variety of classes, from gentle restorative yoga to power flows, catering to busy city dwellers seeking balance.", 
                      ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio3ProfilePhoto.jpg", 
                      OwnerId = 3, 
-                     CityId = 9 
+                     CityId = 9,
+                     MembershipPrice = 45.00f,
                  },
                  new Studio () 
                  { 
@@ -552,7 +497,8 @@ namespace ZEN_Yoga.Models
                      Description = "A peaceful yoga retreat overlooking the town's river, offering sunrise Vinyasa flows and meditation classes to start your day with positivity and energy.", 
                      ProfileImageUrl = "https://zenyoga.blob.core.windows.net/studio-photos/Studio4ProfilePhoto.jpg", 
                      OwnerId = 4, 
-                     CityId = 6 
+                     CityId = 6,
+                     MembershipPrice = 49.99f,
                  }
             );
 
@@ -795,7 +741,6 @@ namespace ZEN_Yoga.Models
                     Id = 1,
                     UserId = 11,
                     StudioId = 3,
-                    SubscriptionTypeId = 1,
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
@@ -807,7 +752,6 @@ namespace ZEN_Yoga.Models
                     Id = 2,
                     UserId = 9,
                     StudioId = 3,
-                    SubscriptionTypeId = 1,
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
@@ -818,7 +762,6 @@ namespace ZEN_Yoga.Models
                     Id = 3,
                     UserId = 10,
                     StudioId = 3,
-                    SubscriptionTypeId = 1,
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
@@ -829,7 +772,6 @@ namespace ZEN_Yoga.Models
                     Id = 4,
                     UserId = 10,
                     StudioId = 2,
-                    SubscriptionTypeId = 1,
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
@@ -848,14 +790,12 @@ namespace ZEN_Yoga.Models
         public DbSet<AppAnalytics> AppAnalytics { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<SubscriptionType> SubscriptionTypes { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Studio> Studios { get; set; }
         public DbSet<StudioAnalytics> StudioAnalytics { get; set; }
         public DbSet<UserClass> UserClasses { get; set; }
-        public DbSet<UserStudio> UsersStudios { get; set; }
         public DbSet<YogaType> YogaTypes { get; set; }
         public DbSet<StudioGallery> StudioGalleries { get; set; }
     }
