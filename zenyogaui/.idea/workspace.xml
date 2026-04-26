@@ -5,37 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cedabab1-3ce9-429b-a0b4-2c115ede460b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/ZEN&amp;Yoga.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZEN&amp;Yoga.Models.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZEN&amp;Yoga.Models.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Notification/INotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Notification/INotificationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Notification/NotificationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/ZEN&amp;Yoga.WebAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/ZEN&amp;Yoga.WebAPI.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deviceManager.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/city_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/city_table_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/roles_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/roles_table_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/yogatypes_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/yogatypes_table_source.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/providers/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/providers/auth_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/yoga-type_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/yoga-type_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/role_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/role_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/yoga-type_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/yoga-type_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,10 +38,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="3CaeDgYYy42eUtN3IEvNyttiNBa" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -69,6 +52,7 @@
     "Flutter.desktop.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -86,6 +70,11 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\rs2seminarski\zenyogaapp\zenyogaui\apps\desktop_app\lib\widgets" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
@@ -106,19 +95,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/packages/core/lib/services/providers/notification_provider.dart</url>
-          <line>16</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/packages/core/lib/services/providers/auth_service.dart</url>
-          <line>58</line>
+          <line>63</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/packages/core/lib/widgets/notification_snackbar_listener.dart</url>
-          <line>25</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

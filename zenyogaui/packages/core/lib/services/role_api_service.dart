@@ -46,7 +46,12 @@ class RoleApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
-    } else {
+    }  else if (response.statusCode == 500) {
+      var resp = Map<String, dynamic>.from(response.data);
+      throw Exception(resp["error"]);
+    } else if (response.statusCode == 400) {
+      throw (response.data["message"]);
+    } else{
       throw Exception('Failed to delete role: ${response.data}');
     }
   }

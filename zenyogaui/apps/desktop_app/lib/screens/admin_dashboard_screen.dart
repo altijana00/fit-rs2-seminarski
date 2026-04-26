@@ -3,10 +3,11 @@ import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zenyogaui/widgets/city_table_source.dart';
+import 'package:zenyogaui/widgets/roles_table_source.dart';
 import 'package:zenyogaui/widgets/statistics_screen_view.dart';
 import 'package:zenyogaui/widgets/studios_table_source.dart';
 import 'package:zenyogaui/widgets/users_table_source.dart';
-
+import 'package:zenyogaui/widgets/yogatypes_table_source.dart';
 import '../core/theme.dart';
 
 
@@ -28,6 +29,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
     UsersTableView(),
     StudiosTableView(),
     CitiesTableView(),
+    YogaTypesTableView(),
+    RolesTableView(),
     StatisticsScreenView(),
   ];
 
@@ -61,6 +64,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 label: Text("Cities"),
               ),
               NavigationRailDestination(
+                icon: Icon(Icons.filter_vintage),
+                label: Text("Yoga Types"),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.lock_person),
+                label: Text("Roles"),
+              ),
+              NavigationRailDestination(
                 icon: Icon(Icons.bar_chart),
                 label: Text("Statistics"),
               ),
@@ -72,6 +83,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Divider(color: Colors.white),
+                  IconButton(
+                    tooltip: "Notifications",
+                    icon: const Icon(Icons.notifications, color: AppColors.deepGreen),
+                    onPressed: () {
+
+                    },
+                  ),
+                  const SizedBox(height: 12),
                   IconButton(
                     tooltip: "Logout",
                     icon: const Icon(Icons.logout, color: AppColors.deepGreen),

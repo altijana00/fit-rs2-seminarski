@@ -1,4 +1,6 @@
 
+import 'package:core/dto/requests/edit_yoga_type_dto.dart';
+
 import '../dto/responses/yoga_type_response_dto.dart';
 import '../models/yoga-type_model.dart';
 import '../services/yoga-type_api_service.dart';
@@ -19,7 +21,7 @@ class YogaTypeRepository {
     return jsonList.map((json) => YogaTypeResponseDto.fromJson(json)).toList();
   }
 
-  Future<List<YogaTypeResponseDto>> getRolesQuery(String? search) async {
+  Future<List<YogaTypeResponseDto>> getYogaTypeQuery(String? search) async {
     final List<dynamic> jsonList = await api.getYogaTypesQuery(search);
     return jsonList.map((json) => YogaTypeResponseDto.fromJson(json)).toList();
   }
@@ -28,5 +30,15 @@ class YogaTypeRepository {
     final json = await api.deleteYogaType(yogaTypeId!);
     return json.values.first;
   }
+
+  Future<String> editYogaType(EditYogaTypeDto yogaType, int? yogaTypeId) async {
+    final json =  await api.editYogaType(yogaType.toJson(), yogaTypeId!);
+    return json.values.first;
+
+  }
+
+
+
+
 
 }
