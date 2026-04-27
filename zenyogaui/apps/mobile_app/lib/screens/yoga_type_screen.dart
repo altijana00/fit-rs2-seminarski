@@ -88,12 +88,12 @@ class YogaTypeScreen extends StatelessWidget {
                           if (await paymentProvider.repository.isUserPaidMember(user!.id, studioId) == false)
                           {
                             // studiomembership
-                            await paymentController.makePayment(amount: 100, currency: 'USD');
+                            await paymentController.makePayment(amount: 100, currency: 'USD', userId: user.id, studioId: studioId);
                             
-                            await paymentProvider.repository.addPayment(user.id, studioId);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Paid")),
-                            );
+                            //await paymentProvider.repository.addPayment(user.id, studioId);
+                            //ScaffoldMessenger.of(context).showSnackBar(
+                             // SnackBar(content: Text("Paid")),
+                            //);
                           }
 
 

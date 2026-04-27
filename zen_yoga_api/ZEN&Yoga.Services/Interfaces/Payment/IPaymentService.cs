@@ -9,7 +9,7 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
 {
     public interface IPaymentService
     {
-        Task<bool> AddPayment(int userId, int studioId);
+        Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId);
 
         Task<bool> IsUserPaidMember(int userId, int studioId);
 

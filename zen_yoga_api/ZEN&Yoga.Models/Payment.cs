@@ -21,6 +21,7 @@ namespace ZEN_Yoga.Models
         public decimal Amount { get; set; }
         public required string Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        
+
+        public string? PaymentIntentId { get; set; }
     }
 }

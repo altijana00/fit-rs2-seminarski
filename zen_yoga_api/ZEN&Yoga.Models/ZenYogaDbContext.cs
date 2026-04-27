@@ -744,8 +744,8 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing"
-                
+                    Status = "processing",
+                    PaymentIntentId = "pi_1"
                 },
                 new Payment()
                 {
@@ -755,7 +755,8 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing"
+                    Status = "processing",
+                    PaymentIntentId = "pi_2"
                 },
                 new Payment()
                 {
@@ -765,7 +766,8 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing"
+                    Status = "processing",
+                    PaymentIntentId = "pi_3"
                 },
                 new Payment()
                 {
@@ -775,14 +777,10 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing"
+                    Status = "processing",
+                    PaymentIntentId = "pi_4"
                 }
-            
-
            );
-
-
-
         }
 
         public DbSet<User> Users { get; set; }

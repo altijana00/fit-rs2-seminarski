@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
-using System.Text.Json;
+using Stripe;
 using System.Text;
+using System.Text.Json;
 using ZEN_Yoga.Models;
-using Microsoft.Extensions.Configuration;
+using ZEN_Yoga.Models.Enums;
 
 public class RabbitMqListener : BackgroundService
 {
@@ -12,13 +14,12 @@ public class RabbitMqListener : BackgroundService
     private readonly string _rabbitHost;
     private readonly string _rabbitQueue;
 
-
     public RabbitMqListener(IServiceScopeFactory scopeFactory, IConfiguration configuration)
     {
-        _rabbitHost = configuration["RabbitMQ:Host"] ?? "rabbitmq";
-        _rabbitQueue = configuration["RabbitMQ:Queue"] ?? "rabbitmq";
-
+        _rabbitHost = configuration["RabbitMQ:Host"] ?? throw new ArgumentNullException("RabbitMQ:Host");
+        _rabbitQueue = configuration["RabbitMQ:Queue"] ?? throw new ArgumentNullException("RabbitMQ:Queue");
         _scopeFactory = scopeFactory;
+        StripeConfiguration.ApiKey = configuration["StripeSettings:SecretKey"] ?? throw new ArgumentNullException("StripeSettings:SecretKey");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -48,14 +49,33 @@ public class RabbitMqListener : BackgroundService
                     PropertyNameCaseInsensitive = true
                 });
 
+                var service = new PaymentIntentService();
+                var paymentIntent = await service.GetAsync(paymentMessage!.PaymentIntentId);
+                paymentMessage.Status = MapPaymentProcessingStatus(paymentIntent.Status).ToString();
+                
+
                 using var scope = _scopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ZenYogaDbContext>();
 
-                await dbContext.Payments.AddAsync(paymentMessage, stoppingToken);
+                await dbContext.Payments.AddAsync(paymentMessage!, stoppingToken);
                 await dbContext.SaveChangesAsync(stoppingToken);
             }
 
             await Task.Delay(1000, stoppingToken);
         }
+    }
+
+    private PaymentStatus MapPaymentProcessingStatus(string status)
+    {
+        return status switch
+        {   
+            "succeeded" => PaymentStatus.Succeeded,
+            "canceled" => PaymentStatus.Canceled,
+            "requires_capture" => PaymentStatus.Requires_Capture,
+            "requires_reauthorization" => PaymentStatus.Requires_Reauthorization,
+            "requires_confirmation" => PaymentStatus.Requires_Confirmation,
+            "requires_action" => PaymentStatus.Requires_Action,
+            _ => PaymentStatus.Processing
+        };
     }
 }

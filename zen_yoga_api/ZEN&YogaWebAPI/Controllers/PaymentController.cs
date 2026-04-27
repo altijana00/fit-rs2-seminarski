@@ -19,11 +19,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpPost ("add")]
-        public async Task<IActionResult> AddPayment(int userId, int studioId)
+        public async Task<IActionResult> AddPayment(int userId, int studioId, int amount, string paymentIntentId)
         {
-            if (await _paymentService.AddPayment(userId, studioId))
+            if (await _paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
             {
-                return Ok(new { Message = "Payment successfull! You have joined the studio!" });
+                return Ok(new { Message = "Payment is in processing! You have joined the studio!" });
             }
             return BadRequest(new {Message = "Unable to make the payment!"});
         }

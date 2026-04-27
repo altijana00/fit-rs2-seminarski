@@ -2,27 +2,20 @@
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Payment;
 
 namespace ZEN_Yoga.Services.Services.Payment
 {
-
     public class PaymentService : IPaymentService
     {
         private readonly ZenYogaDbContext _dbContext;
-
         private readonly RabbitMqSettings _rabbitMqSettings;
-
         private readonly StripeSettings _stripeSettings;
 
         public PaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options, IOptions<StripeSettings> stripeSettingsOptions)
@@ -33,7 +26,7 @@ namespace ZEN_Yoga.Services.Services.Payment
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
         }
 
-        public async Task<bool> AddPayment(int userId, int studioId)
+        public async Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId)
         {
             var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId);
 
@@ -41,9 +34,6 @@ namespace ZEN_Yoga.Services.Services.Payment
             {
                 return false;
             }
-
-           
-
 
             var factory = new ConnectionFactory()
             {
@@ -57,7 +47,7 @@ namespace ZEN_Yoga.Services.Services.Payment
             using var channel = await connection.CreateChannelAsync();
 
             await channel.QueueDeclareAsync(
-                queue: "events",
+                queue: _rabbitMqSettings.QueueName!,
                 durable: false,
                 autoDelete: false,
                 exclusive: false,
@@ -70,13 +60,13 @@ namespace ZEN_Yoga.Services.Services.Payment
                 StudioId = studioId,
                 CreatedAt = DateTime.Now,
                 PaymentDate = DateTime.Now,
-                Amount = 50,
-                Status = "processing"
+                Amount = amount,
+                Status = PaymentStatus.Processing.ToString(),
+                PaymentIntentId = paymentIntentId
             };
 
             var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(paymentMessage));
-
-            await channel.BasicPublishAsync("", "events", body);
+            await channel.BasicPublishAsync("", _rabbitMqSettings.QueueName!, body);
 
             return true;
         }
@@ -120,7 +110,6 @@ namespace ZEN_Yoga.Services.Services.Payment
             var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId);
 
             return payment == null ? false : true;
-            
         }
     }
 }

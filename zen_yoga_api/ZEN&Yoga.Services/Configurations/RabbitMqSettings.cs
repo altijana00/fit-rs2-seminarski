@@ -12,7 +12,7 @@ namespace ZEN_Yoga.Services.Configurations
         public string? Port { get; set; }
         public string? User { get; set; }
         public string? Password { get; set; }
-
+        public string? QueueName { get; set; }
 
         public RabbitMqSettings()
         {

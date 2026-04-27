@@ -25,11 +25,14 @@ class PaymentController extends GetxController {
   Future<void> makePayment({
     required int amount,
     required String currency,
+    required int userId,
+    required int studioId
   }) async {
     try {
       final createIntentRequest = CreateIntentRequest(amount: amount, currency: currency);
       paymentIntentData = await createPaymentIntent(createIntentRequest);
 
+      final paymentIntentId = paymentIntentData!['client_secret'].split('_secret_')[0];
       if (paymentIntentData != null) {
         await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
@@ -44,18 +47,20 @@ class PaymentController extends GetxController {
           ),
         );
 
-        await displayPaymentSheet();
+        await displayPaymentSheet(userId, studioId, amount, paymentIntentId);
       }
     } catch (e, s) {
       print('exception: $e $s');
     }
   }
 
-  Future<void> displayPaymentSheet() async {
+  Future<void> displayPaymentSheet(int userId, int studioId, int amount, String paymentIntentId) async {
     try {
       await Stripe.instance.presentPaymentSheet();
 
-      // Verify status na backendu
+      // Add payment to the DB
+      await paymentProvider.repository.addPayment(userId,studioId,amount,paymentIntentId);
+
 
 
     } on StripeException catch (e) {
