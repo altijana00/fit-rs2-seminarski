@@ -2,14 +2,14 @@ import 'package:core/dto/requests/user_filter_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-import 'package:core/models/city_model.dart';
-import 'package:core/models/role_model.dart';
 import 'package:core/services/providers/city_service.dart';
+import 'package:core/services/providers/notification_service.dart';
 import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
+import 'add_notification_dialog.dart';
 import 'edit_user_dialog.dart';
 
 
@@ -34,6 +34,7 @@ class UsersTableSource extends DataTableSource {
   final Map<int, String> cityNames;
   final void Function(UserResponseDto) onDeleteRequest;
   final void Function(UserResponseDto) onEditRequest;
+  final void Function(UserResponseDto) onSendNotificationRequest;
 
   UsersTableSource({
     required this.users,
@@ -41,6 +42,8 @@ class UsersTableSource extends DataTableSource {
     required this.cityNames,
     required this.onDeleteRequest,
     required this.onEditRequest,
+    required this.onSendNotificationRequest,
+
   });
 
   @override
@@ -59,6 +62,15 @@ class UsersTableSource extends DataTableSource {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ElevatedButton.icon(
+              icon: const Icon(Icons.chat),
+              label: const Text("Send Notification"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                fixedSize: const Size(80, 30),
+              ),
+              onPressed: () => onSendNotificationRequest(u),
+            ),
             ElevatedButton.icon(
               icon: const Icon(Icons.edit),
               label: const Text("Edit"),
@@ -295,6 +307,7 @@ class _UsersTableViewState extends State<UsersTableView> {
                   cityNames: data.cityNames,
                   onDeleteRequest: _confirmDelete,
                   onEditRequest: _confirmEdit,
+                  onSendNotificationRequest: _confirmSendNotification
                 ),
               ),
             ],
@@ -362,4 +375,32 @@ class _UsersTableViewState extends State<UsersTableView> {
       ),
     );
   }
+
+  void _confirmSendNotification(UserResponseDto user) {
+    showDialog(
+    context: context,
+    builder: (ctx) => AddNotificationDialog(
+      userId: user.id,
+      onAddDto: (newNotification) async {
+        await ctx.read<NotificationProvider>().repository.addNotification(newNotification);
+        _refresh();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Notification sent successfully"),
+            backgroundColor: AppColors.deepGreen,
+          ),
+        );
+
+      },
+    ),
+    );
+  }
+
+
+
+
+
+
+
+
 }

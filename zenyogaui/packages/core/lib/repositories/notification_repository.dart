@@ -2,6 +2,7 @@
 import 'package:core/dto/requests/edit_notification_dto.dart';
 import 'package:core/dto/responses/notification_response_dto.dart';
 
+import '../dto/requests/add_notification_dto.dart';
 import '../services/notification_api_service.dart';
 
 
@@ -30,12 +31,12 @@ class NotificationRepository {
   //   return InstructorResponseDto.fromJson(json);
   // }
   //
-  //   Future<String> addInstructor(AddInstructorDto addInstructorModelDto, String email, int studioId) async {
-  //     final json = await api.addInstructor(
-  //       addInstructorModelDto.toJson(), email, studioId);
-  //     return json.values.first;
-  //   }
-  //
+    Future<String> addNotification(AddNotificationDto addNotificationDto) async {
+      final json = await api.addNotification(
+          addNotificationDto.toJson());
+      return json.values.first;
+    }
+
   Future<String> deleteNotification(int notificationId, userId) async {
     final json = await api.deleteNotification(notificationId, userId);
     return json.values.first;

@@ -5,98 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb48d07a-ceff-4a51-a13a-826bc7cd909c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deviceManager.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/core/lib/models/create_intent_request_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Payment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Payment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Requests/AddStudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Requests/AddStudio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Requests/EditStudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Requests/EditStudio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Responses/StudioResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Responses/StudioResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Studio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Studio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/SubscriptionType.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/UserStudio.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/SubscriptionType/IDeleteSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/SubscriptionType/IGetSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/SubscriptionType/ISubscriptionTypeValidatorService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/SubscriptionType/IUpsertSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/SubscriptionType/DeleteSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/SubscriptionType/GetSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/SubscriptionType/SubscriptionTypeValidatorService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/SubscriptionType/UpsertSubscriptionTypeService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/YogaType/UpsertYogaTypeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/YogaType/UpsertYogaTypeService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/ZEN&amp;Yoga.Services.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/ZEN&amp;Yoga.Services.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/SubscriptionTypeController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/YogaTypeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/YogaTypeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Mapper/MapperProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Mapper/MapperProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/studios_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/studios_tab.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_city_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_city_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_class_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_class_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_instructor_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_instructor_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_notification_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_notification_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_role_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_role_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_subscription_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_subscription_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_subscription_type_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_subscription_type_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_yoga_type_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_yoga_type_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_city_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_city_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_class_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_class_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_instructor_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_instructor_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_notification_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_notification_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_role_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_role_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_subscription_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_studio_subscription_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_subscription_type_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_subscription_type_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_user_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_user_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_yoga_type_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/edit_yoga_type_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/login_user_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/login_user_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/register_user_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/register_user_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/update_user_password_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/update_user_password_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/city_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/city_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/groupped_classes.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/groupped_classes.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/instructor_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/instructor_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/notification_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/notification_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/role_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/role_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/studio_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/studio_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/studio_subscription_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/studio_subscription_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/subscription_type_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/subscription_type_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/user_classes_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/user_classes_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/user_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/user_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/yoga_type_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/yoga_type_response_dto.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/app_analytics_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/app_analytics_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/city_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/city_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/class_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/class_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/instructor_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/instructor_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/notification_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/notification_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/role_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/role_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/studio_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/studio_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/user_login_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/user_login_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/user_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/user_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/yoga-type_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/yoga-type_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/providers/payment_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/providers/payment_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_notification_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/add_notification_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/notification_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/notification_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/notification_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/notification_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,10 +44,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.Desktop.executor": "Run",
+    "Flutter.Desktop.executor": "Debug",
     "Flutter.Mobile.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -149,7 +67,7 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
-  <component name="RunManager" selected="Flutter.Mobile">
+  <component name="RunManager" selected="Flutter.Desktop">
     <configuration name="Desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
       <method v="2" />
@@ -183,7 +101,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart</url>
-          <line>49</line>
+          <line>62</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>

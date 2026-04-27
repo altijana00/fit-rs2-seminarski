@@ -67,4 +67,21 @@ class NotificationApiService {
       throw Exception('Failed to edit notification: ${response.data}');
     }
   }
+
+  Future<Map<String, dynamic>> addNotification(Map<String, dynamic> notificationData) async {
+    final response = await dio.post(
+      'Notification/add',
+      data: notificationData,
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      var resp = Map<String, dynamic>.from(response.data);
+      throw Exception(resp["error"]);
+
+    } else {
+      throw Exception('Failed to add notification: ${response.data}');
+    }
+  }
 }
