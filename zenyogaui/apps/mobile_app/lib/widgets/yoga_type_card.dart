@@ -44,7 +44,8 @@ class YogaTypeCard extends StatelessWidget {
               const Icon(Icons.self_improvement, color: Colors.deepPurple),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(
+                child:
+                  Text(
                   yogaType.name,
                   style: const TextStyle(
                     fontSize: 16,

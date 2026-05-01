@@ -1,6 +1,10 @@
 import 'package:core/services/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:core/core/quotes.dart';
+
+import '../core/theme.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -8,6 +12,28 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
+
+    final now = DateTime.now();
+    final quoteIndex = (now.day % AppQuotes.dailyQuotes.length);
+    final todaysQuote =
+    AppQuotes.dailyQuotes[quoteIndex];
+
+    String getDayWithSuffix(int day) {
+      if (day >= 11 && day <= 13) return '${day}th';
+      switch (day % 10) {
+        case 1:
+          return '${day}st';
+        case 2:
+          return '${day}nd';
+        case 3:
+          return '${day}rd';
+        default:
+          return '${day}th';
+      }
+    }
+
+    final formattedDate =
+        "${DateFormat('EEEE').format(now)}, ${getDayWithSuffix(now.day)} ${DateFormat('MMMM').format(now)}";
 
     if (user == null) {
       return const Center(child: CircularProgressIndicator());
@@ -37,9 +63,14 @@ class HomeTab extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // QUOTE
+            Text(
+              formattedDate,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.grey[600],
+              ),
+            ),
 
-
+            const SizedBox(height: 12),
 
 
             // MEDITATION IMAGE
@@ -54,11 +85,22 @@ class HomeTab extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            const Text(
-              "“Breathe in calm, breathe out tension.”",
-              style: TextStyle(
+            //QUOTE
+            Text(
+              "“$todaysQuote”",
+              style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 28),
+
+            Text(
+              "Upcoming classes",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColors.deepGreen,
               ),
             ),
 

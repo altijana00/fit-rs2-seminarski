@@ -27,14 +27,15 @@ namespace ZEN_YogaWebAPI.Middleware
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = ex switch
                 {
-                    SubscriptionTypeNotFoundException or
-                    YogaTypeNotFoundException or
-                    CityNotFoundException or 
-                    RoleNotFoundException or
+                    
                     StudioAlreadyExistsException or
                     UserAlreadyExistsException => StatusCodes.Status400BadRequest,
 
                     StudioNotFoundException or
+                    ClassNotFoundException or              
+                    YogaTypeNotFoundException or
+                    CityNotFoundException or
+                    RoleNotFoundException or
                     UserNotFoundException => StatusCodes.Status404NotFound,
 
 

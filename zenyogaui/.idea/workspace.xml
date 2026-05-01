@@ -5,23 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb48d07a-ceff-4a51-a13a-826bc7cd909c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Payment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Payment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/ZenYogaDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Configurations/RabbitMqSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Configurations/RabbitMqSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Payment/IPaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/PaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Migrations/ZenYogaDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Exceptions/CustomExceptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Exceptions/CustomExceptions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Responses/ClassResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Models/Responses/ClassResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Class/IGetClassService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Interfaces/Class/IGetClassService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Class/ClassValidatorService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Class/ClassValidatorService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Class/GetClassService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Class/GetClassService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/ClassController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/ClassController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Middleware/ExceptionHandlingMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Middleware/ExceptionHandlingMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/home_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/home_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/employee_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/employee_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/studio_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/studio_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/yoga_type_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/widgets/yoga_type_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/models/create_intent_request_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/models/create_intent_request_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/class_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/user_class_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/user_class_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +62,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Flutter.Desktop.executor": "Debug",
-    "Flutter.Mobile.executor": "Run",
+    "Flutter.Mobile.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
@@ -75,7 +84,7 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
-  <component name="RunManager" selected="Flutter.Mobile">
+  <component name="RunManager" selected="Flutter.Desktop">
     <configuration name="Desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
       <method v="2" />

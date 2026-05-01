@@ -23,7 +23,7 @@ class UserClassApiService {
       return [];
     }
     else {
-      throw Exception('Falied to fetch user classes: ${response.data}');
+      throw Exception('Falied to fetch user: ${response.data}');
     }
   }
 

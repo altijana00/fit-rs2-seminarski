@@ -14,6 +14,7 @@ class ClassResponseDto {
   final DateTime startDate;
   final DateTime endDate;
   final int? maxParticipants;
+  final int? joinedParticipants;
   final String? location;
 
 
@@ -28,6 +29,7 @@ class ClassResponseDto {
     required this.startDate,
     required this.endDate,
     this.maxParticipants,
+    this.joinedParticipants,
     this.location
 
   });

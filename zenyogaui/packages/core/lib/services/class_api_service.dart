@@ -19,6 +19,7 @@ class ClassApiService {
     }
   }
 
+
   Future<Map<String, dynamic>> getStudioGroupped(int studioId) async {
     final response = await dio.get('Class/studioGroupped?studioId=$studioId');
     if(response.statusCode == 200) {

@@ -21,11 +21,11 @@ namespace ZEN_Yoga.Services.Services.Class
         }
         public async Task<bool> ValidateClass(int id)
         {
-            var studio = await _dbContext.Classes.FirstOrDefaultAsync(s => s.Id == id);
+            var classRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (studio == null)
+            if (classRes == null)
             {
-                throw new ClassAlreadyExistsException("There is no class with this Id!");
+                throw new ClassNotFoundException("There is no class with this Id!");
             }
 
             return true;

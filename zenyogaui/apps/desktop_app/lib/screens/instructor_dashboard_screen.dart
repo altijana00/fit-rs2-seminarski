@@ -18,7 +18,7 @@ import '../widgets/edit_class_dialog.dart';
 import '../widgets/edit_instructor_dialog.dart';
 
 
-final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
+final DateFormat dateFormatter = DateFormat('dd.MM HH:mm');
 
 
 class _InstructorClassesTableData {
@@ -64,6 +64,7 @@ class InstructorClassesTableSource extends DataTableSource {
       DataCell(Text(studioNames[c.studioId] ?? "-")),
       DataCell(Text(dateFormatter.format(c.startDate))),
       DataCell(Text(dateFormatter.format(c.endDate))),
+      DataCell(Text(c.joinedParticipants.toString())),
       DataCell(Text(c.maxParticipants.toString())),
       DataCell(Text(c.location ?? "")),
       DataCell(
@@ -473,6 +474,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
                                     const SizedBox(height: 24),
 
+
                                     Expanded(
                                       child: data.classes.isEmpty
                                           ? const Center(
@@ -490,6 +492,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                                           const Text("My Classes"),
                                           rowsPerPage: 10,
                                           showCheckboxColumn: false,
+                                          columnSpacing: 42,
                                           columns: const [
                                             DataColumn(
                                                 label: Text("Name")),
@@ -504,6 +507,8 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                                                 Text("Start")),
                                             DataColumn(
                                                 label: Text("End")),
+                                            DataColumn(
+                                                label: Text("Joined")),
                                             DataColumn(
                                                 label: Text("Max")),
                                             DataColumn(

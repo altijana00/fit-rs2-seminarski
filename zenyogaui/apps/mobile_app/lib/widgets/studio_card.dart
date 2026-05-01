@@ -57,11 +57,19 @@ class StudioCard extends StatelessWidget {
                         color: AppColors.lavender,
                       ),
                     ),
+                    Text(
+                      studio.description!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       cityName,
                       style: const TextStyle(
                         fontSize: 14,
+                        fontWeight: FontWeight.bold,
                         color: Colors.grey,
                       ),
                     ),

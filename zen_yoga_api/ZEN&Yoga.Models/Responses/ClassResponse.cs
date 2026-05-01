@@ -44,5 +44,8 @@ namespace ZEN_Yoga.Models.Responses
         public DateTime EndDate { get; set; }
 
         public int? MaxParticipants { get; set; }
+
+        public int? JoinedParticipants { get; set; }
+
     }
 }

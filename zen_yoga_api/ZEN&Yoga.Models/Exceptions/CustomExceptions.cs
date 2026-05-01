@@ -58,6 +58,11 @@ namespace ZEN_Yoga.Models.Exceptions
         public ClassAlreadyExistsException(string message) : base(message) { }
     }
 
+    public class ClassNotFoundException : Exception
+    {
+        public ClassNotFoundException(string message) : base(message) { }
+    }
+
     //YogaType Exceptions
     public class YogaTypeNotFoundException : Exception
     {

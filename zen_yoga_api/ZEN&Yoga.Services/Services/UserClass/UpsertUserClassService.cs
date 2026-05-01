@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.UserClass;
 
 namespace ZEN_Yoga.Services.Services.UserClass
@@ -7,11 +9,12 @@ namespace ZEN_Yoga.Services.Services.UserClass
     public class UpsertUserClassService : IUpsertUserClassService
     {
         private readonly ZenYogaDbContext _dbContext;
-        
+        private readonly IMapper _mapper;
 
-        public UpsertUserClassService(ZenYogaDbContext dbContext)
+        public UpsertUserClassService(IMapper mapper, ZenYogaDbContext dbContext)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         public async Task<bool> Join(int classId, int userId)
         {
@@ -22,24 +25,32 @@ namespace ZEN_Yoga.Services.Services.UserClass
                 return false;
             }
 
+            var mappedClass = _mapper.Map<ClassResponse>(classRes);
+
             var studioId = classRes.StudioId;
-            //var membership = await _dbContext.UsersStudios.FirstOrDefaultAsync(us => us.StudioId == studioId && us.UserId == userId);
+            
             var exists = await _dbContext.UserClasses.FirstOrDefaultAsync(uc => uc.ClassId == classId && uc.UserId == userId);
 
             if (exists == null)
             {
-                var userClass = new Models.UserClass
+                if(mappedClass.JoinedParticipants < mappedClass.MaxParticipants)
                 {
+                    var userClass = new Models.UserClass
+                    {
 
 
-                    UserId = userId,
-                    ClassId = classId,
-                    JoinedAt = DateTime.Now
-                };
+                        UserId = userId,
+                        ClassId = classId,
+                        JoinedAt = DateTime.Now
+                    };
 
-                await _dbContext.UserClasses.AddAsync(userClass);
-                await _dbContext.SaveChangesAsync();
-                return true;
+                    await _dbContext.UserClasses.AddAsync(userClass);
+                    await _dbContext.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+                //return custom exception -> max number of participants
             }
             return false;
 

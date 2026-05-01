@@ -58,7 +58,7 @@ class EmployeeCard extends StatelessWidget {
               if (instructor.email != null && instructor.email!.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
-                  instructor.email!,
+                  instructor.email,
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),

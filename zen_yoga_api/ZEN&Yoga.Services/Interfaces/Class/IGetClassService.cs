@@ -19,5 +19,8 @@ namespace ZEN_Yoga.Services.Interfaces.Class
         Task<GrouppedClasses> GetGroupped();
 
         Task<GrouppedClasses> GetStudioGroupped(int studioId);
+
+        Task<int> GetJoinedParticipantsByClassId(int classId);
+
     }
 }

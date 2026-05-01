@@ -17,6 +17,7 @@ ClassResponseDto _$ClassResponseDtoFromJson(Map<String, dynamic> json) =>
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
       maxParticipants: (json['maxParticipants'] as num?)?.toInt(),
+      joinedParticipants: (json['joinedParticipants'] as num?)?.toInt(),
       location: json['location'] as String?,
     );
 
@@ -31,5 +32,6 @@ Map<String, dynamic> _$ClassResponseDtoToJson(ClassResponseDto instance) =>
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'maxParticipants': instance.maxParticipants,
+      'joinedParticipants': instance.joinedParticipants,
       'location': instance.location,
     };

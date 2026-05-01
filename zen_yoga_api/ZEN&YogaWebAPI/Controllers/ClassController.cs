@@ -46,6 +46,15 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [Authorize(Roles = "1, 2, 3, 4")]
+        [HttpGet("getJoinedParticipantsByClassId")]
+        public async Task<ActionResult<int>> GetJoinedParticipantsByClassId([FromServices] IGetClassService getClassService, int id)
+        {
+            return await getClassService.GetJoinedParticipantsByClassId(id);
+            
+
+        }
+
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getByInstructorId")]
         public async Task<ActionResult<ClassResponse>> GetByInstructorId([FromServices] IGetClassService getClassService, int instructorId, [FromQuery] ClassQuery? classQuery)
         {
