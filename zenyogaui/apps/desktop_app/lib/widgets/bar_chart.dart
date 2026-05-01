@@ -28,7 +28,7 @@ class BarChartCard extends StatelessWidget {
             Text(title,
                 style: const TextStyle(
                     fontSize: 14, color: Colors.grey)),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
 
             SizedBox(
               height: 180,
@@ -38,15 +38,42 @@ class BarChartCard extends StatelessWidget {
                   gridData: FlGridData(show: false),
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: true),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 1, // 👈 only whole numbers
+                        getTitlesWidget: (value, meta) {
+                          if (value % 1 != 0) return const SizedBox(); // 👈 extra safety
+                          return Text(
+                            value.toInt().toString(),
+                            style: const TextStyle(fontSize: 10),
+                          );
+                        },
+                      ),
                     ),
+
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false), // 👈 REMOVE right side
+                    ),
+
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false), // 👈 clean look
+                    ),
+
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: (value, meta) {
                           final index = value.toInt();
                           if (index >= labels.length) return const SizedBox();
-                          return Text(labels[index], style: const TextStyle(fontSize: 10));
+
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              labels[index],
+                              style: const TextStyle(fontSize: 10),
+                              overflow: TextOverflow.ellipsis, // 👈 prevents overflow
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -57,7 +84,8 @@ class BarChartCard extends StatelessWidget {
                       barRods: [
                         BarChartRodData(
                           toY: values[i],
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(0),
+                          width: 15
                         ),
                       ],
                     );

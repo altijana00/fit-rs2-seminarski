@@ -8,14 +8,12 @@ part of 'instructor_classes.dart';
 
 InstructorClasses _$InstructorClassesFromJson(Map<String, dynamic> json) =>
     InstructorClasses(
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
+      name: json['name'] as String,
       numberOfClasses: (json['numberOfClasses'] as num).toInt(),
     );
 
 Map<String, dynamic> _$InstructorClassesToJson(InstructorClasses instance) =>
     <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'name': instance.name,
       'numberOfClasses': instance.numberOfClasses,
     };

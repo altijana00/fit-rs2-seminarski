@@ -5,15 +5,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'instructor_classes.g.dart';
 @JsonSerializable()
 class InstructorClasses {
-  final String firstName;
-  final String lastName;
+  final String name;
   final int numberOfClasses;
 
 
 
   InstructorClasses({
-    required this.firstName,
-    required this.lastName,
+    required this.name,
     required this.numberOfClasses
   });
 

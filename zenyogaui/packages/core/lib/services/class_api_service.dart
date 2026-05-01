@@ -29,6 +29,15 @@ class ClassApiService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getInstructorGroupedByStudioId(int studioId) async {
+    final response = await dio.get('Class/getInstructorGrouppedByStudioId?id=$studioId');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch grouped classes: ${response.data}');
+    }
+  }
+
 
   Future<Map<String, dynamic>> addClass(Map<String, dynamic> classData, int instructorId) async {
     final response = await dio.post(

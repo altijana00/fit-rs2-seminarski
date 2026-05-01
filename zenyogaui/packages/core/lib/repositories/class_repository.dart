@@ -4,6 +4,7 @@ import 'package:core/dto/responses/groupped_classes.dart';
 import '../dto/requests/add_class_dto.dart';
 import '../dto/requests/edit_class_dto.dart';
 import '../dto/responses/class_response_dto.dart';
+import '../dto/responses/instructor_classes.dart';
 import '../services/class_api_service.dart';
 
 
@@ -21,6 +22,12 @@ class ClassRepository {
     final json = await api.getStudioGroupped(studioId);
     return GrouppedClasses.fromJson(json);
   }
+
+  Future<List<InstructorClasses>> getInstructorGroupedByStudioId(int studioId) async {
+    final List<dynamic> jsonList = await api.getInstructorGroupedByStudioId(studioId);
+    return jsonList.map((json) => InstructorClasses.fromJson(json)).toList();
+  }
+
   Future<String> addClass(AddClassDto addClassDto, int instructorId) async {
     final json = await api.addClass(addClassDto.toJson(), instructorId);
     return json.values.first;

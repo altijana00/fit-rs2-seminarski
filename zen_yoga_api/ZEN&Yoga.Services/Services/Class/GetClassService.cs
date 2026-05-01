@@ -180,16 +180,18 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<List<InstructorClasses>> GetInstructorGrouppedByStudioId(int studioId)
         {
-            var instructors = await _dbContext.Instructors.Where(i => i.StudioId == studioId).ToListAsync();
+            
+            var studioInstructors = await _dbContext.Instructors.Where(i => i.StudioId == studioId).ToListAsync();
             var instuctorGrouppedClasses = new List<InstructorClasses>();
 
-            foreach(var i in instructors)
+            foreach(var i in studioInstructors)
             {
                 var numberOfInstructorClasses = await _dbContext.Classes.Where(c => c.InstructorId == i.Id).CountAsync();
+                var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == i.Id);
 
                 instuctorGrouppedClasses.Add(new InstructorClasses() {
 
-                    Name = i.User!.FirstName + " " + i.User!.LastName,
+                    Name = user!.FirstName + " " + user.LastName,
                     NumberOfClasses = numberOfInstructorClasses
                 }
                 );                
