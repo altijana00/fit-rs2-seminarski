@@ -1,7 +1,13 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:core/services/providers/studio_service.dart';
+import 'package:core/services/providers/pdf_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:zenyogaui/core/theme.dart';
 import '../widgets/kpi_card.dart';
@@ -17,6 +23,7 @@ class StatisticsScreenView extends StatefulWidget {
 class _StatisticsScreenViewState extends State<StatisticsScreenView> {
   late Future<List<ParticipantsByCity>> _citiesFuture;
   bool _isInitialized = false;
+  final GlobalKey _barChartKey = GlobalKey();
 
   @override
   void didChangeDependencies() {
@@ -33,15 +40,39 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
     }
   }
 
+  Future<Uint8List> captureWidget(GlobalKey key) async {
+    final boundary =
+    key.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
+    final image = await boundary.toImage(pixelRatio: 3);
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
+    return byteData!.buffer.asUint8List();
+  }
+
+  Future<void> _downloadPdf() async {
+    final analytics = context.read<AppAnalyticsProvider>().appAnalytics;
+
+    if (analytics == null) return;
+
+    // ensure widget is rendered before capture
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    final barChartImage = await captureWidget(_barChartKey);
+
+    final pdfBytes = await PdfService.generateReport(
+      totalUsers: analytics.totalUsers!,
+      totalStudios: analytics.totalStudios!,
+      barChartImage: barChartImage,
+    );
+
+    await Printing.layoutPdf(onLayout: (_) async => pdfBytes);
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<AppAnalyticsProvider>(
       builder: (context, provider, _) {
-
         if (provider.error != null) {
           return Center(
             child: Text(
@@ -52,6 +83,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
         }
 
         final analytics = provider.appAnalytics;
+
         if (analytics == null) {
           return const Center(child: Text("No analytics data available"));
         }
@@ -65,6 +97,12 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
+
+              ElevatedButton.icon(
+                icon: const Icon(Icons.download),
+                label: const Text("Download PDF"),
+                onPressed: _downloadPdf,
+              ),
 
               GridView.count(
                 crossAxisCount: 2,
@@ -86,8 +124,6 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                     icon: Icons.home_work,
                     color: Colors.deepPurple,
                   ),
-
-
                 ],
               ),
 
@@ -102,8 +138,10 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                   FutureBuilder<List<ParticipantsByCity>>(
                     future: _citiesFuture,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                      if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator());
                       }
 
                       if (snapshot.hasError) {
@@ -116,21 +154,26 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
 
                       final list = snapshot.data!;
 
-                      final labels = list.map((e) => e.cityName).toList();
+                      final labels =
+                      list.map((e) => e.cityName).toList();
+
                       final values = list
                           .map((e) => e.numberOfParticipants.toDouble())
                           .toList();
 
-                      return BarChartCard(
-                        title: "Most Popular Cities",
-                        values: values,
-                        labels: labels,
-                        color: AppColors.deepGreen,
+                      return RepaintBoundary(
+                        key: _barChartKey,
+                        child: BarChartCard(
+                          title: "Most Popular Cities",
+                          values: values,
+                          labels: labels,
+                          color: AppColors.deepGreen,
+                        ),
                       );
                     },
                   ),
                 ],
-              )
+              ),
             ],
           ),
         );

@@ -15,6 +15,7 @@ AddStudioDto _$AddStudioDtoFromJson(Map<String, dynamic> json) => AddStudioDto(
   contactPhone: json['contactPhone'] as String?,
   profileImageUrl: json['profileImageUrl'] as String?,
   cityId: (json['cityId'] as num).toInt(),
+  membershipPrice: (json['membershipPrice'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$AddStudioDtoToJson(AddStudioDto instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$AddStudioDtoToJson(AddStudioDto instance) =>
       'contactPhone': instance.contactPhone,
       'profileImageUrl': instance.profileImageUrl,
       'cityId': instance.cityId,
+      'membershipPrice': instance.membershipPrice,
     };

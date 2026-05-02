@@ -13,6 +13,7 @@ class AddStudioDto {
   final String? contactPhone;
   final String? profileImageUrl;
   final int cityId;
+  final double membershipPrice;
 
   AddStudioDto({
     required this.ownerId,
@@ -22,7 +23,8 @@ class AddStudioDto {
     this.contactEmail,
     this.contactPhone,
     this.profileImageUrl,
-    required this.cityId
+    required this.cityId,
+    required this.membershipPrice
   });
 
   factory AddStudioDto.fromJson(Map<String, dynamic> json) => _$AddStudioDtoFromJson(json);

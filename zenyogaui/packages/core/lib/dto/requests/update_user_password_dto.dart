@@ -5,7 +5,7 @@ part 'update_user_password_dto.g.dart';
 @JsonSerializable()
 class UpdateUserPasswordDto {
   final int id;
-  final String oldPassword;
+  final String? oldPassword;
   final String newPassword;
 
   UpdateUserPasswordDto({

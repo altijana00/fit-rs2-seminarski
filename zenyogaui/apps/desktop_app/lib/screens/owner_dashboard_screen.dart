@@ -84,42 +84,143 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
     await _loadStudios();
   }
 
+  Widget _buildSidebarActions() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Spacer(),
+          IconButton(
+            tooltip: "Profile",
+            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: () {showDialog(
+              context: context,
+              builder: (ctx) => EditUserDialog(
+                userToEdit: _user!,
+                onEdit: (updatedUser) async {
+                  await context
+                      .read<UserProvider>()
+                      .repository
+                      .editUser(updatedUser, _user!.id);
+
+                  _loadUser(_user!.id);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Profile details updated successfully"),
+                      backgroundColor: AppColors.deepGreen,
+                    ),
+                  );
+                  },
+              ),
+            );},
+          ),
+          const Divider(color: Colors.white),
+          IconButton(
+            tooltip: "Logout",
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () {showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text("Logout"),
+                content: const Text("Are you sure you want to logout?"),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: const Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.pop(ctx);
+                      await context.read<AuthProvider>().logout();
+
+                      if (!context.mounted) return;
+
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/',
+                            (_) => false,
+                      );
+                      },
+                    child: const Text("Logout"),
+                  ),
+                ],
+              ),
+            );
+              },
+          ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+
   @override Widget build(BuildContext context) {
 
     final studioProvider = Provider.of<StudioProvider>(context);
     final instructorProvider = Provider.of<InstructorProvider>(context);
 
+    Widget rightContent;
+
     if (_loadingStudios) {
-      return const Center(child: CircularProgressIndicator());
+      rightContent = const Center(child: CircularProgressIndicator());
     }
-    if (studios.isEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text("Time to add your studio!"),
-          const SizedBox(height: 12),
-          ElevatedButton.icon(
-            onPressed: () async {
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddStudioStepper(
-                  loggedUser: _user!,
-                  studioRepository: studioProvider.repository,
-                  instructorRepository: instructorProvider .repository,
-                  cities: dropdownCities,
-                ),
-              ),
-            );
-            if (result != null) {
-              studioProvider.notifyListeners();
-            }
-            },
-            icon: const Icon(Icons.add),
-            label: const Text("Add Studio"),
-            style: ElevatedButton.styleFrom( backgroundColor: Colors.green),
-          ),
-        ],
+    else if (studios.isEmpty) {
+      rightContent = Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Time to add your studio!",
+              style: TextStyle(color: AppColors.deepGreen),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddStudioStepper(
+                      loggedUser: _user!,
+                      studioRepository: studioProvider.repository,
+                      instructorRepository: instructorProvider.repository,
+                      cities: dropdownCities,
+                    ),
+                  ),
+                );
+
+                if (result != null) {
+                  await _reloadStudios();
+                }
+              },
+              icon: const Icon(Icons.add),
+              label: const Text("Add Studio"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            ),
+          ],
+        ),
+      );
+    }
+    else {
+      rightContent = Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _selectedIndex == 0
+            ? BuildStudiosTab(
+          context: context,
+          user: _user!,
+          studioProvider: studioProvider,
+          instructorProvider: instructorProvider,
+          studios: studios,
+          cityNames: cityNames!,
+          onReloadStudios: _reloadStudios,
+          cities: dropdownCities,
+        )
+            : BuildEmployeesTab(
+          context: context,
+          user: _user!,
+          instructorProvider: instructorProvider,
+          studioProvider: studioProvider,
+          studios: studios,
+        ),
       );
     }
 
@@ -131,122 +232,193 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
             backgroundColor: AppColors.lavender,
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-              },
+              setState(() => _selectedIndex = index);
+            },
             labelType: NavigationRailLabelType.all,
             destinations: const [
               NavigationRailDestination(
-                selectedIcon: Icon(Icons.apartment, color: AppColors.lavender,),
+                selectedIcon: Icon(Icons.apartment, color: AppColors.lavender),
                 icon: Icon(Icons.apartment, color: Colors.white),
-                label: Text("Studios", style: TextStyle(color: Colors.white),
-                ),
+                label: Text("Studios", style: TextStyle(color: Colors.white)),
               ),
               NavigationRailDestination(
-                selectedIcon: Icon(Icons.people, color: AppColors.lavender,),
+                selectedIcon: Icon(Icons.people, color: AppColors.lavender),
                 icon: Icon(Icons.people, color: Colors.white),
                 label: Text("Employees", style: TextStyle(color: Colors.white)),
               ),
             ],
-
-            trailing: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  IconButton(
-                    tooltip: "Profile",
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => EditUserDialog(
-                          userToEdit: _user!,
-                          onEdit: (updatedUser) async {
-                            await context
-                                .read<UserProvider>()
-                                .repository
-                                .editUser(updatedUser, _user!.id);
-
-                                _loadUser(_user!.id);
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Profile details updated successfully"),
-                                backgroundColor: AppColors.deepGreen,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  const Divider(color: Colors.white),
-                  IconButton(
-                    tooltip: "Logout",
-                    icon: const Icon(Icons.logout, color: Colors.white),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: const Text("Logout"),
-                          content: const Text("Are you sure you want to logout?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(ctx),
-                              child: const Text("Cancel"),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                Navigator.pop(ctx);
-                                await context.read<AuthProvider>().logout();
-
-                                if (!context.mounted) return;
-
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/',
-                                      (_) => false,
-                                );
-                              },
-                              child: const Text("Logout"),
-                            ),
-                          ],
-                        ),
-                      );
-
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
-            ),
+            trailing: _buildSidebarActions(),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: _selectedIndex == 0
-                  ? BuildStudiosTab(
-                context: context,
-                user: _user!,
-                studioProvider: studioProvider,
-                instructorProvider: instructorProvider,
-                studios: studios,
-                cityNames: cityNames!,
-                onReloadStudios: _reloadStudios,
-                cities: dropdownCities
-              )
-                  : BuildEmployeesTab(
-                  context: context,
-                  user: _user!,
-                  instructorProvider: instructorProvider,
-                  studioProvider: studioProvider,
-                  studios: studios),
-            ),
-          ),
+
+          Expanded(child: rightContent),
         ],
       ),
     );
+
+    // if (_loadingStudios) {
+    //   return const Center(child: CircularProgressIndicator());
+    // }
+    // if (studios.isEmpty) {
+    //   return Container(
+    //     color: Colors.white,
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         const Text("Time to add your studio!", style: TextStyle(color: AppColors.deepGreen),),
+    //         const SizedBox(height: 12),
+    //         ElevatedButton.icon(
+    //           onPressed: () async {
+    //             final result = await Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                 builder: (context) => AddStudioStepper(
+    //                   loggedUser: _user!,
+    //                   studioRepository: studioProvider.repository,
+    //                   instructorRepository: instructorProvider .repository,
+    //                   cities: dropdownCities,
+    //                 ),
+    //               ),
+    //             );
+    //             if (result != null) {
+    //               studioProvider.notifyListeners();
+    //             }
+    //           },
+    //           icon: const Icon(Icons.add),
+    //           label: const Text("Add Studio"),
+    //           style: ElevatedButton.styleFrom( backgroundColor: Colors.green),
+    //         ),
+    //       ],
+    //     )
+    //   );
+    //
+    // }
+
+
+
+    // return Scaffold(
+    //   backgroundColor: Colors.white,
+    //   body: Row(
+    //     children: [
+    //       NavigationRail(
+    //         backgroundColor: AppColors.lavender,
+    //         selectedIndex: _selectedIndex,
+    //         onDestinationSelected: (int index) {
+    //           setState(() {
+    //             _selectedIndex = index;
+    //           });
+    //           },
+    //         labelType: NavigationRailLabelType.all,
+    //         destinations: const [
+    //           NavigationRailDestination(
+    //             selectedIcon: Icon(Icons.apartment, color: AppColors.lavender,),
+    //             icon: Icon(Icons.apartment, color: Colors.white),
+    //             label: Text("Studios", style: TextStyle(color: Colors.white),
+    //             ),
+    //           ),
+    //           NavigationRailDestination(
+    //             selectedIcon: Icon(Icons.people, color: AppColors.lavender,),
+    //             icon: Icon(Icons.people, color: Colors.white),
+    //             label: Text("Employees", style: TextStyle(color: Colors.white)),
+    //           ),
+    //         ],
+    //
+    //         trailing: Expanded(
+    //           child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.end,
+    //             children: [
+    //               const Spacer(),
+    //               IconButton(
+    //                 tooltip: "Profile",
+    //                 icon: const Icon(Icons.person, color: Colors.white),
+    //                 onPressed: () {
+    //                   showDialog(
+    //                     context: context,
+    //                     builder: (ctx) => EditUserDialog(
+    //                       userToEdit: _user!,
+    //                       onEdit: (updatedUser) async {
+    //                         await context
+    //                             .read<UserProvider>()
+    //                             .repository
+    //                             .editUser(updatedUser, _user!.id);
+    //
+    //                             _loadUser(_user!.id);
+    //
+    //                         ScaffoldMessenger.of(context).showSnackBar(
+    //                           const SnackBar(
+    //                             content: Text("Profile details updated successfully"),
+    //                             backgroundColor: AppColors.deepGreen,
+    //                           ),
+    //                         );
+    //                       },
+    //                     ),
+    //                   );
+    //                 },
+    //               ),
+    //               const Divider(color: Colors.white),
+    //               IconButton(
+    //                 tooltip: "Logout",
+    //                 icon: const Icon(Icons.logout, color: Colors.white),
+    //                 onPressed: () {
+    //                   showDialog(
+    //                     context: context,
+    //                     builder: (ctx) => AlertDialog(
+    //                       title: const Text("Logout"),
+    //                       content: const Text("Are you sure you want to logout?"),
+    //                       actions: [
+    //                         TextButton(
+    //                           onPressed: () => Navigator.pop(ctx),
+    //                           child: const Text("Cancel"),
+    //                         ),
+    //                         TextButton(
+    //                           onPressed: () async {
+    //                             Navigator.pop(ctx);
+    //                             await context.read<AuthProvider>().logout();
+    //
+    //                             if (!context.mounted) return;
+    //
+    //                             Navigator.of(context).pushNamedAndRemoveUntil(
+    //                               '/',
+    //                                   (_) => false,
+    //                             );
+    //                           },
+    //                           child: const Text("Logout"),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   );
+    //
+    //                 },
+    //               ),
+    //               const SizedBox(height: 12),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //       Expanded(
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(16.0),
+    //           child: _selectedIndex == 0
+    //               ? BuildStudiosTab(
+    //             context: context,
+    //             user: _user!,
+    //             studioProvider: studioProvider,
+    //             instructorProvider: instructorProvider,
+    //             studios: studios,
+    //             cityNames: cityNames!,
+    //             onReloadStudios: _reloadStudios,
+    //             cities: dropdownCities
+    //           )
+    //               : BuildEmployeesTab(
+    //               context: context,
+    //               user: _user!,
+    //               instructorProvider: instructorProvider,
+    //               studioProvider: studioProvider,
+    //               studios: studios),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 

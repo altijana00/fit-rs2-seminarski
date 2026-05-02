@@ -4,11 +4,13 @@ using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -68,16 +70,25 @@ namespace ZEN_Yoga.Services.Services.User
 
         }
 
-        public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword)
+        public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword, string userRole)
         {
+            
+
+            
+
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updateUserPassword.UserId);
 
             if (user != null)
-            {
+            {               
 
                 var newPasswordHashed = PasswordHelpers.HashPassword(updateUserPassword.NewPassword);
 
-                if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword).Hash != user.PasswordHash) return "Incorrect old password";
+                if (int.Parse(userRole!) != (int)RoleType.Admin)
+                {
+                    if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword).Hash != user.PasswordHash) return "Incorrect old password";
+                }
+
+                
                 if (newPasswordHashed.Hash == user.PasswordHash) return "New password cannot be the same as the old";
 
 

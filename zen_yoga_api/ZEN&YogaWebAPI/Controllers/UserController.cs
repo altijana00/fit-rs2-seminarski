@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
+using System.Security.Claims;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -170,7 +171,9 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpPatch("updateUserPassword")]
         public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, [FromServices] IUpsertUserService<RegisterUser> upsertUserService)
         {
-            var result = await upsertUserService.UpdateUserPassword(updateUserPassword);
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var result = await upsertUserService.UpdateUserPassword(updateUserPassword, userRole);
 
             if (result == "Ok") return Ok(new { Message = "Password updated"! });
             if (result == "Error") return StatusCode((int)HttpStatusCode.InternalServerError, "An unexpected error occurred.");

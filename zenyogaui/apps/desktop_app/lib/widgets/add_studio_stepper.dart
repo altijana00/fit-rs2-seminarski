@@ -50,6 +50,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
 
   File? selectedImage;
   String studioPhotoUrl = "";
+  double membershipPrice = 0.0;
 
 
   @override
@@ -185,6 +186,19 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 ),
               ),
 
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                  ],
+                  decoration: const InputDecoration(labelText: "Membership Price", hintText: "e.g. 49.99"),
+                  onSaved: (value) => membershipPrice = double.tryParse(value ?? '')!,
+
+                ),
+              ),
+
               ElevatedButton(
                 onPressed: () async {
                   final picked = await ImagePicker().pickImage(
@@ -309,6 +323,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
               contactEmail: _studioData['contactEmail'],
               contactPhone: _studioData['contactPhone'],
               profileImageUrl: studioPhotoUrl,
+              membershipPrice: membershipPrice
             ),
           );
 
