@@ -10,6 +10,7 @@ namespace ZEN_Yoga.Models.Enums
     {
         Processing = 0,
         Succeeded = 1,
+        Refunded = 2,
         Canceled = 3,
         Requires_Capture = 4,
         Requires_Reauthorization = 5,

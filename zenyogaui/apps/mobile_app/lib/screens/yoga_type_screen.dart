@@ -34,7 +34,6 @@ class YogaTypeScreen extends StatelessWidget {
     final paymentController = Get.put(PaymentController());
     final paymentProvider = context.read<PaymentProvider>();
 
-
     return Scaffold(
       appBar: AppBar(title: Text(yogaType.name)),
       body: SingleChildScrollView(
@@ -53,69 +52,125 @@ class YogaTypeScreen extends StatelessWidget {
                     Container(height: 180, color: Colors.grey.shade300),
               ),
             ),
-
             const SizedBox(height: 16),
-
             Text(
               yogaType.description,
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
-
             const SizedBox(height: 24),
-
             Text(
               "Upcoming Classes",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 12),
-
             Column(
               children: classes.map((c) {
                 final instructorName =
                     instructorMap[c.instructorId] ?? 'Unknown instructor';
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    title: Text(c.name),
-                    subtitle: Text(
-                      "${dateFormatter.format(c.startDate)} - Instructor: $instructorName",
-                    ),
-                    trailing: ElevatedButton(
-                      onPressed: () async {
-                        try {
-                          //IF
-                          if (await paymentProvider.repository.isUserPaidMember(user!.id, studioId) == false)
-                          {
-                            // studiomembership
-                            await paymentController.makePayment(amount: 100, currency: 'USD', userId: user.id, studioId: studioId);
-                            
-                            //await paymentProvider.repository.addPayment(user.id, studioId);
-                            //ScaffoldMessenger.of(context).showSnackBar(
-                             // SnackBar(content: Text("Paid")),
-                            //);
-                          }
-
-
-
-                          await userClassProvider.repository.join(c.id, user!.id);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Joined ${c.name}")),
-                          );
-
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
-                          );
-                        }
-                      },
-                      child: const Text("Join"),
-                    ),
-                  ),
+                // Svaka kartica ima svoj loading state
+                return _ClassCard(
+                  yogaClass: c,
+                  instructorName: instructorName,
+                  user: user,
+                  studioId: studioId,
+                  paymentProvider: paymentProvider,
+                  paymentController: paymentController,
+                  userClassProvider: userClassProvider,
                 );
               }).toList(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// Izdvojen kao StatefulWidget da svaka kartica ima svoj _isLoading
+class _ClassCard extends StatefulWidget {
+  final ClassResponseDto yogaClass;
+  final String instructorName;
+  final dynamic user;
+  final int studioId;
+  final PaymentProvider paymentProvider;
+  final PaymentController paymentController;
+  final UserClassProvider userClassProvider;
+
+  const _ClassCard({
+    required this.yogaClass,
+    required this.instructorName,
+    required this.user,
+    required this.studioId,
+    required this.paymentProvider,
+    required this.paymentController,
+    required this.userClassProvider,
+  });
+
+  @override
+  State<_ClassCard> createState() => _ClassCardState();
+}
+
+class _ClassCardState extends State<_ClassCard> {
+  bool _isLoading = false;
+
+  Future<void> _handleJoin() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final isPaid = await widget.paymentProvider.repository
+          .isUserPaidMember(widget.user!.id, widget.studioId);
+
+      // TODO REFUND DUGME
+      if (!isPaid) {
+        await widget.paymentController.makePayment(
+          amount: 100, // TODO
+          currency: 'USD',
+          userId: widget.user!.id,
+          studioId: widget.studioId,
+        );
+      }
+
+      await widget.userClassProvider.repository
+          .join(widget.yogaClass.id, widget.user!.id);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Joined ${widget.yogaClass.name}")),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      child: ListTile(
+        title: Text(widget.yogaClass.name),
+        subtitle: Text(
+          "${dateFormatter.format(widget.yogaClass.startDate)} - Instructor: ${widget.instructorName}",
+        ),
+        trailing: ElevatedButton(
+          onPressed: _isLoading ? null : _handleJoin,
+          child: _isLoading
+              ? const SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.white,
+            ),
+          )
+              : const Text("Join"),
         ),
       ),
     );

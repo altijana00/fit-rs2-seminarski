@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Stripe;
 using System.Text;
@@ -50,15 +52,38 @@ public class RabbitMqListener : BackgroundService
                 });
 
                 var service = new PaymentIntentService();
-                var paymentIntent = await service.GetAsync(paymentMessage!.PaymentIntentId);
-                paymentMessage.Status = MapPaymentProcessingStatus(paymentIntent.Status).ToString();
+                var paymentIntent = await service.GetAsync(paymentMessage!.PaymentIntentId, new PaymentIntentGetOptions
+                {
+                    Expand = new List<string> { "latest_charge" } // expand charge
+                });
+
+                string status = string.Empty;
+                if (paymentIntent.LatestCharge.Refunded)
+                {
+                    status = PaymentStatus.Refunded.ToString();
+                }
+                else
+                {
+                    paymentMessage.Status = MapPaymentProcessingStatus(paymentIntent.Status).ToString();
+                }
+                
                 
 
                 using var scope = _scopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ZenYogaDbContext>();
 
-                await dbContext.Payments.AddAsync(paymentMessage!, stoppingToken);
-                await dbContext.SaveChangesAsync(stoppingToken);
+                var payment = await  dbContext.Payments.FirstOrDefaultAsync(p => p.PaymentIntentId == paymentIntent.Id);
+
+                if (payment != null)
+                {
+                    payment.Status = status;
+                    await dbContext.SaveChangesAsync(stoppingToken);
+                }
+                else
+                {
+                    await dbContext.Payments.AddAsync(paymentMessage!, stoppingToken);
+                    await dbContext.SaveChangesAsync(stoppingToken);
+                }
             }
 
             await Task.Delay(1000, stoppingToken);
@@ -70,6 +95,7 @@ public class RabbitMqListener : BackgroundService
         return status switch
         {   
             "succeeded" => PaymentStatus.Succeeded,
+            "refunded" => PaymentStatus.Refunded,
             "canceled" => PaymentStatus.Canceled,
             "requires_capture" => PaymentStatus.Requires_Capture,
             "requires_reauthorization" => PaymentStatus.Requires_Reauthorization,

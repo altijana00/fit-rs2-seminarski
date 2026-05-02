@@ -28,6 +28,17 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new {Message = "Unable to make the payment!"});
         }
 
+        [Authorize(Roles = "1, 4")]
+        [HttpPost("refund-payment")]
+        public async Task<IActionResult> RefundPayment(int userId, int studioId)
+        {
+            if (await _paymentService.RefundPayment(userId, studioId))
+            {
+                return Ok(new { Message = "Payment is refunded!" });
+            }
+            return BadRequest(new { Message = "Unable to refund the payment!" });
+        }
+
 
         [Authorize(Roles = "1, 4")]
         [HttpGet("isUserPaidMember")]

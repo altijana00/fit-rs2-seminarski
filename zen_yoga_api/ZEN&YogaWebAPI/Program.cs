@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -14,7 +10,6 @@ using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Analytics;
-using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.BlobStorage;
 using ZEN_Yoga.Services.Interfaces.City;
 using ZEN_Yoga.Services.Interfaces.Class;
@@ -41,7 +36,6 @@ using ZEN_Yoga.Services.Services.YogaType;
 using ZEN_YogaWebAPI.Mapper;
 using ZEN_YogaWebAPI.Middleware;
 using ZEN_YogaWebAPI.Notifications;
-using static System.Net.WebRequestMethods;
 
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

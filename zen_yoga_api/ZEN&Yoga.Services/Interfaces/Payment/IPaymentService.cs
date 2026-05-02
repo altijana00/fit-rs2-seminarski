@@ -11,6 +11,8 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
     {
         Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId);
 
+        Task<bool> RefundPayment(int userId, int studioId);
+
         Task<bool> IsUserPaidMember(int userId, int studioId);
 
         Task<CreateIntentResponse> CreatePaymentIntentAsync(string amount, string currency);
