@@ -193,7 +193,7 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                       ElevatedButton.icon(
                         icon: const Icon(Icons.edit),
                         label: const Text("Edit"),
-                        style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30)),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo,fixedSize: const Size(80, 30)),
                         onPressed: () {
                           showDialog(
                             context: context,

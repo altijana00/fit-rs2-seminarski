@@ -1,7 +1,11 @@
+import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
+import 'package:core/services/providers/studio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/core/theme.dart';
 import '../widgets/kpi_card.dart';
+import 'bar_chart.dart';
 
 class StatisticsScreenView extends StatefulWidget {
   const StatisticsScreenView({super.key});
@@ -11,19 +15,30 @@ class StatisticsScreenView extends StatefulWidget {
 }
 
 class _StatisticsScreenViewState extends State<StatisticsScreenView> {
+  late Future<List<ParticipantsByCity>> _citiesFuture;
+  bool _isInitialized = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
+    if (!_isInitialized) {
+      final studioProvider = context.read<StudioProvider>();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _citiesFuture = studioProvider.repository.getMostPopularStudioCities();
+
       context.read<AppAnalyticsProvider>().repository.getAppAnalytics();
-    });
+
+      _isInitialized = true;
+    }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer<AppAnalyticsProvider>(
       builder: (context, provider, _) {
 
@@ -52,7 +67,8 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
               const SizedBox(height: 16),
 
               GridView.count(
-                crossAxisCount: 4,
+                crossAxisCount: 2,
+                childAspectRatio: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 16,
@@ -71,8 +87,50 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                     color: Colors.deepPurple,
                   ),
 
+
                 ],
               ),
+
+              GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                children: [
+                  FutureBuilder<List<ParticipantsByCity>>(
+                    future: _citiesFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text("No data available");
+                      }
+
+                      final list = snapshot.data!;
+
+                      final labels = list.map((e) => e.cityName).toList();
+                      final values = list
+                          .map((e) => e.numberOfParticipants.toDouble())
+                          .toList();
+
+                      return BarChartCard(
+                        title: "Most Popular Cities",
+                        values: values,
+                        labels: labels,
+                        color: AppColors.deepGreen,
+                      );
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         );

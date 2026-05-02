@@ -36,5 +36,15 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(participants);
             
         }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("getMostPopularStudioCities")]
+        public async Task<IActionResult> GetMostPopularStudioCities()
+        {
+            var mostPopularCities = await _studioAnalyticsService.GetMostPopularStudioCities();
+
+            return Ok(mostPopularCities);
+
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 
 namespace ZEN_Yoga.Services.Services.Analytics
@@ -37,6 +38,41 @@ namespace ZEN_Yoga.Services.Services.Analytics
             participantsNumber = participants.Count;
 
             return participantsNumber;
+        }
+
+        public async Task<List<StudioParticipantsByCityResponse>> GetMostPopularStudioCities()
+        {
+
+            var studios = await _dbContext.Studios.ToListAsync();
+
+            var cityTotals = new Dictionary<string, int>();
+
+            foreach (var s in studios)
+            {
+                var participants = await GetNumberofParticipants(s.Id);
+                var city = await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == s.CityId);
+
+                if (city != null && participants>0) 
+                {
+                    if (cityTotals.ContainsKey(city.Name))
+                        cityTotals[city.Name] += participants;
+                    else
+                        cityTotals[city.Name] = participants;
+                }
+
+                
+            }
+
+            return cityTotals
+                .Select(ct => new StudioParticipantsByCityResponse
+                {
+                    CityName = ct.Key,
+                    NumberOfParticipants = ct.Value
+                })
+                .OrderByDescending(x => x.NumberOfParticipants)
+                .Take(3)
+                .ToList();
+
         }
 
         public async Task<int> GetNumberofEmployees(int studioId)

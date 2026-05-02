@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:dio/dio.dart';
 
 class StudioApiService {
@@ -49,6 +50,15 @@ class StudioApiService {
       return response.data;
     } else {
       throw Exception('Falied to fetch studio participants: ${response.data}');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getMostPopularStudioCities() async {
+    final response = await dio.get('StudioAnalytics/getMostPopularStudioCities');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch most popular cities: ${response.data}');
     }
   }
 

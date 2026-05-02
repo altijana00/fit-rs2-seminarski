@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:core/dto/responses/participants_by_city.dart';
+
 import '../dto/requests/add_studio_dto.dart';
 import '../dto/requests/edit_studio_dto.dart';
 import '../dto/responses/studio_response_dto.dart';
@@ -34,6 +36,11 @@ class StudioRepository {
   Future<int> getParticipants(int studioId) async {
     final json = await api.getParticipants(studioId);
     return json;
+  }
+
+  Future<List<ParticipantsByCity>> getMostPopularStudioCities() async {
+    final List<dynamic> jsonList = await api.getMostPopularStudioCities();
+    return jsonList.map((json) => ParticipantsByCity.fromJson(json)).toList();
   }
 
 
