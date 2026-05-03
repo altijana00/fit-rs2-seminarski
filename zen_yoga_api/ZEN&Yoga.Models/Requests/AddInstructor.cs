@@ -7,10 +7,8 @@ namespace ZEN_Yoga.Models.Requests
         [MaxLength(200, ErrorMessage ="Biography can't contain more than 200 characters.")]
         public string? Biography { get; set; }
 
-
         [MaxLength(200, ErrorMessage = "Diplomas can't contain more than 200 characters.")]
         public string? Diplomas { get; set; }
-
 
         [MaxLength(200, ErrorMessage = "Certificates can't contain more than 200 characters.")]
         public string? Certificates { get; set; }

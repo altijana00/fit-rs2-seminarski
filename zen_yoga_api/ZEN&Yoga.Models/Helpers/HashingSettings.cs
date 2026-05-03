@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace ZEN_Yoga.Models.Helpers
+﻿namespace ZEN_Yoga.Models.Helpers
 {
     public static class HashingConfig
     {
@@ -14,7 +12,5 @@ namespace ZEN_Yoga.Models.Helpers
     public class HashingSettings
     {
         public string? Salt { get; set; }
-
-       
     }
 }

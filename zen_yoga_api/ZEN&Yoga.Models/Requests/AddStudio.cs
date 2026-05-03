@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ZEN_Yoga.Models.Requests
 {
     public class AddStudio
     {
-       
         public int OwnerId { get; set; }
 
         [Required(ErrorMessage = "Studio name is required!")]
@@ -31,6 +24,5 @@ namespace ZEN_Yoga.Models.Requests
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
         public required float MembershipPrice { get; set; }
-
     }
 }

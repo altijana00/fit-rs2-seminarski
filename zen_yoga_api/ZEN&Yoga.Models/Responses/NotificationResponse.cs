@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ZEN_Yoga.Models.Responses
+﻿namespace ZEN_Yoga.Models.Responses
 {
     public class NotificationResponse
     {

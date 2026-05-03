@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Stripe;
 using System.Text;
@@ -15,6 +14,8 @@ public class RabbitMqListener : BackgroundService
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly string _rabbitHost;
     private readonly string _rabbitQueue;
+    private readonly string _latestChargeField;
+    private readonly int _taskDelayTime;
 
     public RabbitMqListener(IServiceScopeFactory scopeFactory, IConfiguration configuration)
     {
@@ -22,6 +23,8 @@ public class RabbitMqListener : BackgroundService
         _rabbitQueue = configuration["RabbitMQ:Queue"] ?? throw new ArgumentNullException("RabbitMQ:Queue");
         _scopeFactory = scopeFactory;
         StripeConfiguration.ApiKey = configuration["StripeSettings:SecretKey"] ?? throw new ArgumentNullException("StripeSettings:SecretKey");
+        _latestChargeField = "latest_charge";
+        _taskDelayTime = 1000;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -54,7 +57,7 @@ public class RabbitMqListener : BackgroundService
                 var service = new PaymentIntentService();
                 var paymentIntent = await service.GetAsync(paymentMessage!.PaymentIntentId, new PaymentIntentGetOptions
                 {
-                    Expand = new List<string> { "latest_charge" } // expand charge
+                    Expand = new List<string> { _latestChargeField }
                 });
 
                 string status = string.Empty;
@@ -86,7 +89,7 @@ public class RabbitMqListener : BackgroundService
                 }
             }
 
-            await Task.Delay(1000, stoppingToken);
+            await Task.Delay(_taskDelayTime, stoppingToken);
         }
     }
 

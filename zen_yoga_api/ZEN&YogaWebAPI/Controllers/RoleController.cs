@@ -75,6 +75,17 @@ namespace ZEN_YogaWebAPI.Controllers
 
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Role data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
             await upsertRoleService.Add(addRole);
             _logger.LogInformation($"Role added successfully!");
             return Ok(new { Message = "Role added successfully!" });

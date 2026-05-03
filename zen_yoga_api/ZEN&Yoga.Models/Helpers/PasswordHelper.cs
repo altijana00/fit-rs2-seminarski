@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-
 
 namespace ZEN_Yoga.Models.Helpers
 {
@@ -23,10 +21,5 @@ namespace ZEN_Yoga.Models.Helpers
 
             return (hash, salt);
         }
-
-
-
-
-
     }
 }

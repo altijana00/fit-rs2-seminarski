@@ -147,6 +147,7 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+                _logger.LogInformation("Studio data was invalid: {Errors}", string.Join(", ", errors));
                 return BadRequest(new { Message = errors });
             }
 
