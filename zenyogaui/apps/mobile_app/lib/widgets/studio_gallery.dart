@@ -17,7 +17,7 @@ class StudioGalleryWidget extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (_, index) {
           final url = images[index];
           return GestureDetector(
@@ -29,7 +29,7 @@ class StudioGalleryWidget extends StatelessWidget {
                 height: 120,
                 width: 120,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
+                errorBuilder: (_, _, _) =>
                     Container(color: Colors.grey.shade300, width: 120, height: 120),
               ),
             ),

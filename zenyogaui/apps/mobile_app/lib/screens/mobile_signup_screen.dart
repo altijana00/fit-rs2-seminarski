@@ -1,5 +1,4 @@
 import 'package:core/dto/responses/city_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

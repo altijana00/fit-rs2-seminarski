@@ -60,7 +60,7 @@ class StudioDetailsScreen extends StatelessWidget {
                     height: 180,
                     width: 180,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
+                    errorBuilder: (_, _, _) =>
                         Container(height: 180, width: 180, color: Colors.grey.shade300),
                   ),
                 ),
@@ -194,7 +194,7 @@ class StudioDetailsScreen extends StatelessWidget {
 
                 return Column(
                   children: [
-                    if (grouped.hathaYoga.length > 0)
+                    if (grouped.hathaYoga.isNotEmpty)
                       YogaTypeCard(
                         yogaType: YogaTypeModel(
                           id: 1,
@@ -205,7 +205,7 @@ class StudioDetailsScreen extends StatelessWidget {
                         instructorMap: instructorMap,
                         studioId: studio.id,
                       ),
-                    if (grouped.vinyasaYoga.length > 0)
+                    if (grouped.vinyasaYoga.isNotEmpty)
                       YogaTypeCard(
                         yogaType: YogaTypeModel(
                           id: 2,
@@ -216,7 +216,7 @@ class StudioDetailsScreen extends StatelessWidget {
                         instructorMap: instructorMap,
                         studioId: studio.id,
                       ),
-                    if (grouped.yinYoga.length >0)
+                    if (grouped.yinYoga.isNotEmpty)
                       YogaTypeCard(
                         yogaType: YogaTypeModel(
                           id: 3,

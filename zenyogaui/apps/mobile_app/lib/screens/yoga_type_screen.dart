@@ -5,7 +5,6 @@ import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -48,7 +47,7 @@ class YogaTypeScreen extends StatelessWidget {
                 height: 180,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
+                errorBuilder: (_, _, _) =>
                     Container(height: 180, color: Colors.grey.shade300),
               ),
             ),

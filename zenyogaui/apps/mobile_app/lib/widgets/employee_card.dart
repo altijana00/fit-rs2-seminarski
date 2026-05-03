@@ -30,7 +30,7 @@ class EmployeeCard extends StatelessWidget {
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) =>
+                  errorBuilder: (_, _, _) =>
                       Container(color: Colors.grey.shade300, height: 80, width: 80),
                 )
                     : Container(
@@ -55,7 +55,7 @@ class EmployeeCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               // Email
-              if (instructor.email != null && instructor.email!.isNotEmpty) ...[
+              if (instructor.email.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
                   instructor.email,

@@ -1,6 +1,5 @@
 
 
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -13,16 +12,16 @@ final ThemeData appTheme = ThemeData(
   primaryColor: AppColors.deepGreen,
   scaffoldBackgroundColor: Colors.white,
   dataTableTheme: DataTableThemeData(
-    headingRowColor: MaterialStateProperty.all(
+    headingRowColor: WidgetStateProperty.all(
         AppColors.lavender,
     ),
     headingTextStyle: const TextStyle(
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
-    dataRowColor: MaterialStateProperty.resolveWith(
+    dataRowColor: WidgetStateProperty.resolveWith(
           (states) {
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return AppColors.lavender.withOpacity(0.15);
         }
         return Colors.grey.shade50;

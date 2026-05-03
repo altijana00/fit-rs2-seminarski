@@ -1,6 +1,5 @@
 import 'package:core/dto/requests/register_user_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

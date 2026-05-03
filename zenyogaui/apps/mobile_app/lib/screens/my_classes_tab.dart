@@ -37,7 +37,6 @@ class MyClassesTabState extends State<MyClassesTab> {
     final instructorProvider = context.read<InstructorProvider>();
 
     final userId = user!.id;
-    if (userId == null) return;
 
     final classes = await userClassProvider.repository.getByUserId(userId);
     final instructors = await instructorProvider.repository.getAllInstructors();

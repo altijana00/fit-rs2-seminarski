@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'package:core/core/constants.dart';
 import 'package:core/models/create_intent_request_model.dart';
 import 'package:core/services/providers/payment_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../main.dart';

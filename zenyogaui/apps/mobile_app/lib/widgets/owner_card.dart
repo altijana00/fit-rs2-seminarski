@@ -28,7 +28,7 @@ class OwnerCard extends StatelessWidget {
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) =>
+                  errorBuilder: (_, _, _) =>
                       Container(color: Colors.grey.shade300, height: 80, width: 80),
                 )
                     : Container(
@@ -50,10 +50,10 @@ class OwnerCard extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.normal),
                 textAlign: TextAlign.center,
               ),
-              if (user.email != null && user.email!.isNotEmpty) ...[
+              if (user.email.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
-                  user.email!,
+                  user.email,
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),

@@ -1,11 +1,9 @@
 import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/studio_details_screen.dart';
 import 'package:provider/provider.dart';

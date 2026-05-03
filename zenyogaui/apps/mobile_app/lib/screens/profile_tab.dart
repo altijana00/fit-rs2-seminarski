@@ -172,11 +172,11 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   void _openUpdatePasswordModal(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
-    String _oldPassword = '';
-    String _newPassword = '';
-    String _confirmPassword = '';
+    String oldPassword = '';
+    String newPassword = '';
+    String confirmPassword = '';
 
     showDialog(
       context: context,
@@ -184,7 +184,7 @@ class _ProfileTabState extends State<ProfileTab> {
         return AlertDialog(
           title: const Text("Update password"),
           content: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -193,7 +193,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   decoration: const InputDecoration(
                     labelText: "Old password",
                   ),
-                  onSaved: (v) => _oldPassword = v ?? '',
+                  onSaved: (v) => oldPassword = v ?? '',
                 ),
                 const SizedBox(height: 12),
 
@@ -202,7 +202,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   decoration: const InputDecoration(
                     labelText: "New password",
                   ),
-                  onSaved: (v) => _newPassword = v ?? '',
+                  onSaved: (v) => newPassword = v ?? '',
                 ),
                 const SizedBox(height: 12),
 
@@ -212,7 +212,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     labelText: "Confirm new password",
                   ),
 
-                  onSaved: (v) => _confirmPassword = v ?? '',
+                  onSaved: (v) => confirmPassword = v ?? '',
                 ),
               ],
             ),
@@ -225,13 +225,13 @@ class _ProfileTabState extends State<ProfileTab> {
             ElevatedButton(
               onPressed: () async {
 
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
 
                   final updto = UpdateUserPasswordDto(
                     id: context.read<AuthProvider>().user!.id,
-                    oldPassword: _oldPassword,
-                    newPassword: _newPassword,
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
                   );
 
 

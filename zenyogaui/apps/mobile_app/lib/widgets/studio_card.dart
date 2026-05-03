@@ -36,7 +36,7 @@ class StudioCard extends StatelessWidget {
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
+                  errorBuilder: (_, _, _) => Container(
                     height: 80,
                     width: 80,
                     color: Colors.grey.shade300,
