@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Seminarski123!
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - MSSQL_PID=Developer
     ports:
       - 14533:1433
     healthcheck:
-      test: /opt/mssql-tools18/bin/sqlcmd -S zenyoga-database -U sa -P Seminarski123! -Q "SELECT 1" -C
+      test: /opt/mssql-tools18/bin/sqlcmd -S zenyoga-database -U sa -P ${MSSQL_SA_PASSWORD} -Q "SELECT 1" -C
       interval: 10s
       timeout: 5s
       retries: 10
@@ -22,37 +22,34 @@ services:
     build:
       context: .
     environment:
-      - ConnectionStrings:DefaultConnection=server=zenyoga-database,1433;database=190015;User Id=sa;Password=Seminarski123!;Trust Server Certificate=true;
-      - AzureBlobStorage:ConnectionString=DefaultEndpointsProtocol=https;AccountName=zenyoga;AccountKey=5KPv3p7SI/+q91ZHtVWl8F47eRgK3Zpjh0rLUXjy5Exb+XfOT5dIHbQiMx/jSEYlSx6zHNlegw43+AStUUKbJg==;EndpointSuffix=core.windows.net
-      - AzureBlobStorage:UserPhotosContainer=user-photos
-      - AzureBlobStorage:StudioPhotosContainer=studio-photos
-      - RabbitMQ:Host=rabbitmq
-      - RabbitMQ:Port=5672
-      - RabbitMQ:User=guest
-      - RabbitMQ:Password=guest
-      - RabbitMQ:QueueName=events
-      - JwtSettings:Issuer=myIssuer
-      - JwtSettings:Audience=myAudience
-      - JwtSettings:SecretKey=superSecretKey123457890555555gzfizu6
-      - HashingSettings:Salt=rs2rs2123
-      - ASPNETCORE_ENVIRONMENT=Development
-      - StripeSettings:SecretKey=sk_test_51SpIJSC1su3FW6hZ76z2KfAWQXDHZQL87XnArOXWxN8d5xDHBnBsTUHUezSh2MBojM5vNJVlslZrGnttomqSzGAu00BlPo3a9H
-      - StripeSettings:StripeVersion=2024-06-20
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - AzureBlobStorage__ConnectionString=${AZURE_BLOB_CONNECTION_STRING}
+      - AzureBlobStorage__UserPhotosContainer=${AZURE_BLOB_USER_PHOTOS_CONTAINER}
+      - AzureBlobStorage__StudioPhotosContainer=${AZURE_BLOB_STUDIO_PHOTOS_CONTAINER}
+      - RabbitMQ__Host=${RABBITMQ_HOST}
+      - RabbitMQ__Port=${RABBITMQ_PORT}
+      - RabbitMQ__User=${RABBITMQ_USER}
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+      - RabbitMQ__QueueName=${RABBITMQ_QUEUE}
+      - JwtSettings__Issuer=${JWT_ISSUER}
+      - JwtSettings__Audience=${JWT_AUDIENCE}
+      - JwtSettings__SecretKey=${JWT_SECRET_KEY}
+      - HashingSettings__Salt=${HASHING_SALT}
+      - StripeSettings__SecretKey=${STRIPE_SECRET_KEY}
+      - StripeSettings__StripeVersion=${STRIPE_VERSION}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
     ports:
       - 8080:8080
     networks:
       - zenyoga-network
-    links:
-      - zenyoga-database
-    
     depends_on:
       zenyoga-database:
         condition: service_healthy
 
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3-management
-    ports: 
+    image: rabbitmq:3.13.7-management-alpine
+    ports:
       - "5672:5672"
       - "15672:15672"
     networks:
@@ -62,14 +59,14 @@ services:
 
   zenyoga-worker:
     build:
-      context: .      
+      context: .
       dockerfile: Worker-Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=server=zenyoga-database,1433;database=190015;User Id=sa;Password=Seminarski123!;Trust Server Certificate=true;
-      - RabbitMQ__Host=rabbitmq
-      - RabbitMQ__Queue=events
-      - StripeSettings__SecretKey=sk_test_51SpIJSC1su3FW6hZ76z2KfAWQXDHZQL87XnArOXWxN8d5xDHBnBsTUHUezSh2MBojM5vNJVlslZrGnttomqSzGAu00BlPo3a9H
-      - StripeSettings__StripeVersion=2024-06-20
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - RabbitMQ__Host=${RABBITMQ_HOST}
+      - RabbitMQ__Queue=${RABBITMQ_QUEUE}
+      - StripeSettings__SecretKey=${STRIPE_SECRET_KEY}
+      - StripeSettings__StripeVersion=${STRIPE_VERSION}
     networks:
       - zenyoga-network
     depends_on:
