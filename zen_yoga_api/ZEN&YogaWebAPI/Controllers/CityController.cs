@@ -73,6 +73,17 @@ namespace ZEN_YogaWebAPI.Controllers
 
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("City data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
             await upsertCityService.Add(addCity);
             _logger.LogInformation($"City added successfully: {addCity.Name}");
             return Ok(new { Message = "City added successfully!" });
@@ -87,6 +98,17 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogInformation("City was null");
                 return BadRequest();
 
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("City data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
             }
 
             await upsertCityService.Edit(editCity, id);

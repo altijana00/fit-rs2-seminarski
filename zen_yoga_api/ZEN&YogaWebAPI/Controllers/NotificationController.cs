@@ -77,6 +77,17 @@ namespace ZEN_YogaWebAPI.Controllers
 
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Notification data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
             await upsertNotificationService.Add(addNotification);
             _logger.LogInformation($"Success: Added notification");
             return Ok(new { Message = "Notification added successfully!" });
@@ -91,6 +102,17 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogInformation($"Attempt to edit notification with bad data");
 
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Notification data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
             }
 
             await upsertNotificationService.Edit(editNotification, id);

@@ -113,6 +113,17 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest();
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Class data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
 
             await upsertClassService.Add(addClass, instructorId, yogaTypeValidatorService);
 
@@ -145,6 +156,17 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogDebug($"Attempt to edit class with invalid data for classID: {id}");
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Class data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
             }
 
 

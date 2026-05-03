@@ -74,6 +74,17 @@ namespace ZEN_YogaWebAPI.Controllers
 
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Yoga data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
             await upsertYogaTypeService.Add(addYogaType);
             _logger.LogInformation("Yoga type added successfully!");
             return Ok(new { Message = "Yoga type added successfully!" });
@@ -88,6 +99,17 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogInformation("Adding yoga type data was null");
                 return BadRequest();
 
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Yoga type  data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
             }
 
             await upsertYogaTypeService.Edit(editYogaType, id);
