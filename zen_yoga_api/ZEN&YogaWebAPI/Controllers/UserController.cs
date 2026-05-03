@@ -3,22 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Security.Claims;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.City;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
+        public UserController(ILogger<UserController> logger)
+        {
+            _logger = logger;
+        }
 
         [Authorize(Roles = "1, 2, 3")]
         [HttpGet("getAll")]        
@@ -28,8 +30,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (users == null)
             {
+                _logger.LogInformation("No users found");
                 return NoContent();
             }
+
+            _logger.LogInformation($"{users.Count} users found");
             return Ok(users);
         }
 
@@ -41,8 +46,12 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (users == null)
             {
+                _logger.LogInformation($"No users found with query: {userQuery.Search} ");
+
                 return NoContent();
             }
+
+            _logger.LogInformation($"{users.Count} users found with query: {userQuery.Search} ");
             return Ok(users);
         }
 
@@ -55,9 +64,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (user == null) 
             {
+                _logger.LogInformation($"No user found with ID: {id} ");
                 return NoContent();
             }
-
+            _logger.LogInformation($"{user.LastName} {user.LastName} found with ID: {id} ");
             return Ok(user);
         }
 
@@ -69,8 +79,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (user == null)
             {
+                _logger.LogInformation($"No user found with email: {email} ");
                 return NoContent();
             }
+            _logger.LogInformation($"{user.LastName} {user.LastName} found with email: {email} ");
+
             return Ok(user);
         }
 
@@ -83,6 +96,8 @@ namespace ZEN_YogaWebAPI.Controllers
                                             [FromServices] ICityValidatorService cityValidatorService)
         {
             if (registerUser == null) {
+                _logger.LogInformation("User data was null");
+
                 return BadRequest();
             }
 
@@ -93,11 +108,12 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+                _logger.LogInformation("User data was invalid: {Errors}", string.Join(", ", errors));
                 return BadRequest(new { Message = errors });
             }
 
             await upsertUserService.Add(userValidatorService, roleValidatorService, cityValidatorService, registerUser);
-
+            _logger.LogInformation($"User registered: {registerUser.Email}");
             return Ok(new { Message = "User registered!" });
         }
 
@@ -107,6 +123,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editUser == null)
             {
+                _logger.LogInformation("User data was null");
                 return BadRequest();
             }
 
@@ -117,6 +134,7 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+                _logger.LogInformation("User data was invalid: {Errors}", string.Join(", ", errors));
                 return BadRequest(new { Message = errors });
             }
 
@@ -147,12 +165,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (photoUrl.IsNullOrEmpty())
             {
+                _logger.LogInformation($"No photo updated for userId: {userId}");
                 return BadRequest("No file uploaded!");
             }
 
             await uploadUserPhotoService.EditUserPhoto(photoUrl, userId);
+            _logger.LogInformation($"Success: Photo updated for userId: {userId}");
             return Ok();
-
         }
 
 
@@ -162,8 +181,11 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation($"User: {id} deleted");
                 return Ok(new { Message = "User deleted" });
             }
+
+            _logger.LogInformation($"User: {id} no found for deletion");
             return BadRequest(new { Message = "There is no user with this ID!" });
         }
 
@@ -175,7 +197,13 @@ namespace ZEN_YogaWebAPI.Controllers
 
             var result = await upsertUserService.UpdateUserPassword(updateUserPassword, userRole);
 
-            if (result == "Ok") return Ok(new { Message = "Password updated"! });
+            if (result == "Ok")
+            {
+                _logger.LogInformation($"Password updated for user: {updateUserPassword.UserId}");
+                return Ok(new { Message = "Password updated"! });
+            }
+
+            _logger.LogInformation($"Update user password error");
             if (result == "Error") return StatusCode((int)HttpStatusCode.InternalServerError, "An unexpected error occurred.");
 
             return BadRequest(new { Message = result });

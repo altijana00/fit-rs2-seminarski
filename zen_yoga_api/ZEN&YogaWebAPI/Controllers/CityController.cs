@@ -5,17 +5,18 @@ using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.City;
-using ZEN_Yoga.Services.Interfaces.Role;
-using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class CityController : ControllerBase
     {
+        private readonly ILogger<CityController> _logger;
+        public CityController(ILogger<CityController> logger)
+        {
+            _logger = logger;
+        }
 
-        
         [HttpGet("getAll")]
         public async Task<ActionResult<List<CityResponse>>> GetAll([FromServices] IGetCityService getCityService)
         {
@@ -23,8 +24,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (cities == null)
             {
+                _logger.LogInformation("No cities found");
                 return NoContent();
             }
+            _logger.LogInformation($"Successfully retrieved cities: {cities.Count}");
             return Ok(cities);
         }
 
@@ -36,8 +39,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (city == null)
             {
+                _logger.LogInformation("No city found");
                 return NoContent();
             }
+            _logger.LogInformation("Successfully retrieved city");
             return Ok(city);
         }
 
@@ -49,8 +54,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (cities == null)
             {
+                _logger.LogInformation("No cites found");
                 return NoContent();
             }
+            _logger.LogInformation($"Successfully retrieved city with query: {cityQuery.Search} ");
             return Ok(cities);
         }
 
@@ -60,11 +67,14 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addCity == null)
             {
+                _logger.LogInformation("City data was null");
+                _logger.LogInformation("City data: {@addCity}", addCity);
                 return BadRequest();
 
             }
 
             await upsertCityService.Add(addCity);
+            _logger.LogInformation($"City added successfully: {addCity.Name}");
             return Ok(new { Message = "City added successfully!" });
         }
 
@@ -74,11 +84,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editCity == null)
             {
+                _logger.LogInformation("City was null");
                 return BadRequest();
 
             }
 
             await upsertCityService.Edit(editCity, id);
+            _logger.LogInformation($"City edited successfully: {editCity.Name}");
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -88,8 +100,10 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation("City is deleted");
                 return Ok(new { Message = "City deleted!" });
             }
+            _logger.LogInformation("Attemp to delete a city with non-existing ID or that is currently in use!");
             return BadRequest(new { Message = "There is no city with this ID or it is currently in use!" });
         }
     }

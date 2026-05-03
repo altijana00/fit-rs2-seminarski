@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.Class;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.YogaType;
-using ZEN_Yoga.Services.Services;
-using ZEN_Yoga.Services.Services.Class;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ClassController : ControllerBase
     {
+
+        private readonly ILogger<ClassController> _logger;
+        public ClassController(ILogger<ClassController> logger)
+        {
+            _logger = logger;
+        }
 
         [Authorize(Roles = "1")]
         [HttpGet("getAll")]
@@ -27,8 +28,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (classes == null)
             {
+                _logger.LogInformation("No classes retrieved");
                 return NoContent();
             }
+            _logger.LogInformation($"Success: classes retrieved: {classes.Count}");
             return Ok(classes);
         }
 
@@ -40,8 +43,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (clasRes == null)
             {
+                _logger.LogInformation("No class retrieved");
                 return NoContent();
             }
+
+            _logger.LogInformation("Success: class retrieved");
             return Ok(clasRes);
         }
 
@@ -50,8 +56,6 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<ActionResult<int>> GetJoinedParticipantsByClassId([FromServices] IGetClassService getClassService, int id)
         {
             return await getClassService.GetJoinedParticipantsByClassId(id);
-            
-
         }
 
         [Authorize(Roles = "1, 2")]
@@ -71,8 +75,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (classes == null)
             {
+                _logger.LogDebug($"No class retrieved for instructor: {instructorId}");
                 return NoContent();
             }
+            _logger.LogInformation("Success: class retrieved");
             return Ok(classes);
         }
 
@@ -84,8 +90,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (classes == null)
             {
+                _logger.LogDebug($"No class retrieved for studio: {studioId}");
                 return NoContent();
             }
+            _logger.LogInformation("Success: class retrieved");
             return Ok(classes);
         }
 
@@ -101,6 +109,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addClass == null)
             {
+                _logger.LogDebug($"Attempt to add the class with invalid data for instructorId: {instructorId}");
                 return BadRequest();
             }
 
@@ -116,13 +125,14 @@ namespace ZEN_YogaWebAPI.Controllers
                 UserId = instructorId
             };
 
+            _logger.LogDebug($"Sending notification to instructorId: {instructorId}");
             await sendInAppNotificationService.SendToUserAsync(instructorId.ToString(), notification);
 
             // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
 
-
+            _logger.LogInformation("Success: class added");
             return Ok(new { Message = "Class added!" });
         }
 
@@ -133,12 +143,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editClass == null)
             {
+                _logger.LogDebug($"Attempt to edit class with invalid data for classID: {id}");
                 return BadRequest();
             }
 
 
             await upsertService.Edit(editClass, id);
-
+            _logger.LogInformation("Success: class edited");
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -148,8 +159,10 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation($"Class {id} deleted");
                 return Ok(new { Message = "Class deleted" });
             }
+            _logger.LogInformation($"Attempt to delete class {id} when there is no class with this ID");
             return BadRequest(new { Message = "There is no class with this ID!" });
         }
 
@@ -161,8 +174,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if(grouppedClasses == null)
             {
+                _logger.LogInformation($"No groupped classes");
                 return NoContent();
             }
+
+            _logger.LogInformation($"Sucess: Groupped classes retrived");
             return Ok(grouppedClasses);
         }
 
@@ -174,8 +190,13 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (grouppedClasses == null)
             {
+                _logger.LogDebug($"No groupped classes for studio {studioId}");
+
                 return NoContent();
             }
+
+            _logger.LogDebug($"Success: Retreived classes for studio {studioId}");
+
             return Ok(grouppedClasses);
         }
     }

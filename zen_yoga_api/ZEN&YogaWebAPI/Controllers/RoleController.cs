@@ -1,18 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Role;
-using ZEN_Yoga.Services.Interfaces.YogaType;
-using ZEN_Yoga.Services.Services;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class RoleController : ControllerBase
     {
+        private readonly ILogger<RoleController> _logger;
+        public RoleController(ILogger<RoleController> logger)
+        {
+            _logger = logger;
+        }
 
         [HttpGet("getAll")]
         public async Task<ActionResult<List<RoleResponse>>> GetAll([FromServices] IGetRoleService getRoleService)
@@ -21,8 +23,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (roles == null)
             {
+                _logger.LogInformation("No roles retrieved");
                 return NoContent();
             }
+
+            _logger.LogInformation($"Retrieved roles: {roles.Count}");
             return Ok(roles);
         }
 
@@ -33,8 +38,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (role == null)
             {
+                _logger.LogInformation("No role retrieved");
                 return NoContent();
             }
+
+            _logger.LogInformation($"Role retrieved: {id}");
             return Ok(role);
         }
 
@@ -46,8 +54,12 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (roles == null)
             {
+                _logger.LogInformation($"No roles retrieved for query: {roleQuery.Search}");
                 return NoContent();
             }
+
+            _logger.LogInformation($"Successfully retrieved role with query: {roleQuery.Search} ");
+
             return Ok(roles);
         }
 
@@ -58,11 +70,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addRole == null)
             {
+                _logger.LogInformation($"Attempt to add role with invalid data");
                 return BadRequest();
 
             }
 
             await upsertRoleService.Add(addRole);
+            _logger.LogInformation($"Role added successfully!");
             return Ok(new { Message = "Role added successfully!" });
         }
 
@@ -72,11 +86,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editRole == null)
             {
+                _logger.LogInformation($"Attempt to edit role with invalid data");
                 return BadRequest();
 
             }
 
             await upsertRoleService.Edit(editRole, id);
+            _logger.LogInformation($"Role edited successfully!");
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -86,8 +102,10 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation($"Role {id} deleted successfully!");
                 return Ok(new { Message = "Role deleted" });
             }
+            _logger.LogInformation($"There is no role to delete");
             return BadRequest(new { Message = "There is no role with this ID or it is currently in use!" });
         }
     }

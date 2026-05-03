@@ -16,10 +16,13 @@ namespace ZEN_YogaWebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly JwtSettings _jwtSettings;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IOptions<JwtSettings> options)
+       
+        public AuthController(IOptions<JwtSettings> options, ILogger<AuthController> logger)
         {
             _jwtSettings = options.Value;
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -27,7 +30,11 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             var user = await getUserService.GetByEmailandPassword(loginUser.Email, loginUser.Password);
 
-            if (user == null) return Unauthorized("Invalid credentials");
+            if (user == null)
+            {
+                _logger.LogWarning($"Unauthorized login attempt from {loginUser.Email}");
+                return Unauthorized("Invalid credentials");
+            }
 
             var claims = new List<Claim>
             {
@@ -47,6 +54,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 signingCredentials: creds
             );
 
+            _logger.LogInformation($"Successfull login from {loginUser.Email}");
 
             return Ok(new
             {

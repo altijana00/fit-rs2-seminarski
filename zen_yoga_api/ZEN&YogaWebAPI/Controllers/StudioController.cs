@@ -1,19 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.Studio;
-using ZEN_Yoga.Services.Services;
-using ZEN_Yoga.Services.Services.Studio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class StudioController : ControllerBase
     {
+
+        private readonly ILogger<StudioController> _logger;
+        public StudioController(ILogger<StudioController> logger)
+        {
+            _logger = logger;
+        }
+
         [Authorize(Roles = "1, 2, 3")]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<StudioResponse>>> GetAll([FromServices] IGetStudioService getStudioService)
@@ -22,8 +27,12 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (studios == null)
             {
+                _logger.LogInformation($"No studios found");
+
                 return NoContent();
             }
+            _logger.LogInformation($"Retrieved studios: {studios.Count}");
+
             return Ok(studios);
         }
 
@@ -35,8 +44,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (studios == null)
             {
+                _logger.LogInformation($"No studios found for query: {studioQuery.Search}");
                 return NoContent();
             }
+
+            _logger.LogInformation($" {studios.Count} studios found for query: {studioQuery.Search}");
             return Ok(studios);
         }
 
@@ -48,8 +60,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (studios == null)
             {
+                _logger.LogInformation($"No studios found for owner (ID): {ownerId}");
                 return NoContent();
             }
+            _logger.LogInformation($"{studios.Count} studios found for owner (ID): {ownerId}");
             return Ok(studios);
         }
 
@@ -61,8 +75,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (studio == null)
             {
+                _logger.LogInformation($"No studios found for owner (ID): {ownerId} and name {name}");
+
                 return NoContent();
             }
+            _logger.LogInformation($"{studio.Name} found for owner (ID): {ownerId} and name {name}");
             return Ok(studio);
         }
 
@@ -74,8 +91,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (studio == null)
             {
+                _logger.LogInformation($"No studios found by (ID): {id}");
                 return NoContent();
             }
+
+            _logger.LogInformation($"{studio.Name} found by (ID): {id}");
             return Ok(studio);
         }
 
@@ -85,6 +105,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addStudio == null) 
             {
+                _logger.LogInformation($"Attempted to add studio with bad data (model was null)");
                 return BadRequest();
             
             }
@@ -96,12 +117,15 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+
+                _logger.LogInformation("Studio data was invalid: {Errors}", string.Join(", ", errors));
                 return BadRequest(new { Message = errors });
             }
 
             await studioValidatorService.ValidateName(addStudio.Name);
-
             await upsertStudioService.Add(addStudio);
+
+            _logger.LogInformation($"Studio added successfully!");
             return Ok(new {Message = "Studio added successfully!"});
         }
 
@@ -111,6 +135,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editStudio == null)
             {
+                _logger.LogInformation($"Attempted to edit studio with bad data (model was null)");
                 return BadRequest();
 
             }
@@ -128,6 +153,7 @@ namespace ZEN_YogaWebAPI.Controllers
             await studioValidatorService.ValidateStudio(id);
 
             await upsertStudioService.Edit(editStudio, id);
+            _logger.LogInformation($"Studio edited successfully!");
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -137,8 +163,11 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation($"Studio deleted: {id}");
                 return Ok(new { Message = "Studio deleted" });
             }
+
+            _logger.LogInformation($"There is no studio with this ID!");
             return BadRequest(new { Message = "There is no studio with this ID!" });
         }
 
@@ -178,8 +207,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (galleryUrls != null)
             {
+                _logger.LogInformation($"Found {galleryUrls.Count} gallery urls found for studio: {studioId}");
                 return Ok(galleryUrls);
             }
+            _logger.LogInformation($"No gallery urls found for studio: {studioId}");
             return NoContent();
         }
 
@@ -193,6 +224,8 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest("No file uploaded!");
             }
 
+            _logger.LogInformation($"Edited studio photo for studio: {studioId}");
+
             await uploadStudioPhotoService.EditStudioPhoto(photoUrl, studioId);
             return Ok();
 
@@ -204,8 +237,12 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteStudioGalleryPhotoService.DeleteStudioGalleryPhoto(photoURL, studioId))
             {
+                _logger.LogInformation($"Studio gallery photo deleted for studio: {studioId}");
+
                 return Ok(new { Message = "Gallery photo deleted"! });
             }
+
+            _logger.LogInformation($"No gallery photo found (URL): {photoURL} for studio: {studioId}");
             return BadRequest(new { Message = "There is no photo with this ID!" });
         }
 

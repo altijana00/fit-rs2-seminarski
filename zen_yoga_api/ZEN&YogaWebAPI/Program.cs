@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using ZEN_Yoga.Models;
@@ -270,5 +273,64 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapHub<NotificationHub>("/hubs/notifications");
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        logger.LogError(exception,
+            "Unhandled exception. Path: {Path}, Method: {Method}",
+            context.Request.Path,
+            context.Request.Method);
+
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("Error ocurred");
+    });
+});
+
+//app.Use(async (context, next) =>
+//{
+//    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+//    logger.LogInformation("API Request Triggered: Path: {Path}, Method: {Method}",
+//            context.Request.Path,
+//            context.Request.Method);
+//    await next();
+//});
+
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+
+    var user = context.User;
+    var userId = user?.Identity?.IsAuthenticated == true
+        ? user.FindFirst("id")?.Value ?? user.Identity.Name
+        : "Anonymous";
+
+    var roles = user?.Claims
+        .Where(c => c.Type == ClaimTypes.Role)
+        .Select(c => c.Value);
+
+    var endpoint = context.GetEndpoint();
+    var authorizeData = endpoint?.Metadata.GetOrderedMetadata<IAuthorizeData>();
+
+    var requiredRoles = authorizeData?
+    .Where(a => !string.IsNullOrEmpty(a.Roles))
+    .SelectMany(a => a.Roles!.Split(',', StringSplitOptions.RemoveEmptyEntries))
+    .Select(r => r.Trim()).FirstOrDefault();
+
+    logger.LogInformation(
+        "Request {Method} {Path} by user {UserId}. UserRoles: {UserRoles}. RequiredRoles: {RequiredRoles}",
+        context.Request.Method,
+        context.Request.Path,
+        userId,
+        roles,
+        requiredRoles
+    );
+
+    await next();
+});
 
 app.Run();

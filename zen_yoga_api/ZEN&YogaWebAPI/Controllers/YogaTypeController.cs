@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.YogaType;
-using ZEN_Yoga.Services.Services;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class YogaTypeController : ControllerBase
     {
+        private readonly ILogger<YogaTypeController> _logger;
+        public YogaTypeController(ILogger<YogaTypeController> logger)
+        {
+            _logger = logger;
+        }
+
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<YogaTypeResponse>>> GetAll([FromServices] IGetYogaTypeService getYogaTypeService)
@@ -21,8 +24,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (yogaTypes == null)
             {
+                _logger.LogInformation("No yoga types found");
                 return NoContent();
             }
+            _logger.LogInformation($"{yogaTypes.Count} yoga types found");
             return Ok(yogaTypes);
         }
 
@@ -35,8 +40,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (yogaType == null)
             {
+                _logger.LogInformation($"No yoga types found for id: {id}");
                 return NoContent();
             }
+
+            _logger.LogInformation($"{yogaType.Name} yoga type found for id: {id}");
             return Ok(yogaType);
         }
 
@@ -48,8 +56,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (yogaTypes == null)
             {
+                _logger.LogInformation($"No yogaTypes found with query: {yogaTypeQuery.Search} ");
                 return NoContent();
             }
+            _logger.LogInformation($"Successfully retrieved yogaTypes with query: {yogaTypeQuery.Search} ");
             return Ok(yogaTypes);
         }
 
@@ -59,11 +69,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addYogaType == null)
             {
+                _logger.LogInformation("Adding yoga type data was null");
                 return BadRequest();
 
             }
 
             await upsertYogaTypeService.Add(addYogaType);
+            _logger.LogInformation("Yoga type added successfully!");
             return Ok(new { Message = "Yoga type added successfully!" });
         }
 
@@ -73,11 +85,13 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editYogaType == null)
             {
+                _logger.LogInformation("Adding yoga type data was null");
                 return BadRequest();
 
             }
 
             await upsertYogaTypeService.Edit(editYogaType, id);
+            _logger.LogInformation("Yoga type edited successfully!");
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -87,8 +101,11 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (await deleteService.Delete(id))
             {
+                _logger.LogInformation($"Yoga type with id {id} deleted");
                 return Ok(new { Message = "Yoga type deleted" });
             }
+
+            _logger.LogInformation($"No Yoga type with id {id} found for deleteion");
             return BadRequest(new { Message = "There is no yoga type with this ID or it is currently in use!" });
         }
     }

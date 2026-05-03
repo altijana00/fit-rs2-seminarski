@@ -2,17 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
-using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.Instructor;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class InstructorController : ControllerBase
     {
-
+        private readonly ILogger<InstructorController> _logger;
+        public InstructorController(ILogger<InstructorController> logger)
+        {
+            _logger = logger;
+        }
 
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getAll")]
@@ -22,8 +24,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (!instructors.Any())
             {
+                _logger.LogInformation("No instructors retrieved");
                 return NoContent();
             }
+            _logger.LogInformation("No instructors retrieved");
             return Ok(instructors);
         }
 
@@ -35,8 +39,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (instructor == null)
             {
+                _logger.LogInformation($"No instructors retrieved with ID: {id}");
                 return NoContent();
             }
+            _logger.LogInformation($"Success: Instructor retrieved with ID: {id}");
+
             return Ok(instructor);
         }
 
@@ -48,8 +55,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (instructor == null)
             {
+                _logger.LogInformation($"No instructors retrieved with email: {email}");
                 return NoContent();
             }
+            _logger.LogInformation($"Success: Instructor retrieved with email: {email}");
             return Ok(instructor);
         }
 
@@ -61,8 +70,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (!instructors.Any())
             {
+                _logger.LogInformation($"No instructors retrieved with studio ID: {studioId}");
                 return NoContent();
             }
+            _logger.LogInformation($"Success: Instructor retrieved with studio ID: {studioId}");
             return Ok(instructors);
         }
 
@@ -77,6 +88,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (addInstructor == null)
             {
+                _logger.LogInformation($"Attempt to add instructor with bad data for studio ID: {studioId}");
                 return BadRequest(new { Message = "Failed to add. Instructor property is empty!" });
             }
 
@@ -87,15 +99,14 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+                _logger.LogInformation("Instructor  data was invalid: {Errors}", string.Join(", ", errors));
                 return BadRequest(new { Message = errors });
             }
 
             await upsertInstructorService.Add(getUserService,instructorValidatorService, addInstructor, email, studioId);
-            
-            return Ok(new { Message = "Instructor added!" });
-            
-            
 
+            _logger.LogInformation($"Success: Instructor added to studio ID: {studioId}");
+            return Ok(new { Message = "Instructor added!" });
         }
 
         [Authorize(Roles = "1, 3")]
@@ -104,6 +115,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editInstructor == null)
             {
+                _logger.LogInformation($"Attempt to edit instructor with invalid data (Instructor ID): {id}");
                 return BadRequest();
             }
 
@@ -114,12 +126,15 @@ namespace ZEN_YogaWebAPI.Controllers
                                        .Select(e => e.ErrorMessage)
                                        .ToList();
 
+                _logger.LogInformation($"Attempt to edit instructor with invalid data (Instructor ID): {id}");
                 return BadRequest(new { Message = errors });
             }
 
             await instructorValidatorService.ValidateInstructorId(id);
 
             await upsertInstructorService.Edit(editInstructor, id);
+
+            _logger.LogInformation($"Success: edited instructor (Instructor ID): {id}");
 
             return Ok(new { Message = "Changes saved successfully!" });
         }
@@ -131,8 +146,11 @@ namespace ZEN_YogaWebAPI.Controllers
              
             if (await deleteInstructorService.Delete(id))
             {
+                _logger.LogInformation($"Instructor {id} deleted");
                 return Ok(new { Message = "Instructor and associated classes deleted" });
             }
+            _logger.LogInformation($"Attempt to delete instructo {id} when there is no iunstructor with this ID");
+
             return BadRequest(new { Message = "There is no instructor with this ID!" });
         }
     }
