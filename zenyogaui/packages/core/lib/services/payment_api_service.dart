@@ -1,6 +1,7 @@
 import 'package:core/models/create_intent_request_model.dart';
 import 'package:dio/dio.dart';
 
+import '../core/app_config.dart';
 import '../core/constants.dart';
 
 class PaymentApiService {
@@ -37,7 +38,7 @@ class PaymentApiService {
   Future<Map<String, dynamic>> createPaymentIntent(
       Map<String, dynamic> createIntentRequest) async {
     final response = await dio.post(
-      '${Constants.mobileApiBaseUrl}Payment/create-intent',
+      '${AppConfig.mobileApiBaseUrl}Payment/create-intent',
       data: createIntentRequest,
     );
 

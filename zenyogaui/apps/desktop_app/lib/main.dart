@@ -1,3 +1,4 @@
+import 'package:core/core/app_config.dart';
 import 'package:core/core/constants.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';
@@ -49,7 +50,7 @@ import 'package:core/widgets/notification_snackbar_listener.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final dio = Dio(BaseOptions(baseUrl: Constants.apiBaseUrl));
+  final dio = Dio(BaseOptions(baseUrl: AppConfig.apiBaseUrl));
   final secureStorage = const FlutterSecureStorage();
 
   //services

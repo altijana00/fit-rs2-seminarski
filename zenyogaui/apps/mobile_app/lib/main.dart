@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core/core/app_config.dart';
 import 'package:core/core/constants.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';
@@ -51,13 +52,13 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = Constants.stripeKey;
+  Stripe.publishableKey = AppConfig.stripeKey;
 
 
 
 
 
-  final dio = Dio(BaseOptions(baseUrl: Constants.mobileApiBaseUrl, validateStatus: (status) => true));
+  final dio = Dio(BaseOptions(baseUrl: AppConfig.mobileApiBaseUrl, validateStatus: (status) => true));
   final secureStorage = const FlutterSecureStorage();
 
 

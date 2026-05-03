@@ -17,7 +17,6 @@ class PaymentController extends GetxController {
   );
 
 
-  static const String _publishableKey = Constants.stripeKey;
 
   Future<void> makePayment({
     required int amount,

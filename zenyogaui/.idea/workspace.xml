@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb48d07a-ceff-4a51-a13a-826bc7cd909c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/packages/core/lib/core/app_config.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/core/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/add_studio_dto.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/requests/update_user_password_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/requests/update_user_password_dto.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/class_response_dto.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/instructor_classes.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/instructor_classes.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/dto/responses/participants_by_city.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/dto/responses/participants_by_city.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/signalr_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/signalr_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +60,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "io.flutter.reload.alreadyRun": "true",
@@ -65,6 +78,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Mobile" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="additionalArgs" value="--dart-define=STRIPE_PUBLISHABLE_KEY=pk_test_51SpIJSC1su3FW6hZoRVTn94GOdTOrwYPRzLhy5ZnOnv4xZkaswNIVLusUPOVdFBY2evOKgVzaiEQEqth6UPkzLpy00OPRis5LH" />
       <option name="filePath" value="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" />
       <method v="2" />
     </configuration>
@@ -82,5 +96,16 @@
       <updated>1777198169490</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/packages/core/lib/core/app_config.dart</url>
+          <line>16</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

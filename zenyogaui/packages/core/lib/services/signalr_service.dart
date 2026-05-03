@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:core/core/app_config.dart';
 import 'package:core/core/constants.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 
@@ -21,7 +22,7 @@ class AppNotification {
 }
 
 class SignalRService {
-  static const _hubUrl = Constants.notifUrl;
+  static const _hubUrl = AppConfig.notificationUrl;
 
   HubConnection? _connection;
   final _controller = StreamController<AppNotification>.broadcast();
