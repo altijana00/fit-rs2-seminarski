@@ -32,6 +32,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
             classRes.InstructorId = instructorId;
             classRes.StudioId = instructor!.StudioId;
+            
 
             await yogaTypeValidatorService.ValidateYogaTypeId(classRes.YogaTypeId);
 

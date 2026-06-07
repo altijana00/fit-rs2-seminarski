@@ -1,9 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Base;
+using ZEN_Yoga.Services.Interfaces.Class;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.UserClass;
+using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -66,13 +73,54 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpPost("join")]
-        public async Task<IActionResult> Join(int classId, int userId, [FromServices] IUpsertUserClassService upsertUserClassService )
+        public async Task<IActionResult> Join(int classId, int userId, 
+                                                [FromServices] IUpsertUserClassService upsertUserClassService, 
+                                                [FromServices] IGetClassService getClassService,
+                                                [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+
         {
 
 
             if(await upsertUserClassService.Join(classId, userId))
             {
                 _logger.LogInformation($"User {userId} joined class {classId}");
+
+                var classRes = await getClassService.GetById(classId);
+
+                // SLANJE INAPP (SIGNAL R)
+                var notification = new AddNotification()
+                {
+                    Title = "Class joined",
+                    Content = $"You have joined a class: {classRes.Name}",
+                    Type = NotificationType.Success.ToString(),
+                    UserId = userId
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userId}");
+                await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notification);
+
+
+                // SLANJE INAPP (SIGNAL R)
+                var notificationInstructor = new AddNotification()
+                {
+                    Title = "New user joined",
+                    Content = $"New user has joined your class: {classRes.Name}",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = classRes.InstructorId
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {classRes.InstructorId}");
+                await sendInAppNotificationService.SendToUserAsync(classRes.InstructorId.ToString(), notificationInstructor);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notificationInstructor);
+
+
+                _logger.LogInformation("Success: class joined");
 
                 return Ok(new { Message = "Joined class successfully" });
             }

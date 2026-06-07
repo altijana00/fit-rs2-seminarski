@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.UserClass;
+using ZEN_Yoga.Services.Services.Notifications;
 
 namespace ZEN_Yoga.Services.Services.UserClass
 {
@@ -10,11 +15,13 @@ namespace ZEN_Yoga.Services.Services.UserClass
     {
         private readonly ZenYogaDbContext _dbContext;
         private readonly IMapper _mapper;
+        
 
         public UpsertUserClassService(IMapper mapper, ZenYogaDbContext dbContext)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+
         }
         public async Task<bool> Join(int classId, int userId)
         {
@@ -26,6 +33,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
             }
 
             var mappedClass = _mapper.Map<ClassResponse>(classRes);
+            mappedClass.JoinedParticipants = await _dbContext.UserClasses.CountAsync(c=>c.Id == classId);
 
             var studioId = classRes.StudioId;
             
@@ -43,6 +51,8 @@ namespace ZEN_Yoga.Services.Services.UserClass
                         ClassId = classId,
                         JoinedAt = DateTime.Now
                     };
+
+                
 
                     await _dbContext.UserClasses.AddAsync(userClass);
                     await _dbContext.SaveChangesAsync();

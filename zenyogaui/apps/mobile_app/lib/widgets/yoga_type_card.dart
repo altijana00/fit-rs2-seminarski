@@ -27,7 +27,7 @@ class YogaTypeCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => YogaTypeScreen(
               yogaType: yogaType,
-              classes: classes,
+              initialClasses: classes,
               instructorMap: instructorMap,
               studioId: studioId,
             ),

@@ -144,9 +144,18 @@ namespace ZEN_Yoga.Services.Services.Class
             return grouppedClasses;
         }
 
-        public async Task<GrouppedClasses> GetStudioGroupped(int studioId)
+        public async Task<GrouppedClasses> GetStudioGroupped(int studioId, int userId, int userRoleId)
         {
-            var classes = await _dbContext.Classes.Where(c => c.StudioId == studioId).ToListAsync();
+            //var classes = await _dbContext.Classes.Where(c => c.StudioId == studioId).ToListAsync();
+
+          
+            var classes = await _dbContext.Classes
+    .           Where(c => c.StudioId == studioId &&
+                !_dbContext.UserClasses.Any(uc =>
+                    uc.ClassId == c.Id &&
+                    uc.UserId == userId))
+    .ToListAsync();
+
             var classesRes = _mapper.Map<List<ClassResponse>>(classes);
 
             var grouppedClasses = new GrouppedClasses();
@@ -154,6 +163,8 @@ namespace ZEN_Yoga.Services.Services.Class
             foreach (var c in classesRes)
             {
                 c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
+
+
                 if (c.YogaTypeId == (int)YogaTypes.Hatha)
                 {
                     grouppedClasses.HathaYoga.Add(c);

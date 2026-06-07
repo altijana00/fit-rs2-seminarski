@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -130,8 +131,8 @@ namespace ZEN_YogaWebAPI.Controllers
             // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
-                Title = "You have added a class",
-                Content = "You have added a class",
+                Title = "Class added",
+                Content = $"You have added a class {addClass.Name}",
                 Type = NotificationType.Success.ToString(),
                 UserId = instructorId
             };
@@ -208,7 +209,10 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpGet("studioGroupped")]
         public async Task<ActionResult<GrouppedClasses>> GetStudioGroupped([FromServices] IGetClassService getClassService, int studioId)
         {
-            var grouppedClasses = await getClassService.GetStudioGroupped(studioId);
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var grouppedClasses = await getClassService.GetStudioGroupped(studioId, int.Parse(userIdClaim!), int.Parse(userRole!));
 
             if (grouppedClasses == null)
             {
