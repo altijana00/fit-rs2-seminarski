@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Instructor;
+using ZEN_Yoga.Services.Interfaces.Notification;
+using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
+using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -80,9 +86,12 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = "1, 2, 3")]
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromServices] IUpsertInstructorService<AddInstructor> upsertInstructorService,
-                                            [FromServices] IGetUserService getUserService, 
+                                            [FromServices] IGetUserService getUserService,
+                                            [FromServices] IGetStudioService getStudioService,
                                             [FromServices] IInstructorValidatorService instructorValidatorService,
-                                            [FromBody] AddInstructor addInstructor, 
+                                            [FromBody] AddInstructor addInstructor,
+                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService
                                             string email, 
                                             int studioId)
         {
@@ -106,6 +115,27 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertInstructorService.Add(getUserService,instructorValidatorService, addInstructor, email, studioId);
 
             _logger.LogInformation($"Success: Instructor added to studio ID: {studioId}");
+
+            var studio = await getStudioService.GetById(studioId);
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Instructor added",
+                Content = $"New instructor was added to {studio.Name}.",
+                Type = NotificationType.Success.ToString(),
+                UserId = studio.OwnerId,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
+            await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
+
+            _logger.LogInformation("Success: class joined");
+
             return Ok(new { Message = "Instructor added!" });
         }
 
