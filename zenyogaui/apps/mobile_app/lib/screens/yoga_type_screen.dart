@@ -18,6 +18,7 @@ class YogaTypeScreen extends StatefulWidget {
   final List<ClassResponseDto> initialClasses;
   final Map<int, String> instructorMap;
   final int studioId;
+  final double membershipPrice;
 
   const YogaTypeScreen({
     super.key,
@@ -25,6 +26,7 @@ class YogaTypeScreen extends StatefulWidget {
     required this.initialClasses,
     required this.instructorMap,
     required this.studioId,
+    required this.membershipPrice,
   });
 
   @override
@@ -111,7 +113,8 @@ class _YogaTypeScreenState extends State<YogaTypeScreen> {
                   paymentProvider: paymentProvider,
                   paymentController: paymentController,
                   userClassProvider: userClassProvider,
-                  onJoined: _reloadClasses, // ✅ matches constructor
+                  onJoined: _reloadClasses,
+                  membershipPrice: widget.membershipPrice,
                 );
               }).toList(),
             ),
@@ -130,7 +133,8 @@ class _ClassCard extends StatefulWidget {
   final PaymentProvider paymentProvider;
   final PaymentController paymentController;
   final UserClassProvider userClassProvider;
-  final VoidCallback onJoined; // ✅ added
+  final VoidCallback onJoined;
+  final double membershipPrice;
 
   const _ClassCard({
     required this.yogaClass,
@@ -140,7 +144,8 @@ class _ClassCard extends StatefulWidget {
     required this.paymentProvider,
     required this.paymentController,
     required this.userClassProvider,
-    required this.onJoined, // ✅ added
+    required this.onJoined,
+    required this.membershipPrice,
   });
 
   @override
@@ -159,7 +164,7 @@ class _ClassCardState extends State<_ClassCard> {
 
       if (!isPaid) {
         await widget.paymentController.makePayment(
-          amount: 100,
+          amount: widget.membershipPrice.toInt(),
           currency: 'USD',
           userId: widget.user!.id,
           studioId: widget.studioId,

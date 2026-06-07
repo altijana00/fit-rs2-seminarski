@@ -9,13 +9,15 @@ class YogaTypeCard extends StatelessWidget {
   final List<ClassResponseDto> classes;
   final Map<int, String> instructorMap;
   final int studioId;
+  final double membershipPrice;
 
   const YogaTypeCard({
     super.key,
     required this.yogaType,
     required this.classes,
     required this.instructorMap,
-    required this.studioId
+    required this.studioId,
+    required this.membershipPrice,
   });
 
   @override
@@ -30,6 +32,7 @@ class YogaTypeCard extends StatelessWidget {
               initialClasses: classes,
               instructorMap: instructorMap,
               studioId: studioId,
+              membershipPrice: membershipPrice,
             ),
           ),
         );

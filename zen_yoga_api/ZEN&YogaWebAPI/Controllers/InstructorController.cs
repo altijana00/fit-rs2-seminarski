@@ -91,7 +91,7 @@ namespace ZEN_YogaWebAPI.Controllers
                                             [FromServices] IInstructorValidatorService instructorValidatorService,
                                             [FromBody] AddInstructor addInstructor,
                                             [FromServices] ISendInAppNotificationService sendInAppNotificationService,
-                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService
+                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService,
                                             string email, 
                                             int studioId)
         {

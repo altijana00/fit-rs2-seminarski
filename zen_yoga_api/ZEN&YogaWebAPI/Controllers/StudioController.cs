@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
+using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -101,7 +105,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 2")]
         [HttpPost("add")]
-        public async Task<IActionResult> AddStudio([FromBody] AddStudio addStudio, [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, [FromServices] IStudioValidatorService studioValidatorService)
+        public async Task<IActionResult> AddStudio([FromBody] AddStudio addStudio, 
+                                                   [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, 
+                                                   [FromServices] IStudioValidatorService studioValidatorService,
+                                                   [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                   [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (addStudio == null) 
             {
@@ -124,6 +132,21 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await studioValidatorService.ValidateName(addStudio.Name);
             await upsertStudioService.Add(addStudio);
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Studio added",
+                Content = $"{addStudio.Name} was successfully added!",
+                Type = NotificationType.Success.ToString(),
+                UserId = addStudio.OwnerId,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {addStudio.OwnerId}");
+            await sendInAppNotificationService.SendToUserAsync(addStudio.OwnerId.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
 
             _logger.LogInformation($"Studio added successfully!");
             return Ok(new {Message = "Studio added successfully!"});

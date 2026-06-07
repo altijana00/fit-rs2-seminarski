@@ -204,6 +204,7 @@ class StudioDetailsScreen extends StatelessWidget {
                         classes: grouped.hathaYoga,
                         instructorMap: instructorMap,
                         studioId: studio.id,
+                        membershipPrice: studio.membershipPrice,
                       ),
                     if (grouped.vinyasaYoga.isNotEmpty)
                       YogaTypeCard(
@@ -215,6 +216,7 @@ class StudioDetailsScreen extends StatelessWidget {
                         classes: grouped.vinyasaYoga,
                         instructorMap: instructorMap,
                         studioId: studio.id,
+                        membershipPrice: studio.membershipPrice,
                       ),
                     if (grouped.yinYoga.isNotEmpty)
                       YogaTypeCard(
@@ -226,6 +228,7 @@ class StudioDetailsScreen extends StatelessWidget {
                         classes: grouped.yinYoga,
                         instructorMap: instructorMap,
                         studioId: studio.id,
+                        membershipPrice: studio.membershipPrice,
                       ),
                   ],
                 );

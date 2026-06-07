@@ -3,13 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Security.Claims;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.City;
+using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
+using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -93,14 +98,17 @@ namespace ZEN_YogaWebAPI.Controllers
                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
                                             [FromServices] IUserValidatorService userValidatorService,
                                             [FromServices] IRoleValidatorService roleValidatorService,
-                                            [FromServices] ICityValidatorService cityValidatorService)
+                                            [FromServices] ICityValidatorService cityValidatorService,
+                                            [FromServices] IGetUserService getUserService,
+                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (registerUser == null) {
                 _logger.LogInformation("User data was null");
 
                 return BadRequest();
             }
-
+            
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values
@@ -114,6 +122,24 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertUserService.Add(userValidatorService, roleValidatorService, cityValidatorService, registerUser);
             _logger.LogInformation($"User registered: {registerUser.Email}");
+
+            var user = await getUserService.GetByEmail(registerUser.Email);
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Welcome",
+                Content = $"Hello {user.FirstName}, welcome to Zen&Yoga!",
+                Type = NotificationType.Info.ToString(),
+                UserId = user.Id,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {user.Id}");
+            await sendInAppNotificationService.SendToUserAsync(user.Id.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
             return Ok(new { Message = "User registered!" });
         }
 

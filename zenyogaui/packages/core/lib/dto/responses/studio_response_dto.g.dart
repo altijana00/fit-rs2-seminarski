@@ -17,6 +17,7 @@ StudioResponseDto _$StudioResponseDtoFromJson(Map<String, dynamic> json) =>
       contactPhone: json['contactPhone'] as String?,
       profileImageUrl: json['profileImageUrl'] as String?,
       cityId: (json['cityId'] as num).toInt(),
+      membershipPrice: (json['membershipPrice'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$StudioResponseDtoToJson(StudioResponseDto instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$StudioResponseDtoToJson(StudioResponseDto instance) =>
       'contactPhone': instance.contactPhone,
       'profileImageUrl': instance.profileImageUrl,
       'cityId': instance.cityId,
+      'membershipPrice': instance.membershipPrice,
     };

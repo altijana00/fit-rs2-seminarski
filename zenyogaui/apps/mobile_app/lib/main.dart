@@ -52,7 +52,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'core/theme.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
+final RouteObserver<ModalRoute<dynamic>> routeObserver =
+RouteObserver<ModalRoute<dynamic>>();
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = AppConfig.stripeKey;
@@ -155,6 +156,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
+      navigatorObservers: [routeObserver],
       title: 'Zen&Yoga',
       debugShowCheckedModeBanner: false,
       theme: appTheme,

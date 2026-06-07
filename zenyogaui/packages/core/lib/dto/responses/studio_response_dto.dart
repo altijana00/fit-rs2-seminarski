@@ -14,6 +14,7 @@ class StudioResponseDto {
   final String? contactPhone;
   final String? profileImageUrl;
   final int cityId;
+  final double membershipPrice;
 
   StudioResponseDto({
     required this.id,
@@ -24,7 +25,8 @@ class StudioResponseDto {
     this.contactEmail,
     this.contactPhone,
     this.profileImageUrl,
-    required this.cityId
+    required this.cityId,
+    required this.membershipPrice
   });
 
   factory StudioResponseDto.fromJson(Map<String, dynamic> json) => _$StudioResponseDtoFromJson(json);

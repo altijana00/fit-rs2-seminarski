@@ -12,3 +12,4 @@ namespace ZEN_Yoga.Services.Interfaces.Notification
         Task SendToUserAsync(string userId, AddNotification notification);
     }
 }
+    
