@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:core/core/app_config.dart';
-import 'package:core/core/constants.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';
 import 'package:core/repositories/city_repository.dart';
 import 'package:core/repositories/class_repository.dart';
+import 'package:core/repositories/notification_repository.dart';
 import 'package:core/repositories/payment_repository.dart';
 import 'package:core/repositories/user_class_repository.dart';
 import 'package:core/repositories/instructor_repository.dart';
@@ -18,12 +18,14 @@ import 'package:core/services/auth_api_service.dart';
 import 'package:core/services/city_api_service.dart';
 import 'package:core/services/class_api_service.dart';
 import 'package:core/services/instructor_api_service.dart';
+import 'package:core/services/notification_api_service.dart';
 import 'package:core/services/payment_api_service.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
+import 'package:core/services/providers/notification_service.dart';
 import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/studio_service.dart';
@@ -40,6 +42,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:mobile_app/screens/mobile_home_screen.dart';
 import 'package:mobile_app/screens/mobile_login_screen.dart';
 import 'package:mobile_app/screens/mobile_signup_screen.dart';
+import 'package:mobile_app/screens/user_notification_center.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -82,6 +85,8 @@ void main() async{
   final appAnalyticsApiService = AppAnalyticsApiService(dio);
   final userClassApiService = UserClassApiService(dio);
   final paymentApiService = PaymentApiService(dio);
+  final notificationApiService = NotificationApiService(dio);
+
 
   //repositories
   final authRepository = AuthRepository(authApiService);
@@ -95,6 +100,7 @@ void main() async{
   final appAnalyticsRepository = AppAnalyticsRepository(appAnalyticsApiService);
   final userClassRepository = UserClassRepository(userClassApiService);
   final paymentRepository = PaymentRepository(paymentApiService);
+  final notificationRepository = NotificationRepository(notificationApiService);
 
 
   runApp(
@@ -102,8 +108,6 @@ void main() async{
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository ),
-
-
         ),
         ChangeNotifierProvider(
             create: (_) => UserProvider(repository: userRepository, dio: dio, storage: secureStorage)
@@ -135,6 +139,9 @@ void main() async{
         ChangeNotifierProvider(
             create: (_) => PaymentProvider(repository: paymentRepository, dio: dio, storage: secureStorage)
         ),
+        ChangeNotifierProvider(
+            create: (_) => NotificationProvider(repository: notificationRepository, dio: dio, storage: secureStorage)
+        ),
       ],
       child: MyApp(),
     ),
@@ -155,7 +162,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (_) => MobileLoginScreen(),
         '/signup': (_) => MobileSignupScreen(),
-        '/home' : (_) => AppShell()
+        '/home' : (_) => AppShell(),
+        '/notifications': (_) => const UserNotificationCenter(),
       },
     );
   }

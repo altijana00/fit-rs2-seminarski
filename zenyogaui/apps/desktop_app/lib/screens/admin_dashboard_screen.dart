@@ -93,7 +93,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     tooltip: "My Notifications",
                     icon: const Icon(Icons.notifications, color: AppColors.deepGreen),
                     onPressed: () {
-
+                      Navigator.pushNamed(context, '/notifications');
                     },
                   ),
                   const SizedBox(height: 12),

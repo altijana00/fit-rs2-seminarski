@@ -91,15 +91,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           const Spacer(),
-          IconButton(
-            tooltip: "Notifications",
-            icon: const Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              setState(() {
-                _selectedIndex = 2;
-              });
-            },
-          ),
+
           const Divider(color: Colors.white),
           IconButton(
             tooltip: "Profile",
@@ -258,6 +250,11 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 selectedIcon: Icon(Icons.people, color: AppColors.lavender),
                 icon: Icon(Icons.people, color: Colors.white),
                 label: Text("Employees", style: TextStyle(color: Colors.white)),
+              ),
+              NavigationRailDestination(
+                selectedIcon: Icon(Icons.notifications, color: AppColors.lavender),
+                icon: Icon(Icons.notifications, color: Colors.white),
+                label: Text("Notifications", style: TextStyle(color: Colors.white)),
               ),
             ],
             trailing: _buildSidebarActions(),

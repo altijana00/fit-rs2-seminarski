@@ -4,22 +4,46 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb48d07a-ceff-4a51-a13a-826bc7cd909c" name="Changes" comment="">
+    <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/apps.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/caches/deviceStreaming.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/user_notification_center.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/user_notification_center.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/notification_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/notification_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/notification_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/notification_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,74 +64,57 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 0,
+  &quot;fromUser&quot;: false
 }</component>
-  <component name="ProjectId" id="3CtHuVL4Y6XNLnNN4CoR60OP2wL" />
+  <component name="ProjectId" id="3EjPIO8C6zBFfeJq2lfiQk8accu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.Desktop.executor": "Debug",
-    "Flutter.Mobile.executor": "Run",
+    "Flutter.desktop.executor": "Debug",
+    "Flutter.mobile.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Gradle",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "dart.settings",
+    "last_opened_file_path": "C:/Users/Korisnik/Documents/fit-rs2-seminarski/zenyogaui",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
-  <component name="RunManager" selected="Flutter.Desktop">
-    <configuration name="Desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
+  <component name="RunManager" selected="Flutter.desktop">
+    <configuration name="desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="Mobile" type="FlutterRunConfigurationType" factoryName="Flutter">
-      <option name="additionalArgs" value="--dart-define=STRIPE_PUBLISHABLE_KEY=pk_test_51SpIJSC1su3FW6hZoRVTn94GOdTOrwYPRzLhy5ZnOnv4xZkaswNIVLusUPOVdFBY2evOKgVzaiEQEqth6UPkzLpy00OPRis5LH" />
+    <configuration name="mobile" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Flutter.Desktop" />
-      <item itemvalue="Flutter.Mobile" />
+      <item itemvalue="Flutter.desktop" />
+      <item itemvalue="Flutter.mobile" />
     </list>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="eb48d07a-ceff-4a51-a13a-826bc7cd909c" name="Changes" comment="" />
-      <created>1777198169490</created>
+      <changelist id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="" />
+      <created>1780688925514</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1777198169490</updated>
+      <updated>1780688925514</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/packages/core/lib/core/app_config.dart</url>
-          <line>16</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

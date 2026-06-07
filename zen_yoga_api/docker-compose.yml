@@ -17,34 +17,34 @@ services:
     networks:
       - zenyoga-network
 
-  zenyoga-api:
-    restart: unless-stopped
-    build:
-      context: .
-    environment:
-      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
-      - AzureBlobStorage__ConnectionString=${AZURE_BLOB_CONNECTION_STRING}
-      - AzureBlobStorage__UserPhotosContainer=${AZURE_BLOB_USER_PHOTOS_CONTAINER}
-      - AzureBlobStorage__StudioPhotosContainer=${AZURE_BLOB_STUDIO_PHOTOS_CONTAINER}
-      - RabbitMQ__Host=${RABBITMQ_HOST}
-      - RabbitMQ__Port=${RABBITMQ_PORT}
-      - RabbitMQ__User=${RABBITMQ_USER}
-      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
-      - RabbitMQ__QueueName=${RABBITMQ_QUEUE}
-      - JwtSettings__Issuer=${JWT_ISSUER}
-      - JwtSettings__Audience=${JWT_AUDIENCE}
-      - JwtSettings__SecretKey=${JWT_SECRET_KEY}
-      - HashingSettings__Salt=${HASHING_SALT}
-      - StripeSettings__SecretKey=${STRIPE_SECRET_KEY}
-      - StripeSettings__StripeVersion=${STRIPE_VERSION}
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-    ports:
-      - 8080:8080
-    networks:
-      - zenyoga-network
-    depends_on:
-      zenyoga-database:
-        condition: service_healthy
+  # zenyoga-api:
+  #   restart: unless-stopped
+  #   build:
+  #     context: .
+  #   environment:
+  #     - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+  #     - AzureBlobStorage__ConnectionString=${AZURE_BLOB_CONNECTION_STRING}
+  #     - AzureBlobStorage__UserPhotosContainer=${AZURE_BLOB_USER_PHOTOS_CONTAINER}
+  #     - AzureBlobStorage__StudioPhotosContainer=${AZURE_BLOB_STUDIO_PHOTOS_CONTAINER}
+  #     - RabbitMQ__Host=${RABBITMQ_HOST}
+  #     - RabbitMQ__Port=${RABBITMQ_PORT}
+  #     - RabbitMQ__User=${RABBITMQ_USER}
+  #     - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+  #     - RabbitMQ__QueueName=${RABBITMQ_QUEUE}
+  #     - JwtSettings__Issuer=${JWT_ISSUER}
+  #     - JwtSettings__Audience=${JWT_AUDIENCE}
+  #     - JwtSettings__SecretKey=${JWT_SECRET_KEY}
+  #     - HashingSettings__Salt=${HASHING_SALT}
+  #     - StripeSettings__SecretKey=${STRIPE_SECRET_KEY}
+  #     - StripeSettings__StripeVersion=${STRIPE_VERSION}
+  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - zenyoga-network
+  #   depends_on:
+  #     zenyoga-database:
+  #       condition: service_healthy
 
   rabbitmq:
     container_name: rabbitmq

@@ -1,4 +1,6 @@
 import 'package:core/dto/responses/notification_response_dto.dart';
+import 'package:core/dto/responses/user_response_dto.dart';
+import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +17,20 @@ class UserNotificationCenter extends StatefulWidget {
 
 class _UserNotificationCenterState extends State<UserNotificationCenter> {
   late Future<List<NotificationResponseDto>> _notificationsFuture;
+  UserResponseDto? user;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-    _notificationsFuture = context
-        .read<NotificationProvider>()
-        .repository
-        .getAllNotifications();
+    if (user == null) {
+      user = context.read<AuthProvider>().user;
+
+      _notificationsFuture = context
+          .read<NotificationProvider>()
+          .repository
+          .getByUserId(user!.id);
+    }
   }
 
   Future<void> _reload() async {
@@ -31,7 +38,7 @@ class _UserNotificationCenterState extends State<UserNotificationCenter> {
       _notificationsFuture = context
           .read<NotificationProvider>()
           .repository
-          .getAllNotifications();
+          .getByUserId(user!.id);
     });
   }
 
@@ -66,6 +73,14 @@ class _UserNotificationCenterState extends State<UserNotificationCenter> {
 
           final notifications = snapshot.data ?? [];
 
+          final unreadNotifications = notifications
+              .where((n) => !n.isRead)
+              .toList();
+
+          final readNotifications = notifications
+              .where((n) => n.isRead)
+              .toList();
+
           if (notifications.isEmpty) {
             return const Center(
               child: Text("No notifications yet"),
@@ -74,32 +89,137 @@ class _UserNotificationCenterState extends State<UserNotificationCenter> {
 
           return RefreshIndicator(
             onRefresh: _reload,
-            child: ListView.builder(
+            child: ListView(
               padding: const EdgeInsets.all(16),
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                final n = notifications[index];
+              children: [
 
-                return NotificationCard(
-                  notification: n,
-                  onMarkRead: () async {
-                    // await context
-                    //     .read<NotificationProvider>()
-                    //     .repository
-                    //     .markAsRead(n.id);
-                    //
-                    // _reload();
-                  },
-                  onDelete: () async {
-                    // await context
-                    //     .read<NotificationProvider>()
-                    //     .repository
-                    //     .deleteNotification(n.id);
-                    //
-                    // _reload();
-                  },
-                );
-              },
+                /// UNREAD
+                if (unreadNotifications.isNotEmpty) ...[
+                  Text(
+                    "Unread (${unreadNotifications.length})",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  ...unreadNotifications.map(
+                        (notification) => NotificationCard(
+                      notification: notification,
+                          onMarkRead: () async {
+                            await context
+                                .read<NotificationProvider>()
+                                 .repository
+                                .toggleReadNotification(notification.id, user!.id);
+
+                             _reload();
+                          },
+                          onDelete: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text("Delete notification"),
+                                content: Text(
+                                  "Are you sure you want to delete notification?",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: const Text("No"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(ctx);
+                                      await context
+                                          .read<NotificationProvider>()
+                                          .repository
+                                          .deleteNotification(notification.id, user!.id);
+                                      await _reload();
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Notification deleted successfully"),
+                                          backgroundColor: AppColors.deepGreen,
+                                        ),
+                                      );
+
+                                    },
+                                    child: const Text("Yes"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+                ],
+
+                /// READ
+                if (readNotifications.isNotEmpty) ...[
+                  Text(
+                    "Read (${readNotifications.length})",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  ...readNotifications.map(
+                        (notification) => NotificationCard(
+                      notification: notification,
+                          onMarkRead: () async {
+                             await context
+                                .read<NotificationProvider>()
+                                .repository
+                                .toggleReadNotification(notification.id, user!.id);
+
+                             _reload();
+                          },
+                          onDelete: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text("Delete notification"),
+                                content: Text(
+                                  "Are you sure you want to delete notification?",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: const Text("No"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(ctx);
+                                      await context
+                                          .read<NotificationProvider>()
+                                          .repository
+                                          .deleteNotification(notification.id, user!.id);
+                                      await _reload();
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Notification deleted successfully"),
+                                          backgroundColor: AppColors.deepGreen,
+                                        ),
+                                      );
+
+                                    },
+                                    child: const Text("Yes"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                    ),
+                  ),
+                ],
+              ],
             ),
           );
         },

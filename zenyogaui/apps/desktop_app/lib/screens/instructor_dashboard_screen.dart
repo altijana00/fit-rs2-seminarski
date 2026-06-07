@@ -12,6 +12,7 @@ import 'package:core/services/providers/instructor_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:zenyogaui/widgets/user_notification_center.dart';
 import '../core/theme.dart';
 import '../widgets/add_class_dialog.dart';
 import '../widgets/edit_class_dialog.dart';
@@ -333,6 +334,14 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                     child: Column(
                       children: [
                         const Spacer(),
+                        IconButton(
+                          tooltip: "My Notifications",
+                          icon: const Icon(Icons.notifications, color: Colors.white),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/notifications');
+                          },
+                        ),
+
                         IconButton(
                           tooltip: "Profile",
                           icon: const Icon(Icons.person, color: Colors.white),

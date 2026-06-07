@@ -21,16 +21,12 @@ class NotificationRepository {
     return jsonList.map((json) => NotificationResponseDto.fromJson(json)).toList();
   }
 
-  // Future<List<InstructorResponseDto>> getByStudioId(int studioId) async {
-  //   final List<dynamic> jsonList = await api.getByStudioId(studioId);
-  //   return jsonList.map((json) => InstructorResponseDto.fromJson(json)).toList();
-  // }
-  //
-  // Future<InstructorResponseDto> getById(int id) async {
-  //   final json = await api.getById(id);
-  //   return InstructorResponseDto.fromJson(json);
-  // }
-  //
+
+
+  Future<List<NotificationResponseDto>> getByUserId(int userId) async {
+    final List<dynamic> jsonList = await api.getByUserId(userId);
+    return jsonList.map((json) => NotificationResponseDto.fromJson(json)).toList();
+  }
     Future<String> addNotification(AddNotificationDto addNotificationDto) async {
       final json = await api.addNotification(
           addNotificationDto.toJson());
@@ -44,6 +40,11 @@ class NotificationRepository {
 
   Future<String> editNotification(EditNotificationDto notification, int notificationId) async {
     final json = await api.editNotification(notification.toJson(), notificationId);
+    return json.values.first;
+  }
+
+  Future<String> toggleReadNotification(int notificationId, int userId) async {
+    final json = await api.toggleReadNotification(notificationId, userId);
     return json.values.first;
   }
 

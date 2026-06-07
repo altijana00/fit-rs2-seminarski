@@ -27,6 +27,17 @@ class NotificationApiService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getByUserId(int userId) async {
+    final response = await dio.get('Notification/getByUserId?userId=$userId');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 204) {
+        return [];
+    } else {
+      throw Exception('Falied to fetch notifications: ${response.data}');
+    }
+  }
+
   Future<Map<String, dynamic>> deleteNotification(int notificationId, int userId) async {
     final response = await dio.delete(
         'Notification/delete?id=$notificationId&userId=$userId',
@@ -65,6 +76,26 @@ class NotificationApiService {
 
     } else{
       throw Exception('Failed to edit notification: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> toggleReadNotification(int notificationId, int userId) async {
+    final response = await dio.patch(
+        'Notification/toggleReadNotification?id=$notificationId&userId=$userId',
+        options: Options(
+          validateStatus: (status) => true,
+        )
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201){
+      return response.data;
+
+    } else if (response.statusCode == 500) {
+      var resp = response.data;
+      throw Exception(resp["error"]);
+
+    } else{
+      throw Exception('Failed to toggle read of notification: ${response.data}');
     }
   }
 
