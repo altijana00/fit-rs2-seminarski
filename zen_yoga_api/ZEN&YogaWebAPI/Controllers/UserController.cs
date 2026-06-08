@@ -145,7 +145,11 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpPut("edit")]
-        public async Task<IActionResult> Edit([FromBody] EditUser editUser, int id, [FromServices] IUpsertUserService<RegisterUser> upsertUserService, [FromServices] IUserValidatorService userValidatorService)
+        public async Task<IActionResult> Edit([FromBody] EditUser editUser, int id, 
+                                              [FromServices] IUpsertUserService<RegisterUser> upsertUserService, 
+                                              [FromServices] IUserValidatorService userValidatorService,
+                                              [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                              [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (editUser == null)
             {
@@ -168,6 +172,21 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertUserService.Edit(editUser, id);
 
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Profile edited",
+                Content = "Your profile was successfully edited.",
+                Type = NotificationType.Success.ToString(),
+                UserId = id,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {id}");
+            await sendInAppNotificationService.SendToUserAsync(id.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
@@ -180,6 +199,8 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest("No file uploaded!");
 
             var photoUrl = await uploadUserPhotoService.UploadUserPhoto(file);
+
+
             return Ok(photoUrl);
 
         }
@@ -187,7 +208,10 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpPatch("editUserPhoto")]
 
-        public async Task<IActionResult> EditUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, string photoUrl, int userId)
+        public async Task<IActionResult> EditUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, 
+                                                        string photoUrl, int userId,
+                                                        [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                        [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (photoUrl.IsNullOrEmpty())
             {
@@ -197,6 +221,22 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await uploadUserPhotoService.EditUserPhoto(photoUrl, userId);
             _logger.LogInformation($"Success: Photo updated for userId: {userId}");
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Photo edited",
+                Content = "Your profile photo was successfully edited.",
+                Type = NotificationType.Success.ToString(),
+                UserId = userId,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {userId}");
+            await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
             return Ok();
         }
 
@@ -217,7 +257,10 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1,2,3,4")]
         [HttpPatch("updateUserPassword")]
-        public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, [FromServices] IUpsertUserService<RegisterUser> upsertUserService)
+        public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, 
+                                                            [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
+                                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
@@ -226,6 +269,21 @@ namespace ZEN_YogaWebAPI.Controllers
             if (result == "Ok")
             {
                 _logger.LogInformation($"Password updated for user: {updateUserPassword.UserId}");
+
+                // SLANJE INAPP (SIGNAL R)
+                var notification = new AddNotification()
+                {
+                    Title = "Password updated",
+                    Content = "Your password has been updated successfully.",
+                    Type = NotificationType.Success.ToString(),
+                    UserId = updateUserPassword.UserId,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {updateUserPassword.UserId}");
+                await sendInAppNotificationService.SendToUserAsync(updateUserPassword.UserId.ToString(), notification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notification);
                 return Ok(new { Message = "Password updated"! });
             }
 

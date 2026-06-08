@@ -107,8 +107,8 @@ namespace ZEN_YogaWebAPI.Controllers
                 // SLANJE INAPP (SIGNAL R)
                 var notificationInstructor = new AddNotification()
                 {
-                    Title = "New user joined",
-                    Content = $"New user has joined your class: {classRes.Name}",
+                    Title = "New participant joined",
+                    Content = $"New participant has joined your class: {classRes.Name}",
                     Type = NotificationType.Info.ToString(),
                     UserId = classRes.InstructorId
                 };
@@ -132,11 +132,49 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete(int id, [FromServices] IDeleteService deleteService)
+        public async Task<IActionResult> Delete(int id, 
+                                                [FromServices] IDeleteService deleteService,
+                                                [FromServices] IGetUserClassService getUserClassService,
+                                                [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (await deleteService.Delete(id))
             {
                 _logger.LogInformation($"User class deleted: {id}");
+
+                var userClass = await getUserClassService.GetById(id);
+
+                // SLANJE INAPP (SIGNAL R)
+                var notification = new AddNotification()
+                {
+                    Title = "Class removed",
+                    Content = $"You removed {userClass.Name} from your classes",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = userClass.UserId
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userClass.UserId}");
+                await sendInAppNotificationService.SendToUserAsync(userClass.UserId.ToString(), notification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notification);
+
+
+                // SLANJE INAPP (SIGNAL R)
+                var notificationInstructor = new AddNotification()
+                {
+                    Title = "Class dropped",
+                    Content = $"A participant dropped your class: {userClass.Name}",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = userClass.InstructorId
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userClass.InstructorId}");
+                await sendInAppNotificationService.SendToUserAsync(userClass.InstructorId.ToString(), notificationInstructor);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notificationInstructor);
+
 
                 return Ok(new { Message = "Class deleted!" });
             }
@@ -145,20 +183,57 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
-        [HttpDelete("deleteUserClass")]
-        public async Task<IActionResult> DeleteUserClass(int classId, int userId, [FromServices] IDeleteUserClassService deleteService)
-        {
-            if (await deleteService.DeleteUserClass(classId, userId))
-            {
-                _logger.LogInformation($"User class deleted: {classId} for user{userId}");
+        //[Authorize(Roles = "1, 2, 3, 4")]
+        //[HttpDelete("deleteUserClass")]
+        //public async Task<IActionResult> DeleteUserClass(int classId, int userId, 
+        //                                                    [FromServices] IDeleteUserClassService deleteService,
+        //                                                    [FromServices] IGetUserClassService getUserClassService,
+        //                                                    [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+        //                                                    [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+        //{
+        //    if (await deleteService.DeleteUserClass(classId, userId))
+        //    {
+        //        _logger.LogInformation($"User class deleted: {classId} for user{userId}");
 
-                return Ok(new { Message = "Class deleted!" });
-            }
-            _logger.LogInformation($"No User class deleted: {classId} for user{userId}");
-            return BadRequest();
+        //        var userClass = await getUserClassService.
 
-        }
+        //        // SLANJE INAPP (SIGNAL R)
+        //        var notification = new AddNotification()
+        //        {
+        //            Title = "Class removed",
+        //            Content = $"You removed {userClass.Name} from your classes",
+        //            Type = NotificationType.Info.ToString(),
+        //            UserId = userClass.UserId
+        //        };
+
+        //        _logger.LogDebug($"Sending notification to userId: {userClass.UserId}");
+        //        await sendInAppNotificationService.SendToUserAsync(userClass.UserId.ToString(), notification);
+
+        //        // SPREMI U BAZU
+        //        await upsertNotificationService.Add(notification);
+
+
+        //        // SLANJE INAPP (SIGNAL R)
+        //        var notificationInstructor = new AddNotification()
+        //        {
+        //            Title = "Class dropped",
+        //            Content = $"A participant dropped your class: {userClass.Name}",
+        //            Type = NotificationType.Info.ToString(),
+        //            UserId = userClass.InstructorId
+        //        };
+
+        //        _logger.LogDebug($"Sending notification to userId: {userClass.InstructorId}");
+        //        await sendInAppNotificationService.SendToUserAsync(userClass.InstructorId.ToString(), notificationInstructor);
+
+        //        // SPREMI U BAZU
+        //        await upsertNotificationService.Add(notificationInstructor);
+
+        //        return Ok(new { Message = "Class deleted!" });
+        //    }
+        //    _logger.LogInformation($"No User class deleted: {classId} for user{userId}");
+        //    return BadRequest();
+
+        //}
 
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getUserRecommendedStudios")]

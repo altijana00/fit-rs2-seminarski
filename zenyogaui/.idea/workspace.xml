@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/instructor_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/owner_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_class_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_user_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/edit_user_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studio_statistics_modal.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studios_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/studios_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" afterDir="false" />
-    </list>
+    <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
