@@ -6,6 +6,7 @@ import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
+import 'package:core/services/providers/notification_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,52 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           const Spacer(),
+          IconButton(
+            tooltip: "My Notifications",
+            icon: Consumer<NotificationProvider>(
+              builder: (context, notificationProvider, _) {
+                final authUser = context.read<AuthProvider>().user;
 
+                if (authUser == null) {
+                  return const SizedBox.shrink();
+                }
+
+                return FutureBuilder(
+                  future: context
+                      .read<NotificationProvider>()
+                      .repository
+                      .getByUserId(authUser!.id),
+                  builder: (context, snapshot) {
+                    final unreadCount = snapshot.hasData
+                        ? snapshot.data!.where((n) => !n.isRead).length
+                        : 0;
+
+                    return Stack(
+                      children: [
+                        const Icon(Icons.notifications, color: Colors.white),
+                        if (unreadCount > 0)
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/notifications');
+            },
+          ),
           const Divider(color: Colors.white),
           IconButton(
             tooltip: "Profile",
@@ -217,15 +263,14 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
           onReloadStudios: _reloadStudios,
           cities: dropdownCities,
         )
-            : _selectedIndex == 1
-            ? BuildEmployeesTab(
+            : BuildEmployeesTab(
           context: context,
           user: _user!,
           instructorProvider: instructorProvider,
           studioProvider: studioProvider,
           studios: studios,
         )
-            : const UserNotificationCenter(),
+
       );
     }
 
@@ -250,11 +295,6 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 selectedIcon: Icon(Icons.people, color: AppColors.lavender),
                 icon: Icon(Icons.people, color: Colors.white),
                 label: Text("Employees", style: TextStyle(color: Colors.white)),
-              ),
-              NavigationRailDestination(
-                selectedIcon: Icon(Icons.notifications, color: AppColors.lavender),
-                icon: Icon(Icons.notifications, color: Colors.white),
-                label: Text("Notifications", style: TextStyle(color: Colors.white)),
               ),
             ],
             trailing: _buildSidebarActions(),

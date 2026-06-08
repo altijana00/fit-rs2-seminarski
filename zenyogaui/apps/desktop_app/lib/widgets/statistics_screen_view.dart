@@ -101,6 +101,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
               ElevatedButton.icon(
                 icon: const Icon(Icons.download),
                 label: const Text("Download PDF"),
+                style: ElevatedButton.styleFrom(fixedSize: const Size(150, 30)),
                 onPressed: _downloadPdf,
               ),
 

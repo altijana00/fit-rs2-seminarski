@@ -21,7 +21,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             var studioPayments = await studioAnalyticsService.GetByStudio(studioId);
 
-            if (studioPayments != 0)
+            if (studioPayments >= 0)
             {
                 _logger.LogInformation($"Retrieved studio payments for studio: {studioId}");
                 return Ok(studioPayments);

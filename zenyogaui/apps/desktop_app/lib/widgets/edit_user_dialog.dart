@@ -315,19 +315,61 @@ class _EditUserDialogState extends State<EditUserDialog> {
               controller: _firstNameCtrl,
               decoration: const InputDecoration(labelText: "First Name"),
             ),
+            const SizedBox(height: 10),
             TextField(
               controller: _lastNameCtrl,
               decoration: const InputDecoration(labelText: "Last Name"),
             ),
-            TextField(
-              controller: _genderCtrl,
-              decoration: const InputDecoration(labelText: "Gender"),
-            ),
+            const SizedBox(height: 10),
+
             TextField(
               controller: _emailCtrl,
               decoration: const InputDecoration(labelText: "Email"),
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 15.0),
+                  child: Text(
+                  "Gender",
+                  style: TextStyle(
+                  fontSize: 12,
 
+                ),
+              ),
+            ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<String>(
+                        title: const Text("M"),
+                        value: "M",
+                        groupValue: _genderCtrl.text,
+                        onChanged: (val) {
+                          setState(() {
+                            _genderCtrl.text = val!;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile<String>(
+                        title: const Text("F"),
+                        value: "F",
+                        groupValue: _genderCtrl.text,
+                        onChanged: (val) {
+                          setState(() {
+                            _genderCtrl.text = val!;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
 
             /// PASSWORD SECTION

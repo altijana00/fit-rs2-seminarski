@@ -24,7 +24,9 @@ namespace ZEN_Yoga.Services.Services.Analytics
 
             var payments = await _dbContext.Payments.Where(p => p.StudioId == studioId).ToListAsync();
 
-            paymentsAmount = 50 * (payments.Count);
+            var studio = await _dbContext.Studios.FirstOrDefaultAsync(s => s.Id == studioId);
+
+            paymentsAmount = studio!.MembershipPrice * (payments.Count);
 
             return paymentsAmount;
         }

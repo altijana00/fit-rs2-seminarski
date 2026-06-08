@@ -79,6 +79,10 @@ class _AppShellState extends State<AppShell> with RouteAware {
             builder: (context, notificationProvider, _) {
               final authUser = context.read<AuthProvider>().user;
 
+              if (authUser == null) {
+                return const SizedBox.shrink();
+              }
+
               return FutureBuilder(
                 future: context
                     .read<NotificationProvider>()

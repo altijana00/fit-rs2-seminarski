@@ -62,15 +62,20 @@ class UsersTableSource extends DataTableSource {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton.icon(
-              icon: const Icon(Icons.chat),
-              label: const Text("Send Notification"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                fixedSize: const Size(80, 30),
+            Padding(
+              padding: const EdgeInsets.only(right:10.0),
+              child:  ElevatedButton.icon(
+                icon: const Icon(Icons.chat),
+                label: const Text("Send"),
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  fixedSize: const Size(90, 30),
+                ),
+                onPressed: () => onSendNotificationRequest(u),
               ),
-              onPressed: () => onSendNotificationRequest(u),
             ),
+
             ElevatedButton.icon(
               icon: const Icon(Icons.edit),
               label: const Text("Edit"),
@@ -187,13 +192,17 @@ class _UsersTableViewState extends State<UsersTableView> {
             ),
           ),
 
-          ElevatedButton.icon(
-            icon: const Icon(Icons.search),
-            label: const Text("Search"),
-            onPressed: () {
-              _filter.search = _searchController.text.trim();
-              _refresh();
-            },
+          Padding(
+              padding: const EdgeInsets.only(top:5.0),
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.search),
+                label: const Text("Search"),
+                style: ElevatedButton.styleFrom(fixedSize: const Size(90, 30)),
+                onPressed: () {
+                  _filter.search = _searchController.text.trim();
+                  _refresh();
+                },
+              )
           ),
 
           DropdownButton<int?>(

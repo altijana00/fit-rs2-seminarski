@@ -6,6 +6,7 @@ import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/class_service.dart';
+import 'package:core/services/providers/notification_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
@@ -336,7 +337,46 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                         const Spacer(),
                         IconButton(
                           tooltip: "My Notifications",
-                          icon: const Icon(Icons.notifications, color: Colors.white),
+                          icon: Consumer<NotificationProvider>(
+                            builder: (context, notificationProvider, _) {
+                              final authUser = context.read<AuthProvider>().user;
+
+                              if (authUser == null) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return FutureBuilder(
+                                future: context
+                                    .read<NotificationProvider>()
+                                    .repository
+                                    .getByUserId(authUser!.id),
+                                builder: (context, snapshot) {
+                                  final unreadCount = snapshot.hasData
+                                      ? snapshot.data!.where((n) => !n.isRead).length
+                                      : 0;
+
+                                  return Stack(
+                                    children: [
+                                      const Icon(Icons.notifications, color: Colors.white),
+                                      if (unreadCount > 0)
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: Container(
+                                            width: 10,
+                                            height: 10,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           onPressed: () {
                             Navigator.pushNamed(context, '/notifications');
                           },

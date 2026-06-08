@@ -50,18 +50,22 @@ class StudiosTableSource extends DataTableSource {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton.icon(
-              icon: const Icon(Icons.bar_chart),
-              label: const Text("Statistics"),
-              style: ElevatedButton.styleFrom(fixedSize: const Size(80, 30)),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (ctx) => StudioStatisticsDialog(studioId: s.id),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.only(right:10.0),
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.bar_chart),
+                label: const Text("Statistics"),
+                style: ElevatedButton.styleFrom(fixedSize: const Size(90, 30)),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (ctx) => StudioStatisticsDialog(studioId: s.id),
+                  );
+                },
+              ),
             ),
+
             ElevatedButton.icon(
               onPressed: () => onEditRequest(s),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo, fixedSize: const Size(80, 30)) , label: Text("Edit"), icon: Icon(Icons.edit)
@@ -233,18 +237,23 @@ Widget _buildFilters(_StudiosTableData data) {
             decoration: const InputDecoration(
               labelText: "Search studios",
               prefixIcon: Icon(Icons.search),
+
             ),
           ),
         ),
-
-        ElevatedButton.icon(
-          icon: const Icon(Icons.search),
-          label: const Text("Search"),
-          onPressed: () {
-            _filter.search = _searchController.text.trim();
-            _refresh();
-          },
+        Padding(
+          padding: const EdgeInsets.only(top:5.0),
+          child: ElevatedButton.icon(
+            icon: const Icon(Icons.search),
+            label: const Text("Search"),
+            style: ElevatedButton.styleFrom(fixedSize: const Size(90, 30)),
+            onPressed: () {
+              _filter.search = _searchController.text.trim();
+              _refresh();
+            },
+          )
         ),
+
 
 
         DropdownButton<int?>(

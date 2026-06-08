@@ -104,6 +104,7 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.download),
+                  style: ElevatedButton.styleFrom(fixedSize: const Size(150, 30)),
                   label: const Text("Download PDF"),
                   onPressed: _downloadPdf,
                 ),
