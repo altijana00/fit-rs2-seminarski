@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
+using ZEN_Yoga.Services.Interfaces.Notification;
+using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.YogaType;
+using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_Yoga.Services.Services.User;
+using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -65,7 +71,12 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1")]
         [HttpPost("add")]
-        public async Task<IActionResult> AddYogaType([FromBody] AddYogaType addYogaType, [FromServices] IUpsertYogaTypeService<AddYogaType> upsertYogaTypeService)
+        public async Task<IActionResult> AddYogaType([FromBody] AddYogaType addYogaType, 
+                                                     [FromServices] IUpsertYogaTypeService<AddYogaType> upsertYogaTypeService,
+                                                     [FromServices] IGetUserService getUserService,
+                                                     [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                     [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService
+            )
         {
             if (addYogaType == null)
             {
@@ -87,12 +98,40 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertYogaTypeService.Add(addYogaType);
             _logger.LogInformation("Yoga type added successfully!");
+
+            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+
+            foreach(var a  in admins)
+            {
+                // SLANJE INAPP (SIGNAL R)
+                var adminNotification = new AddNotification()
+                {
+                    Title = "New yoga type",
+                    Content = $"New yoga type - {addYogaType.Name}, was added to the app.",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(adminNotification);
+            }
+
+            
+
             return Ok(new { Message = "Yoga type added successfully!" });
         }
 
         [Authorize(Roles = "1")]
         [HttpPut("edit")]
-        public async Task<IActionResult> EditYogaType([FromBody] EditYogaType editYogaType, int id, [FromServices] IUpsertYogaTypeService<AddYogaType> upsertYogaTypeService)
+        public async Task<IActionResult> EditYogaType([FromBody] EditYogaType editYogaType, 
+                                                      int id, 
+                                                      [FromServices] IUpsertYogaTypeService<AddYogaType> upsertYogaTypeService,
+                                                      [FromServices] IGetUserService getUserService,
+                                                      [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                      [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (editYogaType == null)
             {
@@ -114,6 +153,27 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertYogaTypeService.Edit(editYogaType, id);
             _logger.LogInformation("Yoga type edited successfully!");
+
+            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+
+            foreach (var a in admins)
+            {
+                // SLANJE INAPP (SIGNAL R)
+                var adminNotification = new AddNotification()
+                {
+                    Title = "Yoga type edited",
+                    Content = $"Yoga type - {editYogaType.Name} was edited.",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(adminNotification);
+            }
+
             return Ok(new { Message = "Changes saved successfully!" });
         }
 

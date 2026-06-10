@@ -10,5 +10,7 @@ namespace ZEN_Yoga.Services.Interfaces.User
         Task<UserResponse> GetByEmail(string email);
 
         Task<UserResponse> GetByEmailandPassword(string email, string password);
+
+        Task<List<UserResponse>> GetAdminUsers(int roleId);
     }
 }

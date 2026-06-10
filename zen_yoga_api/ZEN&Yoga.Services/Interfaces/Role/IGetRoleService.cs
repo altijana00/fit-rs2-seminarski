@@ -13,5 +13,7 @@ namespace ZEN_Yoga.Services.Interfaces.Role
     public interface IGetRoleService : IGetService<Models.Role, RoleResponse>
     {
         Task<List<RoleResponse>> GetRolesQuery(RoleQuery roleQuery);
+
+       
     }
 }

@@ -9,6 +9,7 @@ using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Services.Notifications;
+using ZEN_Yoga.Services.Services.Studio;
 using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -154,7 +155,12 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 2")]
         [HttpPut("edit")]
-        public async Task<IActionResult> EditStudio([FromBody] EditStudio editStudio, int id, [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, [FromServices] IStudioValidatorService studioValidatorService )
+        public async Task<IActionResult> EditStudio([FromBody] EditStudio editStudio, 
+                                                    int id, [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, 
+                                                    [FromServices] IStudioValidatorService studioValidatorService,
+                                                    [FromServices] IGetStudioService getStudioService,
+                                                    [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                    [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             if (editStudio == null)
             {
@@ -178,15 +184,54 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertStudioService.Edit(editStudio, id);
             _logger.LogInformation($"Studio edited successfully!");
+
+            var studio = await getStudioService.GetById(id);
+
+            // SLANJE INAPP (SIGNAL R)
+            var notification = new AddNotification()
+            {
+                Title = "Studio edited",
+                Content = $"Your studio - {studio.Name}, has been edited successfully!",
+                Type = NotificationType.Success.ToString(),
+                UserId = studio.OwnerId,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
+            await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
+
+            // SPREMI U BAZU
+            await upsertNotificationService.Add(notification);
+
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
         [Authorize(Roles = "1, 2")]
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete(int id, [FromServices] IDeleteStudioService deleteService)
+        public async Task<IActionResult> Delete(int id, 
+                                                [FromServices] IDeleteStudioService deleteService,
+                                                [FromServices] IGetStudioService getStudioService,
+                                                [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+            var studio = await getStudioService.GetById(id);
+
             if (await deleteService.Delete(id))
             {
+                // SLANJE INAPP (SIGNAL R)
+                var notification = new AddNotification()
+                {
+                    Title = "Studio deleted",
+                    Content = $"Your studio - {studio.Name}, has been deleted.",
+                    Type = NotificationType.Success.ToString(),
+                    UserId = studio.OwnerId,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
+                await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notification);
+
                 _logger.LogInformation($"Studio deleted: {id}");
                 return Ok(new { Message = "Studio deleted" });
             }

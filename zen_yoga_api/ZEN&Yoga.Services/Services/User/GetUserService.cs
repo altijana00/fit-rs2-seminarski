@@ -87,5 +87,12 @@ namespace ZEN_Yoga.Services.Services.User
 
 
         }
+
+        public async Task<List<UserResponse>> GetAdminUsers(int roleId) 
+        {
+            var users = await _dbContext.Users.Where(u => u.RoleId == roleId).ToListAsync();
+
+            return _mapper.Map<List<UserResponse>>(users);
+        }
     }
 }

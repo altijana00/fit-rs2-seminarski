@@ -88,6 +88,8 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 var classRes = await getClassService.GetById(classId);
 
+                //TO DO: check max participants and send a warning notification to instructor when limit is reached 
+
                 // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {

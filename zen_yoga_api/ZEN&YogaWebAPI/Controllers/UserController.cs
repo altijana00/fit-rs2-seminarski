@@ -60,6 +60,23 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "1")]
+        [HttpGet("getAdminUsers")]
+        public async Task<ActionResult<List<UserResponse>>> GetAdminUsers([FromServices] IGetUserService getUserService)
+        {
+            var users = await getUserService.GetAdminUsers((int)RoleType.Admin);
+
+            if (users == null)
+            {
+                _logger.LogInformation($"No admins found with.");
+
+                return NoContent();
+            }
+
+            _logger.LogInformation($"{users.Count} admins found.");
+            return Ok(users);
+        }
+
 
         [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("getById")]
@@ -124,6 +141,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger.LogInformation($"User registered: {registerUser.Email}");
 
             var user = await getUserService.GetByEmail(registerUser.Email);
+            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
 
             // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
@@ -139,6 +157,26 @@ namespace ZEN_YogaWebAPI.Controllers
 
             // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
+
+            foreach(var a in admins)
+            {
+                // SLANJE INAPP (SIGNAL R)
+                var adminNotification = new AddNotification()
+                {
+                    Title = "New user",
+                    Content = $"New user has joined the app!",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(adminNotification);
+            }
+
+            
 
             return Ok(new { Message = "User registered!" });
         }
@@ -243,15 +281,61 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1")]
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete([FromQuery]int id, [FromServices] IDeleteUserService deleteService)
+        public async Task<IActionResult> Delete([FromQuery]int id, 
+                                                [FromServices] IDeleteUserService deleteService,
+                                                [FromServices] IGetUserService getUserService,
+                                                [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+
+            var user = await getUserService.GetById(id);
+            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+
             if (await deleteService.Delete(id))
             {
                 _logger.LogInformation($"User: {id} deleted");
+
+                foreach (var a in admins) {
+                    // SLANJE INAPP (SIGNAL R)
+                    var notification = new AddNotification()
+                    {
+                        Title = "User deleted",
+                        Content = $"User {user.FirstName} {user.LastName} has been deleted from the app.",
+                        Type = NotificationType.Info.ToString(),
+                        UserId = a.Id,
+                    };
+
+                    _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                    await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notification);
+
+                    // SPREMI U BAZU
+                    await upsertNotificationService.Add(notification);
+
+                }
+
                 return Ok(new { Message = "User deleted" });
             }
 
             _logger.LogInformation($"User: {id} no found for deletion");
+
+            foreach (var a in admins) 
+            {
+                // SLANJE INAPP (SIGNAL R)
+                var notificationError = new AddNotification()
+                {
+                    Title = "User delete failed",
+                    Content = $"Failed to delete user {user.FirstName} {user.LastName}.",
+                    Type = NotificationType.Error.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notificationError);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notificationError);
+            }
+            
             return BadRequest(new { Message = "There is no user with this ID!" });
         }
 

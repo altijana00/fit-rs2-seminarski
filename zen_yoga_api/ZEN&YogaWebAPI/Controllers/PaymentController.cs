@@ -7,6 +7,7 @@ using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Studio;
+using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Services.Notifications;
 using ZEN_Yoga.Services.Services.Studio;
 using ZEN_YogaWebAPI.Notifications;
@@ -21,26 +22,66 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             _logger = logger;
         }
-      
+
 
         [Authorize(Roles = "1, 4")]
-        [HttpPost ("add")]
-        public async Task<IActionResult> AddPayment([FromServices] IPaymentService paymentService, 
-                                                    int userId, int studioId, int amount, string paymentIntentId, 
+        [HttpPost("add")]
+        public async Task<IActionResult> AddPayment([FromServices] IPaymentService paymentService,
+                                                    int userId, int studioId, int amount, string paymentIntentId,
                                                     [FromServices] IGetStudioService getStudioService,
+                                                    [FromServices] IGetUserService getUserService,
                                                     [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                     [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+            var studio = await getStudioService.GetById(studioId);
+            var user = await getUserService.GetById(userId);
+            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+
             if (await paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
             {
+
+
                 _logger.LogInformation($"Processing payment for (UserID): {userId} to (StudioID): {studioId}");
-                return Ok(new { Message = "Payment is in processing! You have joined the studio!" });
+
+                // SLANJE INAPP (SIGNAL R)
+                var notification = new AddNotification()
+                {
+                    Title = "Payment success",
+                    Content = $"Welcome to {studio.Name}, your payment has been successful!",
+                    Type = NotificationType.Success.ToString(),
+                    UserId = userId,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userId}");
+                await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(notification);
+
+                foreach (var a in admins)
+                {
+                    // SLANJE INAPP (SIGNAL R)
+                    var adminNotification = new AddNotification()
+                    {
+                        Title = "Payment success",
+                        Content = $"Payment for studio {studio.Name} from user {user.FirstName} has ben successful.",
+                        Type = NotificationType.Success.ToString(),
+                        UserId = a.Id,
+                    };
+
+                    _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                    await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+
+                    // SPREMI U BAZU
+                    await upsertNotificationService.Add(adminNotification);
+
+                    return Ok(new { Message = "Payment is in processing! You have joined the studio!" });
+                }
+       
             }
 
-            var studio = await getStudioService.GetById(studioId);
-
             // SLANJE INAPP (SIGNAL R)
-            var notification = new AddNotification()
+            var notificationError = new AddNotification()
             {
                 Title = "Payment failed",
                 Content = $"Unable to make payment for {studio.Name}!",
@@ -49,13 +90,32 @@ namespace ZEN_YogaWebAPI.Controllers
             };
 
             _logger.LogDebug($"Sending notification to userId: {userId}");
-            await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
+            await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notificationError);
 
             // SPREMI U BAZU
-            await upsertNotificationService.Add(notification);
+            await upsertNotificationService.Add(notificationError);
+
+            foreach (var a in admins)
+            {
+                // SLANJE INAPP (SIGNAL R)
+                var adminNotificationError = new AddNotification()
+                {
+                    Title = "Payment failed",
+                    Content = $"Payment for studio {studio.Name} from user {user.FirstName} has failed.",
+                    Type = NotificationType.Error.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotificationError);
+
+                // SPREMI U BAZU
+                await upsertNotificationService.Add(adminNotificationError);
+
+            }
 
             _logger.LogInformation($"Payment for (UserID): {userId} to (StudioID): {studioId} failed");
-            return BadRequest(new {Message = "Unable to make the payment!"});
+            return BadRequest(new { Message = "Unable to make the payment!" });
         }
 
         [Authorize(Roles = "1, 4")]
