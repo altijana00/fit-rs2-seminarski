@@ -89,7 +89,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Divider(color: Colors.white),
+                  const Divider(color: AppColors.deepGreen),
                   IconButton(
                     tooltip: "My Notifications",
                     icon: Consumer<NotificationProvider>(
@@ -112,7 +112,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                             return Stack(
                               children: [
-                                const Icon(Icons.notifications, color: Colors.white),
+                                const Icon(Icons.notifications, color: AppColors.deepGreen),
                                 if (unreadCount > 0)
                                   Positioned(
                                     right: 0,

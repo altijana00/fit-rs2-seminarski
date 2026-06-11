@@ -6,6 +6,8 @@ import 'package:zenyogaui/widgets/edit_role_dialog.dart';
 import '../core/theme.dart';
 import 'package:core/dto/requests/role_filter.dart';
 
+import 'add_role_dialog.dart';
+
 
 
 
@@ -165,6 +167,19 @@ class _RolesTableViewState extends State<RolesTableView> {
               _refresh();
             },
           ),
+
+          const SizedBox(height: 12),
+
+
+          ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Add Role"),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(120, 32),
+              ),
+              onPressed: () => _confirmAdd()
+
+          ),
         ],
       ),
     );
@@ -296,6 +311,27 @@ class _RolesTableViewState extends State<RolesTableView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Role edited successfully"),
+              backgroundColor: AppColors.deepGreen,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _confirmAdd() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AddRoleDialog(
+        onAddDto: (addedRole) async {
+          await context
+              .read<RoleProvider>()
+              .repository
+              .addRole(addedRole);
+          _refresh();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Role added successfully"),
               backgroundColor: AppColors.deepGreen,
             ),
           );

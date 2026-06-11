@@ -176,12 +176,15 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                 [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+
+            var role = await getRoleService.GetById(id);
+
             if (await deleteService.Delete(id))
             {
                 _logger.LogInformation($"Role {id} deleted successfully!");
 
                 var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
-                var role = await getRoleService.GetById(id);
+                
 
                 foreach (var a in admins)
                 {

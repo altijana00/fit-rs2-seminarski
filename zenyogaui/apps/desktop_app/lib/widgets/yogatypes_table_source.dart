@@ -2,6 +2,7 @@ import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/widgets/add_yoga_type_dialog.dart';
 import '../core/theme.dart';
 import 'package:core/dto/requests/yogatype_filter.dart';
 
@@ -165,6 +166,19 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
               _refresh();
             },
           ),
+
+          const SizedBox(height: 12),
+
+
+          ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Add Yoga Type"),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(150, 32),
+              ),
+              onPressed: () => _confirmAdd()
+
+          ),
         ],
       ),
     );
@@ -303,4 +317,26 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
       ),
     );
   }
+
+  void _confirmAdd() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AddYogaTypeDialog(
+        onAddDto: (addedYogaType) async {
+          await context
+              .read<YogaTypeProvider>()
+              .repository
+              .addYogaType(addedYogaType);
+          _refresh();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Yoga type added successfully"),
+              backgroundColor: AppColors.deepGreen,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
 }

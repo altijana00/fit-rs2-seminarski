@@ -77,5 +77,26 @@ class YogaTypeApiService {
     }
   }
 
+  Future<Map<String, dynamic>> addYogaType(Map<String, dynamic> yogaTypeData) async {
+    final response = await dio.post(
+        'YogaType/add',
+        data: yogaTypeData,
+        options: Options(
+          validateStatus: (status) => true,
+        )
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201){
+      return response.data;
+
+    } else if (response.statusCode == 500) {
+      var resp = response.data;
+      throw Exception(resp["error"]);
+
+    } else{
+      throw Exception('Failed to add yoga type: ${response.data}');
+    }
+  }
+
 
 }

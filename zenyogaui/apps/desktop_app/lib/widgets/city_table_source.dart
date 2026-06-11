@@ -3,6 +3,7 @@ import 'package:core/services/providers/city_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
+import 'add_city_dialog.dart';
 import 'edit_city_dialog.dart';
 import 'package:core/dto/requests/city_filter.dart';
 
@@ -163,6 +164,20 @@ class _CitiesTableViewState extends State<CitiesTableView> {
               _refresh();
             },
           ),
+
+          const SizedBox(height: 12),
+
+
+          ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Add City"),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(120, 32),
+              ),
+              onPressed: () => _confirmAdd()
+
+          ),
+
         ],
       ),
     );
@@ -293,6 +308,27 @@ class _CitiesTableViewState extends State<CitiesTableView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("City edited successfully"),
+              backgroundColor: AppColors.deepGreen,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _confirmAdd() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AddCityDialog(
+        onAddDto: (addedCity) async {
+          await context
+              .read<CityProvider>()
+              .repository
+              .addCity(addedCity);
+          _refresh();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("City added successfully"),
               backgroundColor: AppColors.deepGreen,
             ),
           );

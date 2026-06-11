@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme.dart';
 import 'add_notification_dialog.dart';
+import 'add_user_dialog.dart';
 import 'edit_user_dialog.dart';
 
 
 
 class _UsersTableData {
   final List<UserResponseDto> users;
+  final List<CityResponseDto> cities;
   final Map<int, String> roleNames;
   final Map<int, String> cityNames;
 
@@ -23,6 +25,7 @@ class _UsersTableData {
     required this.users,
     required this.roleNames,
     required this.cityNames,
+    required this.cities
   });
 }
 
@@ -32,17 +35,21 @@ class UsersTableSource extends DataTableSource {
   final List<UserResponseDto> users;
   final Map<int, String> roleNames;
   final Map<int, String> cityNames;
+  final List<CityResponseDto> cities;
   final void Function(UserResponseDto) onDeleteRequest;
   final void Function(UserResponseDto) onEditRequest;
+  final void Function(List<CityResponseDto>) onAddRequest;
   final void Function(UserResponseDto) onSendNotificationRequest;
 
   UsersTableSource({
     required this.users,
+    required this.cities,
     required this.roleNames,
     required this.cityNames,
     required this.onDeleteRequest,
     required this.onEditRequest,
     required this.onSendNotificationRequest,
+    required this.onAddRequest
 
   });
 
@@ -161,12 +168,13 @@ class _UsersTableViewState extends State<UsersTableView> {
       roleProvider.repository.getAllRoles(),
     ]);
 
-    final users = results[0] as List<UserResponseDto>;
-    final cities = results[1] as List<CityResponseDto>;
-    final roles = results[2] as List<RoleResponseDto>;
+    final users = results[0] as List<UserResponseDto> ?? [];
+    final cities = results[1] as List<CityResponseDto> ?? [];
+    final roles = results[2] as List<RoleResponseDto> ?? [];
 
     return _UsersTableData(
       users: users,
+      cities: cities,
       cityNames: {for (final c in cities) c.id: c.name},
       roleNames: {for (final r in roles) r.id: r.name},
     );
@@ -253,6 +261,19 @@ class _UsersTableViewState extends State<UsersTableView> {
               _refresh();
             },
           ),
+
+          const SizedBox(height: 12),
+
+
+          ElevatedButton.icon(
+              icon: const Icon(Icons.add),
+              label: const Text("Add User"),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(120, 32),
+              ),
+              onPressed: () => _confirmAdd(data.cities)
+
+          ),
         ],
       ),
     );
@@ -312,10 +333,12 @@ class _UsersTableViewState extends State<UsersTableView> {
                 ],
                 source: UsersTableSource(
                   users: data.users,
+                  cities: data.cities,
                   roleNames: data.roleNames,
                   cityNames: data.cityNames,
                   onDeleteRequest: _confirmDelete,
                   onEditRequest: _confirmEdit,
+                  onAddRequest: _confirmAdd,
                   onSendNotificationRequest: _confirmSendNotification
                 ),
               ),
@@ -377,6 +400,28 @@ class _UsersTableViewState extends State<UsersTableView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("User edited successfully"),
+              backgroundColor: AppColors.deepGreen,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _confirmAdd(List<CityResponseDto> cities) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AddUserDialog(
+        cities: cities,
+        onAddDto: (addedUser) async {
+          await context
+              .read<UserProvider>()
+              .repository
+              .addUser(addedUser);
+          _refresh();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("User added successfully"),
               backgroundColor: AppColors.deepGreen,
             ),
           );
