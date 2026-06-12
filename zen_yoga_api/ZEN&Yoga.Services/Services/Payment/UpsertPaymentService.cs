@@ -15,14 +15,14 @@ using ZEN_Yoga.Services.Interfaces.Payment;
 
 namespace ZEN_Yoga.Services.Services.Payment
 {
-    public class PaymentService : IPaymentService
+    public class UpsertPaymentService : IUpsertPaymentService
     {
         private readonly ZenYogaDbContext _dbContext;
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly StripeSettings _stripeSettings;
         private ConnectionFactory _connectionFactory;
 
-        public PaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options, IOptions<StripeSettings> stripeSettingsOptions)
+        public UpsertPaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options, IOptions<StripeSettings> stripeSettingsOptions)
         {
             _dbContext = dbContext;
             _rabbitMqSettings = options.Value;

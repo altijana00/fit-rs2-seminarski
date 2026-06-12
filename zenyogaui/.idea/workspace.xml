@@ -6,14 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/city_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/city_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/roles_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/roles_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/subscriptiontypes_table_source.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/yogatypes_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/yogatypes_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/yoga-type_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/yoga-type_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/yoga-type_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/yoga-type_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/core/app_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/core/app_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Flutter.desktop.executor": "Run",
+    "Flutter.desktop.executor": "Debug",
     "Flutter.mobile.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -86,5 +84,16 @@
       <updated>1780688925514</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/packages/core/lib/dto/responses/payment_response_dto.dart</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -40,6 +40,8 @@ namespace ZEN_YogaWebAPI.Mapper
             CreateMap<EditNotification, Notification>();
             CreateMap<Notification, NotificationResponse>();
 
+            CreateMap<Payment, PaymentResponse>();
+
 
 
         }

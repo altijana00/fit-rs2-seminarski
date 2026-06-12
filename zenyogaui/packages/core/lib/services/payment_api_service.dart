@@ -45,4 +45,54 @@ class PaymentApiService {
 
     return Map<String, dynamic>.from(response.data);
   }
+
+  Future<List<Map<String, dynamic>>> getAllPayments() async {
+    final response = await dio.get('Payment/getAll');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch payments: ${response.data}');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getPaymentsQuery(String? search) async {
+    final response = await dio.get('Payment/getPaymentsQuery',
+      queryParameters: {
+        if(search != null) 'search': search,
+      },
+    );
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch payments: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> getPaymentById(int paymentId) async {
+    final response = await dio.get('Payment/getById?paymentId=$paymentId');
+    if(response.statusCode == 200) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch payment: ${response.data}');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getUserPayments(int userId) async {
+    final response = await dio.get('Payment/getUserPayment?userId=$userId');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch user payments: ${response.data}');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getStudioPayments(int studioId) async {
+    final response = await dio.get('Payment/getStudioPayment?studioId=$studioId');
+    if(response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(response.data);
+    } else {
+      throw Exception('Falied to fetch studio payments: ${response.data}');
+    }
+  }
 }
+

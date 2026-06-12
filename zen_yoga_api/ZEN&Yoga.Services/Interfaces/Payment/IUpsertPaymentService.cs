@@ -7,7 +7,7 @@ using ZEN_Yoga.Models.Responses;
 
 namespace ZEN_Yoga.Services.Interfaces.Payment
 {
-    public interface IPaymentService
+    public interface IUpsertPaymentService
     {
         Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId);
 

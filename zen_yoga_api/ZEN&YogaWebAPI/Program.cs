@@ -153,16 +153,18 @@ builder.Services.AddScoped<IYogaTypeValidatorService, YogaTypeValidatorService>(
 builder.Services.AddScoped<IDeleteYogaTypeService, DeleteYogaTypeService>();
 builder.Services.AddScoped<IUpsertYogaTypeService<AddYogaType>, UpsertYogaTypeService>();
 
-
+//Analytics
 builder.Services.AddScoped<IAppAnalyticsService, AppAnalyticsService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IUpsertPaymentService, UpsertPaymentService>();
 builder.Services.AddScoped<IStudioAnalyticsService, StudioAnalyticsService>();
 
+//Notifications
 builder.Services.AddScoped<IGetNotificationService, GetNotificationService>();
 builder.Services.AddScoped<IUpsertNotificationService<AddNotification>, UpsertNotificationService>();
 builder.Services.AddScoped<IDeleteNotificationService, DeleteNotificationService>();
 
-
+//Payments
+builder.Services.AddScoped<IGetPaymentService, GetPaymentService>();
 
 
 

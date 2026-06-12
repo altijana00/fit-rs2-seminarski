@@ -4,10 +4,14 @@ using Stripe;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Requests;
+using ZEN_Yoga.Models.Responses;
+using ZEN_Yoga.Models.SearchObjects;
+using ZEN_Yoga.Services.Interfaces.City;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
+using ZEN_Yoga.Services.Interfaces.YogaType;
 using ZEN_Yoga.Services.Services.Notifications;
 using ZEN_Yoga.Services.Services.Studio;
 using ZEN_YogaWebAPI.Notifications;
@@ -26,7 +30,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpPost("add")]
-        public async Task<IActionResult> AddPayment([FromServices] IPaymentService paymentService,
+        public async Task<IActionResult> AddPayment([FromServices] IUpsertPaymentService paymentService,
                                                     int userId, int studioId, int amount, string paymentIntentId,
                                                     [FromServices] IGetStudioService getStudioService,
                                                     [FromServices] IGetUserService getUserService,
@@ -120,7 +124,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpPost("refund-payment")]
-        public async Task<IActionResult> RefundPayment([FromServices] IPaymentService paymentService, 
+        public async Task<IActionResult> RefundPayment([FromServices] IUpsertPaymentService paymentService, 
                                                         int userId, int studioId,
                                                         [FromServices] IGetStudioService getStudioService,
                                                         [FromServices] ISendInAppNotificationService sendInAppNotificationService,
@@ -173,7 +177,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpGet("isUserPaidMember")]
-        public async Task<IActionResult> IsUserPaidMember([FromServices] IPaymentService paymentService, int userId, int studioId)
+        public async Task<IActionResult> IsUserPaidMember([FromServices] IUpsertPaymentService paymentService, int userId, int studioId)
         {
             if (await paymentService.IsUserPaidMember(userId, studioId))
             {
@@ -187,7 +191,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = "1, 4")]
         [HttpPost("create-intent")]
-        public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IPaymentService paymentService)
+        public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IUpsertPaymentService paymentService)
         {
             try
             {
@@ -201,6 +205,81 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 return BadRequest(new { error = ex.StripeError.Message });
             }
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetAll([FromServices] IGetPaymentService getPaymentService)
+        {
+            var payments = await getPaymentService.GetAll();
+
+            if (payments == null)
+            {
+                _logger.LogInformation("No payments found");
+                return NoContent();
+            }
+            _logger.LogInformation($"{payments.Count} payments found");
+            return Ok(payments);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("getPaymentsTotal")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsTotal([FromServices] IGetPaymentService getPaymentService)
+        {
+            var paymentsTotal = await getPaymentService.GetPaymentsTotal();
+
+            if (paymentsTotal == null)
+            {
+                _logger.LogInformation("No payments total found");
+                return NoContent();
+            }
+            _logger.LogInformation($"{paymentsTotal} payments total");
+            return Ok(paymentsTotal);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("getPaymentsQuery")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsQuery([FromServices] IGetPaymentService getPaymentService, [FromQuery] PaymentQuery paymentQuery)
+        {
+            var cities = await getPaymentService.GetPaymentsQuery(paymentQuery);
+
+            if (cities == null)
+            {
+                _logger.LogInformation("No payments found");
+                return NoContent();
+            }
+            _logger.LogInformation($"Successfully retrieved payments with query: {paymentQuery.Search} ");
+            return Ok(cities);
+        }
+
+        [Authorize(Roles = "1, 4")]
+        [HttpGet("getUserPayment")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetUserPayments([FromServices] IGetPaymentService getPaymentService, int userId)
+        {
+            var payments = await getPaymentService.GetUserPayments(userId);
+
+            if (payments == null)
+            {
+                _logger.LogInformation("No payments found");
+                return NoContent();
+            }
+            _logger.LogInformation($"{payments.Count} payments found");
+            return Ok(payments);
+        }
+
+        [Authorize(Roles = "1, 2")]
+        [HttpGet("getStudioPayments")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetStudioPayments([FromServices] IGetPaymentService getPaymentService, int studioId)
+        {
+            var payments = await getPaymentService.GetStudioPayments(studioId);
+
+            if (payments == null)
+            {
+                _logger.LogInformation("No payments found");
+                return NoContent();
+            }
+            _logger.LogInformation($"{payments.Count} payments found");
+            return Ok(payments);
         }
 
     }

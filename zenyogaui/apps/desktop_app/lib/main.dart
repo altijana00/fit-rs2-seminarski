@@ -1,11 +1,11 @@
 import 'package:core/core/app_config.dart';
-import 'package:core/core/constants.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';
 import 'package:core/repositories/city_repository.dart';
 import 'package:core/repositories/class_repository.dart';
 import 'package:core/repositories/instructor_repository.dart';
 import 'package:core/repositories/notification_repository.dart';
+import 'package:core/repositories/payment_repository.dart';
 import 'package:core/repositories/role_repository.dart';
 import 'package:core/repositories/studio_repository.dart';
 import 'package:core/repositories/user_repository.dart';
@@ -13,6 +13,7 @@ import 'package:core/repositories/yoga-type_repository.dart';
 import 'package:core/services/app_analytics_api_service.dart';
 import 'package:core/services/auth_api_service.dart';
 import 'package:core/services/city_api_service.dart';
+import 'package:core/services/payment_api_service.dart';
 import 'package:core/services/class_api_service.dart';
 import 'package:core/services/instructor_api_service.dart';
 import 'package:core/services/notification_api_service.dart';
@@ -22,6 +23,7 @@ import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
 import 'package:core/services/providers/notification_service.dart';
+import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -65,6 +67,7 @@ void main() {
   final yogaTypeApiService = YogaTypeApiService(dio);
   final appAnalyticsApiService = AppAnalyticsApiService(dio);
   final notificationApiService = NotificationApiService(dio);
+  final paymentApiService = PaymentApiService(dio);
 
   //repositories
   final authRepository = AuthRepository(authApiService);
@@ -77,6 +80,7 @@ void main() {
   final yogaTypeRepository = YogaTypeRepository(yogaTypeApiService);
   final appAnalyticsRepository = AppAnalyticsRepository(appAnalyticsApiService);
   final notificationRepository = NotificationRepository(notificationApiService);
+  final paymentRepository = PaymentRepository(paymentApiService);
   final signalRService = SignalRService();
   final realtimeNotificationProvider = RealtimeNotificationProvider(signalRService);
   runApp(
@@ -112,6 +116,9 @@ void main() {
         ),
         ChangeNotifierProvider(
             create: (_) => NotificationProvider(repository: notificationRepository, dio: dio, storage: secureStorage)
+        ),
+        ChangeNotifierProvider(
+            create: (_) => PaymentProvider(repository: paymentRepository, dio: dio, storage: secureStorage)
         ),
         ChangeNotifierProvider(
           create: (_) => realtimeNotificationProvider,

@@ -16,6 +16,6 @@ class AppConfig {
 
   static const String stripeKey = String.fromEnvironment(
     'STRIPE_PUBLISHABLE_KEY',
-    defaultValue: '',
+    defaultValue: 'pk_test_51SpIJSC1su3FW6hZoRVTn94GOdTOrwYPRzLhy5ZnOnv4xZkaswNIVLusUPOVdFBY2evOKgVzaiEQEqth6UPkzLpy00OPRis5LH',
   );
 }
