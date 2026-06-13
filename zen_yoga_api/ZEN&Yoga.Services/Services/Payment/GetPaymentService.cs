@@ -41,6 +41,8 @@ namespace ZEN_Yoga.Services.Services.Payment
             
             }
 
+            return total;
+
         }
 
         public async Task<List<PaymentResponse>> GetPaymentsQuery(PaymentQuery paymentQuery)

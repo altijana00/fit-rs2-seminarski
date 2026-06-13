@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
+import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/pdf_service.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class StatisticsScreenView extends StatefulWidget {
 
 class _StatisticsScreenViewState extends State<StatisticsScreenView> {
   late Future<List<ParticipantsByCity>> _citiesFuture;
+  late Future<double> _paymentsFuture;
   bool _isInitialized = false;
   final GlobalKey _barChartKey = GlobalKey();
 
@@ -31,8 +33,10 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
 
     if (!_isInitialized) {
       final studioProvider = context.read<StudioProvider>();
+      final paymentProvider = context.read<PaymentProvider>();
 
       _citiesFuture = studioProvider.repository.getMostPopularStudioCities();
+      _paymentsFuture = paymentProvider.repository.getPaymentsTotal();
 
       context.read<AppAnalyticsProvider>().repository.getAppAnalytics();
 
@@ -52,7 +56,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
 
   Future<void> _downloadPdf() async {
     final analytics = context.read<AppAnalyticsProvider>().appAnalytics;
-
+    final totalPayments = await _paymentsFuture;
     if (analytics == null) return;
 
     // ensure widget is rendered before capture
@@ -63,6 +67,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
     final pdfBytes = await PdfService.generateReport(
       totalUsers: analytics.totalUsers!,
       totalStudios: analytics.totalStudios!,
+      totalPayments: totalPayments,
       barChartImage: barChartImage,
     );
 
@@ -136,6 +141,24 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 children: [
+                  FutureBuilder<double>(
+                    future: _paymentsFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text("Error: ${snapshot.error}");
+                      }
+                      final totalPayments = snapshot.data ?? 0.0;
+                      return KpiCard(
+                        title: "Total Payments",
+                        value: totalPayments.toStringAsFixed(2),
+                        icon: Icons.attach_money,
+                        color: Colors.green,
+                      );
+                    },
+                  ),
                   FutureBuilder<List<ParticipantsByCity>>(
                     future: _citiesFuture,
                     builder: (context, snapshot) {

@@ -55,6 +55,15 @@ class PaymentApiService {
     }
   }
 
+  Future<double> getPaymentsTotal() async {
+    final response = await dio.get('Payment/getPaymentsTotal');
+    if(response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Falied to fetch payments: ${response.data}');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> getPaymentsQuery(String? search) async {
     final response = await dio.get('Payment/getPaymentsQuery',
       queryParameters: {

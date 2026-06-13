@@ -46,6 +46,12 @@
         public StudioAlreadyExistsException(string message) : base(message) { }
     }
 
+    //User Class Exceptions
+    public class MaxParticipantsReachedException : Exception
+    {
+        public MaxParticipantsReachedException(string message) : base(message) { }
+    }
+
     //Class Exceptions
     public class ClassAlreadyExistsException : Exception
     {

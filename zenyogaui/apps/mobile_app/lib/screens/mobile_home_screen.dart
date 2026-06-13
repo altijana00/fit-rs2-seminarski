@@ -3,6 +3,7 @@ import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/profile_tab.dart';
+import 'package:mobile_app/screens/settings_screen.dart';
 import 'package:mobile_app/screens/studios_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,8 @@ import 'home_tab.dart';
 import 'my_classes_tab.dart';
 
 class AppShell extends StatefulWidget {
-
-  const AppShell({super.key});
+  final void Function(bool) onThemeChanged;
+  const AppShell({super.key, required this.onThemeChanged});
 
   @override
   State<AppShell> createState() => _AppShellState();
@@ -24,11 +25,12 @@ class _AppShellState extends State<AppShell> with RouteAware {
 
   int _selectedIndex = 0;
 
-  late final List<Widget> _tabs = const [
+  late final List<Widget> _tabs = [
     HomeTab(),
     StudiosTab(),
     MyClassesTab(),
     ProfileTab(),
+    SettingsScreen(onThemeChanged: widget.onThemeChanged)
   ];
 
   void _onBottomNavTapped(int index) {
@@ -64,6 +66,8 @@ class _AppShellState extends State<AppShell> with RouteAware {
         return "My Classes";
       case 3:
         return "Profile";
+      case 4:
+        return "Statistics";
       default:
         return "";
     }

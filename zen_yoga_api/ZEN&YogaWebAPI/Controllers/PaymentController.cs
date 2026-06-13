@@ -228,11 +228,6 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             var paymentsTotal = await getPaymentService.GetPaymentsTotal();
 
-            if (paymentsTotal == null)
-            {
-                _logger.LogInformation("No payments total found");
-                return NoContent();
-            }
             _logger.LogInformation($"{paymentsTotal} payments total");
             return Ok(paymentsTotal);
         }

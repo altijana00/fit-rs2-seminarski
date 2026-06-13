@@ -33,6 +33,11 @@ class PaymentRepository {
     return jsonList.map((json) => PaymentResponseDto.fromJson(json)).toList();
   }
 
+  Future<double> getPaymentsTotal() async {
+    final json = await api.getPaymentsTotal();
+    return json;
+  }
+
   Future<List<PaymentResponseDto>> getPaymentsQuery(String? search) async {
     final List<dynamic> jsonList = await api.getPaymentsQuery(search);
     return jsonList.map((json) => PaymentResponseDto.fromJson(json)).toList();

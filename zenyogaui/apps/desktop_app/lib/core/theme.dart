@@ -45,3 +45,22 @@ final ThemeData appTheme = ThemeData(
     ),
   ),
 );
+
+final ThemeData darkAppTheme = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: AppColors.deepGreen,
+  scaffoldBackgroundColor: Colors.black,
+
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: AppColors.deepGreen,
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      padding: const EdgeInsets.symmetric(vertical: 14),
+    ),
+  ),
+);

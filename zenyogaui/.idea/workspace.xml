@@ -5,13 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/GetPaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;Yoga.Services/Services/Payment/GetPaymentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../zen_yoga_api/ZEN&amp;YogaWebAPI/Controllers/PaymentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/screens/admin_dashboard_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/core/lib/core/app_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/core/app_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/core/theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/core/theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/statistics_screen_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/core/theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/core/theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/mobile_home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/providers/pdf_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/providers/pdf_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +73,7 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
-  <component name="RunManager" selected="Flutter.desktop">
+  <component name="RunManager" selected="Flutter.mobile">
     <configuration name="desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
       <method v="2" />

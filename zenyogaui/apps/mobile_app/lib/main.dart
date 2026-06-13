@@ -1,6 +1,8 @@
 import 'dart:io';
-
 import 'package:core/core/app_config.dart';
+import 'package:mobile_app/screens/settings_screen.dart';
+import 'package:zenyogaui/widgets/statistics_screen_view.dart';
+import 'core/theme.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';
 import 'package:core/repositories/city_repository.dart';
@@ -46,26 +48,23 @@ import 'package:mobile_app/screens/user_notification_center.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/theme.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<dynamic>> routeObserver =
 RouteObserver<ModalRoute<dynamic>>();
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = AppConfig.stripeKey;
 
-
-
-
-
-  final dio = Dio(BaseOptions(baseUrl: AppConfig.mobileApiBaseUrl, validateStatus: (status) => true));
+  final dio = Dio(BaseOptions(
+      baseUrl: AppConfig.mobileApiBaseUrl,
+      validateStatus: (status) => true));
   final secureStorage = const FlutterSecureStorage();
-
-
 
   (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
     final client = HttpClient();
@@ -74,7 +73,7 @@ void main() async{
     return client;
   };
 
-  //services
+  // services
   final authApiService = AuthApiService(dio);
   final userApiService = UserApiService(dio);
   final studioApiService = StudioApiService(dio);
@@ -88,8 +87,7 @@ void main() async{
   final paymentApiService = PaymentApiService(dio);
   final notificationApiService = NotificationApiService(dio);
 
-
-  //repositories
+  // repositories
   final authRepository = AuthRepository(authApiService);
   final userRepository = UserRepository(userApiService);
   final studioRepository = StudioRepository(studioApiService);
@@ -103,54 +101,86 @@ void main() async{
   final paymentRepository = PaymentRepository(paymentApiService);
   final notificationRepository = NotificationRepository(notificationApiService);
 
-
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(repository: authRepository, dio: dio, storage: secureStorage, userRepository: userRepository ),
+          create: (_) => AuthProvider(
+              repository: authRepository,
+              dio: dio,
+              storage: secureStorage,
+              userRepository: userRepository),
         ),
         ChangeNotifierProvider(
-            create: (_) => UserProvider(repository: userRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) =>
+                UserProvider(repository: userRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => InstructorProvider(repository: instructorRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => InstructorProvider(
+                repository: instructorRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => StudioProvider(repository: studioRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => StudioProvider(
+                repository: studioRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => ClassProvider(repository: classRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => ClassProvider(
+                repository: classRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => CityProvider(repository: cityRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => CityProvider(
+                repository: cityRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => RoleProvider(repository: roleRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => RoleProvider(
+                repository: roleRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => YogaTypeProvider(repository: yogaTypeRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => YogaTypeProvider(
+                repository: yogaTypeRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => AppAnalyticsProvider(repository: appAnalyticsRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => AppAnalyticsProvider(
+                repository: appAnalyticsRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => UserClassProvider(repository: userClassRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => UserClassProvider(
+                repository: userClassRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => PaymentProvider(repository: paymentRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => PaymentProvider(
+                repository: paymentRepository, dio: dio, storage: secureStorage)),
         ChangeNotifierProvider(
-            create: (_) => NotificationProvider(repository: notificationRepository, dio: dio, storage: secureStorage)
-        ),
+            create: (_) => NotificationProvider(
+                repository: notificationRepository, dio: dio, storage: secureStorage)),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.light;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+  }
+
+  Future<void> _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isDark = prefs.getBool('isDarkMode') ?? false;
+    setState(() {
+      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
+  Future<void> _toggleTheme(bool isDark) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', isDark);
+    setState(() {
+      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,12 +190,15 @@ class MyApp extends StatelessWidget {
       title: 'Zen&Yoga',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
+      darkTheme: darkAppTheme,
+      themeMode: _themeMode,
       initialRoute: '/',
       routes: {
         '/': (_) => MobileLoginScreen(),
         '/signup': (_) => MobileSignupScreen(),
-        '/home' : (_) => AppShell(),
+        '/home': (_) => AppShell(onThemeChanged: _toggleTheme),
         '/notifications': (_) => const UserNotificationCenter(),
+        'statistics' : (_) => SettingsScreen(onThemeChanged: _toggleTheme),
       },
     );
   }

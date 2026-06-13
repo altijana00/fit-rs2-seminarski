@@ -29,6 +29,7 @@ namespace ZEN_YogaWebAPI.Middleware
                 {
                     
                     StudioAlreadyExistsException or
+                    MaxParticipantsReachedException or
                     UserAlreadyExistsException => StatusCodes.Status400BadRequest,
 
                     StudioNotFoundException or

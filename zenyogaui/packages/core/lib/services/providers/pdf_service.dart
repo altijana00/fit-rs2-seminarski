@@ -8,6 +8,7 @@ class PdfService {
   static Future<Uint8List> generateReport({
     required int totalUsers,
     required int totalStudios,
+    required double totalPayments,
     required Uint8List barChartImage,
   }) async {
     final pdf = pw.Document();
@@ -53,6 +54,7 @@ class PdfService {
             children: [
               _kpi("Total Users", totalUsers.toString()),
               _kpi("Total Studios", totalStudios.toString()),
+              _kpi("Total Payments", totalPayments.toStringAsFixed(2)),
             ],
           ),
 
