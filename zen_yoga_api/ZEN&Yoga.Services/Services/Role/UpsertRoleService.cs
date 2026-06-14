@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models;
-using ZEN_Yoga.Services.Interfaces.YogaType;
 using ZEN_Yoga.Services.Interfaces.Role;
 using Microsoft.EntityFrameworkCore;
 

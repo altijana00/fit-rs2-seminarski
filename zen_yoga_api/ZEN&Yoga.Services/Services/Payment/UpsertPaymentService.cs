@@ -2,11 +2,8 @@
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Stripe;
-using Stripe.TestHelpers;
-using Stripe.V2;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Responses;

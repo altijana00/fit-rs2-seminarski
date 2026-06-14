@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models;
 using Microsoft.EntityFrameworkCore;

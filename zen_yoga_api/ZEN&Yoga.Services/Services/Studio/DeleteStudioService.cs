@@ -54,7 +54,7 @@ namespace ZEN_Yoga.Services.Services.Studio
             }
             catch (Exception ex)
             {
-
+                // TODO CHECK WHAT TO THROW
                 throw;
             }
             return false;

@@ -1,16 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models;
-using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Interfaces.City;
@@ -71,10 +61,6 @@ namespace ZEN_Yoga.Services.Services.User
 
         public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword, string userRole)
         {
-            
-
-            
-
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updateUserPassword.UserId);
 
             if (user != null)
@@ -84,7 +70,7 @@ namespace ZEN_Yoga.Services.Services.User
 
                 if (userRole != AuthRoles.Admin)
                 {
-                    if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword).Hash != user.PasswordHash) return "Incorrect old password";
+                    if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword!).Hash != user.PasswordHash) return "Incorrect old password";
                 }
 
                 

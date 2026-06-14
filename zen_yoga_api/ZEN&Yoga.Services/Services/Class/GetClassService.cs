@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Exceptions;
@@ -146,7 +141,6 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<GrouppedClasses> GetStudioGroupped(int studioId, int userId, int userRoleId)
         {
-            //var classes = await _dbContext.Classes.Where(c => c.StudioId == studioId).ToListAsync();
 
           
             var classes = await _dbContext.Classes
