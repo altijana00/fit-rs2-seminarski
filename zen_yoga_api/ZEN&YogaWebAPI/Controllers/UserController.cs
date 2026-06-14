@@ -13,8 +13,6 @@ using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -143,7 +141,6 @@ namespace ZEN_YogaWebAPI.Controllers
             var user = await getUserService.GetByEmail(registerUser.Email);
             var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Welcome",
@@ -155,12 +152,10 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger.LogDebug($"Sending notification to userId: {user.Id}");
             await sendInAppNotificationService.SendToUserAsync(user.Id.ToString(), notification);
 
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
             foreach(var a in admins)
             {
-                // SLANJE INAPP (SIGNAL R)
                 var adminNotification = new AddNotification()
                 {
                     Title = "New user",
@@ -171,8 +166,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(adminNotification);
             }
 
@@ -207,10 +200,8 @@ namespace ZEN_YogaWebAPI.Controllers
             }
 
             await userValidatorService.ValidateUserId(id);
-
             await upsertUserService.Edit(editUser, id);
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Profile edited",
@@ -221,8 +212,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {id}");
             await sendInAppNotificationService.SendToUserAsync(id.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
             return Ok(new { Message = "Changes saved successfully!" });
@@ -260,7 +249,6 @@ namespace ZEN_YogaWebAPI.Controllers
             await uploadUserPhotoService.EditUserPhoto(photoUrl, userId);
             _logger.LogInformation($"Success: Photo updated for userId: {userId}");
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Photo edited",
@@ -271,8 +259,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {userId}");
             await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
             return Ok();
@@ -295,8 +281,8 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation($"User: {id} deleted");
 
-                foreach (var a in admins) {
-                    // SLANJE INAPP (SIGNAL R)
+                foreach (var a in admins)
+                {
                     var notification = new AddNotification()
                     {
                         Title = "User deleted",
@@ -307,8 +293,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                     _logger.LogDebug($"Sending notification to userId: {a.Id}");
                     await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notification);
-
-                    // SPREMI U BAZU
                     await upsertNotificationService.Add(notification);
 
                 }
@@ -320,7 +304,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             foreach (var a in admins) 
             {
-                // SLANJE INAPP (SIGNAL R)
                 var notificationError = new AddNotification()
                 {
                     Title = "User delete failed",
@@ -331,8 +314,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notificationError);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notificationError);
             }
             
@@ -354,7 +335,6 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation($"Password updated for user: {updateUserPassword.UserId}");
 
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "Password updated",
@@ -365,8 +345,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {updateUserPassword.UserId}");
                 await sendInAppNotificationService.SendToUserAsync(updateUserPassword.UserId.ToString(), notification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
                 return Ok(new { Message = "Password updated"! });
             }

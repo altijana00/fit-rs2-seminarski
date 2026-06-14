@@ -180,7 +180,6 @@ namespace ZEN_YogaWebAPI.Controllers
             if (upsertNotificationService == null)
             {
                 return BadRequest();
-
             }
 
             await upsertNotificationService.ToggleReadNotification(id);

@@ -94,7 +94,6 @@ builder.Services.Configure<StripeSettings>
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 
 
-//Base
 
 //User
 builder.Services.AddScoped<IGetUserService, GetUserService>();
@@ -241,8 +240,6 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<ISendInAppNotificationService, SendInAppNotificationService>();
 
 
-
-
 var app = builder.Build();
 
 var hashingSettings = app.Services
@@ -293,14 +290,6 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-//app.Use(async (context, next) =>
-//{
-//    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-//    logger.LogInformation("API Request Triggered: Path: {Path}, Method: {Method}",
-//            context.Request.Path,
-//            context.Request.Method);
-//    await next();
-//});
 
 app.Use(async (context, next) =>
 {

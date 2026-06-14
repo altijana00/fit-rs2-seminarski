@@ -6,15 +6,10 @@ using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
-using ZEN_Yoga.Services.Interfaces.City;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Interfaces.YogaType;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_Yoga.Services.Services.Studio;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -47,7 +42,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogInformation($"Processing payment for (UserID): {userId} to (StudioID): {studioId}");
 
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "Payment success",
@@ -59,12 +53,10 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogDebug($"Sending notification to userId: {userId}");
                 await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
 
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
 
                 foreach (var a in admins)
                 {
-                    // SLANJE INAPP (SIGNAL R)
                     var adminNotification = new AddNotification()
                     {
                         Title = "Payment success",
@@ -75,8 +67,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                     _logger.LogDebug($"Sending notification to userId: {a.Id}");
                     await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
-
-                    // SPREMI U BAZU
                     await upsertNotificationService.Add(adminNotification);
 
                     return Ok(new { Message = "Payment is in processing! You have joined the studio!" });
@@ -96,12 +86,10 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger.LogDebug($"Sending notification to userId: {userId}");
             await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notificationError);
 
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notificationError);
 
             foreach (var a in admins)
             {
-                // SLANJE INAPP (SIGNAL R)
                 var adminNotificationError = new AddNotification()
                 {
                     Title = "Payment failed",
@@ -112,10 +100,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotificationError);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(adminNotificationError);
-
             }
 
             _logger.LogInformation($"Payment for (UserID): {userId} to (StudioID): {studioId} failed");
@@ -137,7 +122,6 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation($"Processing refund payment for (UserID): {userId} to (StudioID): {studioId}");
 
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "Refund successful",
@@ -149,14 +133,12 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogDebug($"Sending notification to userId: {userId}");
                 await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
 
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
 
                 return Ok(new { Message = "Payment is refunded!" });
             }
             _logger.LogInformation($"Payment refund for (UserID): {userId} to (StudioID): {studioId} failed");
 
-            // SLANJE INAPP (SIGNAL R)
             var notificationFailed = new AddNotification()
             {
                 Title = "Refund failed",
@@ -167,8 +149,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {userId}");
             await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notificationFailed);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notificationFailed);
 
             return BadRequest(new { Message = "Unable to refund the payment!" });

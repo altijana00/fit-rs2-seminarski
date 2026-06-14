@@ -65,8 +65,6 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<ActionResult<List<InstructorClasses>>> GetInstructorGrouppedByStudioId([FromServices] IGetClassService getClassService, int id)
         {
             return await getClassService.GetInstructorGrouppedByStudioId(id);
-
-
         }
 
         [Authorize(Roles = AuthRoles.AllRoles)]
@@ -129,7 +127,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertClassService.Add(addClass, instructorId, yogaTypeValidatorService);
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Class added",
@@ -140,10 +137,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to instructorId: {instructorId}");
             await sendInAppNotificationService.SendToUserAsync(instructorId.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
-
 
             _logger.LogInformation("Success: class added");
             return Ok(new { Message = "Class added!" });

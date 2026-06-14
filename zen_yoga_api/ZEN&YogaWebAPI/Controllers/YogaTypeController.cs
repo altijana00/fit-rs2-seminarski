@@ -8,9 +8,6 @@ using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.User;
 using ZEN_Yoga.Services.Interfaces.YogaType;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_Yoga.Services.Services.User;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -104,7 +101,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             foreach(var a  in admins)
             {
-                // SLANJE INAPP (SIGNAL R)
                 var adminNotification = new AddNotification()
                 {
                     Title = "New yoga type",
@@ -115,8 +111,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(adminNotification);
             }
 
@@ -159,7 +153,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             foreach (var a in admins)
             {
-                // SLANJE INAPP (SIGNAL R)
                 var adminNotification = new AddNotification()
                 {
                     Title = "Yoga type edited",
@@ -170,8 +163,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(adminNotification);
             }
 

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 

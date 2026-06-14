@@ -7,11 +7,7 @@ using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Role;
-using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_Yoga.Services.Services.User;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -105,7 +101,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             foreach (var a in admins) 
             {
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "New role",
@@ -116,8 +111,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
             }
 
@@ -149,7 +142,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             foreach (var a in admins)
             {
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "Role edited",
@@ -160,8 +152,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {a.Id}");
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
             }
 
@@ -188,7 +178,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 foreach (var a in admins)
                 {
-                    // SLANJE INAPP (SIGNAL R)
                     var notification = new AddNotification()
                     {
                         Title = "Role",
@@ -200,7 +189,6 @@ namespace ZEN_YogaWebAPI.Controllers
                     _logger.LogDebug($"Sending notification to userId: {a.Id}");
                     await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), notification);
 
-                    // SPREMI U BAZU
                     await upsertNotificationService.Add(notification);
                 }
 
