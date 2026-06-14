@@ -198,7 +198,7 @@ class _MyAppState extends State<MyApp> {
         '/signup': (_) => MobileSignupScreen(),
         '/home': (_) => AppShell(onThemeChanged: _toggleTheme),
         '/notifications': (_) => const UserNotificationCenter(),
-        'statistics' : (_) => SettingsScreen(onThemeChanged: _toggleTheme),
+        '/statistics' : (_) => SettingsScreen(onThemeChanged: _toggleTheme),
       },
     );
   }

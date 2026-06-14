@@ -1,4 +1,3 @@
-
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/notification_service.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +19,8 @@ class AppShell extends StatefulWidget {
   State<AppShell> createState() => _AppShellState();
 }
 
-
 class _AppShellState extends State<AppShell> with RouteAware {
-
   int _selectedIndex = 0;
-
-  late final List<Widget> _tabs = [
-    HomeTab(),
-    StudiosTab(),
-    MyClassesTab(),
-    ProfileTab(),
-    SettingsScreen(onThemeChanged: widget.onThemeChanged)
-  ];
 
   void _onBottomNavTapped(int index) {
     setState(() {
@@ -67,7 +56,7 @@ class _AppShellState extends State<AppShell> with RouteAware {
       case 3:
         return "Profile";
       case 4:
-        return "Statistics";
+        return "Settings";
       default:
         return "";
     }
@@ -75,6 +64,14 @@ class _AppShellState extends State<AppShell> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      const HomeTab(),
+      const StudiosTab(),
+      const MyClassesTab(),
+      const ProfileTab(),
+      SettingsScreen(onThemeChanged: widget.onThemeChanged),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_getTitle()),
@@ -91,17 +88,14 @@ class _AppShellState extends State<AppShell> with RouteAware {
                 future: context
                     .read<NotificationProvider>()
                     .repository
-                    .getByUserId(authUser!.id),
+                    .getByUserId(authUser.id),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return IconButton(
                       icon: const Icon(Icons.notifications_none),
                       onPressed: () {
                         Navigator.pushNamed(context, '/notifications');
-
-                        if (mounted) {
-                          setState(() {});
-                        }
+                        if (mounted) setState(() {});
                       },
                     );
                   }
@@ -138,12 +132,8 @@ class _AppShellState extends State<AppShell> with RouteAware {
             },
           ),
         ],
-
       ),
-
-
-      body: _tabs[_selectedIndex],
-
+      body: tabs[_selectedIndex],
       bottomNavigationBar: NavigationWidget(
         selectedIndex: _selectedIndex,
         onTap: _onBottomNavTapped,
