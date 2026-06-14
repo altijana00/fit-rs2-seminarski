@@ -1,4 +1,6 @@
 import 'package:core/dto/requests/register_user_dto.dart';
+import 'package:core/dto/responses/city_response_dto.dart';
+import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:core/models/city_model.dart';
 import 'package:core/models/role_model.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -8,8 +10,8 @@ import 'package:zenyogaui/core/theme.dart';
 
 
 class SignupForm extends StatefulWidget {
-  final List<CityModel> cities;
-  final List<RoleModel> roles;
+  final List<CityResponseDto> cities;
+  final List<RoleResponseDto> roles;
 
   const SignupForm({super.key, required this.cities, required this.roles});
 
@@ -30,7 +32,7 @@ class _SignupFormState extends State<SignupForm> {
   DateTime? dateOfBirth;
   int? selectedCityId;
 
-  RoleModel? selectedRole;
+  RoleResponseDto? selectedRole;
   String? email;
   String? password;
   String? confirmPassword;
@@ -174,7 +176,7 @@ class _SignupFormState extends State<SignupForm> {
         children: [
           _title("Account details"),
 
-          DropdownButtonFormField<RoleModel>(
+          DropdownButtonFormField<RoleResponseDto>(
             value: selectedRole,
             decoration: const InputDecoration(labelText: "Role"),
             items: widget.roles

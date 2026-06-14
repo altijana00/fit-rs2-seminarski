@@ -158,27 +158,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
+ // ThemeMode _themeMode = ThemeMode.light;
 
   @override
   void initState() {
     super.initState();
-    _loadTheme();
+    //_loadTheme();
   }
 
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool('isDarkMode') ?? false;
+    if (!mounted) return;
     setState(() {
-      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+  //    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
   Future<void> _toggleTheme(bool isDark) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDarkMode', isDark);
+    if (!mounted) return;
     setState(() {
-      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    //  _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
@@ -190,15 +192,15 @@ class _MyAppState extends State<MyApp> {
       title: 'Zen&Yoga',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      darkTheme: darkAppTheme,
-      themeMode: _themeMode,
+     //s darkTheme: darkAppTheme,
+     // themeMode: _themeMode,
       initialRoute: '/',
       routes: {
         '/': (_) => MobileLoginScreen(),
         '/signup': (_) => MobileSignupScreen(),
         '/home': (_) => AppShell(onThemeChanged: _toggleTheme),
         '/notifications': (_) => const UserNotificationCenter(),
-        '/statistics' : (_) => SettingsScreen(onThemeChanged: _toggleTheme),
+        //'/settings' : (_) => SettingsScreen(),//onThemeChanged: _toggleTheme),
       },
     );
   }

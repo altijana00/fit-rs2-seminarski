@@ -69,7 +69,7 @@ class _AppShellState extends State<AppShell> with RouteAware {
       const StudiosTab(),
       const MyClassesTab(),
       const ProfileTab(),
-      SettingsScreen(onThemeChanged: widget.onThemeChanged),
+      SettingsScreen()//onThemeChanged: widget.onThemeChanged),
     ];
 
     return Scaffold(

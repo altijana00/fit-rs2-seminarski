@@ -17,7 +17,7 @@ namespace ZEN_Yoga.Services.Services.Instructor
         public async Task<bool> ValidateEmail(string email)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && u.RoleId == 3);
-            var instructor = await _dbContext.Instructors.FirstOrDefaultAsync(i => i.User!.Email == email);
+            var instructor = await _dbContext.Instructors.FirstOrDefaultAsync(i => i.Id == user!.Id);
 
             if (user == null) 
             {

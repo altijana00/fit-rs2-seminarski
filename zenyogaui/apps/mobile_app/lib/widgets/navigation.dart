@@ -33,6 +33,10 @@ class NavigationWidget extends StatelessWidget {
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Profile',
+        ),
 
       ],
     );

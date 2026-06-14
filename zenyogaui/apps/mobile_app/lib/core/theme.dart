@@ -12,7 +12,7 @@ final ThemeData appTheme = ThemeData(
   primaryColor: AppColors.deepGreen,
   scaffoldBackgroundColor: Colors.white,
   dataTableTheme: DataTableThemeData(
-    headingRowColor: WidgetStateProperty.all(
+    headingRowColor: MaterialStateProperty.all(
         AppColors.lavender,
     ),
     headingTextStyle: const TextStyle(
