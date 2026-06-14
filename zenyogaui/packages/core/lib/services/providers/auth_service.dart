@@ -111,21 +111,20 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+
+
   Future<void> logout() async {
-    if (_authInterceptor != null) {
-      dio.interceptors.remove(_authInterceptor!);
-      _authInterceptor = null;
-    }
+    await repository.logout().catchError((_) {});
 
-    await onLogout?.call();
-
-    _loginUser = null;
-    _user = null;
     _token = null;
-    _error = null;
+    dio.interceptors.clear();
 
     await storage.delete(key: Constants.jwtStorageKey);
     await storage.delete(key: Constants.userIdStorageKey);
+
+    _loginUser = null;
+    _user = null;
+
     notifyListeners();
   }
 }

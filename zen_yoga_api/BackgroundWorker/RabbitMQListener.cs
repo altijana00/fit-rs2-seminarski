@@ -24,7 +24,7 @@ public class RabbitMqListener : BackgroundService
         _scopeFactory = scopeFactory;
         StripeConfiguration.ApiKey = configuration["StripeSettings:SecretKey"] ?? throw new ArgumentNullException("StripeSettings:SecretKey");
         _latestChargeField = "latest_charge";
-        _taskDelayTime = 1000;
+        _taskDelayTime = 10000;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

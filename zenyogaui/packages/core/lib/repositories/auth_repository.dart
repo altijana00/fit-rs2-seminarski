@@ -12,6 +12,11 @@ class AuthRepository {
     return UserLoginModel.fromJson(json);
   }
 
+  Future<String> logout() async {
+    final json = await api.logout();
+    return json.values.first;
+  }
+
 
 
 

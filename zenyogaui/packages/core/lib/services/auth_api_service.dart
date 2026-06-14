@@ -17,6 +17,17 @@ class AuthApiService {
       throw Exception('Login failed: ${response.data}');
     }
   }
+
+  Future<Map<String, dynamic>> logout() async {
+    final response = await dio.post(
+      'Auth/logout',
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Logout failed: ${response.data}');
+    }
+  }
   
   Future<Map<String, dynamic>> getUserById(int id) async {
     final response = await dio.get('User/getById?id=$id');

@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Services.Interfaces.Studio;

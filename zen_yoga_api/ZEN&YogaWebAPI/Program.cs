@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -92,7 +91,6 @@ builder.Services.Configure<StripeSettings>
     );
 
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
-
 
 
 //User
@@ -261,6 +259,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<JwtBlacklistMiddleware>();
 
 app.MapControllers();
 

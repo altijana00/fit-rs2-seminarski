@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.Notification;
@@ -41,6 +43,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 new Claim("id", user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey!));
@@ -59,6 +62,29 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token)
+            });
+        }
+
+
+        [Authorize(Roles = AuthRoles.AllRoles)]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var jti = User.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
+
+            if (string.IsNullOrEmpty(jti))
+            {
+                return BadRequest(new
+                {
+                    message = "Token does not contain valid data"
+                });
+            }
+
+            TokenBlacklist.Add(jti);
+
+            return Ok(new
+            {
+                message = "Logged out successfully"
             });
         }
     }
