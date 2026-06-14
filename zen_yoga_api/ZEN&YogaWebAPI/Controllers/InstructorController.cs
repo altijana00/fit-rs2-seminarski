@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Instructor;
@@ -22,7 +22,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getAll")]
         public async Task<ActionResult<InstructorResponse>> GetAll([FromServices] IGetInstructorService getInstructorService)
         {
@@ -37,7 +37,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(instructors);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getById")]
         public async Task<ActionResult<InstructorResponse>> GetById([FromServices] IGetInstructorService getInstructorService, int id)
         {
@@ -53,7 +53,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(instructor);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByEmail")]
         public async Task<ActionResult<InstructorResponse>> GetByEmail([FromServices] IGetInstructorService getInstructorService, string email)
         {
@@ -68,7 +68,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(instructor);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByStudioId")]
         public async Task<ActionResult<InstructorResponse>> GetByStudioId([FromServices] IGetInstructorService getInstructorService, int studioId)
         {
@@ -83,7 +83,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(instructors);
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpPost("add")]
         public async Task<ActionResult> Add([FromServices] IUpsertInstructorService<AddInstructor> upsertInstructorService,
                                             [FromServices] IGetUserService getUserService,
@@ -139,7 +139,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Instructor added!" });
         }
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpPut("edit")]
         public async Task<IActionResult> Edit([FromBody] EditInstructor editInstructor, int id, [FromServices] IUpsertInstructorService<AddInstructor> upsertInstructorService, [FromServices] IInstructorValidatorService instructorValidatorService)
         {
@@ -169,7 +169,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteInstructorService deleteInstructorService)
         {

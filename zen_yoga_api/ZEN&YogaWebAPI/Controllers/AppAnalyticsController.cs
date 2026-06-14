@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -15,7 +16,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAppAnalytics")]
         public async Task<ActionResult<AppAnalytics>> GetAppAnalytics([FromServices] IAppAnalyticsService appAnalyticsService)
         {
@@ -30,6 +31,5 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger.LogInformation("Successfully retrieved app analytics");
             return Ok(appAnalytics);
         }
-
     }
 }

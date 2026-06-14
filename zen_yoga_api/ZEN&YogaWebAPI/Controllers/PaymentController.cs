@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -28,7 +28,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpPost("add")]
         public async Task<IActionResult> AddPayment([FromServices] IUpsertPaymentService paymentService,
                                                     int userId, int studioId, int amount, string paymentIntentId,
@@ -39,7 +39,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             var studio = await getStudioService.GetById(studioId);
             var user = await getUserService.GetById(userId);
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers((int.Parse(AuthRoles.Admin)));
 
             if (await paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
             {
@@ -122,7 +122,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "Unable to make the payment!" });
         }
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpPost("refund-payment")]
         public async Task<IActionResult> RefundPayment([FromServices] IUpsertPaymentService paymentService, 
                                                         int userId, int studioId,
@@ -175,7 +175,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpGet("isUserPaidMember")]
         public async Task<IActionResult> IsUserPaidMember([FromServices] IUpsertPaymentService paymentService, int userId, int studioId)
         {
@@ -189,7 +189,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpPost("create-intent")]
         public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IUpsertPaymentService paymentService)
         {
@@ -207,7 +207,7 @@ namespace ZEN_YogaWebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<PaymentResponse>>> GetAll([FromServices] IGetPaymentService getPaymentService)
         {
@@ -222,7 +222,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(payments);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getPaymentsTotal")]
         public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsTotal([FromServices] IGetPaymentService getPaymentService)
         {
@@ -232,7 +232,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(paymentsTotal);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getPaymentsQuery")]
         public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsQuery([FromServices] IGetPaymentService getPaymentService, [FromQuery] PaymentQuery paymentQuery)
         {
@@ -247,7 +247,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(cities);
         }
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpGet("getUserPayment")]
         public async Task<ActionResult<List<PaymentResponse>>> GetUserPayments([FromServices] IGetPaymentService getPaymentService, int userId)
         {
@@ -262,7 +262,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(payments);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getStudioPayments")]
         public async Task<ActionResult<List<PaymentResponse>>> GetStudioPayments([FromServices] IGetPaymentService getPaymentService, int studioId)
         {

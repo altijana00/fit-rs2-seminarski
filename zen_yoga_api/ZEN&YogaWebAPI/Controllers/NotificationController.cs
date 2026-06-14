@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -19,7 +19,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<NotificationResponse>>> GetAll([FromServices] IGetNotificationService getNotificationService)
         {
@@ -34,7 +34,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(notifications);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getById")]
         public async Task<ActionResult<NotificationResponse>> GetById([FromServices] IGetNotificationService getNotificationService, int id)
         {
@@ -50,7 +50,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(notification);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getNotificationsQuery")]
         public async Task<ActionResult<List<NotificationResponse>>> GetNotificationsQuery([FromServices] IGetNotificationService getNotificationService, [FromQuery] NotificationQuery notificationQuery)
         {
@@ -66,7 +66,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(nofications);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("add")]
         public async Task<IActionResult> AddNotification([FromBody] AddNotification addNotification, [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
@@ -93,7 +93,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Notification added successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditNotification([FromBody] EditNotification editNotification, int id, [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
@@ -120,14 +120,14 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByUserId")]
         public async Task<ActionResult<NotificationResponse>> GetByUserId([FromServices] IGetNotificationService getNotificationService, int userId)
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (int.Parse(userIdClaim!) != userId && int.Parse(userRole!) != (int)RoleType.Admin)
+            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin)
             {
                 _logger.LogWarning($"Unauthorized attempt to read  notifications by user: {userId}");
                 return Unauthorized();
@@ -144,7 +144,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(notifications);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, int userId, [FromServices] IDeleteNotificationService deleteService)
         {
@@ -152,7 +152,7 @@ namespace ZEN_YogaWebAPI.Controllers
             var userIdClaim = User.FindFirst("id")?.Value;
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (int.Parse(userIdClaim!) != userId && int.Parse(userRole!) != (int)RoleType.Admin)
+            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin)
             {
                 _logger.LogWarning($"Unauthorized attempt to delete  notifications by user: {userId}");
                 return Unauthorized();
@@ -168,14 +168,14 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no valid notification to delete!" });
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPatch("toggleReadNotification")]
         public async Task<IActionResult> ToggleReadNotification(int id, int userId, [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             var userIdClaim = User.FindFirst("id")?.Value;
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (int.Parse(userIdClaim!) != userId && int.Parse(userRole!) != (int)RoleType.Admin) return Unauthorized();
+            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin) return Unauthorized();
 
             if (upsertNotificationService == null)
             {

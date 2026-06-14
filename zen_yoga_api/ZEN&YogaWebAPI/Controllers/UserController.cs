@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Security.Claims;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -27,7 +27,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getAll")]        
         public async Task<ActionResult<List<UserResponse>>> GetAll([FromServices] IGetUserService getUserService)
         {
@@ -43,7 +43,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getUsersQuery")]
         public async Task<ActionResult<List<UserResponse>>> GetUsersQuery([FromServices] IGetUserService getUserService, [FromQuery] UserQuery userQuery)
         {
@@ -60,11 +60,11 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAdminUsers")]
         public async Task<ActionResult<List<UserResponse>>> GetAdminUsers([FromServices] IGetUserService getUserService)
         {
-            var users = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var users = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             if (users == null)
             {
@@ -78,7 +78,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getById")]
         public async Task<ActionResult<List<UserResponse>>> GetById([FromServices] IGetUserService getUserService, int id)
         {
@@ -93,7 +93,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByEmail")]
         public async Task<ActionResult<List<UserResponse>>> GetByEmail([FromServices] IGetUserService getUserService, string email)
         {
@@ -109,7 +109,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] RegisterUser registerUser, 
                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
@@ -141,7 +141,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger.LogInformation($"User registered: {registerUser.Email}");
 
             var user = await getUserService.GetByEmail(registerUser.Email);
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
@@ -181,7 +181,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "User registered!" });
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPut("edit")]
         public async Task<IActionResult> Edit([FromBody] EditUser editUser, int id, 
                                               [FromServices] IUpsertUserService<RegisterUser> upsertUserService, 
@@ -228,7 +228,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPost("uploadUserPhoto")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, IFormFile file)
@@ -243,7 +243,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPatch("editUserPhoto")]
 
         public async Task<IActionResult> EditUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, 
@@ -279,7 +279,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete([FromQuery]int id, 
                                                 [FromServices] IDeleteUserService deleteService,
@@ -289,7 +289,7 @@ namespace ZEN_YogaWebAPI.Controllers
         {
 
             var user = await getUserService.GetById(id);
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             if (await deleteService.Delete(id))
             {
@@ -339,7 +339,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no user with this ID!" });
         }
 
-        [Authorize(Roles = "1,2,3,4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpPatch("updateUserPassword")]
         public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, 
                                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -22,7 +23,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<YogaTypeResponse>>> GetAll([FromServices] IGetYogaTypeService getYogaTypeService)
         {
@@ -38,7 +39,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getById")]
         public async Task<ActionResult<YogaTypeResponse>> GetById(int id, [FromServices] IGetYogaTypeService getYogaTypeService)
         {
@@ -54,7 +55,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(yogaType);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getYogaTypesQuery")]
         public async Task<ActionResult<List<YogaTypeResponse>>> GetYogaTypesQuery([FromServices] IGetYogaTypeService getYogaTypeService, [FromQuery] YogaTypeQuery yogaTypeQuery)
         {
@@ -69,7 +70,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(yogaTypes);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("add")]
         public async Task<IActionResult> AddYogaType([FromBody] AddYogaType addYogaType, 
                                                      [FromServices] IUpsertYogaTypeService<AddYogaType> upsertYogaTypeService,
@@ -99,7 +100,7 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertYogaTypeService.Add(addYogaType);
             _logger.LogInformation("Yoga type added successfully!");
 
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             foreach(var a  in admins)
             {
@@ -124,7 +125,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Yoga type added successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditYogaType([FromBody] EditYogaType editYogaType, 
                                                       int id, 
@@ -154,7 +155,7 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertYogaTypeService.Edit(editYogaType, id);
             _logger.LogInformation("Yoga type edited successfully!");
 
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             foreach (var a in admins)
             {
@@ -177,7 +178,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, [FromServices] IDeleteYogaTypeService deleteService)
         {

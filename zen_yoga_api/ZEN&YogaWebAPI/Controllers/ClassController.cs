@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -21,7 +22,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<ClassResponse>>> GetAll([FromServices] IGetClassService getClassService)
         {
@@ -36,7 +37,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getById")]
         public async Task<ActionResult<ClassResponse>> GetById([FromServices] IGetClassService getClassService, int id)
         {
@@ -52,14 +53,14 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(clasRes);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getJoinedParticipantsByClassId")]
         public async Task<ActionResult<int>> GetJoinedParticipantsByClassId([FromServices] IGetClassService getClassService, int id)
         {
             return await getClassService.GetJoinedParticipantsByClassId(id);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getInstructorGrouppedByStudioId")]
         public async Task<ActionResult<List<InstructorClasses>>> GetInstructorGrouppedByStudioId([FromServices] IGetClassService getClassService, int id)
         {
@@ -68,7 +69,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByInstructorId")]
         public async Task<ActionResult<ClassResponse>> GetByInstructorId([FromServices] IGetClassService getClassService, int instructorId, [FromQuery] ClassQuery? classQuery)
         {
@@ -83,7 +84,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByStudioId")]
         public async Task<ActionResult<ClassResponse>> GetByStudioId([FromServices] IGetClassService getClassService, int studioId)
         {
@@ -98,7 +99,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromServices] IUpsertClassService<AddClass> upsertClassService, 
                                              [FromBody] AddClass addClass, 
@@ -149,7 +150,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditClass([FromServices] IUpsertClassService<AddClass> upsertService, [FromBody] EditClass editClass, int id)
         {
@@ -176,7 +177,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteClassService deleteService)
         {
@@ -189,7 +190,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no class with this ID!" });
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("groupped")]
         public async Task<ActionResult<GrouppedClasses>> GetGroupped([FromServices] IGetClassService getClassService)
         {
@@ -205,7 +206,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(grouppedClasses);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("studioGroupped")]
         public async Task<ActionResult<GrouppedClasses>> GetStudioGroupped([FromServices] IGetClassService getClassService, int studioId)
         {

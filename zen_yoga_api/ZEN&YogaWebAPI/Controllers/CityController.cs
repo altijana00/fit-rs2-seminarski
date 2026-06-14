@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -46,7 +46,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(city);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getCitiesQuery")]
         public async Task<ActionResult<List<CityResponse>>> GetCitiesQuery([FromServices] IGetCityService getCityService, [FromQuery] CityQuery cityQuery)
         {
@@ -61,7 +61,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(cities);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("add")]
         public async Task<IActionResult> AddCity([FromBody] AddCity addCity, [FromServices] IUpsertCityService<AddCity> upsertCityService)
         {
@@ -89,7 +89,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "City added successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditCity([FromBody] EditCity editCity, int id, [FromServices] IUpsertCityService<AddCity> upsertCityService)
         {
@@ -116,7 +116,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, [FromServices] IDeleteCityService deleteService)
         {

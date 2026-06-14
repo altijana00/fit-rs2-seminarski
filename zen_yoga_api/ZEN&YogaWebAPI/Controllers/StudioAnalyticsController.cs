@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 
 namespace ZEN_YogaWebAPI.Controllers
@@ -15,7 +16,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getByStudio")]
         public async Task<IActionResult> GetByStudio([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId)
         {
@@ -31,7 +32,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getNumberofParticipants")]
         public async Task<IActionResult> GetNumberofParticipants([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId)
         {
@@ -42,7 +43,7 @@ namespace ZEN_YogaWebAPI.Controllers
             
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getMostPopularStudioCities")]
         public async Task<IActionResult> GetMostPopularStudioCities([FromServices] IStudioAnalyticsService studioAnalyticsService)
         {

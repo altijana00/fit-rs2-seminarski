@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -24,7 +25,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<StudioResponse>>> GetAll([FromServices] IGetStudioService getStudioService)
         {
@@ -41,7 +42,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studios);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getStudiosQuery")]
         public async Task<ActionResult<List<StudioResponse>>> GetStudiosQuery([FromServices] IGetStudioService getStudioService, [FromQuery] StudioQuery studioQuery)
         {
@@ -57,7 +58,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studios);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getByOwner")]
         public async Task<ActionResult<List<StudioResponse>>> GetByOwner([FromServices] IGetStudioService getStudioService, int ownerId)
         {
@@ -72,7 +73,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studios);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getByOwnerAndStudioName")]
         public async Task<ActionResult<StudioResponse>> GetByOwnerAndStudioName([FromServices] IGetStudioService getStudioService, int ownerId, string name)
         {
@@ -88,7 +89,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studio);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getById")]
         public async Task<ActionResult<StudioResponse>> GetById([FromServices] IGetStudioService getStudioService, int id)
         {
@@ -104,7 +105,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studio);
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPost("add")]
         public async Task<IActionResult> AddStudio([FromBody] AddStudio addStudio, 
                                                    [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, 
@@ -153,7 +154,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new {Message = "Studio added successfully!"});
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditStudio([FromBody] EditStudio editStudio, 
                                                     int id, [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, 
@@ -205,7 +206,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, 
                                                 [FromServices] IDeleteStudioService deleteService,
@@ -240,7 +241,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no studio with this ID!" });
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPost("uploadStudioPhoto")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadStudioPhoto([FromServices] IUploadStudioPhotoService uploadStudioPhotoService, IFormFile file)
@@ -253,7 +254,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPost("uploadStudioGalleryPhoto")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadStudioGalleryPhoto([FromServices] IUploadStudioGalleryService uploadStudioGalleryService, int studioId, IFormFile file)
@@ -268,7 +269,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
-        [Authorize(Roles = "1, 2, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrOwnerOrParticipant)]
         [HttpGet("getStudioGalleryPhotos")]
         public async Task<ActionResult<string>> GetStudioGalleryPhotos([FromServices] IGetStudioGalleryService getStudioGalleryService, int studioId)
         {
@@ -283,7 +284,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPatch("editStudioPhoto")]
    
         public async Task<IActionResult> EditStudioPhoto([FromServices] IUploadStudioPhotoService uploadStudioPhotoService, string photoUrl, int studioId)
@@ -300,7 +301,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         }
 
-        [Authorize(Roles = "1, 2")]
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpDelete("deleteStudioGalleryPhoto")]
         public async Task<IActionResult> DeleteStudioGalleryPhoto(string photoURL, int studioId, [FromServices] IDeleteStudioGalleryPhotoService deleteStudioGalleryPhotoService)
         {

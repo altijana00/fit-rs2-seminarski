@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Base;
@@ -23,7 +24,7 @@ namespace ZEN_YogaWebAPI.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
         public async Task<ActionResult<List<UserClassesResponse>>> GetAll([FromServices] IGetUserClassService getUserClassService)
         {
@@ -39,7 +40,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(classes);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getById")]
         public async Task<ActionResult<List<UserClassesResponse>>> GetById([FromServices] IGetUserClassService getUserClassService, int id)
         {
@@ -54,7 +55,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(userClasses);
         }
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getByUserId")]
         public async Task<ActionResult<List<ClassResponse>>> GetByUserId([FromServices] IGetUserClassService getUserClassService, int userId)
         {
@@ -71,7 +72,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpPost("join")]
         public async Task<IActionResult> Join(int classId, int userId, 
                                                 [FromServices] IUpsertUserClassService upsertUserClassService, 
@@ -132,7 +133,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1, 4")]
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, 
                                                 [FromServices] IDeleteService deleteService,
@@ -185,7 +186,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest();
         }
 
-        //[Authorize(Roles = "1, 2, 3, 4")]
+        //[Authorize(Roles = RoleType.AllRoles)]
         //[HttpDelete("deleteUserClass")]
         //public async Task<IActionResult> DeleteUserClass(int classId, int userId, 
         //                                                    [FromServices] IDeleteUserClassService deleteService,
@@ -237,7 +238,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
         //}
 
-        [Authorize(Roles = "1, 2, 3, 4")]
+        [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getUserRecommendedStudios")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUserRecommendedStudios(int id, [FromServices] IGetUserClassService getUserClassService, [FromServices] IGetStudioService getStudioService)

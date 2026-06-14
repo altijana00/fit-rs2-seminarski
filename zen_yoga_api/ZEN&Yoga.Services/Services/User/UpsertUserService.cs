@@ -10,7 +10,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
-using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -83,7 +82,7 @@ namespace ZEN_Yoga.Services.Services.User
 
                 var newPasswordHashed = PasswordHelpers.HashPassword(updateUserPassword.NewPassword);
 
-                if (int.Parse(userRole!) != (int)RoleType.Admin)
+                if (userRole != AuthRoles.Admin)
                 {
                     if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword).Hash != user.PasswordHash) return "Incorrect old password";
                 }

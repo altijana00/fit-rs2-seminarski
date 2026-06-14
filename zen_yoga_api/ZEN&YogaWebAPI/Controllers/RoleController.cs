@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
@@ -54,7 +54,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(role);
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getRolesQuery")]
         public async Task<ActionResult<List<RoleResponse>>> GetRolesQuery([FromServices] IGetRoleService getRoleService, [FromQuery] RoleQuery roleQuery)
         {
@@ -72,7 +72,7 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("add")]
         public async Task<IActionResult> AddRole([FromBody] AddRole addRole, 
                                                  [FromServices] IUpsertRoleService<AddRole> upsertRoleService,
@@ -101,7 +101,7 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertRoleService.Add(addRole);
             _logger.LogInformation($"Role added successfully!");
 
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             foreach (var a in admins) 
             {
@@ -126,7 +126,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Role added successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPut("edit")]
         public async Task<IActionResult> EditRole([FromBody] EditRole editRole, int id, 
                                                   [FromServices] IUpsertRoleService<AddRole> upsertRoleService,
@@ -145,7 +145,7 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertRoleService.Edit(editRole, id);
             _logger.LogInformation($"Role edited successfully!");
 
-            var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
 
             foreach (var a in admins)
             {
@@ -168,7 +168,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(new { Message = "Changes saved successfully!" });
         }
 
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, [FromServices] IDeleteRoleService deleteService,
                                                 [FromServices] IGetUserService getUserService,
@@ -183,7 +183,7 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation($"Role {id} deleted successfully!");
 
-                var admins = await getUserService.GetAdminUsers((int)RoleType.Admin);
+                var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
                 
 
                 foreach (var a in admins)
