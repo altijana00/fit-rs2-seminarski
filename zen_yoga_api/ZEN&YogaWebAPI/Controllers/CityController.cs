@@ -125,7 +125,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogInformation("City is deleted");
                 return Ok(new { Message = "City deleted!" });
             }
-            _logger.LogInformation("Attemp to delete a city with non-existing ID or that is currently in use!");
+            _logger.LogInformation("Attempt to delete a city with non-existing ID or that is currently in use!");
             return BadRequest(new { Message = "There is no city with this ID or it is currently in use!" });
         }
     }

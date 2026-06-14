@@ -1,17 +1,16 @@
 ﻿using ZEN_Yoga.Models.Exceptions;
-using ZEN_Yoga.Services.Services.Role;
 
 namespace ZEN_YogaWebAPI.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
         {
             _next = next;
-            
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -22,7 +21,11 @@ namespace ZEN_YogaWebAPI.Middleware
             }
             catch (Exception ex)
             {
-              
+
+                _logger.LogError(ex,
+                   "Exception. Path: {Path}, Method: {Method}",
+                   context.Request.Path,
+                   context.Request.Method);
 
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = ex switch

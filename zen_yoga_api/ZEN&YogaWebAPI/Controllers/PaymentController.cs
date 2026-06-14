@@ -74,7 +74,6 @@ namespace ZEN_YogaWebAPI.Controllers
        
             }
 
-            // SLANJE INAPP (SIGNAL R)
             var notificationError = new AddNotification()
             {
                 Title = "Payment failed",

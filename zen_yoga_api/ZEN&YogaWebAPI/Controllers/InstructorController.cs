@@ -8,8 +8,6 @@ using ZEN_Yoga.Services.Interfaces.Instructor;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -118,7 +116,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             var studio = await getStudioService.GetById(studioId);
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Instructor added",
@@ -129,8 +126,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
             await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
 

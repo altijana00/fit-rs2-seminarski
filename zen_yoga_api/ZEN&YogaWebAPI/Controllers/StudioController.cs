@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -9,9 +8,6 @@ using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
-using ZEN_Yoga.Services.Services.Notifications;
-using ZEN_Yoga.Services.Services.Studio;
-using ZEN_YogaWebAPI.Notifications;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -134,8 +130,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await studioValidatorService.ValidateName(addStudio.Name);
             await upsertStudioService.Add(addStudio);
-
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Studio added",
@@ -146,8 +140,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {addStudio.OwnerId}");
             await sendInAppNotificationService.SendToUserAsync(addStudio.OwnerId.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
             _logger.LogInformation($"Studio added successfully!");
@@ -188,7 +180,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             var studio = await getStudioService.GetById(id);
 
-            // SLANJE INAPP (SIGNAL R)
             var notification = new AddNotification()
             {
                 Title = "Studio edited",
@@ -199,8 +190,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
             await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
-
-            // SPREMI U BAZU
             await upsertNotificationService.Add(notification);
 
             return Ok(new { Message = "Changes saved successfully!" });
@@ -218,7 +207,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (await deleteService.Delete(id))
             {
-                // SLANJE INAPP (SIGNAL R)
                 var notification = new AddNotification()
                 {
                     Title = "Studio deleted",
@@ -229,8 +217,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {studio.OwnerId}");
                 await sendInAppNotificationService.SendToUserAsync(studio.OwnerId.ToString(), notification);
-
-                // SPREMI U BAZU
                 await upsertNotificationService.Add(notification);
 
                 _logger.LogInformation($"Studio deleted: {id}");

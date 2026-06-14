@@ -273,22 +273,6 @@ using (var scope = app.Services.CreateScope())
 
 app.MapHub<NotificationHub>("/hubs/notifications");
 
-app.UseExceptionHandler(errorApp =>
-{
-    errorApp.Run(async context =>
-    {
-        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-        logger.LogError(exception,
-            "Unhandled exception. Path: {Path}, Method: {Method}",
-            context.Request.Path,
-            context.Request.Method);
-
-        context.Response.StatusCode = 500;
-        await context.Response.WriteAsync("Error ocurred");
-    });
-});
 
 
 app.Use(async (context, next) =>

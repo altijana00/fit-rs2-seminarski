@@ -186,7 +186,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
         //        var userClass = await getUserClassService.
 
-        //        // SLANJE INAPP (SIGNAL R)
         //        var notification = new AddNotification()
         //        {
         //            Title = "Class removed",
@@ -198,11 +197,9 @@ namespace ZEN_YogaWebAPI.Controllers
         //        _logger.LogDebug($"Sending notification to userId: {userClass.UserId}");
         //        await sendInAppNotificationService.SendToUserAsync(userClass.UserId.ToString(), notification);
 
-        //        // SPREMI U BAZU
         //        await upsertNotificationService.Add(notification);
 
 
-        //        // SLANJE INAPP (SIGNAL R)
         //        var notificationInstructor = new AddNotification()
         //        {
         //            Title = "Class dropped",
@@ -214,7 +211,6 @@ namespace ZEN_YogaWebAPI.Controllers
         //        _logger.LogDebug($"Sending notification to userId: {userClass.InstructorId}");
         //        await sendInAppNotificationService.SendToUserAsync(userClass.InstructorId.ToString(), notificationInstructor);
 
-        //        // SPREMI U BAZU
         //        await upsertNotificationService.Add(notificationInstructor);
 
         //        return Ok(new { Message = "Class deleted!" });

@@ -2,12 +2,6 @@
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Services.Configurations;
 using ZEN_Yoga.Services.Interfaces.BlobStorage;
 

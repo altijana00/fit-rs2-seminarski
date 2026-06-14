@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -168,8 +169,8 @@ namespace ZEN_YogaWebAPI.Controllers
                 await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
                 await upsertNotificationService.Add(adminNotification);
             }
-
             
+
 
             return Ok(new { Message = "User registered!" });
         }

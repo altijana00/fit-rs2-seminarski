@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Analytics;
@@ -77,6 +72,7 @@ namespace ZEN_Yoga.Services.Services.Analytics
 
         }
 
+        // TODO CHECK USED OR NOT ?
         public async Task<int> GetNumberofEmployees(int studioId)
         {
             int employeesNumber = 0;
