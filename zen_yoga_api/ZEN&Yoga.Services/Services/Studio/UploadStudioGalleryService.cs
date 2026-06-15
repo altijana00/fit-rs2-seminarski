@@ -40,7 +40,7 @@ namespace ZEN_Yoga.Services.Services.Studio
                 PhotoUrl = photoUrl
             };
 
-            _dbContext.StudioGalleries.Add(galleryPhoto);
+            await _dbContext.StudioGalleries.AddAsync(galleryPhoto);
             await _dbContext.SaveChangesAsync();
         }
     }

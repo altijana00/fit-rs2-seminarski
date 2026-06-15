@@ -24,18 +24,24 @@ namespace ZEN_Yoga.Services.Services.Payment
             return _mapper.Map<List<PaymentResponse>>(payments);
         }
 
+        //public async Task<decimal> GetPaymentsTotal()
+        //{
+        //    var payments = await _dbContext.Payments.ToListAsync();
+        //    decimal total = 0;
+
+        //    foreach (var payment in payments) 
+        //    {
+        //        total += payment.Amount;
+
+        //    }
+
+        //    return total;
+
+        //}
+
         public async Task<decimal> GetPaymentsTotal()
         {
-            var payments = await _dbContext.Payments.ToListAsync();
-            decimal total = 0;
-
-            foreach (var payment in payments) 
-            {
-                total += payment.Amount;
-            
-            }
-
-            return total;
+            return await _dbContext.Payments.SumAsync(p => p.Amount);
 
         }
 

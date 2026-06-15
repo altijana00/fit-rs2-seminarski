@@ -11,55 +11,58 @@ namespace ZEN_Yoga.Services.Services.Instructor
 
         public GetInstructorService(ZenYogaDbContext dbContext)
         {
-           
             _dbContext = dbContext;
         }
+
+        private IQueryable<InstructorResponse> GetBaseInstructorQuery()
+        {
+            return _dbContext.Users
+                .Where(user => user.RoleId == 3)
+                .Join(
+                    _dbContext.Instructors,
+                    user => user.Id,
+                    instructor => instructor.Id,
+                    (user, instructor) => new InstructorResponse
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Gender = user.Gender,
+                        DateOfBirth = user.DateOfBirth,
+                        Email = user.Email,
+                        RoleId = user.RoleId,
+                        CityId = user.CityId,
+                        ProfileImageUrl = user.ProfileImageUrl,
+                        Biography = instructor.Biography,
+                        Certificates = instructor.Certificates,
+                        Diplomas = instructor.Diplomas,
+                        StudioId = instructor.StudioId
+                    });
+        }
+
         public async Task<List<InstructorResponse>> GetAll()
         {
-            return await _dbContext.Users
-           .Where(user => user.RoleId == 3)
-            .Join(
-               _dbContext.Instructors,
-               user => user.Id,
-               instructor => instructor.Id,
-               (user, instructor) => new InstructorResponse
-               {
-                   Id = user.Id,
-                   FirstName = user.FirstName,
-                   LastName = user.LastName,
-                   Gender = user.Gender,
-                   DateOfBirth = user.DateOfBirth,
-                   Email = user.Email,
-                   RoleId = user.RoleId,
-                   CityId = user.CityId,
-                   ProfileImageUrl = user.ProfileImageUrl,
-                   Biography = instructor.Biography,
-                   Certificates = instructor.Certificates,
-                   Diplomas = instructor.Diplomas,
-                   StudioId = instructor.StudioId
-               })
-           .ToListAsync();
+            return await GetBaseInstructorQuery()
+                .ToListAsync();
         }
 
-        public async Task<InstructorResponse> GetByEmail(string email)
+        public async Task<InstructorResponse?> GetByEmail(string email)
         {
-            var instructors = await GetAll();
-
-            return instructors.FirstOrDefault(i => i.Email == email);
+            return await GetBaseInstructorQuery()
+                .FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task<InstructorResponse> GetById(int id)
+        public async Task<InstructorResponse?> GetById(int id)
         {
-            var instructors = await GetAll();
-
-            return instructors.FirstOrDefault(i => i.Id == id);
+            return await GetBaseInstructorQuery()!
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<InstructorResponse>> GetByStudioId(int studioId)
         {
-            var instructors = await GetAll();
-
-            return instructors.Where(i => i.StudioId == studioId).ToList();
+            return await GetBaseInstructorQuery()
+                .Where(x => x.StudioId == studioId)
+                .ToListAsync();
         }
     }
 }

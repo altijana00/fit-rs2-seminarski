@@ -17,28 +17,11 @@ namespace ZEN_Yoga.Services.Services.UserClass
             _dbContext = dbContext;
             _mapper = mapper;
         }
+
+
         public async Task<List<UserClassesResponse>> GetAll()
         {
-            var classes = await _dbContext.UserClasses
-                .Include(uc => uc.Class)
-                .Include(uc => uc.User)
-                .Select(uc => new UserClassesResponse
-                {
-                    Id = uc.Id,
-                    UserId = uc.UserId,
-                    ClassId = uc.ClassId,
-                    StudioId = uc.Class.StudioId,
-                    Name = uc.Class.Name,
-                    StartDate = uc.Class.StartDate,
-                    EndDate = uc.Class.EndDate,
-                    MaxParticipants = uc.Class.MaxParticipants,
-                    InstructorId = uc.Class.InstructorId,
-                    YogaTypeId = uc.Class.YogaTypeId,
-                    Description = uc.Class.Description,
-                    Location = uc.Class.Location,
-                    JoinedAt = uc.JoinedAt
-
-                }).ToListAsync();
+            var classes = await GetBaseUserClassesQuery().ToListAsync();
 
             return _mapper.Map<List<UserClassesResponse>>(classes);
         }
@@ -55,55 +38,89 @@ namespace ZEN_Yoga.Services.Services.UserClass
             return classes;
         }
 
-        public async Task<UserClassesResponse> GetById(int id)
+        public async Task<UserClassesResponse?> GetById(int id)
         {
-            var userClasses = await GetAll();
-
-            return userClasses.FirstOrDefault(uc => uc.Id == id);
+            return await GetBaseUserClassesQuery().FirstOrDefaultAsync(uc => uc.Id == id);
         }
 
         public async Task<List<UserClassesResponse>> GetByUser(int id)
         {
-            var userClasses = await GetAll();
-
-            return userClasses.Where(uc => uc.UserId == id).ToList();
+            return await GetBaseUserClassesQuery()
+                .Where(uc => uc.UserId == id)
+                .ToListAsync();
         }
+
+        //public async Task<List<ClassResponse>> GetByUserId(int userId)
+        //{
+        //    var classes = new List<ZEN_Yoga.Models.Class>();
+
+        //    var userClasses = await _dbContext.UserClasses.Where(uc => uc.UserId == userId).ToListAsync();
+
+        //    foreach(var uc in userClasses)
+        //    {
+        //        var classRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == uc.ClassId);
+
+        //        if (classRes != null)
+        //        {
+        //            classes.Add(classRes);
+        //        }
+
+        //    }
+
+        //    return _mapper.Map<List<ClassResponse>>(classes);
+
+
+        //}
 
         public async Task<List<ClassResponse>> GetByUserId(int userId)
         {
-            var classes = new List<ZEN_Yoga.Models.Class>();
-
-            var userClasses = await _dbContext.UserClasses.Where(uc => uc.UserId == userId).ToListAsync();
-
-            foreach(var uc in userClasses)
-            {
-                var classRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == uc.ClassId);
-
-                if (classRes != null)
-                {
-                    classes.Add(classRes);
-                }
-                
-            }
+            var classes = await _dbContext.UserClasses
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.Class)
+                .ToListAsync();
 
             return _mapper.Map<List<ClassResponse>>(classes);
 
 
         }
 
+        //public async Task<List<StudioResponse>> GetUserRecommendedStudios(int userId, IGetStudioService getStudioService)
+        //{
+        //    List<StudioResponse> recommendedStudios = new List<StudioResponse>();
+
+
+        //    var userClasses = await GetByUser(userId); //njegove
+        //    var userYogaType = await GetUserMostAppliedYogaTypeId(userId, userClasses);
+        //    var mostApplied = GetAllByYogaTypeId(userYogaType);
+
+        //    foreach (var s in mostApplied)
+        //    {
+        //        recommendedStudios.Add(await getStudioService.GetById(s));
+        //    }
+
+        //    return recommendedStudios;
+        //}
+
         public async Task<List<StudioResponse>> GetUserRecommendedStudios(int userId, IGetStudioService getStudioService)
         {
-            List<StudioResponse> recommendedStudios = new List<StudioResponse>();
+            var userClasses = await GetByUser(userId);
 
-
-            var userClasses = await GetByUser(userId); //njegove
             var userYogaType = await GetUserMostAppliedYogaTypeId(userId, userClasses);
+
             var mostApplied = GetAllByYogaTypeId(userYogaType);
 
-            foreach (var s in mostApplied)
-            {
-                recommendedStudios.Add(await getStudioService.GetById(s));
-            }
+            var recommendedStudios = await _dbContext.Studios
+                .Where(s => mostApplied.Contains(s.Id))
+                .Select(s => new StudioResponse
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Address = s.Address,
+                    CityId = s.CityId,
+                    Description = s.Description,
+                    MembershipPrice = s.MembershipPrice
+                })
+                .ToListAsync();
 
             return recommendedStudios;
         }
@@ -132,6 +149,27 @@ namespace ZEN_Yoga.Services.Services.UserClass
             }
 
             return GetMaxYogaType(yogatype1Counter, yogatype2Counter, yogatype3Counter);
+        }
+
+        private IQueryable<UserClassesResponse> GetBaseUserClassesQuery()
+        {
+            return _dbContext.UserClasses
+                .Select(uc => new UserClassesResponse
+                {
+                    Id = uc.Id,
+                    UserId = uc.UserId,
+                    ClassId = uc.ClassId,
+                    StudioId = uc.Class.StudioId,
+                    Name = uc.Class.Name,
+                    StartDate = uc.Class.StartDate,
+                    EndDate = uc.Class.EndDate,
+                    MaxParticipants = uc.Class.MaxParticipants,
+                    InstructorId = uc.Class.InstructorId,
+                    YogaTypeId = uc.Class.YogaTypeId,
+                    Description = uc.Class.Description,
+                    Location = uc.Class.Location,
+                    JoinedAt = uc.JoinedAt
+                });
         }
     }
 }

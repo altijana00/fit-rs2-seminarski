@@ -12,24 +12,40 @@ namespace ZEN_Yoga.Services.Services.Class
         {
             _dbContext = dbContext;
         }
+        //public async Task<bool> Delete(int id)
+        //{
+        //    var classRes = await _dbContext.Classes.FirstOrDefaultAsync(i => i.Id == id);
+        //    var userClasses = await _dbContext.UserClasses.Where(c => c.ClassId == id).ToListAsync();
+
+
+        //    if (classRes != null)
+        //    {
+        //        foreach (var c in userClasses)
+        //        {
+        //            _dbContext.UserClasses.Remove(c);
+        //        }
+
+        //        _dbContext.Remove(classRes);
+        //        await _dbContext.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
         public async Task<bool> Delete(int id)
         {
             var classRes = await _dbContext.Classes.FirstOrDefaultAsync(i => i.Id == id);
-            var userClasses = await _dbContext.UserClasses.Where(c => c.ClassId == id).ToListAsync();
 
+            if (classRes is null)
+                return false;
 
-            if (classRes != null)
-            {
-                foreach (var c in userClasses)
-                {
-                    _dbContext.UserClasses.Remove(c);
-                }
+            await _dbContext.UserClasses
+                .Where(c => c.ClassId == id)
+                .ExecuteDeleteAsync();
 
-                _dbContext.Remove(classRes);
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            _dbContext.Classes.Remove(classRes);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

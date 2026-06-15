@@ -20,44 +20,85 @@ namespace ZEN_Yoga.Services.Services.Studio
             _dbContext = dbContext;
             
         }
+        //public async Task<bool> Delete(int id)
+        //{
+        //    var studio = await _dbContext.Studios.
+        //        FirstOrDefaultAsync(s => s.Id == id);
+
+        //    var classes = await _dbContext.Classes.Where(c => c.StudioId == id).ToListAsync();
+        //    var instructors = await _dbContext.Instructors.Where(i => i.StudioId == id).ToListAsync();
+        //    var payments = await _dbContext.Payments.Where(p => p.StudioId == id).ToListAsync();
+
+
+
+        //    try
+        //    {
+        //        if (studio != null)
+        //        {
+        //            foreach (var classs in classes)
+        //            {
+
+        //                var uc =   _dbContext.UserClasses.Where(c => c.ClassId == classs.Id);
+        //                if (uc != null) _dbContext.UserClasses.RemoveRange(uc);
+
+        //                _dbContext.Classes.Remove(classs);
+        //            }
+
+        //            _dbContext.Instructors.RemoveRange(instructors);
+        //            _dbContext.Payments.RemoveRange(payments);
+
+        //            _dbContext.Remove(studio);
+        //            await _dbContext.SaveChangesAsync();
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // TODO CHECK WHAT TO THROW
+        //        throw;
+        //    }
+        //    return false;
+        //}
+
         public async Task<bool> Delete(int id)
         {
-            var studio = await _dbContext.Studios.
-                FirstOrDefaultAsync(s => s.Id == id);
+            var studio = await _dbContext.Studios
+        .FirstOrDefaultAsync(s => s.Id == id);
 
-            var classes = await _dbContext.Classes.Where(c => c.StudioId == id).ToListAsync();
-            var instructors = await _dbContext.Instructors.Where(i => i.StudioId == id).ToListAsync();
-            var payments = await _dbContext.Payments.Where(p => p.StudioId == id).ToListAsync();
+            if (studio == null)
+                return false;
 
+            var classIds = await _dbContext.Classes
+                .Where(c => c.StudioId == id)
+                .Select(c => c.Id)
+                .ToListAsync();
 
+            var userClasses = await _dbContext.UserClasses
+                .Where(uc => classIds.Contains(uc.ClassId))
+                .ToListAsync();
 
-            try
-            {
-                if (studio != null)
-                {
-                    foreach (var classs in classes)
-                    {
+            var classes = await _dbContext.Classes
+                .Where(c => c.StudioId == id)
+                .ToListAsync();
 
-                        var uc =   _dbContext.UserClasses.Where(c => c.ClassId == classs.Id);
-                        if (uc != null) _dbContext.UserClasses.RemoveRange(uc);
+            var instructors = await _dbContext.Instructors
+                .Where(i => i.StudioId == id)
+                .ToListAsync();
 
-                        _dbContext.Classes.Remove(classs);
-                    }
+            var payments = await _dbContext.Payments
+                .Where(p => p.StudioId == id)
+                .ToListAsync();
 
-                    _dbContext.Instructors.RemoveRange(instructors);
-                    _dbContext.Payments.RemoveRange(payments);
+            _dbContext.UserClasses.RemoveRange(userClasses);
+            _dbContext.Classes.RemoveRange(classes);
+            _dbContext.Instructors.RemoveRange(instructors);
+            _dbContext.Payments.RemoveRange(payments);
 
-                    _dbContext.Remove(studio);
-                    await _dbContext.SaveChangesAsync();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO CHECK WHAT TO THROW
-                throw;
-            }
-            return false;
+            _dbContext.Studios.Remove(studio);
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }
