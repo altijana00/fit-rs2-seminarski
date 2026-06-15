@@ -8,6 +8,7 @@ import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/widgets/role_badge.dart';
 import '../core/theme.dart';
 import 'add_notification_dialog.dart';
 import 'add_user_dialog.dart';
@@ -63,7 +64,10 @@ class UsersTableSource extends DataTableSource {
       DataCell(Text(u.firstName)),
       DataCell(Text(u.lastName)),
       DataCell(Text(u.email)),
-      DataCell(Text(roleNames[u.roleId] ?? "-")),
+      DataCell(  RoleBadge(
+        role: roleNames[u.roleId] ?? "-",
+      )
+      ),
       DataCell(Text(cityNames[u.cityId] ?? "-")),
       DataCell(
         Row(

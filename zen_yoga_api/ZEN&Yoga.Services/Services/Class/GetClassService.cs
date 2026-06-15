@@ -49,7 +49,7 @@ namespace ZEN_Yoga.Services.Services.Class
             foreach (var c in mappedClasses)
                 c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0);
 
-            return mappedClasses;
+            return mappedClasses.OrderByDescending(c => c.Id).ToList();
         }
 
         public async Task<ClassResponse> GetById(int id)
@@ -154,7 +154,7 @@ namespace ZEN_Yoga.Services.Services.Class
             foreach (var c in mappedClasses)
                 c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0); // 0 ako nema u dictu
 
-            return mappedClasses;
+            return mappedClasses.OrderByDescending(c => c.Id).ToList();
         }
 
         public async Task<List<ClassResponse>> GetByStudioId(int studioId)
@@ -178,7 +178,7 @@ namespace ZEN_Yoga.Services.Services.Class
             foreach (var c in mappedClasses)
                 c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0);
 
-            return mappedClasses;
+            return mappedClasses.OrderByDescending(c => c.Id).ToList();
         }
 
         //public async Task<List<ClassResponse>> GetByStudioId(int studioId)
@@ -314,6 +314,11 @@ namespace ZEN_Yoga.Services.Services.Class
             Description = c.Description,
             YogaTypeId = c.YogaTypeId,
             StudioId = c.StudioId,
+            InstructorId = c.InstructorId,
+            StartDate = c.StartDate,
+            EndDate = c.EndDate,
+            Location = c.Location,
+            MaxParticipants = c.MaxParticipants,
             JoinedParticipants = _dbContext.UserClasses
                 .Count(uc => uc.ClassId == c.Id)
         })

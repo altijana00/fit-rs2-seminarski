@@ -23,7 +23,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
         {
             var classes = await GetBaseUserClassesQuery().ToListAsync();
 
-            return _mapper.Map<List<UserClassesResponse>>(classes);
+            return _mapper.Map<List<UserClassesResponse>>(classes).OrderByDescending(uc => uc.Id).ToList();
         }
 
         public List<int> GetAllByYogaTypeId(int yogaTypeId)
@@ -46,7 +46,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
         public async Task<List<UserClassesResponse>> GetByUser(int id)
         {
             return await GetBaseUserClassesQuery()
-                .Where(uc => uc.UserId == id)
+                .Where(uc => uc.UserId == id).OrderByDescending(uc => uc.Id)
                 .ToListAsync();
         }
 
@@ -79,7 +79,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
                 .Select(uc => uc.Class)
                 .ToListAsync();
 
-            return _mapper.Map<List<ClassResponse>>(classes);
+            return _mapper.Map<List<ClassResponse>>(classes).OrderByDescending(c => c.Id).ToList();
 
 
         }

@@ -21,7 +21,7 @@ namespace ZEN_Yoga.Services.Services.Role
         public async Task<List<RoleResponse>> GetAll()
         {
             var roles = await _dbContext.Roles.ToListAsync();
-            return _mapper.Map<List<RoleResponse>>(roles);
+            return _mapper.Map<List<RoleResponse>>(roles).OrderByDescending(r => r.Id).ToList();
         }
 
         public async Task<RoleResponse> GetById(int id)
@@ -46,7 +46,7 @@ namespace ZEN_Yoga.Services.Services.Role
             }
 
             var result = await roles.ToListAsync();
-            return _mapper.Map<List<RoleResponse>>(result);
+            return _mapper.Map<List<RoleResponse>>(result).OrderByDescending(c => c.Id).ToList();
         }
 
     }

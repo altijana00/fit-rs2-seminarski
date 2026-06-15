@@ -2,6 +2,7 @@ import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/models/yoga-type_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/class_service.dart';
+import 'package:core/services/providers/instructor_service.dart';
 import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +37,7 @@ class YogaTypeScreen extends StatefulWidget {
 class _YogaTypeScreenState extends State<YogaTypeScreen> {
   late List<ClassResponseDto> classes;
 
-  @override
-  void initState() {
-    super.initState();
-    classes = widget.initialClasses;
-  }
+
 
   Future<void> _reloadClasses() async {
     final grouped = await context
@@ -198,7 +195,10 @@ class _ClassCardState extends State<_ClassCard> {
       child: ListTile(
         title: Text(widget.yogaClass.name),
         subtitle: Text(
-          "${dateFormatter.format(widget.yogaClass.startDate)} - Instructor: ${widget.instructorName}",
+          "${dateFormatter.format(widget.yogaClass.startDate)} | "
+              "Instructor: ${widget.instructorName} | "
+
+
         ),
         trailing: ElevatedButton(
           onPressed: _isLoading ? null : _handleJoin,

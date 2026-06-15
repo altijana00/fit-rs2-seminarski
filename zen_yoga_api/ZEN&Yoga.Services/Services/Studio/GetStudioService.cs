@@ -20,7 +20,7 @@ namespace ZEN_Yoga.Services.Services.Studio
         public async Task<List<StudioResponse>> GetAll()
         {
             var studios = await _dbContext.Studios.ToListAsync();
-            return _mapper.Map<List<StudioResponse>>(studios);
+            return _mapper.Map<List<StudioResponse>>(studios).OrderByDescending(s => s.Id).ToList();
         }
 
         public async Task<List<StudioResponse>> GetStudiosQuery(StudioQuery studioQuery)
@@ -47,13 +47,13 @@ namespace ZEN_Yoga.Services.Services.Studio
             }
 
             var result = await studios.ToListAsync();
-            return _mapper.Map<List<StudioResponse>>(result);
+            return _mapper.Map<List<StudioResponse>>(result).OrderByDescending(s => s.Id).ToList();
         }
 
         public async Task<List<StudioResponse>> GetByOwner(int ownerId)
         {
             var studios = await _dbContext.Studios.Where(s => s.OwnerId == ownerId).ToListAsync();
-            return _mapper.Map<List<StudioResponse>>(studios);
+            return _mapper.Map<List<StudioResponse>>(studios).OrderByDescending(s => s.Id).ToList();
         }
 
         public async Task<StudioResponse> GetByOwnerAndStudioName(int ownerId, string name)

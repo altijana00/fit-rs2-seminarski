@@ -25,7 +25,7 @@ namespace ZEN_Yoga.Services.Services.User
         { 
             var users = await _dbContext.Users.ToListAsync(); 
             
-            return _mapper.Map<List<UserResponse>>(users); 
+            return _mapper.Map<List<UserResponse>>(users).OrderByDescending(u => u.Id).ToList(); 
         }
 
         public async Task<List<UserResponse>> GetUsersQuery(UserQuery userQuery)
@@ -54,7 +54,7 @@ namespace ZEN_Yoga.Services.Services.User
             }
 
             var result = await users.ToListAsync();
-            return _mapper.Map<List<UserResponse>>(result);
+            return _mapper.Map<List<UserResponse>>(result).OrderByDescending(u => u.Id).ToList();
         }
 
         public async Task<UserResponse> GetByEmail(string email)
@@ -86,7 +86,7 @@ namespace ZEN_Yoga.Services.Services.User
         {
             var users = await _dbContext.Users.Where(u => u.RoleId == roleId).ToListAsync();
 
-            return _mapper.Map<List<UserResponse>>(users);
+            return _mapper.Map<List<UserResponse>>(users).OrderByDescending(u => u.Id).ToList();
         }
     }
 }

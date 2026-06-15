@@ -21,7 +21,7 @@ namespace ZEN_Yoga.Services.Services.Payment
         public async Task<List<PaymentResponse>> GetAll()
         {
             var payments = await _dbContext.Payments.ToListAsync();
-            return _mapper.Map<List<PaymentResponse>>(payments);
+            return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
         //public async Task<decimal> GetPaymentsTotal()
@@ -61,7 +61,7 @@ namespace ZEN_Yoga.Services.Services.Payment
 
 
             var result = await payments.ToListAsync();
-            return _mapper.Map<List<PaymentResponse>>(result);
+            return _mapper.Map<List<PaymentResponse>>(result).OrderByDescending(c => c.Id).ToList();
         }
 
         public async Task<PaymentResponse> GetById(int paymentId)
@@ -73,7 +73,7 @@ namespace ZEN_Yoga.Services.Services.Payment
         public async Task<List<PaymentResponse>> GetUserPayments(int userId)
         {
             var payments = await _dbContext.Payments.Where(p => p.UserId == userId).ToListAsync();
-            return _mapper.Map<List<PaymentResponse>>(payments);
+            return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
         public async Task<List<PaymentResponse>> GetStudioPayments(int studioId)

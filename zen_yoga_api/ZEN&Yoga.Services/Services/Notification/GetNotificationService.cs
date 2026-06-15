@@ -22,7 +22,7 @@ namespace ZEN_Yoga.Services.Services.Notifications
         {
             var notifications = await _dbContext.Notifications.ToListAsync();
 
-            return _mapper.Map<List<NotificationResponse>>(notifications);
+            return _mapper.Map<List<NotificationResponse>>(notifications).OrderByDescending(n => n.Id).ToList();
         }
 
         public async Task<NotificationResponse> GetById(int id)
@@ -36,7 +36,7 @@ namespace ZEN_Yoga.Services.Services.Notifications
         {
             var notifications = await _dbContext.Notifications.Where(c => c.UserId == userId).ToListAsync();
 
-            return _mapper.Map<List<NotificationResponse>>(notifications);
+            return _mapper.Map<List<NotificationResponse>>(notifications).OrderByDescending(n => n.Id).ToList();
         }
 
         public async Task<List<NotificationResponse>> GetNotificationsQuery(NotificationQuery notificationQuery)
@@ -55,7 +55,7 @@ namespace ZEN_Yoga.Services.Services.Notifications
 
 
             var result = await notifications.ToListAsync();
-            return _mapper.Map<List<NotificationResponse>>(result);
+            return _mapper.Map<List<NotificationResponse>>(result).OrderByDescending(n => n.Id).ToList();
         }
     }
 }

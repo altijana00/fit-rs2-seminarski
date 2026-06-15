@@ -24,7 +24,7 @@ namespace ZEN_Yoga.Services.Services.City
         {
             var cities = await _dbContext.Cities.ToListAsync();
 
-            return _mapper.Map<List<CityResponse>>(cities);
+            return _mapper.Map<List<CityResponse>>(cities).OrderByDescending(c => c.Id).ToList();
 
         }
 
@@ -64,7 +64,7 @@ namespace ZEN_Yoga.Services.Services.City
                 query = query.Where(u => u.Name.ToLower().Contains(search));
             }
 
-            return _mapper.Map<List<CityResponse>>(await query.ToListAsync());
+            return _mapper.Map<List<CityResponse>>(await query.ToListAsync()).OrderByDescending(c => c.Id).ToList();
         }
 
 

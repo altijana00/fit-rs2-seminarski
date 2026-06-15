@@ -136,12 +136,15 @@ class _ProfileTabState extends State<ProfileTab> {
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () => _openUpdatePasswordModal(context),
+                          style: ElevatedButton.styleFrom(fixedSize: const Size(130, 50)),
                           child: const Text("Update password"),
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () => _saveChanges(user.id),
+                          style: ElevatedButton.styleFrom(backgroundColor: AppColors.deepGreen, fixedSize: const Size(110, 50)),
                           child: const Text("Save Changes"),
+
                         ),
                         const SizedBox(height: 24),
 
