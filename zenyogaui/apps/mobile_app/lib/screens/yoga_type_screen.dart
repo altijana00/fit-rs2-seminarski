@@ -37,7 +37,11 @@ class YogaTypeScreen extends StatefulWidget {
 class _YogaTypeScreenState extends State<YogaTypeScreen> {
   late List<ClassResponseDto> classes;
 
-
+  @override
+  void initState() {
+    super.initState();
+    classes = widget.initialClasses;
+  }
 
   Future<void> _reloadClasses() async {
     final grouped = await context

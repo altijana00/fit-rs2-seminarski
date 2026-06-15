@@ -59,21 +59,15 @@ namespace ZEN_Yoga.Services.Services.User
 
         }
 
-        public async Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword, string userRole)
+       
+        public async Task<string> UpdateUserPassword(UpdateUserPasswordAsAdmin updateUserPassword)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updateUserPassword.UserId);
 
             if (user != null)
-            {               
+            {
 
                 var newPasswordHashed = PasswordHelpers.HashPassword(updateUserPassword.NewPassword);
-
-                if (userRole != AuthRoles.Admin)
-                {
-                    if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword!).Hash != user.PasswordHash) return "Incorrect old password";
-                }
-
-                
                 if (newPasswordHashed.Hash == user.PasswordHash) return "New password cannot be the same as the old";
 
 
@@ -88,7 +82,35 @@ namespace ZEN_Yoga.Services.Services.User
 
 
             return "Error";
+        }
 
+        public async Task<string> UpdateYourPassword(UpdateYourPassword updateUserPassword, int userId)
+        {
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+
+                var newPasswordHashed = PasswordHelpers.HashPassword(updateUserPassword.NewPassword);
+
+                if (PasswordHelpers.HashPassword(updateUserPassword.OldPassword!).Hash != user.PasswordHash) return "Incorrect old password";
+
+
+                if (newPasswordHashed.Hash == user.PasswordHash) return "New password cannot be the same as the old";
+
+
+                user.PasswordHash = newPasswordHashed.Hash;
+                user.PasswordSalt = newPasswordHashed.Salt;
+
+                await _dbContext.SaveChangesAsync();
+
+
+                return "Ok";
+            }
+
+
+            return "Error";
         }
     }
 }

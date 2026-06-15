@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -173,8 +174,19 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteClassService deleteService)
+        public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteClassService deleteService, [FromServices] IGetClassService getClassService)
         {
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var classToDelete = await getClassService.GetById(id);
+
+            if (userRole != AuthRoles.Admin && classToDelete.InstructorId != int.Parse(userIdClaim!))
+            {
+                _logger.LogWarning($"Unauthorized attempt to delete class by user: {userIdClaim}");
+                return Unauthorized();
+            }
+
+
             if (await deleteService.Delete(id))
             {
                 _logger.LogInformation($"Class {id} deleted");

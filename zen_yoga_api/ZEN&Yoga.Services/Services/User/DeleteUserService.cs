@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.User;
 
 namespace ZEN_Yoga.Services.Services.User
@@ -59,7 +60,7 @@ namespace ZEN_Yoga.Services.Services.User
             if (user == null)
                 return false;
 
-            if (user.RoleId == 2)
+            if (user.RoleId == int.Parse(AuthRoles.Owner))
             {
                 var studioIds = await _dbContext.Studios
                     .Where(s => s.OwnerId == user.Id)
@@ -92,6 +93,7 @@ namespace ZEN_Yoga.Services.Services.User
                 _dbContext.Instructors.RemoveRange(instructors);
                 _dbContext.Studios.RemoveRange(studios);
             }
+
 
             _dbContext.Users.Remove(user);
 

@@ -24,20 +24,6 @@ namespace ZEN_Yoga.Services.Services.Payment
             return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
-        //public async Task<decimal> GetPaymentsTotal()
-        //{
-        //    var payments = await _dbContext.Payments.ToListAsync();
-        //    decimal total = 0;
-
-        //    foreach (var payment in payments) 
-        //    {
-        //        total += payment.Amount;
-
-        //    }
-
-        //    return total;
-
-        //}
 
         public async Task<decimal> GetPaymentsTotal()
         {
@@ -81,9 +67,5 @@ namespace ZEN_Yoga.Services.Services.Payment
             var payments = await _dbContext.Payments.Where(p => p.StudioId == studioId).ToListAsync();
             return _mapper.Map<List<PaymentResponse>>(payments);
         }
-
-
-
-
     }
 }

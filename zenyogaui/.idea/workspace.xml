@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f608473d-4a2d-4fe0-8400-120df2560569" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zenyogaui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zenyogaui.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/desktop_app/lib/widgets/users_table_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/profile_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/profile_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/controller/payment_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/repositories/payment_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/packages/core/lib/services/payment_api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,27 +39,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter.desktop.executor&quot;: &quot;Debug&quot;,
-    &quot;Flutter.mobile.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Korisnik/Documents/fit-rs2-seminarski/zenyogaui&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.desktop.executor": "Run",
+    "Flutter.mobile.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Korisnik/Documents/fit-rs2-seminarski/zenyogaui",
+    "settings.editor.selected.configurable": "dart.settings",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Flutter.desktop">
     <configuration name="desktop" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/apps/desktop_app/lib/main.dart" />
@@ -90,6 +91,31 @@
           <url>file://$PROJECT_DIR$/packages/core/lib/dto/responses/payment_response_dto.dart</url>
           <line>17</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart</url>
+          <line>37</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart</url>
+          <line>104</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart</url>
+          <line>67</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart</url>
+          <line>73</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/mobile_app/lib/screens/yoga_type_screen.dart</url>
+          <line>46</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

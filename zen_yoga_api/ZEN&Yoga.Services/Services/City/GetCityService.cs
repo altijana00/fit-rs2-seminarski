@@ -35,24 +35,6 @@ namespace ZEN_Yoga.Services.Services.City
             return _mapper.Map<CityResponse>(city);
         }
 
-        //public async Task<List<CityResponse>> GetCitiesQuery(CityQuery cityQuery)
-        //{
-        //    IQueryable<ZEN_Yoga.Models.City> cities = _dbContext.Cities.AsQueryable();
-
-        //    if (!string.IsNullOrWhiteSpace(cityQuery.Search))
-        //    {
-        //        var search = cityQuery.Search.ToLower();
-
-        //        cities = cities.Where(u =>
-        //            u.Name.ToLower().Contains(search) 
-
-        //        );
-        //    }
-
-
-        //    var result = await cities.ToListAsync();
-        //    return _mapper.Map<List<CityResponse>>(result);
-        //}
 
         public async Task<List<CityResponse>> GetCitiesQuery(CityQuery cityQuery)
         {

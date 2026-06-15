@@ -30,12 +30,12 @@ namespace ZEN_Yoga.Services.Services.Instructor
                         Gender = user.Gender,
                         DateOfBirth = user.DateOfBirth,
                         Email = user.Email,
+                        ProfileImageUrl = user.ProfileImageUrl,
                         RoleId = user.RoleId,
                         CityId = user.CityId,
-                        ProfileImageUrl = user.ProfileImageUrl,
                         Biography = instructor.Biography,
-                        Certificates = instructor.Certificates,
                         Diplomas = instructor.Diplomas,
+                        Certificates = instructor.Certificates,
                         StudioId = instructor.StudioId
                     });
         }

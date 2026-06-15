@@ -9,6 +9,8 @@ namespace ZEN_Yoga.Services.Interfaces.User
     {
         Task Add(IUserValidatorService userValidatorService, IRoleValidatorService roleValidatorService, ICityValidatorService cityValidatorService, RegisterUser registerUser);
 
-        Task<string> UpdateUserPassword(UpdateUserPassword updateUserPassword, string userRole);
+        Task<string> UpdateUserPassword(UpdateUserPasswordAsAdmin updateUserPassword);
+        Task<string> UpdateYourPassword(UpdateYourPassword updateUserPassword, int userId);
+
     }
 }

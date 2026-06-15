@@ -20,19 +20,6 @@ namespace ZEN_Yoga.Services.Services.Class
             _mapper = mapper;
             _dbContext = dbContext;
         }
-        //public async Task<List<ClassResponse>> GetAll()
-        //{
-        //    var classes = await _dbContext.Classes.ToListAsync();
-
-        //     var mappedClasses = _mapper.Map<List<ClassResponse>>(classes);
-
-        //    foreach (var c in mappedClasses) {
-        //        c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
-        //    }
-
-        //    return mappedClasses;
-
-        //}
 
         public async Task<List<ClassResponse>> GetAll()
         {
@@ -62,20 +49,6 @@ namespace ZEN_Yoga.Services.Services.Class
             return mappedClass;
         }
 
-        //public async Task<int> GetJoinedParticipantsByClassId(int classId)
-        //{
-        //    var classRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == classId);
-
-        //    if(classRes != null)
-        //    {
-        //        var classesList = await _dbContext.UserClasses.Where(c => c.ClassId == classId).ToListAsync();
-
-        //        return classesList.Count();
-        //    }
-
-        //    throw new ClassNotFoundException("There is no class with this ID.");
-
-        //}
 
         public async Task<int> GetJoinedParticipantsByClassId(int classId)
         {
@@ -88,38 +61,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
         }
 
-        //public async Task<List<ClassResponse>> GetByInstructorId(int instructorId, ClassQuery? classQuery)
-        //{
-        //    IQueryable<ZEN_Yoga.Models.Class> classes = _dbContext.Classes.AsQueryable();
-
-        //    if (!string.IsNullOrWhiteSpace(classQuery!.Search))
-        //    {
-        //        var search = classQuery.Search.ToLower();
-
-        //        classes = classes.Where(c =>
-        //            c.Name.ToLower().Contains(search) ||
-        //            c.Location!.ToLower().Contains(search) ||
-        //            c.Studio!.Name.ToLower().Contains(search)
-
-        //        );
-        //    }
-
-        //    if (classQuery.YogaTypeId.HasValue)
-        //    {
-        //        classes = classes.Where(c => c.YogaTypeId == classQuery.YogaTypeId);
-        //    }
-
-        //    var result = await classes.ToListAsync();
-
-        //    var mappedClasses = _mapper.Map<List<ClassResponse>>(result);
-
-        //    foreach (var c in mappedClasses)
-        //    {
-        //        c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
-        //    }
-
-        //    return mappedClasses;
-        //}
+        
 
         public async Task<List<ClassResponse>> GetByInstructorId(int instructorId, ClassQuery? classQuery)
         {
@@ -152,7 +94,7 @@ namespace ZEN_Yoga.Services.Services.Class
             var countDict = participantCounts.ToDictionary(x => x.ClassId, x => x.Count);
 
             foreach (var c in mappedClasses)
-                c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0); // 0 ako nema u dictu
+                c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0);
 
             return mappedClasses.OrderByDescending(c => c.Id).ToList();
         }
@@ -181,53 +123,7 @@ namespace ZEN_Yoga.Services.Services.Class
             return mappedClasses.OrderByDescending(c => c.Id).ToList();
         }
 
-        //public async Task<List<ClassResponse>> GetByStudioId(int studioId)
-        //{
-        //    var classes = await _dbContext.Classes.Where(c => c.StudioId == studioId).ToListAsync();
-
-        //    var mappedClasses = _mapper.Map<List<ClassResponse>>(classes);
-
-        //    foreach (var c in mappedClasses)
-        //    {
-        //        c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
-        //    }
-
-        //    return mappedClasses;
-        //}
-
-        //public async Task<GrouppedClasses> GetGroupped()
-        //{
-        //    var classes = await _dbContext.Classes.ToListAsync();
-        //    var classesRes = _mapper.Map<List<ClassResponse>>(classes);
-        //    var grouppedClasses = new GrouppedClasses();
-
-        //    foreach (var c in classesRes)
-        //    {
-        //        c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
-
-        //        if (c.YogaTypeId == (int)YogaTypes.Hatha)
-        //        {
-        //            grouppedClasses.HathaYoga.Add(c);
-        //        }
-        //        else
-        //        {
-        //            if (c.YogaTypeId == (int)YogaTypes.Vinyasa)
-        //            {
-        //                grouppedClasses.VinyasaYoga.Add(c);
-        //            }
-        //            else
-        //            {
-        //                if (c.YogaTypeId == (int)YogaTypes.Yin)
-        //                {
-        //                    grouppedClasses.YinYoga.Add(c);
-        //                }
-        //            }
-        //        }
-
-        //    }
-
-        //    return grouppedClasses;
-        //}
+       
 
         public async Task<GrouppedClasses> GetGroupped()
         {
@@ -255,49 +151,7 @@ namespace ZEN_Yoga.Services.Services.Class
             };
         }
 
-        //    public async Task<GrouppedClasses> GetStudioGroupped(int studioId, int userId, int userRoleId)
-        //    {
-
-
-        //        var classes = await _dbContext.Classes
-        //.           Where(c => c.StudioId == studioId &&
-        //            !_dbContext.UserClasses.Any(uc =>
-        //                uc.ClassId == c.Id &&
-        //                uc.UserId == userId))
-        //.ToListAsync();
-
-        //        var classesRes = _mapper.Map<List<ClassResponse>>(classes);
-
-        //        var grouppedClasses = new GrouppedClasses();
-
-        //        foreach (var c in classesRes)
-        //        {
-        //            c.JoinedParticipants = await GetJoinedParticipantsByClassId(c.Id);
-
-
-        //            if (c.YogaTypeId == (int)YogaTypes.Hatha)
-        //            {
-        //                grouppedClasses.HathaYoga.Add(c);
-        //            }
-        //            else
-        //            {
-        //                if (c.YogaTypeId == (int)YogaTypes.Vinyasa)
-        //                {
-        //                    grouppedClasses.VinyasaYoga.Add(c);
-        //                }
-        //                else
-        //                {
-        //                    if (c.YogaTypeId == (int)YogaTypes.Yin)
-        //                    {
-        //                        grouppedClasses.YinYoga.Add(c);
-        //                    }
-        //                }
-        //            }
-
-        //        }
-
-        //        return grouppedClasses;
-        //    }
+       
 
         public async Task<GrouppedClasses> GetStudioGroupped(int studioId, int userId, int userRoleId)
         {
@@ -310,14 +164,14 @@ namespace ZEN_Yoga.Services.Services.Class
         .Select(c => new ClassResponse
         {
             Id = c.Id,
-            Name = c.Name,
-            Description = c.Description,
-            YogaTypeId = c.YogaTypeId,
             StudioId = c.StudioId,
             InstructorId = c.InstructorId,
+            YogaTypeId = c.YogaTypeId,
+            Name = c.Name,
+            Description = c.Description,
+            Location = c.Location,
             StartDate = c.StartDate,
             EndDate = c.EndDate,
-            Location = c.Location,
             MaxParticipants = c.MaxParticipants,
             JoinedParticipants = _dbContext.UserClasses
                 .Count(uc => uc.ClassId == c.Id)
@@ -341,27 +195,6 @@ namespace ZEN_Yoga.Services.Services.Class
         }
 
 
-
-        //public async Task<List<InstructorClasses>> GetInstructorGrouppedByStudioId(int studioId)
-        //{
-            
-        //    var studioInstructors = await _dbContext.Instructors.Where(i => i.StudioId == studioId).ToListAsync();
-        //    var instuctorGrouppedClasses = new List<InstructorClasses>();
-
-        //    foreach(var i in studioInstructors)
-        //    {
-        //        var numberOfInstructorClasses = await _dbContext.Classes.Where(c => c.InstructorId == i.Id).CountAsync();
-        //        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == i.Id);
-
-        //        instuctorGrouppedClasses.Add(new InstructorClasses() {
-
-        //            Name = user!.FirstName + " " + user.LastName,
-        //            NumberOfClasses = numberOfInstructorClasses
-        //        }
-        //        );                
-        //    }
-        //    return instuctorGrouppedClasses;        
-        //}
 
         public async Task<List<InstructorClasses>> GetInstructorGrouppedByStudioId(int studioId)
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -8,6 +9,7 @@ using ZEN_Yoga.Services.Interfaces.Instructor;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
+using ZEN_Yoga.Services.Services.Class;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -166,9 +168,21 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpDelete("delete")]
-        public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteInstructorService deleteInstructorService)
+        public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteInstructorService deleteInstructorService, [FromServices]IGetInstructorService getInstructorService, [FromServices]IGetStudioService getStudioService)
         {
-             
+
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var instructorToDelete = await getInstructorService.GetById(id)!;
+            var studio = await getStudioService.GetById((int)instructorToDelete.StudioId!);
+            
+
+            if (userRole != AuthRoles.Admin && studio.OwnerId != int.Parse(userIdClaim!))
+            {
+                _logger.LogWarning($"Unauthorized attempt to instructor from other studio: {userIdClaim}");
+                return Unauthorized();
+            }
+
             if (await deleteInstructorService.Delete(id))
             {
                 _logger.LogInformation($"Instructor {id} deleted");

@@ -23,17 +23,18 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
 
-        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
+        [Authorize(Roles = AuthRoles.Participant)]
         [HttpPost("add")]
         public async Task<IActionResult> AddPayment([FromServices] IUpsertPaymentService paymentService,
-                                                    int userId, int studioId, int amount, string paymentIntentId,
+                                                    int studioId, int amount, string paymentIntentId,
                                                     [FromServices] IGetStudioService getStudioService,
                                                     [FromServices] IGetUserService getUserService,
                                                     [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                     [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
-            var studio = await getStudioService.GetById(studioId);
+            var userId = int.Parse(User.FindFirst("id")?.Value!);
             var user = await getUserService.GetById(userId);
+            var studio = await getStudioService.GetById(studioId);
             var admins = await getUserService.GetAdminUsers((int.Parse(AuthRoles.Admin)));
 
             if (await paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
@@ -106,7 +107,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "Unable to make the payment!" });
         }
 
-        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("refund-payment")]
         public async Task<IActionResult> RefundPayment([FromServices] IUpsertPaymentService paymentService, 
                                                         int userId, int studioId,
@@ -168,7 +169,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
+        [Authorize(Roles = AuthRoles.Participant)]
         [HttpPost("create-intent")]
         public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IUpsertPaymentService paymentService)
         {
@@ -226,7 +227,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(cities);
         }
 
-        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getUserPayment")]
         public async Task<ActionResult<List<PaymentResponse>>> GetUserPayments([FromServices] IGetPaymentService getPaymentService, int userId)
         {

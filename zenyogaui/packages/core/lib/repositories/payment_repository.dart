@@ -16,8 +16,8 @@ class PaymentRepository {
     return await api.isUserPaidMember(userId, studioId);
   }
 
-  Future<String> addPayment(int userId, int studioId, int amount, String paymentIntentId) async {
-    final json = await api.addPayment(userId, studioId, amount, paymentIntentId);
+  Future<String> addPayment(int studioId, int amount, String paymentIntentId) async {
+    final json = await api.addPayment(studioId, amount, paymentIntentId);
     return json.values.first;
 
   }

@@ -23,9 +23,9 @@ class PaymentApiService {
     }
   }
 
-  Future<Map<String, dynamic>> addPayment(int userId, int studioId, int amount, String paymentIntentId) async {
+  Future<Map<String, dynamic>> addPayment(int studioId, int amount, String paymentIntentId) async {
     final response = await dio.post(
-        'Payment/add?userId=$userId&studioId=$studioId&amount=$amount&paymentIntentId=$paymentIntentId'
+        'Payment/add?&studioId=$studioId&amount=$amount&paymentIntentId=$paymentIntentId'
     );
 
     if (response.statusCode == 200) {

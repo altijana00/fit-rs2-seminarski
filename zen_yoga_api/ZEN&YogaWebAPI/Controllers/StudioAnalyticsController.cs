@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.Analytics;
+using ZEN_Yoga.Services.Interfaces.Studio;
+using ZEN_Yoga.Services.Services.Instructor;
+using ZEN_Yoga.Services.Services.Studio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -17,8 +21,18 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getByStudio")]
-        public async Task<IActionResult> GetByStudio([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId)
+        public async Task<IActionResult> GetByStudio([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId, [FromServices] IGetStudioService getStudioService)
         {
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var studio = await getStudioService.GetById(studioId);
+
+
+            if (userRole != AuthRoles.Admin && studio.OwnerId != int.Parse(userIdClaim!))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get analytics for other studio by user: {userIdClaim}");
+                return Unauthorized();
+            }
             var studioPayments = await studioAnalyticsService.GetByStudio(studioId);
 
             if (studioPayments >= 0)
@@ -33,8 +47,18 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getNumberofParticipants")]
-        public async Task<IActionResult> GetNumberofParticipants([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId)
+        public async Task<IActionResult> GetNumberofParticipants([FromServices] IStudioAnalyticsService studioAnalyticsService, int studioId, [FromServices] IGetStudioService getStudioService)
         {
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var studio = await getStudioService.GetById(studioId);
+
+
+            if (userRole != AuthRoles.Admin && studio.OwnerId != int.Parse(userIdClaim!))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get number of participants for other studio by user: {userIdClaim}");
+                return Unauthorized();
+            }
             var participants = await studioAnalyticsService.GetNumberofParticipants(studioId);
             _logger.LogInformation($"Retrieved {participants} participants for studio: {studioId} ");
 

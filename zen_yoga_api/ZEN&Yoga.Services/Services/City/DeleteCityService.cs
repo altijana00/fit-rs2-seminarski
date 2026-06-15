@@ -16,27 +16,6 @@ namespace ZEN_Yoga.Services.Services.City
 
         }
 
-        //public async Task<bool> Delete(int id)
-        //{
-        //    var city = await _dbContext.Cities.FirstOrDefaultAsync(u => u.Id == id);
-        //    var studios = await _dbContext.Studios.Where(u => u.CityId == id).ToListAsync();
-        //    var users = await _dbContext.Users.Where(u => u.CityId == id).ToListAsync();
-
-        //    if (city != null)
-        //    {
-        //        if (studios.Any() || users.Any()) 
-        //        {
-        //            return false;
-        //        }
-
-
-        //        _dbContext.Remove(city);
-        //        await _dbContext.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
         public async Task<bool> Delete(int id)
         {
             var city = await _dbContext.Cities.FirstOrDefaultAsync(u => u.Id == id);

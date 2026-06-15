@@ -43,19 +43,19 @@ class PaymentController extends GetxController {
           ),
         );
 
-        await displayPaymentSheet(userId, studioId, amount, paymentIntentId);
+        await displayPaymentSheet(studioId, amount, paymentIntentId);
       }
     } catch (e, s) {
       print('exception: $e $s');
     }
   }
 
-  Future<void> displayPaymentSheet(int userId, int studioId, int amount, String paymentIntentId) async {
+  Future<void> displayPaymentSheet(int studioId, int amount, String paymentIntentId) async {
     try {
       await Stripe.instance.presentPaymentSheet();
 
       // Add payment to the DB
-      await paymentProvider.repository.addPayment(userId,studioId,amount,paymentIntentId);
+      await paymentProvider.repository.addPayment(studioId,amount,paymentIntentId);
 
 
 

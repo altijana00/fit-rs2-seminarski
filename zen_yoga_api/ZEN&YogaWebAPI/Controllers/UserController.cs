@@ -10,6 +10,7 @@ using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.City;
+using ZEN_Yoga.Services.Interfaces.Instructor;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Role;
 using ZEN_Yoga.Services.Interfaces.Studio;
@@ -272,11 +273,17 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] IDeleteUserService deleteService,
                                                 [FromServices] IGetUserService getUserService,
                                                 [FromServices] ISendInAppNotificationService sendInAppNotificationService,
-                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService,
+                                                [FromServices] IDeleteInstructorService deleteInstructorService)
         {
 
             var user = await getUserService.GetById(id);
             var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
+
+            if (user.RoleId == int.Parse(AuthRoles.Instructor))
+            {
+                await deleteInstructorService.Delete(id);
+            }
 
             if (await deleteService.Delete(id))
             {
@@ -321,16 +328,16 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "There is no user with this ID!" });
         }
 
-        [Authorize(Roles = AuthRoles.AllRoles)]
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPatch("updateUserPassword")]
-        public async Task<IActionResult> UpdateUserPassword(UpdateUserPassword updateUserPassword, 
+        public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordAsAdmin updateUserPassword, 
                                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
                                                             [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                             [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-            var result = await upsertUserService.UpdateUserPassword(updateUserPassword, userRole);
+            var result = await upsertUserService.UpdateUserPassword(updateUserPassword);
 
             if (result == "Ok")
             {
@@ -346,6 +353,41 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 _logger.LogDebug($"Sending notification to userId: {updateUserPassword.UserId}");
                 await sendInAppNotificationService.SendToUserAsync(updateUserPassword.UserId.ToString(), notification);
+                await upsertNotificationService.Add(notification);
+                return Ok(new { Message = "Password updated"! });
+            }
+
+            _logger.LogInformation($"Update user password error");
+            if (result == "Error") return StatusCode((int)HttpStatusCode.InternalServerError, "An unexpected error occurred.");
+
+            return BadRequest(new { Message = result });
+        }
+
+        [Authorize(Roles = AuthRoles.AllRoles)]
+        [HttpPatch("updateYourUserPassword")]
+        public async Task<IActionResult> UpdateYourUserPassword(UpdateYourPassword updateYourPassword,
+                                                           [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
+                                                           [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                           [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+        {
+            var userId = int.Parse(User.FindFirst("id")?.Value!);
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            var result = await upsertUserService.UpdateYourPassword(updateYourPassword, userId);
+
+            if (result == "Ok")
+            {
+
+                var notification = new AddNotification()
+                {
+                    Title = "Password updated",
+                    Content = "Your password has been updated successfully.",
+                    Type = NotificationType.Success.ToString(),
+                    UserId = userId,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userId}");
+                await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
                 await upsertNotificationService.Add(notification);
                 return Ok(new { Message = "Password updated"! });
             }

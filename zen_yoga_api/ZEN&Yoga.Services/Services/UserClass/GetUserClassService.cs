@@ -50,27 +50,6 @@ namespace ZEN_Yoga.Services.Services.UserClass
                 .ToListAsync();
         }
 
-        //public async Task<List<ClassResponse>> GetByUserId(int userId)
-        //{
-        //    var classes = new List<ZEN_Yoga.Models.Class>();
-
-        //    var userClasses = await _dbContext.UserClasses.Where(uc => uc.UserId == userId).ToListAsync();
-
-        //    foreach(var uc in userClasses)
-        //    {
-        //        var classRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == uc.ClassId);
-
-        //        if (classRes != null)
-        //        {
-        //            classes.Add(classRes);
-        //        }
-
-        //    }
-
-        //    return _mapper.Map<List<ClassResponse>>(classes);
-
-
-        //}
 
         public async Task<List<ClassResponse>> GetByUserId(int userId)
         {
@@ -84,22 +63,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
         }
 
-        //public async Task<List<StudioResponse>> GetUserRecommendedStudios(int userId, IGetStudioService getStudioService)
-        //{
-        //    List<StudioResponse> recommendedStudios = new List<StudioResponse>();
-
-
-        //    var userClasses = await GetByUser(userId); //njegove
-        //    var userYogaType = await GetUserMostAppliedYogaTypeId(userId, userClasses);
-        //    var mostApplied = GetAllByYogaTypeId(userYogaType);
-
-        //    foreach (var s in mostApplied)
-        //    {
-        //        recommendedStudios.Add(await getStudioService.GetById(s));
-        //    }
-
-        //    return recommendedStudios;
-        //}
+       
 
         public async Task<List<StudioResponse>> GetUserRecommendedStudios(int userId, IGetStudioService getStudioService)
         {
@@ -114,10 +78,14 @@ namespace ZEN_Yoga.Services.Services.UserClass
                 .Select(s => new StudioResponse
                 {
                     Id = s.Id,
+                    OwnerId = s.OwnerId,
                     Name = s.Name,
-                    Address = s.Address,
-                    CityId = s.CityId,
                     Description = s.Description,
+                    CityId = s.CityId,
+                    Address = s.Address,
+                    ContactEmail = s.ContactEmail,
+                    ContactPhone = s.ContactPhone,
+                    ProfileImageUrl = s.ProfileImageUrl,
                     MembershipPrice = s.MembershipPrice
                 })
                 .ToListAsync();
