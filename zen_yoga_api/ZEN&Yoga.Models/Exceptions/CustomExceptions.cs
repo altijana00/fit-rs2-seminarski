@@ -29,17 +29,7 @@
         public RoleNotFoundException(string message) : base(message) { }
     }
 
-    //City Exceptions
-    public class CityNotFoundException : Exception
-    {
-        public CityNotFoundException(string message) : base(message) { }
-    }
 
-    //Studio Exceptions
-    public class StudioNotFoundException : Exception
-    {
-        public StudioNotFoundException(string message) : base(message) { }
-    }
 
     public class StudioAlreadyExistsException : Exception
     {
@@ -52,11 +42,6 @@
         public MaxParticipantsReachedException(string message) : base(message) { }
     }
 
-    //Class Exceptions
-    public class ClassAlreadyExistsException : Exception
-    {
-        public ClassAlreadyExistsException(string message) : base(message) { }
-    }
 
     public class ClassTimeAndLocationTakenException : Exception
     {

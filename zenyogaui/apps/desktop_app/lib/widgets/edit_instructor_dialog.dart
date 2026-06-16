@@ -89,22 +89,35 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
       newPassword: _newPasswordCtrl.text.trim(),
     );
 
-    await userProvider.repository.updateYourUserPassword(dto);
+    try
+    {
 
-    if (!context.mounted) return;
+      await userProvider.repository.updateYourUserPassword(dto);
 
-    setState(() {
-      _oldPasswordCtrl.clear();
-      _newPasswordCtrl.clear();
-      _isChangingPassword = false;
-    });
+      if (!context.mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Password updated successfully"),
-        backgroundColor: AppColors.deepGreen,
-      ),
-    );
+      setState(() {
+        _oldPasswordCtrl.clear();
+        _newPasswordCtrl.clear();
+        _isChangingPassword = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password updated successfully"),
+          backgroundColor: AppColors.deepGreen,
+        ),
+      );
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: AppColors.darkRed,
+        ),
+      );
+    }
+
   }
 
   @override

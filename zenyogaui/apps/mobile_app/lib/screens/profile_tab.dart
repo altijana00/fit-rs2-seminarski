@@ -49,19 +49,31 @@ class _ProfileTabState extends State<ProfileTab> {
       email: _emailController.text.trim(),
     );
 
-    await context.read<UserProvider>().repository.editUser(editDto, userId);
+    try
+    {
+      await context.read<UserProvider>().repository.editUser(editDto, userId);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Profile updated"),
-        backgroundColor: AppColors.deepGreen,
-      ),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Profile updated"),
+          backgroundColor: AppColors.deepGreen,
+        ),
+      );
 
 
-    final updatedUser = await context.read<UserProvider>().repository.getUser(userId);
-    context.read<AuthProvider>().user = updatedUser;
-    _loadUser();
+      final updatedUser = await context.read<UserProvider>().repository.getUser(userId);
+      context.read<AuthProvider>().user = updatedUser;
+      _loadUser();
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: AppColors.darkRed,
+        ),
+      );
+    }
+
   }
 
   @override
@@ -230,22 +242,43 @@ class _ProfileTabState extends State<ProfileTab> {
                   );
 
 
+                  try
+                  {
+                    await context
+                        .read<UserProvider>()
+                        .repository
+                        .updateYourUserPassword(updto);
 
-                  await context
-                      .read<UserProvider>()
-                      .repository
-                      .updateYourUserPassword(updto);
 
-                  Navigator.pop(context);
-                  await Future.delayed(const Duration(seconds: 2));
-                  await context.read<AuthProvider>().logout();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Password updated successfully!"),
+                        backgroundColor: Colors.green,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
 
-                  if (!context.mounted) return;
 
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/',
-                        (_) => false,
-                  );
+                    await Future.delayed(const Duration(seconds: 2));
+                    Navigator.pop(context);
+
+                    await context.read<AuthProvider>().logout();
+
+                    if (!context.mounted) return;
+
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/',
+                          (_) => false,
+                    );
+                  }catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(e.toString().replaceFirst('Exception: ', '')),
+                        backgroundColor: AppColors.darkRed,
+                      ),
+                    );
+                  }
+
                 }
 
                 },

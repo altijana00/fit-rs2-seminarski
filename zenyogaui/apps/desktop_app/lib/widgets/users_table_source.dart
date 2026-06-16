@@ -419,17 +419,31 @@ class _UsersTableViewState extends State<UsersTableView> {
       builder: (ctx) => AddUserDialog(
         cities: cities,
         onAddDto: (addedUser) async {
-          await context
-              .read<UserProvider>()
-              .repository
-              .addUser(addedUser);
-          _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("User added successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
+
+          try
+          {
+            await context
+                .read<UserProvider>()
+                .repository
+                .addUser(addedUser);
+            _refresh();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("User added successfully"),
+                backgroundColor: AppColors.deepGreen,
+              ),
+            );
+          }
+          catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString().replaceFirst('Exception: ', '')),
+                backgroundColor: AppColors.darkRed,
+              ),
+            );
+          }
+
+
         },
       ),
     );

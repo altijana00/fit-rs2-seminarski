@@ -35,11 +35,8 @@ namespace ZEN_YogaWebAPI.Middleware
                     MaxParticipantsReachedException or
                     ClassTimeAndLocationTakenException or
                     UserAlreadyExistsException => StatusCodes.Status400BadRequest,
-
-                    StudioNotFoundException or
                     ClassNotFoundException or              
                     YogaTypeNotFoundException or
-                    CityNotFoundException or
                     RoleNotFoundException or
                     UserNotFoundException => StatusCodes.Status404NotFound,
 

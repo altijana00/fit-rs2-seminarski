@@ -51,13 +51,13 @@ class _AddClassDialogState extends State<AddClassDialog> {
   }
 
   Future<void> _pickStartDate(BuildContext context) async {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
 
     final date = await showDatePicker(
       context: context,
       initialDate: now,
-      firstDate: DateTime(now.year, now.month, now.day),
-      lastDate: DateTime(now.year + 1)
+      firstDate: DateTime(now.year, now.month, now.day).toUtc(),
+      lastDate: DateTime(now.year + 1).toUtc()
     );
 
     if(date==null) return;

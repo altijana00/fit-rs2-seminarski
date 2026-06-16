@@ -20,7 +20,7 @@ class MyClassesTab extends StatefulWidget {
 
 class MyClassesTabState extends State<MyClassesTab> {
   Map<DateTime, List<ClassResponseDto>> events = {};
-  DateTime selectedDay = DateTime.now();
+  DateTime selectedDay = DateTime.now().toUtc();
   List<ClassResponseDto> selectedClasses = [];
   Map<int, String> instructorMap = {};
 
@@ -56,7 +56,7 @@ class MyClassesTabState extends State<MyClassesTab> {
 
     for (var c in classes) {
       final date = c.startDate;
-      final day = DateTime(date.year, date.month, date.day);
+      final day = DateTime(date.year, date.month, date.day).toUtc();
 
       grouped[day] ??= [];
       grouped[day]!.add(c);
@@ -90,7 +90,7 @@ class MyClassesTabState extends State<MyClassesTab> {
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: selectedDay,
             eventLoader: (day) {
-              final key = DateTime(day.year, day.month, day.day);
+              final key = DateTime(day.year, day.month, day.day).toUtc();
               return events[key] ?? [];
             },
             calendarStyle: const CalendarStyle(
@@ -99,7 +99,7 @@ class MyClassesTabState extends State<MyClassesTab> {
             ),
             selectedDayPredicate: (day) => isSameDay(day, selectedDay),
             onDaySelected: (selected, focused) {
-              final key = DateTime(selected.year, selected.month, selected.day);
+              final key = DateTime(selected.year, selected.month, selected.day).toUtc();
               setState(() {
                 selectedDay = key;
                 selectedClasses = events[key] ?? [];

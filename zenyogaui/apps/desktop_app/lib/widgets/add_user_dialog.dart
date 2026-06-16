@@ -55,9 +55,9 @@ class _AddUserDialogState extends State<AddUserDialog> {
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2008),
+      initialDate: DateTime(2000).toUtc(),
+      firstDate: DateTime(1900).toUtc(),
+      lastDate: DateTime(2008).toUtc(),
     );
     if (picked != null) setState(() => dateOfBirth = picked);
   }

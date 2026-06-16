@@ -123,7 +123,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(studio);
         }
 
-        [Authorize(Roles = AuthRoles.AdminOrOwner)]
+        [Authorize(Roles = AuthRoles.Owner)]
         [HttpPost("add")]
         public async Task<IActionResult> AddStudio([FromBody] AddStudio addStudio, 
                                                    [FromServices] IUpsertStudioService<AddStudio> upsertStudioService, 

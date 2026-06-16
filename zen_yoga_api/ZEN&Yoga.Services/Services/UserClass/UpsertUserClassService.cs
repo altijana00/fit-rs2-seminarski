@@ -46,7 +46,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
                         UserId = userId,
                         ClassId = classId,
-                        JoinedAt = DateTime.Now
+                        JoinedAt = DateTime.UtcNow
                     };
 
                 

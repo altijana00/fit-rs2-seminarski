@@ -39,7 +39,7 @@ class _EditClassDialogState extends State<EditClassDialog> {
 
     final start = widget.classToEdit.startDate;
 
-    _pickedDate = DateTime(start.year, start.month, start.day);
+    _pickedDate = DateTime(start.year, start.month, start.day).toUtc();
     _pickedTime = TimeOfDay(hour: start.hour, minute: start.minute);
 
     _startDateController.text =
@@ -53,13 +53,13 @@ class _EditClassDialogState extends State<EditClassDialog> {
   }
 
   Future<void> _pickStartDate(BuildContext context) async {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
 
     final date = await showDatePicker(
       context: context,
       initialDate: _pickedDate ?? now,
-      firstDate: DateTime(now.year, now.month, now.day),
-      lastDate: DateTime(now.year + 1),
+      firstDate: DateTime(now.year, now.month, now.day).toUtc(),
+      lastDate: DateTime(now.year + 1).toUtc(),
     );
 
     if (date == null) return;

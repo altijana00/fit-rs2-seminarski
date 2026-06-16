@@ -21,7 +21,7 @@ namespace ZEN_Yoga.Services.Services.Notifications
         {
             var notification = _mapper.Map<Notification>(addNotification);
             notification.IsRead = false;
-            notification.CreatedAt = DateTime.Now;
+            notification.CreatedAt = DateTime.UtcNow;
 
             await _dbContext.Notifications.AddAsync(notification);
 

@@ -4,6 +4,8 @@ import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../core/theme.dart';
+
 class SignupFormMobile extends StatefulWidget {
   final List<CityResponseDto> cities;
   final VoidCallback? onSignupSuccess;
@@ -37,30 +39,42 @@ class _SignupFormMobileState extends State<SignupFormMobile> {
 
     setState(() => _submitting = true);
 
-    await context.read<UserProvider>().repository.addUser(
-      RegisterUserDto(
-        firstName: firstName!,
-        lastName: lastName!,
-        gender: gender,
-        dateOfBirth: dateOfBirth,
-        email: email!,
-        password: password!,
-        roleId: 4,
-        cityId: selectedCityId!,
-        profileImageUrl: "test",
-      ),
-    );
+    try
+    {
+      await context.read<UserProvider>().repository.addUser(
+        RegisterUserDto(
+          firstName: firstName!,
+          lastName: lastName!,
+          gender: gender,
+          dateOfBirth: dateOfBirth,
+          email: email!,
+          password: password!,
+          roleId: 4,
+          cityId: selectedCityId!,
+          profileImageUrl: "test",
+        ),
+      );
 
-    setState(() => _submitting = false);
-    widget.onSignupSuccess?.call();
+      setState(() => _submitting = false);
+      widget.onSignupSuccess?.call();
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: AppColors.darkRed,
+        ),
+      );
+    }
+
   }
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime(2000),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2008),
+      initialDate: DateTime(2000).toUtc(),
+      firstDate: DateTime(1900).toUtc(),
+      lastDate: DateTime(2008).toUtc(),
     );
     if (picked != null) setState(() => dateOfBirth = picked);
   }

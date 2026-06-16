@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZEN_Yoga.Models;
+﻿using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Responses;
 
 namespace ZEN_Yoga.Services.Interfaces.Analytics
 {
     public interface IAppAnalyticsService
     {
         Task<AppAnalytics> GetAppAnalytics();
+
+        Task<ParticipantAnalyticsResponse> GetAppAnalyticsForParticipant(int userId);
     }
 }

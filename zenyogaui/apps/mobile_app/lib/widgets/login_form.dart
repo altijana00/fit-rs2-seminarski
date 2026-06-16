@@ -16,6 +16,8 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
 
+  bool _loading = false;
+
   @override
   void dispose() {
     _emailCtrl.dispose();
@@ -25,21 +27,44 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
 
   Future<void> _submit() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
+
     if (!_formKey.currentState!.validate()) return;
+    if (_loading) return;
 
-    final success = await provider.login(
-      _emailCtrl.text.trim(),
-      _passwordCtrl.text.trim(),
-    );
+    setState(() => _loading = true);
 
-    if (success) {
-      widget.onLoginSuccess?.call();
-    } else {
-      final snackMsg = provider.error ?? 'Login failed';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(snackMsg)),
+    try {
+      final success = await provider.login(
+        _emailCtrl.text.trim(),
+        _passwordCtrl.text.trim(),
       );
+
+      if (!mounted) return;
+
+      if (success) {
+        widget.onLoginSuccess?.call();
+      } else {
+        final msg = provider.error ?? 'Login failed';
+
+        _showError(msg);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      _showError('Invalid credentials');
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
+  }
+
+  void _showError(String msg) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg)),
+    );
   }
 
   String? _validateEmail(String? v) {
@@ -56,8 +81,6 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AuthProvider>(context);
-
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
@@ -66,6 +89,7 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
           children: [
             Image.asset('assets/logo.png', height: 100),
             const SizedBox(height: 24),
+
             Text(
               'Log in',
               style: Theme.of(context)
@@ -73,7 +97,9 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
                   .headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 24),
+
             Form(
               key: _formKey,
               child: Column(
@@ -89,7 +115,9 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
                     validator: _validateEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
+
                   const SizedBox(height: 16),
+
                   TextFormField(
                     controller: _passwordCtrl,
                     decoration: const InputDecoration(
@@ -101,18 +129,22 @@ class _LoginFormMobileState extends State<LoginFormMobile> {
                     obscureText: true,
                     validator: _validatePassword,
                   ),
+
                   const SizedBox(height: 24),
+
                   SizedBox(
                     width: double.infinity,
                     height: 50,
-                    child: provider.isLoading
+                    child: _loading
                         ? const Center(child: CircularProgressIndicator())
                         : ElevatedButton(
                       onPressed: _submit,
                       child: const Text('Log in'),
                     ),
                   ),
+
                   const SizedBox(height: 16),
+
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed('/signup');

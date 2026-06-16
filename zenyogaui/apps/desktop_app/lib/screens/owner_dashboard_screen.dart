@@ -145,19 +145,32 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               builder: (ctx) => EditUserDialog(
                 userToEdit: _user!,
                 onEdit: (updatedUser) async {
-                  await context
-                      .read<UserProvider>()
-                      .repository
-                      .editUser(updatedUser, _user!.id);
 
-                  _loadUser(_user!.id);
+                  try
+                  {
+                    await context
+                        .read<UserProvider>()
+                        .repository
+                        .editUser(updatedUser, _user!.id);
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Profile details updated successfully"),
-                      backgroundColor: AppColors.deepGreen,
-                    ),
-                  );
+                    _loadUser(_user!.id);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Profile details updated successfully"),
+                        backgroundColor: AppColors.deepGreen,
+                      ),
+                    );
+                  }
+                  catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            e.toString().replaceFirst('Exception: ', '')),
+                        backgroundColor: AppColors.darkRed,
+                      ),
+                    );
+                  }
                   },
               ),
             );},

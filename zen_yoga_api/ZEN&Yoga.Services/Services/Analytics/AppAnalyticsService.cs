@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 
 namespace ZEN_Yoga.Services.Services.Analytics
@@ -23,7 +24,7 @@ namespace ZEN_Yoga.Services.Services.Analytics
 
             var appAnalytics = new AppAnalytics()
             {
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 TotalStudios = studios,
                 TotalUsers = users
             };
@@ -31,6 +32,22 @@ namespace ZEN_Yoga.Services.Services.Analytics
 
             await _dbContext.AppAnalytics.AddAsync(appAnalytics);
             await _dbContext.SaveChangesAsync();
+
+            return appAnalytics;
+        }
+
+        public async Task<ParticipantAnalyticsResponse> GetAppAnalyticsForParticipant(int userId)
+        {
+
+            var numberOfStudios = await _dbContext.Payments.CountAsync(p => p.UserId == userId);
+            var numberOfClasses = await _dbContext.UserClasses.CountAsync(uc=> uc.UserId == userId);
+
+
+            var appAnalytics = new ParticipantAnalyticsResponse()
+            {
+                NumberOfStudios = numberOfStudios,
+                NumberOfClasses = numberOfClasses
+            };
 
             return appAnalytics;
         }

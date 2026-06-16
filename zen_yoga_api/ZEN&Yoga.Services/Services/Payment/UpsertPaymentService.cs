@@ -130,8 +130,8 @@ namespace ZEN_Yoga.Services.Services.Payment
             {
                 UserId = userId,
                 StudioId = studioId,
-                CreatedAt = DateTime.Now,
-                PaymentDate = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                PaymentDate = DateTime.UtcNow,
                 Amount = amount,
                 Status = PaymentStatus.Processing.ToString(),
                 PaymentIntentId = paymentIntentId

@@ -184,6 +184,13 @@ namespace ZEN_YogaWebAPI.Controllers
                                               [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                               [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, id))
+            {
+                _logger.LogWarning($"Unauthorized attempt to edit another user by: {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
+
             if (editUser == null)
             {
                 _logger.LogInformation("User data was null");

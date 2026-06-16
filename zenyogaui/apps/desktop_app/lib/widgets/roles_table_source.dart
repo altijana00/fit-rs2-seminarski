@@ -324,17 +324,31 @@ class _RolesTableViewState extends State<RolesTableView> {
       context: context,
       builder: (ctx) => AddRoleDialog(
         onAddDto: (addedRole) async {
-          await context
-              .read<RoleProvider>()
-              .repository
-              .addRole(addedRole);
-          _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Role added successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
+
+          try
+          {
+            await context
+                .read<RoleProvider>()
+                .repository
+                .addRole(addedRole);
+            _refresh();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Role added successfully"),
+                backgroundColor: AppColors.deepGreen,
+              ),
+            );
+          }
+          catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString().replaceFirst('Exception: ', '')),
+                backgroundColor: AppColors.darkRed,
+              ),
+            );
+          }
+
+
         },
       ),
     );
