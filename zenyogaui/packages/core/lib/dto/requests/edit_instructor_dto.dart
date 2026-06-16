@@ -8,6 +8,7 @@ class EditInstructorDto {
   final String firstName;
   final String lastName;
   final String email;
+  final String? gender;
   final String? diplomas;
   final String? certificates;
   final String? biography;
@@ -16,6 +17,7 @@ class EditInstructorDto {
     required this.firstName,
     required this.lastName,
     required this.email,
+    this.gender,
     this.diplomas,
     this.certificates,
     this.biography,

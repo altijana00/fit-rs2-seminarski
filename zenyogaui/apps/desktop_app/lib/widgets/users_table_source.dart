@@ -8,6 +8,7 @@ import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/widgets/edit_user_as_admin_dialog.dart';
 import 'package:zenyogaui/widgets/role_badge.dart';
 import '../core/theme.dart';
 import 'add_notification_dialog.dart';
@@ -393,7 +394,7 @@ class _UsersTableViewState extends State<UsersTableView> {
   void _confirmEdit(UserResponseDto user) {
     showDialog(
       context: context,
-      builder: (ctx) => EditUserDialog(
+      builder: (ctx) => EditUserAsAdminDialog(
         userToEdit: user,
         onEdit: (updatedUser) async {
           await context

@@ -157,6 +157,7 @@
 import 'dart:io';
 
 import 'package:core/dto/requests/edit_user_dto.dart';
+import 'package:core/dto/requests/update_user_password_as_admin_dto.dart';
 import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -166,21 +167,21 @@ import 'package:provider/provider.dart';
 
 import '../core/theme.dart';
 
-class EditUserDialog extends StatefulWidget {
+class EditUserAsAdminDialog extends StatefulWidget {
   final UserResponseDto userToEdit;
   final Function(EditUserDto) onEdit;
 
-  const EditUserDialog({
+  const EditUserAsAdminDialog({
     super.key,
     required this.userToEdit,
     required this.onEdit,
   });
 
   @override
-  State<EditUserDialog> createState() => _EditUserDialogState();
+  State<EditUserAsAdminDialog> createState() => _EditUserAsAdminDialogState();
 }
 
-class _EditUserDialogState extends State<EditUserDialog> {
+class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
 
 
   late TextEditingController _firstNameCtrl;
@@ -188,7 +189,6 @@ class _EditUserDialogState extends State<EditUserDialog> {
   late TextEditingController _genderCtrl;
   late TextEditingController _emailCtrl;
 
-  final TextEditingController _oldPasswordCtrl = TextEditingController();
   final TextEditingController _newPasswordCtrl = TextEditingController();
 
   String? _profileImageUrl;
@@ -214,26 +214,24 @@ class _EditUserDialogState extends State<EditUserDialog> {
     _genderCtrl.dispose();
     _emailCtrl.dispose();
     _newPasswordCtrl.dispose();
-    _oldPasswordCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _changePassword(BuildContext context) async {
     final userProvider = context.read<UserProvider>();
 
-    if (_oldPasswordCtrl.text.trim().isEmpty || _newPasswordCtrl.text.trim().isEmpty) return;
+    if (_newPasswordCtrl.text.trim().isEmpty) return;
 
-    final dto = UpdateYourUserPasswordDto(
-      oldPassword: _oldPasswordCtrl.text.trim(),
+    final dto = UpdateUserPasswordAsAdminDto(
+      id: widget.userToEdit.id,
       newPassword: _newPasswordCtrl.text.trim(),
     );
 
-    await userProvider.repository.updateYourUserPassword(dto);
+    await userProvider.repository.updateUserPasswordAsAdmin(dto);
 
     if (!context.mounted) return;
 
     setState(() {
-      _oldPasswordCtrl.clear();
       _newPasswordCtrl.clear();
       _isChangingPassword = false;
     });
@@ -334,13 +332,13 @@ class _EditUserDialogState extends State<EditUserDialog> {
                 const Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Text(
-                  "Gender",
-                  style: TextStyle(
-                  fontSize: 12,
+                    "Gender",
+                    style: TextStyle(
+                      fontSize: 12,
 
+                    ),
+                  ),
                 ),
-              ),
-            ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -382,14 +380,6 @@ class _EditUserDialogState extends State<EditUserDialog> {
                 setState(() => _isChangingPassword = val);
               },
               children: [
-                TextField(
-                  controller: _oldPasswordCtrl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "Current Password",
-                  ),
-                ),
-                const SizedBox(height: 10),
                 TextField(
                   controller: _newPasswordCtrl,
                   obscureText: true,

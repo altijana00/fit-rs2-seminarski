@@ -35,7 +35,7 @@ class NavigationWidget extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Profile',
+          label: 'Settings',
         ),
 
       ],

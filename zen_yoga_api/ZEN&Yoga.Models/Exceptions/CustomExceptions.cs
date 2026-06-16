@@ -58,6 +58,11 @@
         public ClassAlreadyExistsException(string message) : base(message) { }
     }
 
+    public class ClassTimeAndLocationTakenException : Exception
+    {
+        public ClassTimeAndLocationTakenException(string message) : base(message) { }
+    }
+
     public class ClassNotFoundException : Exception
     {
         public ClassNotFoundException(string message) : base(message) { }

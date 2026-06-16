@@ -1,20 +1,18 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'update_user_password_dto.g.dart';
+part 'update_your_user_password_dto.g.dart';
 @JsonSerializable()
-class UpdateUserPasswordDto {
-  final int id;
+class UpdateYourUserPasswordDto {
   final String? oldPassword;
   final String newPassword;
 
-  UpdateUserPasswordDto({
-    required this.id,
+  UpdateYourUserPasswordDto({
     required this.oldPassword,
     required this.newPassword,
 
   });
 
 
-  Map<String, dynamic> toJson() => _$UpdateUserPasswordDtoToJson(this);
+  Map<String, dynamic> toJson() => _$UpdateYourUserPasswordDtoToJson(this);
 }

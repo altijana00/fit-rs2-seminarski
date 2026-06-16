@@ -1,7 +1,8 @@
 
 import 'dart:io';
 
-import 'package:core/dto/requests/update_user_password_dto.dart';
+import 'package:core/dto/requests/update_user_password_as_admin_dto.dart';
+import 'package:core/dto/requests/update_your_user_password_dto.dart';
 
 import '../dto/requests/edit_user_dto.dart';
 import '../dto/requests/register_user_dto.dart';
@@ -43,8 +44,13 @@ class UserRepository {
     return json.values.first;
   }
 
-  Future<String> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto) async {
-    final json = await api.updateUserPassword(updateUserPasswordDto);
+  Future<String> updateUserPasswordAsAdmin(UpdateUserPasswordAsAdminDto updateUserPasswordAsAdminDto) async {
+    final json = await api.updateUserPasswordAsAdmin(updateUserPasswordAsAdminDto);
+    return json.values.first;
+  }
+
+  Future<String> updateYourUserPassword(UpdateYourUserPasswordDto updateYourUserPasswordDto) async {
+    final json = await api.updateYourUserPassword(updateYourUserPasswordDto);
     return json.values.first;
   }
 

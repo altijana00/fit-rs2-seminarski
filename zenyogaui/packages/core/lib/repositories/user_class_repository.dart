@@ -1,5 +1,5 @@
 
-import 'package:core/dto/requests/update_user_password_dto.dart';
+import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_classes_response_dto.dart';
 

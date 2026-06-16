@@ -1,7 +1,9 @@
 import 'dart:io';
 
-import 'package:core/dto/requests/update_user_password_dto.dart';
+import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:dio/dio.dart';
+
+import '../dto/requests/update_user_password_as_admin_dto.dart';
 
 class UserApiService {
   final Dio dio;
@@ -84,9 +86,21 @@ class UserApiService {
     }
   }
 
-  Future<Map<String, dynamic>> updateUserPassword(UpdateUserPasswordDto updateUserPasswordDto) async {
+  Future<Map<String, dynamic>> updateUserPasswordAsAdmin(UpdateUserPasswordAsAdminDto updateUserPasswordAsAdminDto) async {
     final response = await dio.patch(
-      'User/updateUserPassword?UserId=${updateUserPasswordDto.id}&OldPassword=${updateUserPasswordDto.oldPassword}&NewPassword=${updateUserPasswordDto.newPassword}',
+      'User/updateUserPassword?UserId=${updateUserPasswordAsAdminDto.id}&NewPassword=${updateUserPasswordAsAdminDto.newPassword}',
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Map<String, dynamic>.from(response.data);
+    } else {
+      throw Exception('Failed to update password: ${response.data}');
+    }
+  }
+
+  Future<Map<String, dynamic>> updateYourUserPassword(UpdateYourUserPasswordDto updateYourUserPasswordDto) async {
+    final response = await dio.patch(
+      'User/updateYourUserPassword?OldPassword=${updateYourUserPasswordDto.oldPassword}&NewPassword=${updateYourUserPasswordDto.newPassword}',
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {

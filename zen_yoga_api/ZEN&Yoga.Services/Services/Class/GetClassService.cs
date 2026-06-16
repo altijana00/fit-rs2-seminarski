@@ -66,7 +66,7 @@ namespace ZEN_Yoga.Services.Services.Class
         public async Task<List<ClassResponse>> GetByInstructorId(int instructorId, ClassQuery? classQuery)
         {
             var query = _dbContext.Classes
-        .AsQueryable();
+                        .Where(c => c.InstructorId == instructorId);
 
             if (!string.IsNullOrWhiteSpace(classQuery?.Search))
             {

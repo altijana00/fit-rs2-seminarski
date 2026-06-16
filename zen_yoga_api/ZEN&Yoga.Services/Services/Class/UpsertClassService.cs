@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Interfaces.Class;
 using ZEN_Yoga.Services.Interfaces.YogaType;
@@ -22,6 +23,17 @@ namespace ZEN_Yoga.Services.Services.Class
         public async Task Add(AddClass addClass, int instructorId, IYogaTypeValidatorService yogaTypeValidatorService)
         {
             var instructor = await _dbContext.Instructors.FirstOrDefaultAsync(i => i.Id == instructorId);
+
+            var classExists = await _dbContext.Classes.AnyAsync(c =>
+                                                      c.StudioId == instructor!.StudioId &&
+                                                      c.StartDate == addClass.StartDate &&
+                                                      c.Location == addClass.Location);
+
+            if (classExists) 
+            {
+                throw new ClassTimeAndLocationTakenException("There is already a class booked at this time. Please choose another time.");
+            }
+
 
             var classRes = _mapper.Map<Models.Class>(addClass);
 

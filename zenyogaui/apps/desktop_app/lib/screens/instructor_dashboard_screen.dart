@@ -605,15 +605,27 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
         context: context,
         builder: (ctx) => AddClassDialog(
           onAddDto: (newClass) async {
-            await ctx.read<ClassProvider>().repository.addClass(newClass, instructorId);
-            await _refresh();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Class added successfully"),
-                backgroundColor: AppColors.deepGreen,
-              ),
-            );
+            try {
+              await ctx.read<ClassProvider>()
+                  .repository
+                  .addClass(newClass, instructorId);
 
+              await _refresh();
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Class added successfully"),
+                  backgroundColor: AppColors.deepGreen,
+                ),
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(e.toString().replaceFirst('Exception: ', '')),
+                  backgroundColor: AppColors.darkRed,
+                ),
+              );
+            }
           },
         ),
       );

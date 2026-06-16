@@ -1,5 +1,5 @@
 import 'package:core/dto/requests/edit_user_dto.dart';
-import 'package:core/dto/requests/update_user_password_dto.dart';
+import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -179,7 +179,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
     String oldPassword = '';
     String newPassword = '';
-    String confirmPassword = '';
+
 
     showDialog(
       context: context,
@@ -209,14 +209,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 ),
                 const SizedBox(height: 12),
 
-                TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "Confirm new password",
-                  ),
 
-                  onSaved: (v) => confirmPassword = v ?? '',
-                ),
               ],
             ),
           ),
@@ -231,8 +224,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
 
-                  final updto = UpdateUserPasswordDto(
-                    id: context.read<AuthProvider>().user!.id,
+                  final updto = UpdateYourUserPasswordDto(
                     oldPassword: oldPassword,
                     newPassword: newPassword,
                   );
@@ -242,7 +234,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   await context
                       .read<UserProvider>()
                       .repository
-                      .updateUserPassword(updto);
+                      .updateYourUserPassword(updto);
 
                   Navigator.pop(context);
                   await context.read<AuthProvider>().logout();

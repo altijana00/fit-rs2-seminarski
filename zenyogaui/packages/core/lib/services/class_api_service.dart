@@ -43,6 +43,9 @@ class ClassApiService {
     final response = await dio.post(
       'Class/add?instructorId=$instructorId',
       data: classData,
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
