@@ -159,6 +159,7 @@ import 'dart:io';
 import 'package:core/dto/requests/edit_user_dto.dart';
 import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
+import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -243,6 +244,21 @@ class _EditUserDialogState extends State<EditUserDialog> {
         content: Text("Password updated successfully"),
         backgroundColor: AppColors.deepGreen,
       ),
+    );
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!context.mounted) return;
+
+    Navigator.of(context).pop();
+
+    await context.read<AuthProvider>().logout();
+
+    if (!context.mounted) return;
+
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/',
+          (_) => false,
     );
   }
 

@@ -2,7 +2,6 @@ import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zenyogaui/core/theme.dart';
 import 'package:zenyogaui/widgets/edit_user_dialog.dart';
-import 'package:zenyogaui/widgets/user_notification_center.dart';
 import '../widgets/add_instructor_dialog.dart';
 import '../widgets/add_studio_stepper.dart';
 import '../widgets/studio_details_card.dart';
@@ -295,6 +293,11 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 selectedIcon: Icon(Icons.people, color: AppColors.lavender),
                 icon: Icon(Icons.people, color: Colors.white),
                 label: Text("Employees", style: TextStyle(color: Colors.white)),
+              ),
+              NavigationRailDestination(
+                selectedIcon: Icon(Icons.payments, color: AppColors.lavender),
+                icon: Icon(Icons.payments, color: Colors.white),
+                label: Text("Payments", style: TextStyle(color: Colors.white)),
               ),
             ],
             trailing: _buildSidebarActions(),

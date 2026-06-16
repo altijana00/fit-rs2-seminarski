@@ -270,6 +270,22 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(payments);
         }
 
+        [Authorize(Roles = AuthRoles.AdminOrOwner)]
+        [HttpGet("getPaymentsOfOwnerStudios")]
+        public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsOfOwnerStudios([FromServices] IGetPaymentService getPaymentService, int ownerId)
+        {
+            
+            var payments = await getPaymentService.GetPaymentsOfOwnerStudios(ownerId);
+
+            if (payments == null)
+            {
+                _logger.LogInformation("No payments found");
+                return NoContent();
+            }
+            _logger.LogInformation($"{payments.Count} payments found");
+            return Ok(payments);
+        }
+
     }
 
     

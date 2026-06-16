@@ -237,6 +237,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       .updateYourUserPassword(updto);
 
                   Navigator.pop(context);
+                  await Future.delayed(const Duration(seconds: 2));
                   await context.read<AuthProvider>().logout();
 
                   if (!context.mounted) return;
