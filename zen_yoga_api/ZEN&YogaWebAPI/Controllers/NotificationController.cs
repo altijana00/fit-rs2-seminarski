@@ -124,12 +124,9 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpGet("getByUserId")]
         public async Task<ActionResult<NotificationResponse>> GetByUserId([FromServices] IGetNotificationService getNotificationService, int userId)
         {
-            var userIdClaim = User.FindFirst("id")?.Value;
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin)
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
             {
-                _logger.LogWarning($"Unauthorized attempt to read  notifications by user: {userId}");
+                _logger.LogWarning($"Unauthorized attempt to read  notifications by user: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
 
@@ -148,13 +145,9 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, int userId, [FromServices] IDeleteNotificationService deleteService)
         {
-
-            var userIdClaim = User.FindFirst("id")?.Value;
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin)
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
             {
-                _logger.LogWarning($"Unauthorized attempt to delete  notifications by user: {userId}");
+                _logger.LogWarning($"Unauthorized attempt to delete other user notifications by user: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
 
@@ -172,10 +165,11 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpPatch("toggleReadNotification")]
         public async Task<IActionResult> ToggleReadNotification(int id, int userId, [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
-            var userIdClaim = User.FindFirst("id")?.Value;
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (int.Parse(userIdClaim!) != userId && userRole != AuthRoles.Admin) return Unauthorized();
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to toggle notification for different user by : {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
 
             if (upsertNotificationService == null)
             {

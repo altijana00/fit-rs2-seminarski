@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -10,6 +11,7 @@ using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.User;
+using ZEN_Yoga.Services.Services.Studio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -39,8 +41,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (await paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
             {
-
-
                 _logger.LogInformation($"Processing payment for (UserID): {userId} to (StudioID): {studioId}");
 
                 var notification = new AddNotification()
@@ -159,6 +159,12 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpGet("isUserPaidMember")]
         public async Task<IActionResult> IsUserPaidMember([FromServices] IUpsertPaymentService paymentService, int userId, int studioId)
         {
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to check  isUserPaidMember for another user by : {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
+
             if (await paymentService.IsUserPaidMember(userId, studioId))
             {
                 _logger.LogInformation($"UserID: {userId} is already member in (StudioID): {studioId}");
@@ -244,8 +250,15 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getStudioPayments")]
-        public async Task<ActionResult<List<PaymentResponse>>> GetStudioPayments([FromServices] IGetPaymentService getPaymentService, int studioId)
+        public async Task<ActionResult<List<PaymentResponse>>> GetStudioPayments([FromServices] IGetPaymentService getPaymentService, [FromServices] IGetStudioService getStudioService, int studioId)
         {
+            var studio = await getStudioService.GetById(studioId);
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get payments for other studioby : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
             var payments = await getPaymentService.GetStudioPayments(studioId);
 
             if (payments == null)

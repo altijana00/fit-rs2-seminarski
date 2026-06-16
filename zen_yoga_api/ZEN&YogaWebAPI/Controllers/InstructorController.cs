@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -140,6 +141,13 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpPut("edit")]
         public async Task<IActionResult> Edit([FromBody] EditInstructor editInstructor, int id, [FromServices] IUpsertInstructorService<AddInstructor> upsertInstructorService, [FromServices] IInstructorValidatorService instructorValidatorService)
         {
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, id))
+            {
+                _logger.LogWarning($"Unauthorized attempt to edit instructor for different user by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
             if (editInstructor == null)
             {
                 _logger.LogInformation($"Attempt to edit instructor with invalid data (Instructor ID): {id}");
@@ -170,16 +178,13 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteInstructorService deleteInstructorService, [FromServices]IGetInstructorService getInstructorService, [FromServices]IGetStudioService getStudioService)
         {
-
-            var userIdClaim = User.FindFirst("id")?.Value;
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             var instructorToDelete = await getInstructorService.GetById(id)!;
             var studio = await getStudioService.GetById((int)instructorToDelete.StudioId!);
             
 
-            if (userRole != AuthRoles.Admin && studio.OwnerId != int.Parse(userIdClaim!))
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
             {
-                _logger.LogWarning($"Unauthorized attempt to instructor from other studio: {userIdClaim}");
+                _logger.LogWarning($"Unauthorized attempt to delete instructor from other studio by: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
 

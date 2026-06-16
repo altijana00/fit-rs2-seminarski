@@ -176,13 +176,11 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete([FromQuery] int id, [FromServices] IDeleteClassService deleteService, [FromServices] IGetClassService getClassService)
         {
-            var userIdClaim = User.FindFirst("id")?.Value;
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             var classToDelete = await getClassService.GetById(id);
 
-            if (userRole != AuthRoles.Admin && classToDelete.InstructorId != int.Parse(userIdClaim!))
+            if (!AuthorizationHelper.CanAccessUserResource(User, classToDelete.InstructorId))
             {
-                _logger.LogWarning($"Unauthorized attempt to delete class by user: {userIdClaim}");
+                _logger.LogWarning($"Unauthorized attempt to delete class by user: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -78,15 +80,18 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
 
         {
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to join a class for different user by: {userId}");
+                return Unauthorized();
+            }
 
-
-            if(await upsertUserClassService.Join(classId, userId))
+            if (await upsertUserClassService.Join(classId, userId))
             {
                 _logger.LogInformation($"User {userId} joined class {classId}");
 
                 var classRes = await getClassService.GetById(classId);
 
-                //TO DO: check max participants and send a warning notification to instructor when limit is reached 
 
                 var notification = new AddNotification()
                 {
@@ -171,60 +176,17 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest();
         }
 
-        //TODO
-        //[Authorize(Roles = RoleType.AllRoles)]
-        //[HttpDelete("deleteUserClass")]
-        //public async Task<IActionResult> DeleteUserClass(int classId, int userId, 
-        //                                                    [FromServices] IDeleteUserClassService deleteService,
-        //                                                    [FromServices] IGetUserClassService getUserClassService,
-        //                                                    [FromServices] ISendInAppNotificationService sendInAppNotificationService,
-        //                                                    [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
-        //{
-        //    if (await deleteService.DeleteUserClass(classId, userId))
-        //    {
-        //        _logger.LogInformation($"User class deleted: {classId} for user{userId}");
-
-        //        var userClass = await getUserClassService.
-
-        //        var notification = new AddNotification()
-        //        {
-        //            Title = "Class removed",
-        //            Content = $"You removed {userClass.Name} from your classes",
-        //            Type = NotificationType.Info.ToString(),
-        //            UserId = userClass.UserId
-        //        };
-
-        //        _logger.LogDebug($"Sending notification to userId: {userClass.UserId}");
-        //        await sendInAppNotificationService.SendToUserAsync(userClass.UserId.ToString(), notification);
-
-        //        await upsertNotificationService.Add(notification);
-
-
-        //        var notificationInstructor = new AddNotification()
-        //        {
-        //            Title = "Class dropped",
-        //            Content = $"A participant dropped your class: {userClass.Name}",
-        //            Type = NotificationType.Info.ToString(),
-        //            UserId = userClass.InstructorId
-        //        };
-
-        //        _logger.LogDebug($"Sending notification to userId: {userClass.InstructorId}");
-        //        await sendInAppNotificationService.SendToUserAsync(userClass.InstructorId.ToString(), notificationInstructor);
-
-        //        await upsertNotificationService.Add(notificationInstructor);
-
-        //        return Ok(new { Message = "Class deleted!" });
-        //    }
-        //    _logger.LogInformation($"No User class deleted: {classId} for user{userId}");
-        //    return BadRequest();
-
-        //}
 
         [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getUserRecommendedStudios")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUserRecommendedStudios(int id, [FromServices] IGetUserClassService getUserClassService, [FromServices] IGetStudioService getStudioService)
         {
+            if (!AuthorizationHelper.CanAccessUserResource(User, id))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get recommended studios for another user by: {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
             var studios = await getUserClassService.GetUserRecommendedStudios(id, getStudioService);
 
             if (studios.Any())

@@ -227,6 +227,9 @@ namespace ZEN_YogaWebAPI.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded!");
 
+            if (!FileValidationHelper.IsValidImage(file))
+                return BadRequest("Invalid file type.");
+
             var photoUrl = await uploadUserPhotoService.UploadUserPhoto(file);
 
 
@@ -242,6 +245,14 @@ namespace ZEN_YogaWebAPI.Controllers
                                                         [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                         [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to edit photo for other user by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             if (photoUrl.IsNullOrEmpty())
             {
                 _logger.LogInformation($"No photo updated for userId: {userId}");

@@ -8,6 +8,7 @@ using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.Studio;
+using ZEN_Yoga.Services.Services.Studio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -58,6 +59,13 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpGet("getByOwner")]
         public async Task<ActionResult<List<StudioResponse>>> GetByOwner([FromServices] IGetStudioService getStudioService, int ownerId)
         {
+            if (!AuthorizationHelper.CanAccessUserResource(User, ownerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get studio by owner id by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             var studios = await getStudioService.GetByOwner(ownerId);
 
             if (studios == null)
@@ -73,6 +81,13 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpGet("getByOwnerAndStudioName")]
         public async Task<ActionResult<StudioResponse>> GetByOwnerAndStudioName([FromServices] IGetStudioService getStudioService, int ownerId, string name)
         {
+            if (!AuthorizationHelper.CanAccessUserResource(User, ownerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get studio by owner id and name by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             var studio = await getStudioService.GetByOwnerAndStudioName(ownerId, name);
 
             if (studio == null)
@@ -90,6 +105,13 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<ActionResult<StudioResponse>> GetById([FromServices] IGetStudioService getStudioService, int id)
         {
             var studio = await getStudioService.GetById(id);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get studio by owner id by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
 
             if (studio == null)
             {
@@ -155,6 +177,15 @@ namespace ZEN_YogaWebAPI.Controllers
                                                     [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                     [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+            var studio = await getStudioService.GetById(id);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to get studio by owner id by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             if (editStudio == null)
             {
                 _logger.LogInformation($"Attempted to edit studio with bad data (model was null)");
@@ -177,8 +208,6 @@ namespace ZEN_YogaWebAPI.Controllers
 
             await upsertStudioService.Edit(editStudio, id);
             _logger.LogInformation($"Studio edited successfully!");
-
-            var studio = await getStudioService.GetById(id);
 
             var notification = new AddNotification()
             {
@@ -204,6 +233,13 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
             var studio = await getStudioService.GetById(id);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to delete other studio by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
 
             if (await deleteService.Delete(id))
             {
@@ -235,6 +271,9 @@ namespace ZEN_YogaWebAPI.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded!");
 
+            if (!FileValidationHelper.IsValidImage(file))
+                return BadRequest("Invalid file type.");
+
             var photoUrl = await uploadStudioPhotoService.UploadStudioPhoto(file);
             return Ok(photoUrl);
 
@@ -243,10 +282,23 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPost("uploadStudioGalleryPhoto")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadStudioGalleryPhoto([FromServices] IUploadStudioGalleryService uploadStudioGalleryService, int studioId, IFormFile file)
+        public async Task<IActionResult> UploadStudioGalleryPhoto([FromServices] IUploadStudioGalleryService uploadStudioGalleryService, [FromServices] IGetStudioService getStudioService, int studioId, IFormFile file)
         {
+
+            var studio = await getStudioService.GetById(studioId);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to upload studio gallery photo for other studio by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded!");
+
+            if (!FileValidationHelper.IsValidImage(file))
+                return BadRequest("Invalid file type.");
 
             await uploadStudioGalleryService.UploadStudioGalleryPhoto(studioId, file);
             return Ok();
@@ -273,8 +325,17 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpPatch("editStudioPhoto")]
    
-        public async Task<IActionResult> EditStudioPhoto([FromServices] IUploadStudioPhotoService uploadStudioPhotoService, string photoUrl, int studioId)
+        public async Task<IActionResult> EditStudioPhoto([FromServices] IUploadStudioPhotoService uploadStudioPhotoService, [FromServices] IGetStudioService getStudioService,string photoUrl, int studioId)
         {
+            var studio = await getStudioService.GetById(studioId);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to edit studio photo for other studio by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             if (photoUrl.IsNullOrEmpty())
             {
                 return BadRequest("No file uploaded!");
@@ -289,8 +350,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpDelete("deleteStudioGalleryPhoto")]
-        public async Task<IActionResult> DeleteStudioGalleryPhoto(string photoURL, int studioId, [FromServices] IDeleteStudioGalleryPhotoService deleteStudioGalleryPhotoService)
+        public async Task<IActionResult> DeleteStudioGalleryPhoto(string photoURL, int studioId, [FromServices] IDeleteStudioGalleryPhotoService deleteStudioGalleryPhotoService, [FromServices] IGetStudioService getStudioService)
         {
+            var studio = await getStudioService.GetById(studioId);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to delete studio photo for other studio by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
             if (await deleteStudioGalleryPhotoService.DeleteStudioGalleryPhoto(photoURL, studioId))
             {
                 _logger.LogInformation($"Studio gallery photo deleted for studio: {studioId}");
