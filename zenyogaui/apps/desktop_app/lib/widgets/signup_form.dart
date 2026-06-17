@@ -90,14 +90,30 @@ class _SignupFormState extends State<SignupForm> {
 
           TextFormField(
             decoration: const InputDecoration(labelText: "First name"),
-            validator: (v) => v == null || v.isEmpty ? "Required" : null,
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return 'First name is required!';
+                }
+                if (v.length > 30) {
+                  return "Must be less than 30 characters.";
+                }
+                return null;
+              },
             onSaved: (v) => firstName = v,
           ),
           const SizedBox(height: 12),
 
           TextFormField(
             decoration: const InputDecoration(labelText: "Last name"),
-            validator: (v) => v == null || v.isEmpty ? "Required" : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) {
+                return 'Last name is required!';
+              }
+              if (v.length > 30) {
+                return "Must be less than 30 characters.";
+              }
+              return null;
+            },
             onSaved: (v) => lastName = v,
           ),
           const SizedBox(height: 12),
@@ -191,8 +207,20 @@ class _SignupFormState extends State<SignupForm> {
 
           TextFormField(
             decoration: const InputDecoration(labelText: "Email"),
-            validator: (v) =>
-            v == null || !v.contains('@') ? "Invalid email" : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) {
+                return 'Email is required!';
+              }
+
+              final emailRegex =
+              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+              if (!emailRegex.hasMatch(v)) {
+                return 'Please enter a valid email address format.';
+              }
+
+              return null;
+            },
             onSaved: (v) => email = v,
           ),
           const SizedBox(height: 12),
@@ -200,8 +228,15 @@ class _SignupFormState extends State<SignupForm> {
           TextFormField(
             decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
-            validator: (v) =>
-            v == null || v.length < 4 ? "Min 4 characters" : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) {
+                return 'Password is required!';
+              }
+              if (v.length < 6) {
+                return 'Password must be at least 6 characters.';
+              }
+              return null;
+            },
             onSaved: (v) => password = v,
           ),
           const SizedBox(height: 12),
