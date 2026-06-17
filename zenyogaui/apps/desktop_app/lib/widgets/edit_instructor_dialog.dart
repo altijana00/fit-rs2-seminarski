@@ -109,10 +109,7 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
     }
     catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString().replaceFirst('Exception: ', '')),
-          backgroundColor: AppColors.darkRed,
-        ),
+        SnackBar(content: Text("Failed to update password : $e")),
       );
     }
 
@@ -124,226 +121,233 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
 
     return AlertDialog(
       title: const Text("Edit Instructor"),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundImage: _profileImageUrl != null
-                      ? NetworkImage(_profileImageUrl!)
-                      : null,
-                  child: _profileImageUrl == null
-                      ? const Icon(Icons.person, size: 60)
-                      : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  style: IconButton.styleFrom(
-                    backgroundColor: AppColors.lavender,
+      content: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: _profileImageUrl != null
+                        ? NetworkImage(_profileImageUrl!)
+                        : null,
+                    child: _profileImageUrl == null
+                        ? const Icon(Icons.person, size: 60)
+                        : null,
                   ),
-                  onPressed: () async {
-                    final picked = await ImagePicker().pickImage(
-                      source: ImageSource.gallery,
-                      imageQuality: 85,
-                    );
-
-                    if (picked == null) return;
-
-                    final file = File(picked.path);
-
-                    final newPhotoUrl = await userProvider.repository
-                        .uploadUserPhoto(file);
-
-                    await userProvider.repository.editUserPhoto(
-                      newPhotoUrl,
-                      widget.instructorToEdit.id,
-                    );
-
-                    setState(() {
-                      _profileImageUrl = newPhotoUrl;
-                    });
-
-                    if (!context.mounted) return;
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Profile photo updated"),
-                        backgroundColor: AppColors.deepGreen,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-
-            TextFormField(
-              controller: _firstNameCtrl,
-              decoration: const InputDecoration(labelText: "First Name"),
-              validator: (v) {
-                if (v == null || v.trim().isEmpty) {
-                  return "First name is required!";
-                }
-                if (v.length > 30) {
-                  return "First name can't have more than 30 characters.";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: _lastNameCtrl,
-              decoration: const InputDecoration(labelText: "Last Name"),
-              validator: (v) {
-                if (v == null || v.trim().isEmpty) {
-                  return "Last name is required!";
-                }
-                if (v.length > 30) {
-                  return "Last name can't have more than 30 characters.";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: _emailCtrl,
-              decoration: const InputDecoration(labelText: "Email"),
-              validator: (v) {
-                if (v == null || v.trim().isEmpty) {
-                  return "Email is required!";
-                }
-
-                final emailRegex = RegExp(
-                  r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-                );
-
-                if (!emailRegex.hasMatch(v)) {
-                  return "Please enter a valid email address format.";
-                }
-
-                return null;
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Text(
-                    "Gender",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile<String>(
-                        title: const Text("M"),
-                        value: "M",
-                        groupValue: _gender,
-                        onChanged: (val) {
-                          setState(() {
-                            _gender = val;
-                          });
-                        },
-                      ),
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white),
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.lavender,
                     ),
-                    Expanded(
-                      child: RadioListTile<String>(
-                        title: const Text("F"),
-                        value: "F",
-                        groupValue: _gender,
-                        onChanged: (val) {
-                          setState(() {
-                            _gender = val;
-                          });
-                        },
-                      ),
+                    onPressed: () async {
+                      final picked = await ImagePicker().pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 85,
+                      );
+
+                      if (picked == null) return;
+
+                      final file = File(picked.path);
+
+                      final newPhotoUrl = await userProvider.repository
+                          .uploadUserPhoto(file);
+
+                      await userProvider.repository.editUserPhoto(
+                        newPhotoUrl,
+                        widget.instructorToEdit.id,
+                      );
+
+                      setState(() {
+                        _profileImageUrl = newPhotoUrl;
+                      });
+
+                      if (!context.mounted) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Profile photo updated"),
+                          backgroundColor: AppColors.deepGreen,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              TextFormField(
+                controller: _firstNameCtrl,
+                decoration: const InputDecoration(labelText: "First Name"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return "First name is required!";
+                  }
+                  if (v.length > 30) {
+                    return "First name can't have more than 30 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _lastNameCtrl,
+                decoration: const InputDecoration(labelText: "Last Name"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return "Last name is required!";
+                  }
+                  if (v.length > 30) {
+                    return "Last name can't have more than 30 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _emailCtrl,
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return "Email is required!";
+                  }
+
+                  final emailRegex = RegExp(
+                    r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                  );
+
+                  if (!emailRegex.hasMatch(v)) {
+                    return "Please enter a valid email address format.";
+                  }
+
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text(
+                      "Gender",
+                      style: TextStyle(fontSize: 12),
                     ),
-                  ],
-                ),
-              ],
-            ),
-
-            TextFormField(
-              controller: _biographyCtrl,
-              decoration: const InputDecoration(labelText: "Biography"),
-              validator: (v) {
-                if (v != null && v.length > 200) {
-                  return "Biography can't exceed 200 characters.";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-
-            TextFormField(
-              controller: _certificatesCtrl,
-              decoration: const InputDecoration(labelText: "Certificates"),
-              validator: (v) {
-                if (v != null && v.length > 200) {
-                  return "Certificates can't exceed 200 characters.";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-
-            TextFormField(
-              controller: _diplomasCtrl,
-              decoration: const InputDecoration(labelText: "Diplomas"),
-              validator: (v) {
-                if (v != null && v.length > 200) {
-                  return "Diplomas can't exceed 200 characters.";
-                }
-                return null;
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-
-            ExpansionTile(
-              title: const Text("Change Password"),
-              initiallyExpanded: _isChangingPassword,
-              onExpansionChanged: (val) {
-                setState(() => _isChangingPassword = val);
-              },
-              children: [
-                TextField(
-                  controller: _oldPasswordCtrl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "Current Password",
                   ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _newPasswordCtrl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "New Password",
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RadioListTile<String>(
+                          title: const Text("M"),
+                          value: "M",
+                          groupValue: _gender,
+                          onChanged: (val) {
+                            setState(() {
+                              _gender = val;
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: RadioListTile<String>(
+                          title: const Text("F"),
+                          value: "F",
+                          groupValue: _gender,
+                          onChanged: (val) {
+                            setState(() {
+                              _gender = val;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () => _changePassword(context),
-                  child: const Text("Update Password"),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+
+              TextFormField(
+                controller: _biographyCtrl,
+                decoration: const InputDecoration(labelText: "Biography"),
+                validator: (v) {
+                  if (v != null && v.length > 200) {
+                    return "Biography can't exceed 200 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _certificatesCtrl,
+                decoration: const InputDecoration(labelText: "Certificates"),
+                validator: (v) {
+                  if (v != null && v.length > 200) {
+                    return "Certificates can't exceed 200 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _diplomasCtrl,
+                decoration: const InputDecoration(labelText: "Diplomas"),
+                validator: (v) {
+                  if (v != null && v.length > 200) {
+                    return "Diplomas can't exceed 200 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 20),
+
+              ExpansionTile(
+                title: const Text("Change Password"),
+                initiallyExpanded: _isChangingPassword,
+                onExpansionChanged: (val) {
+                  setState(() => _isChangingPassword = val);
+                },
+                children: [
+                  TextField(
+                    controller: _oldPasswordCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: "Current Password",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _newPasswordCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: "New Password",
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => _changePassword(context),
+                    child: const Text("Update Password"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
 
@@ -354,17 +358,22 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
         ),
         ElevatedButton(
           onPressed: () {
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
+
             widget.onEdit(
               EditInstructorDto(
-                firstName: _firstNameCtrl.text,
-                lastName: _lastNameCtrl.text,
-                email: _emailCtrl.text,
+                firstName: _firstNameCtrl.text.trim(),
+                lastName: _lastNameCtrl.text.trim(),
+                email: _emailCtrl.text.trim(),
                 gender: _gender,
-                biography: _biographyCtrl.text,
-                certificates: _certificatesCtrl.text,
-                diplomas: _diplomasCtrl.text,
+                biography: _biographyCtrl.text.trim(),
+                certificates: _certificatesCtrl.text.trim(),
+                diplomas: _diplomasCtrl.text.trim(),
               ),
             );
+
             Navigator.pop(context);
           },
           child: const Text("Save"),

@@ -266,6 +266,9 @@ class StudioApiService {
     final response = await dio.put(
       'Studio/edit?id=$studioId',
       data: studioData,
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -293,6 +296,9 @@ class StudioApiService {
   Future<Map<String, dynamic>> deleteStudio(int studioId) async {
     final response = await dio.delete(
       'Studio/delete?id=$studioId',
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {

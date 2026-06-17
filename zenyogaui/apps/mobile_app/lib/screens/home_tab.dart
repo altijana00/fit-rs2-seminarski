@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/participant_analytics_response.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class _HomeTabState extends State<HomeTab> {
       final analyticsProvider = context.read<AppAnalyticsProvider>();
 
       _analyticsFuture =
-          analyticsProvider.repository.getAppAnalyticsForParticipant();
+            analyticsProvider.repository.getAppAnalyticsForParticipant();
 
       _initialized = true;
     }

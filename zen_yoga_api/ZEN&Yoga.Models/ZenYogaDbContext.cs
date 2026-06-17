@@ -728,52 +728,7 @@ namespace ZEN_Yoga.Models
 
             );
 
-            modelBuilder.Entity<Payment>().HasData(
-                new Payment()
-                {
-                    Id = 1,
-                    UserId = 11,
-                    StudioId = 3,
-                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
-                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
-                    Amount = 50,
-                    Status = "Succeeded",
-                    PaymentIntentId = "pi_1"
-                },
-                new Payment()
-                {
-                    Id = 2,
-                    UserId = 9,
-                    StudioId = 3,
-                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
-                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
-                    Amount = 50,
-                    Status = "Succeeded",
-                    PaymentIntentId = "pi_2"
-                },
-                new Payment()
-                {
-                    Id = 3,
-                    UserId = 10,
-                    StudioId = 3,
-                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
-                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
-                    Amount = 50,
-                    Status = "Succeeded",
-                    PaymentIntentId = "pi_3"
-                },
-                new Payment()
-                {
-                    Id = 4,
-                    UserId = 10,
-                    StudioId = 2,
-                    CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
-                    PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
-                    Amount = 50,
-                    Status = "Succeeded",
-                    PaymentIntentId = "pi_4"
-                }
-           );
+            
         }
 
         public DbSet<User> Users { get; set; }

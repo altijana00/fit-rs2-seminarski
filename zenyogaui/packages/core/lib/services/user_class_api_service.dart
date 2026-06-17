@@ -58,7 +58,8 @@ class UserClassApiService {
   }
 
   Future<List<Map<String, dynamic>>> getUserRecommendedStudios(int userId) async {
-    final response = await dio.get('UserClass/getUserRecommendedStudios?id=$userId');
+    final response = await dio.get('UserClass/getUserRecommendedStudios?id=$userId'
+    );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
     }else if (response.statusCode == 204) {
@@ -118,6 +119,9 @@ class UserClassApiService {
   Future<Map<String, dynamic>> deleteClass(int classId, int userId) async {
     final response = await dio.delete(
       'UserClass/deleteUserClass?classId=$classId&userId=$userId',
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {

@@ -57,7 +57,11 @@ class YogaTypeApiService {
     final response = await dio.get('YogaType/getYogaTypesQuery',
       queryParameters: {
         if(search != null) 'search': search,
+
       },
+        options: Options(
+          validateStatus: (status) => true,
+        )
     );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);

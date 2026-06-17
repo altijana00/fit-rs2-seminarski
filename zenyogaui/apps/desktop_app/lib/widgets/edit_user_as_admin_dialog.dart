@@ -72,6 +72,13 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
     try {
       await userProvider.repository.updateUserPasswordAsAdmin(dto);
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Updated password!'),
+          backgroundColor: AppColors.deepGreen,
+        ),
+      );
+
       if (!context.mounted) return;
 
       setState(() {
@@ -135,6 +142,13 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
                       await userProvider.repository.editUserPhoto(
                         newPhotoUrl,
                         widget.userToEdit.id,
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Updated photo!'),
+                          backgroundColor: AppColors.deepGreen,
+                        ),
                       );
 
                       setState(() {

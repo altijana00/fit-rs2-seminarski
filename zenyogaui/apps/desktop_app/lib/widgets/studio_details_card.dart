@@ -196,9 +196,24 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                             builder: (_) => EditStudioDialog(
                               studioToEdit: studio,
                               onAdd: (updated) async {
-                                await widget.studioProvider.repository.editStudio(updated, studio.id);
-                                await widget.onReload?.call();
-                                widget.studioProvider.notifyListeners();
+                                try
+                                {
+                                  await widget.studioProvider.repository.editStudio(updated, studio.id);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Studio edited successfully!"),
+                                      backgroundColor: AppColors.deepGreen,
+                                    ),
+                                  );
+                                  await widget.onReload?.call();
+                                  widget.studioProvider.notifyListeners();
+                                }
+                                catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(e.toString()), backgroundColor: AppColors.darkRed),
+                                  );
+                                }
+
                               },
                             ),
                           );
@@ -227,6 +242,12 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                                   onPressed: () async {
                                     Navigator.pop(ctx);
                                     await widget.studioProvider.repository.deleteStudio(studio.id);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Studio deleted successfully!"),
+                                        backgroundColor: AppColors.deepGreen,
+                                      ),
+                                    );
                                     await widget.onReload?.call();
 
                                   },

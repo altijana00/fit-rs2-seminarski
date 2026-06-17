@@ -32,6 +32,11 @@ class UserRepository {
     return json.values.first;
   }
 
+  Future<String> registerUser(RegisterUserDto user) async {
+    final json = await api.registerUser(user.toJson());
+    return json.values.first;
+  }
+
   Future<String> editUser(EditUserDto user, int? userId) async {
     final json = await api.editUser(user.toJson(), userId!);
     return json.values.first;

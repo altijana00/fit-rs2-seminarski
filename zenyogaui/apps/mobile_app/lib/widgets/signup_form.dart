@@ -40,7 +40,7 @@ class _SignupFormMobileState extends State<SignupFormMobile> {
 
     try
     {
-      await context.read<UserProvider>().repository.addUser(
+      await context.read<UserProvider>().repository.registerUser(
         RegisterUserDto(
           firstName: firstName!,
           lastName: lastName!,

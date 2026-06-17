@@ -137,16 +137,24 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
   Future<void> _loadInstructor(int userId) async {
 
-
-    final instructor = await context
-        .read<InstructorProvider>()
-        .repository
-        .getById(userId);
-
-    if (!mounted) return;
+    try
+    {
+      final instructor = await context
+          .read<InstructorProvider>()
+          .repository
+          .getById(userId);
+      if (!mounted) return;
 
       _instructor = instructor;
       _isLoadingInstructor = false;
+    }
+    catch (e) {
+      _instructor = null;
+      _isLoadingInstructor = false;
+    }
+
+
+
 
   }
 
@@ -609,7 +617,14 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                   .repository
                   .addClass(newClass, instructorId);
 
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Class added successfully"),
+                    backgroundColor: AppColors.deepGreen,
+                  ));
               await _refresh();
+
+
 
             } catch (e) {
               ScaffoldMessenger.of(context).showSnackBar(

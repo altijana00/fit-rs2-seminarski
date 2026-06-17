@@ -108,7 +108,82 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = AuthRoles.AllRoles)]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser,
+                                            [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
+                                            [FromServices] IUserValidatorService userValidatorService,
+                                            [FromServices] IRoleValidatorService roleValidatorService,
+                                            [FromServices] ICityValidatorService cityValidatorService,
+                                            [FromServices] IGetUserService getUserService,
+                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+        {
+
+            if (registerUser == null)
+            {
+                _logger.LogInformation("User data was null");
+
+                return BadRequest(new { Message = "Invalid user data" });
+            }
+
+            if (registerUser.RoleId == int.Parse(AuthRoles.Admin))
+            {
+                _logger.LogWarning($"Unauthorized attempt to add admin by{registerUser.FirstName}{registerUser.LastName}");
+
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("User data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
+            }
+
+            await upsertUserService.Add(userValidatorService, roleValidatorService, cityValidatorService, registerUser);
+            _logger.LogInformation($"User registered: {registerUser.Email}");
+
+            var user = await getUserService.GetByEmail(registerUser.Email);
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
+
+            var notification = new AddNotification()
+            {
+                Title = "Welcome",
+                Content = $"Hello {user.FirstName}, welcome to Zen&Yoga!",
+                Type = NotificationType.Info.ToString(),
+                UserId = user.Id,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {user.Id}");
+            await sendInAppNotificationService.SendToUserAsync(user.Id.ToString(), notification);
+
+            await upsertNotificationService.Add(notification);
+
+            foreach (var a in admins)
+            {
+                var adminNotification = new AddNotification()
+                {
+                    Title = "New user",
+                    Content = $"New user has joined the app!",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+                await upsertNotificationService.Add(adminNotification);
+            }
+
+
+
+            return Ok(new { Message = "User registered!" });
+        }
+
+        [Authorize(Roles = AuthRoles.Admin)]
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] RegisterUser registerUser, 
                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,

@@ -200,11 +200,14 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Contact Phone"),
                   keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) return null;
 
                     if (value.length < 6) {
-                      return "Please enter a valid phone format.";
+                      return "Please enter a valid phone number.";
                     }
 
                     return null;

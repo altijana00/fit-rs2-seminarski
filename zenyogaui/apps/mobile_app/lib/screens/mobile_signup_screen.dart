@@ -72,7 +72,7 @@ class MobileSignupScreen extends StatelessWidget {
                       ),
                       child: SignupFormMobile(
                         cities: cities,
-                        onSignupSuccess: () => _navigateToHome(context),
+                        onSignupSuccess: () => Navigator.pushReplacementNamed(context, '/'),
                       ),
                     ),
                   ),

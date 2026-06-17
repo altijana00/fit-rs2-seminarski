@@ -1,6 +1,7 @@
 import 'package:core/dto/requests/edit_studio_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class EditStudioDialog extends StatefulWidget {
@@ -21,6 +22,7 @@ class _EditStudioDialogState extends State<EditStudioDialog> {
   String? _address="";
   String? _contactEmail="";
   String? _contactPhone="";
+  double? _membershipPrice;
 
 
   @override
@@ -101,6 +103,17 @@ class _EditStudioDialogState extends State<EditStudioDialog> {
                 },
               ),
 
+              TextFormField(
+                initialValue: widget.studioToEdit.membershipPrice.toString(),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                ],
+                decoration: const InputDecoration(labelText: "Membership Price", hintText: "e.g. 49.99"),
+                onSaved: (value) => _membershipPrice = double.tryParse(value ?? '')!,
+
+              ),
+
             ],
           ),
         ),
@@ -117,6 +130,7 @@ class _EditStudioDialogState extends State<EditStudioDialog> {
                 address: _address,
                 contactEmail: _contactEmail,
                 contactPhone: _contactPhone,
+                membershipPrice: _membershipPrice
               ));
               Navigator.pop(context);
 

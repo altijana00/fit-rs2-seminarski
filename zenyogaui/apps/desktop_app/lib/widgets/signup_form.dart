@@ -4,6 +4,7 @@ import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/core/app_roles.dart';
 import 'package:zenyogaui/core/theme.dart';
 
 
@@ -194,7 +195,7 @@ class _SignupFormState extends State<SignupForm> {
             value: selectedRole,
             decoration: const InputDecoration(labelText: "Role"),
             items: widget.roles
-                .where((r) => r.id !=1)
+                .where((r) => r.id !=AppRole.admin && r.id != AppRole.participant)
                 .map((r) => DropdownMenuItem(
               value: r,
               child: Text(r.name),
@@ -260,19 +261,20 @@ class _SignupFormState extends State<SignupForm> {
                     : const Text("Sign up"),
 
               ),
-              const SizedBox(height: 15),
-              Center(
-                  child:
-                  GestureDetector(
-                    onTap: () {
+              const SizedBox(height: 25),
 
-                      Navigator.of(context).pushNamed('/');
-                    },
-                    child: Text('Already have an account? Log in.', style: TextStyle(decoration: TextDecoration.underline)),
-                  )
-              ),
 
             ],
+          ),
+          Center(
+              child:
+              GestureDetector(
+                onTap: () {
+
+                  Navigator.of(context).pushNamed('/');
+                },
+                child: Text('Already have an account? Log in.', style: TextStyle(decoration: TextDecoration.underline)),
+              )
           ),
         ],
       ),
@@ -316,7 +318,10 @@ class _SignupFormState extends State<SignupForm> {
 
     setState(() => _submitting = true);
    final cityId = selectedCityId!;
-    await context.read<UserProvider>().repository.addUser(
+
+
+
+    await context.read<UserProvider>().repository.registerUser(
       RegisterUserDto(
         firstName: firstName!,
         lastName: lastName!,

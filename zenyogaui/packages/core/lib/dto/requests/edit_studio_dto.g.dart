@@ -13,6 +13,7 @@ EditStudioDto _$EditStudioDtoFromJson(Map<String, dynamic> json) =>
       address: json['address'] as String?,
       contactEmail: json['contactEmail'] as String?,
       contactPhone: json['contactPhone'] as String?,
+      membershipPrice: (json['membershipPrice'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$EditStudioDtoToJson(EditStudioDto instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$EditStudioDtoToJson(EditStudioDto instance) =>
       'address': instance.address,
       'contactEmail': instance.contactEmail,
       'contactPhone': instance.contactPhone,
+      'membershipPrice': instance.membershipPrice,
     };

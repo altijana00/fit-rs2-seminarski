@@ -4,8 +4,8 @@ namespace ZEN_Yoga.Models.Requests
 {
     public class AddYogaType
     {
-        public required string Name { get; set; }
         [Required]
+        public required string Name { get; set; }
         public string? Description { get; set; }
     }
 }

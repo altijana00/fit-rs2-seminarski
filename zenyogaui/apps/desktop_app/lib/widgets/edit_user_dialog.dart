@@ -65,7 +65,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
   }
 
   Future _changePassword(BuildContext context) async {
-    final userProvider = context.read();
+    final userProvider = context.read<UserProvider>();
 
     if (_oldPasswordCtrl.text.trim().isEmpty || _newPasswordCtrl.text.trim().isEmpty) return;
 

@@ -307,11 +307,6 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                 icon: Icon(Icons.people, color: Colors.white),
                 label: Text("Employees", style: TextStyle(color: Colors.white)),
               ),
-              NavigationRailDestination(
-                selectedIcon: Icon(Icons.payments, color: AppColors.lavender),
-                icon: Icon(Icons.payments, color: Colors.white),
-                label: Text("Payments", style: TextStyle(color: Colors.white)),
-              ),
             ],
             trailing: _buildSidebarActions(),
           ),
@@ -370,7 +365,7 @@ class BuildStudiosTabState extends State<BuildStudiosTab>{
           margin: const EdgeInsets.only(top:20.0, bottom: 40.0),
           child: ElevatedButton.icon(
             onPressed: () async {
-            final result = await Navigator.push(
+             await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => AddStudioStepper(

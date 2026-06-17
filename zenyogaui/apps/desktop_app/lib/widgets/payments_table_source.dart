@@ -160,7 +160,7 @@ class PaymentsTableViewState extends State<PaymentsTableView> {
 
 
     final results = await Future.wait([
-      paymentProvider.repository.getAllPayments(),
+      paymentProvider.repository.getPaymentsQuery(_filter.search),
       userProvider.repository.getAllUsers(),
       studioProvider.repository.getAllStudios(),
     ]);

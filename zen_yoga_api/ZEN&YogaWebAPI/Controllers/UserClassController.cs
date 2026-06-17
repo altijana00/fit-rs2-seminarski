@@ -126,6 +126,41 @@ namespace ZEN_YogaWebAPI.Controllers
             return BadRequest(new { Message = "Class already exists!" });
         }
 
+       
+        [Authorize(Roles = AuthRoles.AdminOrParticipant)]
+        [HttpDelete("deleteUserClass")]
+        public async Task<IActionResult> DeleteUserClass(int classId, int userId,
+                                                            [FromServices] IDeleteUserClassService deleteService,
+                                                            [FromServices] IGetUserClassService getUserClassService,
+                                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+        {
+            if (await deleteService.DeleteUserClass(classId, userId))
+            {
+                _logger.LogInformation($"User class deleted: {classId} for user{userId}");
+
+
+                var notification = new AddNotification()
+                {
+                    Title = "Class removed",
+                    Content = $"You removed  from your classes",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = userId
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {userId}");
+                await sendInAppNotificationService.SendToUserAsync(userId.ToString(), notification);
+
+                await upsertNotificationService.Add(notification);
+
+
+                return Ok(new { Message = "Class deleted!" });
+            }
+            _logger.LogInformation($"No User class deleted: {classId} for user{userId}");
+            return BadRequest();
+
+        }
+
 
         [Authorize(Roles = AuthRoles.AdminOrParticipant)]
         [HttpDelete("delete")]
