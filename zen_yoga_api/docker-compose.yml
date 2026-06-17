@@ -17,7 +17,7 @@ services:
     networks:
       - zenyoga-network
 
-   zenyoga-api:
+  zenyoga-api:
      restart: unless-stopped
      build:
        context: .
