@@ -5,7 +5,6 @@ import 'package:mobile_app/screens/profile_tab.dart';
 import 'package:mobile_app/screens/settings_screen.dart';
 import 'package:mobile_app/screens/studios_tab.dart';
 import 'package:provider/provider.dart';
-
 import '../main.dart';
 import '../widgets/navigation.dart';
 import 'home_tab.dart';

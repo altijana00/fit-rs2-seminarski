@@ -14,7 +14,23 @@ class ClassApiService {
     );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
-    } else {
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
+    }
+    else {
       throw Exception('Failed to fetch classes: ${response.data}');
     }
   }
@@ -24,6 +40,21 @@ class ClassApiService {
     final response = await dio.get('Class/studioGroupped?studioId=$studioId');
     if(response.statusCode == 200) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch grouped classes: ${response.data}');
     }
@@ -33,6 +64,21 @@ class ClassApiService {
     final response = await dio.get('Class/getInstructorGrouppedByStudioId?id=$studioId');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch grouped classes: ${response.data}');
     }
@@ -50,10 +96,21 @@ class ClassApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
-    } else if (response.statusCode == 400) {
-      var resp = Map<String, dynamic>.from(response.data);
-      throw Exception(resp["error"]);
+    } else  if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
 
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to add class: ${response.data}');
     }
@@ -72,6 +129,21 @@ class ClassApiService {
       var resp = Map<String, dynamic>.from(response.data);
       throw Exception(resp["error"]);
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else{
       throw Exception('Failed to edit class: ${response.data}');
     }
@@ -84,6 +156,21 @@ class ClassApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to delete class: ${response.data}');
     }

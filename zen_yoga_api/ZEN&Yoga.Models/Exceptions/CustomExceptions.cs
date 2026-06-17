@@ -29,6 +29,12 @@
         public RoleNotFoundException(string message) : base(message) { }
     }
 
+    //City Exceptions
+    public class CityNotFoundException : Exception
+    {
+        public CityNotFoundException(string message) : base(message) { }
+    }
+
 
 
     public class StudioAlreadyExistsException : Exception

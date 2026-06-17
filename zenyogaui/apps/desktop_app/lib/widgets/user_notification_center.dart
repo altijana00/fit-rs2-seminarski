@@ -93,7 +93,6 @@ class _UserNotificationCenterState extends State<UserNotificationCenter> {
               padding: const EdgeInsets.all(16),
               children: [
 
-                /// UNREAD
                 if (unreadNotifications.isNotEmpty) ...[
                   Text(
                     "Unread (${unreadNotifications.length})",
@@ -157,7 +156,6 @@ class _UserNotificationCenterState extends State<UserNotificationCenter> {
                   const SizedBox(height: 24),
                 ],
 
-                /// READ
                 if (readNotifications.isNotEmpty) ...[
                   Text(
                     "Read (${readNotifications.length})",

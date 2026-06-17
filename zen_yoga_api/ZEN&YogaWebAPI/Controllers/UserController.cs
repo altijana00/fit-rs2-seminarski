@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
-using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -123,7 +122,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (registerUser == null) {
                 _logger.LogInformation("User data was null");
 
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid user data" });
             }
             
             if (!ModelState.IsValid)
@@ -194,7 +193,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editUser == null)
             {
                 _logger.LogInformation("User data was null");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid user data" });
             }
 
             if (!ModelState.IsValid)
@@ -232,10 +231,10 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<IActionResult> UploadUserPhoto([FromServices] IUploadUserPhotoService uploadUserPhotoService, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded!");
+                return BadRequest(new { Message = "No file uploaded" });
 
             if (!FileValidationHelper.IsValidImage(file))
-                return BadRequest("Invalid file type.");
+                return BadRequest(new { Message = "Invalid file type" });
 
             var photoUrl = await uploadUserPhotoService.UploadUserPhoto(file);
 
@@ -263,7 +262,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (photoUrl.IsNullOrEmpty())
             {
                 _logger.LogInformation($"No photo updated for userId: {userId}");
-                return BadRequest("No file uploaded!");
+                return BadRequest(new { Message = "No file uploaded" });
             }
 
             await uploadUserPhotoService.EditUserPhoto(photoUrl, userId);
@@ -399,7 +398,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 var notification = new AddNotification()
                 {
                     Title = "Password updated",
-                    Content = "Your password has been updated successfully.",
+                    Content = "User password has been updated successfully.",
                     Type = NotificationType.Success.ToString(),
                     UserId = userId,
                 };

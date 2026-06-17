@@ -33,7 +33,7 @@ namespace ZEN_Yoga.Services.Services.Payment
 
         public async Task<List<PaymentResponse>> GetPaymentsQuery(PaymentQuery paymentQuery)
         {
-            IQueryable<ZEN_Yoga.Models.Payment> payments = _dbContext.Payments.AsQueryable();
+            IQueryable<ZEN_Yoga.Models.Payment> payments = _dbContext.Payments.AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(paymentQuery.Search))
             {

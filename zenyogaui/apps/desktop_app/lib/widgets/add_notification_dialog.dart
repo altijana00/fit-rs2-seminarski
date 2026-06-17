@@ -1,14 +1,7 @@
-import 'package:core/dto/requests/add_class_dto.dart';
 import 'package:core/dto/requests/add_notification_dto.dart';
-import 'package:core/dto/responses/yoga_type_response_dto.dart';
-import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:core/dto/notification_type_enum.dart';
 
-
-import '../core/theme.dart';
 
 class AddNotificationDialog extends StatefulWidget {
   final Function(AddNotificationDto) onAddDto;
@@ -42,9 +35,14 @@ class _AddNotificationDialogState extends State<AddNotificationDialog> {
             children: [
 
               TextFormField(
-                decoration: InputDecoration(labelText: "Notification Title"),
+                decoration: const InputDecoration(labelText: "Notification Title"),
                 onSaved: (val) => _title = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a title" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "Enter a title";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Content"),
@@ -60,8 +58,17 @@ class _AddNotificationDialogState extends State<AddNotificationDialog> {
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    _selectedType = value!;
+                    _selectedType = value;
                   });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return "Please select notification type";
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _selectedType = value;
                 },
               ),
             ],

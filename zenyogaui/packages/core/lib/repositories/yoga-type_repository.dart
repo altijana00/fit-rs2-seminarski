@@ -1,9 +1,7 @@
 
 import 'package:core/dto/requests/edit_yoga_type_dto.dart';
-
 import '../dto/requests/add_yoga_type_dto.dart';
 import '../dto/responses/yoga_type_response_dto.dart';
-import '../models/yoga-type_model.dart';
 import '../services/yoga-type_api_service.dart';
 
 

@@ -1,7 +1,6 @@
 
 import 'package:core/dto/requests/edit_notification_dto.dart';
 import 'package:core/dto/responses/notification_response_dto.dart';
-
 import '../dto/requests/add_notification_dto.dart';
 import '../services/notification_api_service.dart';
 

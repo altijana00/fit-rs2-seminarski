@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:core/core/app_config.dart';
 import 'package:mobile_app/screens/settings_screen.dart';
-import 'package:zenyogaui/widgets/statistics_screen_view.dart';
 import 'core/theme.dart';
 import 'package:core/repositories/app_analytics_repository.dart';
 import 'package:core/repositories/auth_repository.dart';

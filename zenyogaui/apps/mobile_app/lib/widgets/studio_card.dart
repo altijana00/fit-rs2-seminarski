@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
-
 import '../core/theme.dart';
 
 

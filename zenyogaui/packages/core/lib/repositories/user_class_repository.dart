@@ -1,13 +1,7 @@
 
-import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_classes_response_dto.dart';
-
-import '../dto/requests/edit_user_dto.dart';
-import '../dto/requests/register_user_dto.dart';
 import '../dto/responses/class_response_dto.dart';
-import '../dto/responses/user_response_dto.dart';
-import '../services/user_api_service.dart';
 import '../services/user_class_api_service.dart';
 
 class UserClassRepository {

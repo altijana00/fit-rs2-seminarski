@@ -64,7 +64,7 @@ class _StudioGalleryState extends State<StudioGallery> {
             child: ListView.separated(
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(), // buttons only
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.images.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {

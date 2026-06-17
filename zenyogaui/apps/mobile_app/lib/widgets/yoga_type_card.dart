@@ -1,7 +1,6 @@
 import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/models/yoga-type_model.dart';
 import 'package:flutter/material.dart';
-
 import '../screens/yoga_type_screen.dart';
 
 class YogaTypeCard extends StatelessWidget {

@@ -51,7 +51,6 @@ class RoleProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_roleInterceptor != null) {
       dio.interceptors.remove(_roleInterceptor!);
     }

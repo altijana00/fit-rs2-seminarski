@@ -1,9 +1,9 @@
-import 'package:core/dto/requests/add_city_dto.dart';
 import 'package:core/dto/requests/register_user_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/core/app_roles.dart';
 
 class AddUserDialog extends StatefulWidget {
   final Function(RegisterUserDto) onAddDto;
@@ -42,7 +42,7 @@ class _AddUserDialogState extends State<AddUserDialog> {
         dateOfBirth: dateOfBirth,
         email: email!,
         password: password!,
-        roleId: 4,
+        roleId: AppRole.participant,
         cityId: selectedCityId!,
         profileImageUrl: "test",
       ),
@@ -80,15 +80,31 @@ class _AddUserDialogState extends State<AddUserDialog> {
 
               TextFormField(
                 decoration: const InputDecoration(labelText: 'First name'),
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                onSaved: (v) => firstName = v,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'First name is required!';
+                  }
+                  if (v.length > 30) {
+                    return "Must be less than 30 characters.";
+                  }
+                  return null;
+                },
+                onSaved: (v) => firstName = v?.trim(),
               ),
               const SizedBox(height: 16),
 
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Last name'),
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
-                onSaved: (v) => lastName = v,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Last name is required!';
+                  }
+                  if (v.length > 30) {
+                    return "Must be less than 30 characters.";
+                  }
+                  return null;
+                },
+                onSaved: (v) => lastName = v?.trim(),
               ),
               const SizedBox(height: 16),
 
@@ -124,24 +140,43 @@ class _AddUserDialogState extends State<AddUserDialog> {
                   child: Text(c.name),
                 ))
                     .toList(),
-                validator: (v) => v == null ? 'Required' : null,
+                validator: (v) => v == null ? 'City is required!' : null,
                 onChanged: (v) => selectedCityId = v,
               ),
               const SizedBox(height: 16),
 
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Email'),
-                validator: (v) =>
-                v == null || !v.contains('@') ? 'Invalid email' : null,
-                onSaved: (v) => email = v,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Email is required!';
+                  }
+
+                  final emailRegex =
+                  RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                  if (!emailRegex.hasMatch(v)) {
+                    return 'Please enter a valid email address format.';
+                  }
+
+                  return null;
+                },
+                onSaved: (v) => email = v?.trim(),
               ),
               const SizedBox(height: 16),
 
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
-                validator: (v) =>
-                v == null || v.length < 6 ? 'Min 6 characters' : null,
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Password is required!';
+                  }
+                  if (v.length < 6) {
+                    return 'Password must be at least 6 characters.';
+                  }
+                  return null;
+                },
                 onSaved: (v) => password = v,
               ),
             ],

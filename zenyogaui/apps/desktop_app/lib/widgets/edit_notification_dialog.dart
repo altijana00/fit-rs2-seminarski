@@ -1,8 +1,5 @@
-
 import 'package:core/dto/requests/edit_notification_dto.dart';
-import 'package:core/dto/requests/edit_role_dto.dart';
 import 'package:core/dto/responses/notification_response_dto.dart';
-import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:flutter/material.dart';
 
 
@@ -38,7 +35,12 @@ class _EditNotificationDialogState extends State<EditNotificationDialog> {
                 controller: TextEditingController(text: widget.notificationToEdit.title),
                 decoration: InputDecoration(labelText: "Notification Title"),
                 onSaved: (val) => _title = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a title" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "Enter a title";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.notificationToEdit.content),

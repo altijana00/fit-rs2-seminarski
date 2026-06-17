@@ -1,7 +1,5 @@
 import 'package:core/dto/requests/edit_city_dto.dart';
-import 'package:core/dto/requests/edit_studio_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
-import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:flutter/material.dart';
 
 
@@ -35,7 +33,15 @@ class _EditCityDialogState extends State<EditCityDialog> {
                 controller: TextEditingController(text: widget.cityToEdit.name),
                 decoration: InputDecoration(labelText: "City Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must enter a name.";
+                  }
+                  if (val.length > 50) {
+                    return "Must be less than 100 characters.";
+                  }
+                  return null;
+                },
               )
             ],
           ),

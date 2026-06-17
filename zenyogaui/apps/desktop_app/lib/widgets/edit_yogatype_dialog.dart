@@ -1,6 +1,4 @@
-import 'package:core/dto/requests/edit_city_dto.dart';
 import 'package:core/dto/requests/edit_yoga_type_dto.dart';
-import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +34,12 @@ class _EditYogaTypeDialogState extends State<EditYogaTypeDialog> {
                 controller: TextEditingController(text: widget.yogaTypeToEdit.name),
                 decoration: InputDecoration(labelText: "Yoga Type Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must input a yoga type name";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.yogaTypeToEdit.description),

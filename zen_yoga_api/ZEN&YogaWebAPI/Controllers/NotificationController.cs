@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -73,7 +72,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (upsertNotificationService == null)
             {
                 _logger.LogInformation($"Attempt to add notification with bad data");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid notification data" });
 
             }
 
@@ -101,7 +100,7 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation($"Attempt to edit notification with bad data");
 
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid notification data" });
             }
 
             if (!ModelState.IsValid)
@@ -173,7 +172,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (upsertNotificationService == null)
             {
-                return BadRequest();
+                return BadRequest(new { Message = "Unable to fulfill the request" });
             }
 
             await upsertNotificationService.ToggleReadNotification(id);

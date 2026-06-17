@@ -48,7 +48,6 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_notificationInterceptor != null) {
       dio.interceptors.remove(_notificationInterceptor!);
     }

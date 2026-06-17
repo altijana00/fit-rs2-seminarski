@@ -62,7 +62,6 @@ class NotificationCard extends StatelessWidget {
             Icon(_getIcon(), color: color, size: 28),
             const SizedBox(width: 12),
 
-            /// TEXT CONTENT
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +87,6 @@ class NotificationCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
 
-                  /// DATE
                   Text(
                     _formatDate(notification.createdAt),
                     style: const TextStyle(
@@ -100,7 +98,6 @@ class NotificationCard extends StatelessWidget {
               ),
             ),
 
-            /// ACTIONS
             Column(
               children: [
                 IconButton(

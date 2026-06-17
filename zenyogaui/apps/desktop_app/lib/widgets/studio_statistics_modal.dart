@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:core/dto/responses/groupped_classes.dart';
 import 'package:core/dto/responses/instructor_classes.dart';
 import 'package:core/services/providers/class_service.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-
 import 'package:zenyogaui/widgets/pie_chart.dart';
 import '../core/theme.dart';
 import '../widgets/kpi_card.dart';
@@ -43,7 +41,6 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
 
   Future<void> _downloadPdf() async {
     final studioProvider = context.read<StudioProvider>();
-    final classProvider = context.read<ClassProvider>();
 
     final revenue =
     await studioProvider.repository.getPayments(widget.studioId);
@@ -80,7 +77,6 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              // HEADER
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -116,7 +112,6 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      /// KPI GRID
                       GridView.count(
                         crossAxisCount: 2,
                         childAspectRatio: 2.4,
@@ -172,7 +167,6 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
 
                       const SizedBox(height: 24),
 
-                      /// CHARTS
                       LayoutBuilder(
                         builder: (context, constraints) {
                           final isWide = constraints.maxWidth > 700;

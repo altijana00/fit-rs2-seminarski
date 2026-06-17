@@ -48,7 +48,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_authInterceptor != null) {
       dio.interceptors.remove(_authInterceptor!);
     }

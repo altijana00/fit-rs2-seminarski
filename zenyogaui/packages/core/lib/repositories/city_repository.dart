@@ -1,9 +1,7 @@
 
 import 'package:core/dto/requests/add_city_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
-
 import '../dto/requests/edit_city_dto.dart';
-import '../models/city_model.dart';
 import '../services/city_api_service.dart';
 
 

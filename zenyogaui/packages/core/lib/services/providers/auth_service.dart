@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants.dart';
 import '../../dto/responses/user_response_dto.dart';
 import '../../models/user_login_model.dart';
-import '../../models/user_model.dart';
 import '../../repositories/auth_repository.dart';
 import '../../repositories/user_repository.dart';
 
@@ -20,7 +19,6 @@ class AuthProvider extends ChangeNotifier {
   bool _loading = false;
   String? _error;
   Interceptor? _authInterceptor;
-  //UserRepository? _userRepository;
   final Future<void> Function(String token)? onLogin;
   final Future<void> Function()? onLogout;
 
@@ -29,8 +27,8 @@ class AuthProvider extends ChangeNotifier {
     required this.dio,
     required this.storage,
     required this.userRepository,
-    this.onLogin,   // ✅ DODATI
-    this.onLogout,  // ✅ DODATI
+    this.onLogin,
+    this.onLogout,
   }) {
     _tryRestoreSession();
   }
@@ -40,7 +38,6 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _loading;
   String? get error => _error;
   bool get isAuthenticated => _loginUser != null;
- // UserRepository get userRepository => _userRepository;
   set user (UserResponseDto userDto) {
     _user = userDto;
     }
@@ -65,7 +62,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
+
     if (_authInterceptor != null) {
       dio.interceptors.remove(_authInterceptor!);
     }

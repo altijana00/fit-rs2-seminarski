@@ -104,7 +104,6 @@ class _ProfileTabState extends State<ProfileTab> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                // ================= PROFILE PICTURE =================
                 Stack(
                 alignment: Alignment.bottomRight,
                 children: [
@@ -122,7 +121,6 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
               const SizedBox(height: 24),
 
-              // ================= USER FORM =================
                   Form(
                     key: _formKey,
                     child: Column(
@@ -130,20 +128,49 @@ class _ProfileTabState extends State<ProfileTab> {
                         TextFormField(
                           controller: _firstNameController,
                           decoration: const InputDecoration(labelText: "First Name"),
-                          validator: (v) => v == null || v.isEmpty ? "Required" : null,
+                          validator: (v) {
+                            if (v == null || v.trim().isEmpty) {
+                              return 'First name is required!';
+                            }
+                            if (v.trim().length > 30) {
+                              return "Must be less than 30 characters.";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _lastNameController,
                           decoration: const InputDecoration(labelText: "Last Name"),
-                          validator: (v) => v == null || v.isEmpty ? "Required" : null,
+                          validator: (v) {
+                            if (v == null || v.trim().isEmpty) {
+                              return 'Last name is required!';
+                            }
+                            if (v.trim().length > 30) {
+                              return "Must be less than 30 characters.";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(labelText: "Email"),
-                          validator: (v) =>
-                          v == null || !v.contains("@") ? "Enter valid email" : null,
+                          validator: (v) {
+                            if (v == null || v.trim().isEmpty) {
+                              return 'Email is required!';
+                            }
+
+                            final emailRegex = RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                            );
+
+                            if (!emailRegex.hasMatch(v.trim())) {
+                              return 'Please enter a valid email format.';
+                            }
+
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
@@ -160,8 +187,6 @@ class _ProfileTabState extends State<ProfileTab> {
                         ),
                         const SizedBox(height: 24),
 
-
-                        // ================= LOGOUT =================
                         OutlinedButton(
                           onPressed: () async {
                             Navigator.pop(context);

@@ -7,7 +7,6 @@ import 'package:core/services/providers/user_class_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/studio_details_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/studio_card.dart';
 
 class _StudiosTabData {
@@ -90,7 +89,6 @@ class _StudiosTabState extends State<StudiosTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // SEARCH
           TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -121,7 +119,6 @@ class _StudiosTabState extends State<StudiosTab> {
 
           const SizedBox(height: 12),
 
-          // ACTION BUTTONS
           Row(
             children: [
               Expanded(

@@ -1,5 +1,4 @@
 import '../models/user_login_model.dart';
-
 import '../services/auth_api_service.dart';
 
 class AuthRepository {

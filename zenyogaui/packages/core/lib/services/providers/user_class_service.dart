@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants.dart';
-import '../../dto/responses/user_response_dto.dart';
 import '../../repositories/user_class_repository.dart';
-import '../../repositories/user_repository.dart';
 
 class UserClassProvider extends ChangeNotifier {
   final UserClassRepository repository;
@@ -49,7 +47,6 @@ class UserClassProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_authInterceptor != null) {
       dio.interceptors.remove(_authInterceptor!);
     }

@@ -1,9 +1,7 @@
 
 import 'dart:io';
-
 import 'package:core/dto/requests/update_user_password_as_admin_dto.dart';
 import 'package:core/dto/requests/update_your_user_password_dto.dart';
-
 import '../dto/requests/edit_user_dto.dart';
 import '../dto/requests/register_user_dto.dart';
 import '../dto/responses/user_response_dto.dart';

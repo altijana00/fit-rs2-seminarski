@@ -528,8 +528,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 1, 
                      Name = "Morning Flow", 
-                     StartDate = new DateTime(2026, 2, 20, 8, 0, 0), 
-                     EndDate = new DateTime(2026, 2, 20, 9, 0, 0), 
+                     StartDate = new DateTime(2026, 6, 20, 8, 0, 0), 
+                     EndDate = new DateTime(2026, 6, 20, 9, 0, 0), 
                      YogaTypeId = 1, 
                      StudioId = 1, 
                      InstructorId = 6, 
@@ -541,8 +541,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 2, 
                      Name = "Power Yoga", 
-                     StartDate = new DateTime(2026, 2, 20, 10, 0, 0), 
-                     EndDate = new DateTime(2026, 2, 20, 11, 0, 0), 
+                     StartDate = new DateTime(2026, 7, 20, 10, 0, 0), 
+                     EndDate = new DateTime(2026, 7, 20, 11, 0, 0), 
                      YogaTypeId = 2, 
                      StudioId = 3, 
                      InstructorId = 7, 
@@ -554,8 +554,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 3, 
                      Name = "Relaxing Yin", 
-                     StartDate = new DateTime(2026, 2, 20, 18, 0, 0),
-                     EndDate = new DateTime(2026, 2, 20, 19, 0, 0), 
+                     StartDate = new DateTime(2026, 6, 25, 18, 0, 0),
+                     EndDate = new DateTime(2026, 6, 25, 19, 0, 0), 
                      YogaTypeId = 3, 
                      StudioId = 3, 
                      InstructorId = 7, 
@@ -567,8 +567,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 4, 
                      Name = "Evening Flow", 
-                     StartDate = new DateTime(2026, 2, 21, 7, 0, 0), 
-                     EndDate = new DateTime(2026, 2, 21, 8, 0, 0), 
+                     StartDate = new DateTime(2026, 7, 21, 7, 0, 0), 
+                     EndDate = new DateTime(2026, 7, 21, 8, 0, 0), 
                      YogaTypeId = 1, 
                      StudioId = 2, 
                      InstructorId = 8, 
@@ -580,8 +580,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 5, 
                      Name = "Core Strength", 
-                     StartDate = new DateTime(2026, 2, 21, 9, 30, 0), 
-                     EndDate = new DateTime(2026, 2, 21, 10, 30, 0), 
+                     StartDate = new DateTime(2026, 7, 11, 9, 30, 0), 
+                     EndDate = new DateTime(2026, 7, 11, 10, 30, 0), 
                      YogaTypeId = 2, 
                      StudioId = 2, 
                      InstructorId = 8, 
@@ -593,8 +593,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 6, 
                      Name = "Gentle Flow", 
-                     StartDate = new DateTime(2026, 2, 21, 18, 30, 0), 
-                     EndDate = new DateTime(2026, 2, 21, 19, 30, 0), 
+                     StartDate = new DateTime(2026, 6, 29, 18, 30, 0), 
+                     EndDate = new DateTime(2026, 6, 29, 19, 30, 0), 
                      YogaTypeId = 3, 
                      StudioId = 3, 
                      InstructorId = 7, 
@@ -606,8 +606,8 @@ namespace ZEN_Yoga.Models
                  { 
                      Id = 7, 
                      Name = "Dynamic Yoga", 
-                     StartDate = new DateTime(2026, 2, 22, 8, 0, 0), 
-                     EndDate = new DateTime(2026, 2, 22, 9, 0, 0), 
+                     StartDate = new DateTime(2026, 7, 2, 8, 0, 0), 
+                     EndDate = new DateTime(2026, 7, 2, 9, 0, 0), 
                      YogaTypeId = 1, 
                      StudioId = 3, 
                      InstructorId = 7, 
@@ -737,7 +737,7 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing",
+                    Status = "Succeeded",
                     PaymentIntentId = "pi_1"
                 },
                 new Payment()
@@ -748,7 +748,7 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing",
+                    Status = "Succeeded",
                     PaymentIntentId = "pi_2"
                 },
                 new Payment()
@@ -759,7 +759,7 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing",
+                    Status = "Succeeded",
                     PaymentIntentId = "pi_3"
                 },
                 new Payment()
@@ -770,7 +770,7 @@ namespace ZEN_Yoga.Models
                     CreatedAt = new DateTime(2026, 1, 14, 10, 0, 0),
                     PaymentDate = new DateTime(2026, 1, 14, 10, 0, 0),
                     Amount = 50,
-                    Status = "processing",
+                    Status = "Succeeded",
                     PaymentIntentId = "pi_4"
                 }
            );

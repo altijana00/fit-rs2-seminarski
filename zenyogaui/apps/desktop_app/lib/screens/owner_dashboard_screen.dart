@@ -504,12 +504,6 @@ class BuildEmployeesTabState extends State<BuildEmployeesTab>{
                                     _instructorsFuture = widget.instructorProvider.repository
                                         .getByStudioId(selectedStudio!.id);
                                   });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Instructor added successfully"),
-                                      backgroundColor: AppColors.deepGreen,
-                                    ),
-                                  );
 
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(

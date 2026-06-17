@@ -1,9 +1,8 @@
+import 'package:core/core/payment_status_enum.dart';
 import 'package:core/dto/requests/payment_filter.dart';
-
 import 'package:core/dto/responses/payment_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-
 import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -11,11 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-
 final DateFormat dateFormatter = DateFormat('dd.MM HH:mm');
 
 class _PaymentsTableData {
-  final List<PaymentResponseDto> payments;
+  final List payments;
   final Map<int, String> userNames;
   final Map<int, String> studioNames;
 
@@ -28,12 +26,18 @@ class _PaymentsTableData {
 
 class PaymentsTableSource extends DataTableSource {
   final BuildContext context;
-  final List<PaymentResponseDto> payments;
+  final List payments;
   final Map<int, String> userNames;
   final Map<int, String> studioNames;
+  final VoidCallback onRefresh;
 
-
-  PaymentsTableSource({required this.context, required this.payments, required this.userNames, required this.studioNames});
+  PaymentsTableSource({
+    required this.context,
+    required this.payments,
+    required this.userNames,
+    required this.studioNames,
+    required this.onRefresh,
+  });
 
   @override
   DataRow getRow(int index) {
@@ -46,6 +50,52 @@ class PaymentsTableSource extends DataTableSource {
       DataCell(Text(p.amount.toString())),
       DataCell(Text(p.status)),
       DataCell(Text(dateFormatter.format(p.paymentDate))),
+      DataCell(
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton.icon(
+              icon: const Icon(Icons.payments),
+              label: const Text("Refund payment"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                fixedSize: const Size(120, 30),
+              ),
+              onPressed: p.paymentStatus == PaymentStatus.succeeded
+                  ? () async {
+                try {
+                  final paymentProvider =
+                  context.read<PaymentProvider>();
+
+                  await paymentProvider.repository.refundPayment(
+                    p.userId,
+                    p.studioId,
+                  );
+                  onRefresh();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Payment refunded successfully'),
+                      ),
+                    );
+                  }
+
+
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Refund failed: $e'),
+                      ),
+                    );
+                  }
+                }
+              }
+                  : null,
+            ),
+          ],
+        ),
+      ),
     ]);
   }
 
@@ -59,50 +109,31 @@ class PaymentsTableSource extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-
-
 class PaymentsTableView extends StatefulWidget {
   const PaymentsTableView({super.key});
 
   @override
-  State<PaymentsTableView> createState() => PaymentsTableViewState();
+  State createState() => PaymentsTableViewState();
 }
 
-
-class PaymentsTableViewState extends State<PaymentsTableView>{
-  late Future<_PaymentsTableData> _tableFuture;
-
+class PaymentsTableViewState extends State<PaymentsTableView> {
   final PaymentFilter _filter = PaymentFilter();
   final TextEditingController _searchController = TextEditingController();
+  late Future<_PaymentsTableData> _tableFuture;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    _tableFuture = _loadTableData();
+  }
+
+  Future<_PaymentsTableData> _loadTableData() async {
     final paymentProvider = context.read<PaymentProvider>();
     final userProvider = context.read<UserProvider>();
     final studioProvider = context.read<StudioProvider>();
 
-
-    _tableFuture = _loadTableData(
-
-      paymentProvider,
-      userProvider,
-      studioProvider,
-
-    );
-
-  }
-
-  Future<_PaymentsTableData> _loadTableData(
-      PaymentProvider paymentProvider,
-      UserProvider userProvider,
-      StudioProvider studioProvider,
-
-      ) async {
     final results = await Future.wait([
-      paymentProvider.repository.getPaymentsQuery(
-        _filter.search,
-      ),
+      paymentProvider.repository.getPaymentsQuery(_filter.search),
       userProvider.repository.getAllUsers(),
       studioProvider.repository.getAllStudios(),
     ]);
@@ -112,27 +143,48 @@ class PaymentsTableViewState extends State<PaymentsTableView>{
     final studios = results[2] as List<StudioResponseDto>;
 
     return _PaymentsTableData(
-        payments: payments,
-        userNames: {
-          for(final u in users) u.id: "${u.firstName} ${u.lastName}"
-        },
-        studioNames: {
-          for(final s in studios) s.id: s.name,
-        }
+      payments: payments,
+      userNames: {
+        for (final u in users) u.id: "${u.firstName} ${u.lastName}"
+      },
+      studioNames: {
+        for (final s in studios) s.id: s.name,
+      },
     );
   }
 
-  void _refresh(){
+  void _refresh() async {
     final paymentProvider = context.read<PaymentProvider>();
     final userProvider = context.read<UserProvider>();
     final studioProvider = context.read<StudioProvider>();
+
+
+    final results = await Future.wait([
+      paymentProvider.repository.getAllPayments(),
+      userProvider.repository.getAllUsers(),
+      studioProvider.repository.getAllStudios(),
+    ]);
+
+    final payments = results[0] as List<PaymentResponseDto>;
+    final users = results[1] as List<UserResponseDto>;
+    final studios = results[2] as List<StudioResponseDto>;
+
+    final newData = _PaymentsTableData(
+      payments: payments,
+      userNames: {
+        for (final u in users) u.id: "${u.firstName} ${u.lastName}"
+      },
+      studioNames: {
+        for (final s in studios) s.id: s.name,
+      },
+    );
+
     setState(() {
-      _tableFuture = _loadTableData(paymentProvider, userProvider, studioProvider);
+      _tableFuture = Future.value(newData);
     });
   }
 
-
-  Widget _buildFilters(_PaymentsTableData data) {
+  Widget _buildFilters() {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Wrap(
@@ -146,32 +198,23 @@ class PaymentsTableViewState extends State<PaymentsTableView>{
               decoration: const InputDecoration(
                 labelText: "Search payments",
                 prefixIcon: Icon(Icons.search),
-
               ),
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.only(top:5.0),
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.search),
-                label: const Text("Search"),
-                style: ElevatedButton.styleFrom(fixedSize: const Size(90, 30)),
-                onPressed: () {
-                  _filter.search = _searchController.text.trim();
-                  _refresh();
-                },
-              )
+          ElevatedButton.icon(
+            icon: const Icon(Icons.search),
+            label: const Text("Search"),
+            onPressed: () {
+              _filter.search = _searchController.text.trim();
+              _refresh();
+            },
           ),
-
-
-
           TextButton.icon(
             icon: const Icon(Icons.clear),
             label: const Text("Reset"),
             onPressed: () {
               _searchController.clear();
-              _filter
-                .search = null;
+              _filter.search = null;
               _refresh();
             },
           ),
@@ -180,72 +223,65 @@ class PaymentsTableViewState extends State<PaymentsTableView>{
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<_PaymentsTableData>(
       future: _tableFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
+
         if (snapshot.hasError) {
           return Center(
-            child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.red)),
+            child: Text(
+              "Error: ${snapshot.error}",
+              style: const TextStyle(color: Colors.red),
+            ),
           );
         }
 
         final data = snapshot.data!;
 
-
-
         return SingleChildScrollView(
-
-            child: Column (
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildFilters(data),
-                if(data.payments.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Center(
-                      child: Text(
-                        "No payments found for the selected filters",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildFilters(),
+              if (data.payments.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Center(
+                    child: Text(
+                      "No payments found for the selected filters",
                     ),
-                  )
-                else
-                  PaginatedDataTable(
-                    header: const Text("Payments"),
-                    rowsPerPage: 10,
-                    columnSpacing: 20,
-                    showCheckboxColumn: false,
-                    columns: const [
-                      DataColumn(label: Text("User")),
-                      DataColumn(label: Text("Studio")),
-                      DataColumn(label: Text("Amount")),
-                      DataColumn(label: Text("Status")),
-                      DataColumn(label: Text("Payment Date")),
-
-                    ],
-
-                    source: PaymentsTableSource(
-                        context:context,
-                        payments: data.payments,
-                        userNames: data.userNames,
-                        studioNames: data.studioNames,
-                    ),
-
                   ),
-              ],
-            )
-
+                )
+              else
+                PaginatedDataTable(
+                  header: const Text("Payments"),
+                  rowsPerPage: 10,
+                  columnSpacing: 20,
+                  showCheckboxColumn: false,
+                  columns: const [
+                    DataColumn(label: Text("User")),
+                    DataColumn(label: Text("Studio")),
+                    DataColumn(label: Text("Amount")),
+                    DataColumn(label: Text("Status")),
+                    DataColumn(label: Text("Payment Date")),
+                    DataColumn(label: Text("Actions")),
+                  ],
+                  source: PaymentsTableSource(
+                    context: context,
+                    payments: data.payments,
+                    userNames: data.userNames,
+                    studioNames: data.studioNames,
+                    onRefresh: _refresh,
+                  ),
+                ),
+            ],
+          ),
         );
-
-
       },
     );
   }

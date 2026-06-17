@@ -13,7 +13,6 @@ import 'package:zenyogaui/widgets/role_badge.dart';
 import '../core/theme.dart';
 import 'add_notification_dialog.dart';
 import 'add_user_dialog.dart';
-import 'edit_user_dialog.dart';
 
 
 
@@ -377,12 +376,6 @@ class _UsersTableViewState extends State<UsersTableView> {
                   .repository
                   .deleteUser(user.id);
               _refresh();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("User deleted successfully"),
-                  backgroundColor: Colors.green,
-                ),
-              );
             },
             child: const Text("Yes"),
           ),
@@ -402,12 +395,6 @@ class _UsersTableViewState extends State<UsersTableView> {
               .repository
               .editUser(updatedUser, user.id);
           _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("User edited successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
         },
       ),
     );
@@ -427,12 +414,6 @@ class _UsersTableViewState extends State<UsersTableView> {
                 .repository
                 .addUser(addedUser);
             _refresh();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("User added successfully"),
-                backgroundColor: AppColors.deepGreen,
-              ),
-            );
           }
           catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -468,12 +449,5 @@ class _UsersTableViewState extends State<UsersTableView> {
     ),
     );
   }
-
-
-
-
-
-
-
 
 }

@@ -1,17 +1,14 @@
 import 'dart:io';
-
 import 'package:core/dto/requests/add_instructor_dto.dart';
 import 'package:core/dto/requests/add_studio_dto.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/repositories/instructor_repository.dart';
 import 'package:core/repositories/studio_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../core/theme.dart';
 
 
@@ -123,8 +120,13 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 padding: const EdgeInsets.only(bottom: 16, top: 16),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Studio Name"),
-                  validator: (value) => value == null || value.isEmpty ? "Required" : null,
-                  onSaved: (value) => _studioData['name'] = value,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Studio name is required!";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _studioData['name'] = value?.trim(),
                 ),
               ),
 
@@ -132,6 +134,12 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Address"),
+                  validator: (value) {
+                    if (value != null && value.length > 100) {
+                      return "Address can't have more than 100 characters.";
+                    }
+                    return null;
+                  },
                   onSaved: (value) => _studioData['address'] = value,
                 ),
               ),
@@ -140,6 +148,13 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: "Description"),
+                  maxLines: 3,
+                  validator: (value) {
+                    if (value != null && value.length > 300) {
+                      return "Description can't have more than 300 characters.";
+                    }
+                    return null;
+                  },
                   onSaved: (value) => _studioData['description'] = value,
                 ),
               ),
@@ -162,27 +177,39 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: TextFormField(
-                  decoration: const InputDecoration(labelText: "Contact email"),
-                  onSaved: (value) => _studioData['contactEmail'] = value,
+                  decoration: const InputDecoration(labelText: "Contact Email"),
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                   if(value !=null && (!value.contains('@')))  {
-                     return 'Please enter a valid email format: name@example.com';
-                   }
-                     return null;
-                  }
+                    if (value == null || value.isEmpty) return null;
+
+                    final emailRegex =
+                    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                    if (!emailRegex.hasMatch(value)) {
+                      return "Please enter a valid email format (studio@example.com)";
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) => _studioData['contactEmail'] = value,
                 ),
               ),
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: const InputDecoration(labelText: "Contact phone"),
-                  onSaved: (value) => _studioData['contactPhone'] = value,
+                  decoration: const InputDecoration(labelText: "Contact Phone"),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return null;
 
+                    if (value.length < 6) {
+                      return "Please enter a valid phone format.";
+                    }
+
+                    return null;
+                  },
+                  onSaved: (value) => _studioData['contactPhone'] = value,
                 ),
               ),
 
@@ -255,16 +282,34 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Biography"),
-                onSaved: (value) => _instructorData['biography'] = value,
                 maxLines: 3,
+                validator: (value) {
+                  if (value != null && value.length > 200) {
+                    return "Biography can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
+                onSaved: (value) => _instructorData['biography'] = value?.trim(),
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Diplomas"),
-                onSaved: (value) => _instructorData['diplomas'] = value,
+                validator: (value) {
+                  if (value != null && value.length > 200) {
+                    return "Diplomas can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
+                onSaved: (value) => _instructorData['diplomas'] = value?.trim(),
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Certificates"),
-                onSaved: (value) => _instructorData['certificates'] = value,
+                validator: (value) {
+                  if (value != null && value.length > 200) {
+                    return "Certificates can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
+                onSaved: (value) => _instructorData['certificates'] = value?.trim(),
               ),
             ],
           ),
@@ -345,7 +390,7 @@ class _AddStudioStepperState extends State<AddStudioStepper> {
       }
     }
 
-    // STEP 1: add instructor (optional)
+
     else if (_currentStep == 1) {
       final form = _instructorFormKey.currentState!;
       if (form.validate()) {

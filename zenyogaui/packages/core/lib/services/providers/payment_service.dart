@@ -46,7 +46,6 @@ class PaymentProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_paymentInterceptor != null) {
       dio.interceptors.remove(_paymentInterceptor!);
     }

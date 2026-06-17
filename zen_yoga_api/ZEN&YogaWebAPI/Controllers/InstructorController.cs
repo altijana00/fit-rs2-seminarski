@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -151,7 +149,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editInstructor == null)
             {
                 _logger.LogInformation($"Attempt to edit instructor with invalid data (Instructor ID): {id}");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid instructor data" });
             }
 
             if (!ModelState.IsValid)

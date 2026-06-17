@@ -123,13 +123,26 @@ class _EditClassDialogState extends State<EditClassDialog> {
                 initialValue: widget.classToEdit.name,
                 decoration: const InputDecoration(labelText: "Class Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) =>
-                val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must enter a name.";
+                  }
+                  if (val.length > 50) {
+                    return "Must be less than 50 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 initialValue: widget.classToEdit.description,
                 decoration: const InputDecoration(labelText: "Description"),
                 onSaved: (val) => _description = val ?? "",
+                validator: (val) {
+                  if (val != null && val.length > 150) {
+                    return "Must be less than 150 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 initialValue:
@@ -139,6 +152,20 @@ class _EditClassDialogState extends State<EditClassDialog> {
                 keyboardType: TextInputType.number,
                 onSaved: (val) =>
                 _maxParticipants = int.tryParse(val ?? "0") ?? 0,
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return "You must enter max participants.";
+                  }
+
+                  final n = int.tryParse(val);
+                  if (n == null) return "Invalid number";
+
+                  if (n < 0 || n > 50) {
+                    return "Max number of participants is 50.";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 initialValue: widget.classToEdit.location,

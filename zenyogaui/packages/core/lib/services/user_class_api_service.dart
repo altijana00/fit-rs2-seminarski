@@ -10,6 +10,21 @@ class UserClassApiService {
     final response = await dio.get('UserClass/getAll');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch user classes: ${response.data}');
     }
@@ -19,6 +34,21 @@ class UserClassApiService {
     final response = await dio.get('UserClass/getByUserId?userId=$userId');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else if (response.statusCode == 204) {
       return [];
     }
@@ -33,6 +63,21 @@ class UserClassApiService {
       return List<Map<String, dynamic>>.from(response.data);
     }else if (response.statusCode == 204) {
       return [];
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     }
     else {
       throw Exception('Falied to fetch recommended studios: ${response.data}');
@@ -48,8 +93,20 @@ class UserClassApiService {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
     } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
 
-      throw Exception('Failed to join class: ${response.data["message"]}');
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     }
 
     else {
@@ -65,6 +122,21 @@ class UserClassApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to delete class: ${response.data}');
     }

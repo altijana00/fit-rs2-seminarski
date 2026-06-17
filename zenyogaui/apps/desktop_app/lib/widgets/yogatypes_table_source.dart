@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:zenyogaui/widgets/add_yoga_type_dialog.dart';
 import '../core/theme.dart';
 import 'package:core/dto/requests/yogatype_filter.dart';
-
 import 'edit_yogatype_dialog.dart';
 
 
@@ -307,12 +306,6 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
               .repository
               .editYogaType(updatedYogaType, yogaType.id);
           _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Yoga type edited successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
         },
       ),
     );
@@ -328,12 +321,6 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
               .repository
               .addYogaType(addedYogaType);
           _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Yoga type added successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
         },
       ),
     );

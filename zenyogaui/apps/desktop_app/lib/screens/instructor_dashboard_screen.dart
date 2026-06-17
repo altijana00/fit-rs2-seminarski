@@ -13,7 +13,6 @@ import 'package:core/services/providers/instructor_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:zenyogaui/widgets/user_notification_center.dart';
 import '../core/theme.dart';
 import '../widgets/add_class_dialog.dart';
 import '../widgets/edit_class_dialog.dart';
@@ -612,12 +611,6 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
 
               await _refresh();
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Class added successfully"),
-                  backgroundColor: AppColors.deepGreen,
-                ),
-              );
             } catch (e) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -625,6 +618,7 @@ class _InstructorDashboardState extends State<InstructorDashboard> {
                   backgroundColor: AppColors.darkRed,
                 ),
               );
+
             }
           },
         ),

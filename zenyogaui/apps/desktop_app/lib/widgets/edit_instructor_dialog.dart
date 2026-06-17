@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:core/dto/requests/edit_instructor_dto.dart';
 import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
@@ -7,7 +6,6 @@ import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../core/theme.dart';
 
 class EditInstructorDialog extends StatefulWidget {
@@ -130,7 +128,6 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            /// PROFILE IMAGE
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -185,25 +182,58 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
 
             const SizedBox(height: 20),
 
-            /// FIELDS
-            TextField(
+
+            TextFormField(
               controller: _firstNameCtrl,
               decoration: const InputDecoration(labelText: "First Name"),
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return "First name is required!";
+                }
+                if (v.length > 30) {
+                  return "First name can't have more than 30 characters.";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 10),
-            TextField(
+            TextFormField(
               controller: _lastNameCtrl,
               decoration: const InputDecoration(labelText: "Last Name"),
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return "Last name is required!";
+                }
+                if (v.length > 30) {
+                  return "Last name can't have more than 30 characters.";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 10),
-            TextField(
+            TextFormField(
               controller: _emailCtrl,
               decoration: const InputDecoration(labelText: "Email"),
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return "Email is required!";
+                }
+
+                final emailRegex = RegExp(
+                  r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+                );
+
+                if (!emailRegex.hasMatch(v)) {
+                  return "Please enter a valid email address format.";
+                }
+
+                return null;
+              },
             ),
 
             const SizedBox(height: 10),
 
-            /// GENDER
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -246,24 +276,44 @@ class _EditInstructorDialogState extends State<EditInstructorDialog> {
               ],
             ),
 
-            TextField(
+            TextFormField(
               controller: _biographyCtrl,
               decoration: const InputDecoration(labelText: "Biography"),
+              validator: (v) {
+                if (v != null && v.length > 200) {
+                  return "Biography can't exceed 200 characters.";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 10),
-            TextField(
+
+            TextFormField(
               controller: _certificatesCtrl,
               decoration: const InputDecoration(labelText: "Certificates"),
+              validator: (v) {
+                if (v != null && v.length > 200) {
+                  return "Certificates can't exceed 200 characters.";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 10),
-            TextField(
+
+            TextFormField(
               controller: _diplomasCtrl,
               decoration: const InputDecoration(labelText: "Diplomas"),
+              validator: (v) {
+                if (v != null && v.length > 200) {
+                  return "Diplomas can't exceed 200 characters.";
+                }
+                return null;
+              },
             ),
 
             const SizedBox(height: 20),
 
-            /// PASSWORD
+
             ExpansionTile(
               title: const Text("Change Password"),
               initiallyExpanded: _isChangingPassword,

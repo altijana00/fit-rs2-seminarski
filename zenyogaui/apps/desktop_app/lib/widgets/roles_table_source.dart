@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:zenyogaui/widgets/edit_role_dialog.dart';
 import '../core/theme.dart';
 import 'package:core/dto/requests/role_filter.dart';
-
 import 'add_role_dialog.dart';
 
 
@@ -274,12 +273,6 @@ class _RolesTableViewState extends State<RolesTableView> {
                     .repository
                     .deleteRole(role.id);
                 _refresh();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Role deleted successfully"),
-                    backgroundColor: Colors.green,
-                  ),
-                );
               } catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -308,12 +301,6 @@ class _RolesTableViewState extends State<RolesTableView> {
               .repository
               .editRole(updatedRole, role.id);
           _refresh();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Role edited successfully"),
-              backgroundColor: AppColors.deepGreen,
-            ),
-          );
         },
       ),
     );
@@ -332,12 +319,6 @@ class _RolesTableViewState extends State<RolesTableView> {
                 .repository
                 .addRole(addedRole);
             _refresh();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Role added successfully"),
-                backgroundColor: AppColors.deepGreen,
-              ),
-            );
           }
           catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(

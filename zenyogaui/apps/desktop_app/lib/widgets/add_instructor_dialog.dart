@@ -83,14 +83,32 @@ class _AddInstructorDialogState extends State<AddInstructorDialog> {
               TextFormField(
                 decoration: const InputDecoration(labelText: "Biography"),
                 onSaved: (val) => _biography = val,
+                validator: (val) {
+                  if (val != null && val.length > 200) {
+                    return "Biography can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Diplomas"),
                 onSaved: (val) => _diplomas = val,
+                validator: (val) {
+                  if (val != null && val.length > 200) {
+                    return "Diplomas can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Certificates"),
                 onSaved: (val) => _certificates = val,
+                validator: (val) {
+                  if (val != null && val.length > 200) {
+                    return "Certificates can't contain more than 200 characters.";
+                  }
+                  return null;
+                },
               ),
             ],
           ),

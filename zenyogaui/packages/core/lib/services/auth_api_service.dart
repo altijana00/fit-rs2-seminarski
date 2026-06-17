@@ -5,7 +5,6 @@ class AuthApiService {
 
   AuthApiService(this.dio);
 
-  // Expecting API returns { "token": "..." } or { "access_token": "..." }
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await dio.post(
       'Auth/login',
@@ -13,6 +12,21 @@ class AuthApiService {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Login failed: ${response.data}');
     }
@@ -24,6 +38,21 @@ class AuthApiService {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Logout failed: ${response.data}');
     }
@@ -33,6 +62,21 @@ class AuthApiService {
     final response = await dio.get('User/getById?id=$id');
     if(response.statusCode == 200) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch user: ${response.data}');
     }

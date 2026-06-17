@@ -1,4 +1,4 @@
-import 'package:core/core/constants.dart';
+
 import 'package:core/models/create_intent_request_model.dart';
 import 'package:core/services/providers/payment_service.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -54,7 +54,7 @@ class PaymentController extends GetxController {
     try {
       await Stripe.instance.presentPaymentSheet();
 
-      // Add payment to the DB
+
       await paymentProvider.repository.addPayment(studioId,amount,paymentIntentId);
 
 

@@ -1,9 +1,7 @@
 
 import 'dart:io';
-
 import 'package:core/dto/requests/edit_user_dto.dart';
 import 'package:core/dto/requests/update_user_password_as_admin_dto.dart';
-import 'package:core/dto/requests/update_your_user_password_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +21,10 @@ class EditUserAsAdminDialog extends StatefulWidget {
   });
 
   @override
-  State<EditUserAsAdminDialog> createState() => _EditUserAsAdminDialogState();
+  State createState() => _EditUserAsAdminDialogState();
 }
 
 class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
-
-
   late TextEditingController _firstNameCtrl;
   late TextEditingController _lastNameCtrl;
   late TextEditingController _genderCtrl;
@@ -36,8 +32,9 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
 
   final TextEditingController _newPasswordCtrl = TextEditingController();
 
-  String? _profileImageUrl;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  String? _profileImageUrl;
   bool _isChangingPassword = false;
 
   @override
@@ -62,7 +59,7 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
     super.dispose();
   }
 
-  Future<void> _changePassword(BuildContext context) async {
+  Future _changePassword(BuildContext context) async {
     final userProvider = context.read<UserProvider>();
 
     if (_newPasswordCtrl.text.trim().isEmpty) return;
@@ -72,8 +69,7 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
       newPassword: _newPasswordCtrl.text.trim(),
     );
 
-    try
-    {
+    try {
       await userProvider.repository.updateUserPasswordAsAdmin(dto);
 
       if (!context.mounted) return;
@@ -82,15 +78,7 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
         _newPasswordCtrl.clear();
         _isChangingPassword = false;
       });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password updated successfully"),
-          backgroundColor: AppColors.deepGreen,
-        ),
-      );
-    }
-    catch (e) {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString().replaceFirst('Exception: ', '')),
@@ -98,8 +86,6 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
         ),
       );
     }
-
-
   }
 
   @override
@@ -108,151 +94,176 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
 
     return AlertDialog(
       title: const Text("Edit User Profile"),
+
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
 
-            /// PROFILE IMAGE
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                CircleAvatar(
-                  radius: 55,
-                  backgroundImage: _profileImageUrl != null
-                      ? NetworkImage(_profileImageUrl!)
-                      : null,
-                  child: _profileImageUrl == null
-                      ? const Icon(Icons.person, size: 50)
-                      : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  style: IconButton.styleFrom(
-                    backgroundColor: AppColors.lavender,
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CircleAvatar(
+                    radius: 55,
+                    backgroundImage: _profileImageUrl != null
+                        ? NetworkImage(_profileImageUrl!)
+                        : null,
+                    child: _profileImageUrl == null
+                        ? const Icon(Icons.person, size: 50)
+                        : null,
                   ),
-                  onPressed: () async {
-                    final picked = await ImagePicker().pickImage(
-                      source: ImageSource.gallery,
-                      imageQuality: 85,
-                    );
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white),
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColors.lavender,
+                    ),
+                    onPressed: () async {
+                      final picked = await ImagePicker().pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 85,
+                      );
 
-                    if (picked == null) return;
+                      if (picked == null) return;
 
-                    final file = File(picked.path);
+                      final file = File(picked.path);
 
-                    final newPhotoUrl = await userProvider.repository
-                        .uploadUserPhoto(file);
+                      final newPhotoUrl =
+                      await userProvider.repository.uploadUserPhoto(file);
 
-                    await userProvider.repository.editUserPhoto(
-                      newPhotoUrl,
-                      widget.userToEdit.id,
-                    );
+                      await userProvider.repository.editUserPhoto(
+                        newPhotoUrl,
+                        widget.userToEdit.id,
+                      );
 
-                    setState(() {
-                      _profileImageUrl = newPhotoUrl;
-                    });
+                      setState(() {
+                        _profileImageUrl = newPhotoUrl;
+                      });
+                    },
+                  ),
+                ],
+              ),
 
-                    if (!context.mounted) return;
+              const SizedBox(height: 20),
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Profile photo updated"),
-                        backgroundColor: AppColors.deepGreen,
+              TextFormField(
+                controller: _firstNameCtrl,
+                decoration: const InputDecoration(labelText: "First Name"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'First name is required!';
+                  }
+                  if (v.length > 30) {
+                    return "Must be less than 30 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _lastNameCtrl,
+                decoration: const InputDecoration(labelText: "Last Name"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Last name is required!';
+                  }
+                  if (v.length > 30) {
+                    return "Must be less than 30 characters.";
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              TextFormField(
+                controller: _emailCtrl,
+                decoration: const InputDecoration(labelText: "Email"),
+                validator: (v) {
+                  if (v == null || v.trim().isEmpty) {
+                    return 'Email is required!';
+                  }
+
+                  final emailRegex =
+                  RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                  if (!emailRegex.hasMatch(v)) {
+                    return 'Please enter a valid email address format.';
+                  }
+
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Text("Gender", style: TextStyle(fontSize: 12)),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RadioListTile<String>(
+                          title: const Text("M"),
+                          value: "M",
+                          groupValue: _genderCtrl.text,
+                          onChanged: (val) {
+                            setState(() {
+                              _genderCtrl.text = val!;
+                            });
+                          },
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                      Expanded(
+                        child: RadioListTile<String>(
+                          title: const Text("F"),
+                          value: "F",
+                          groupValue: _genderCtrl.text,
+                          onChanged: (val) {
+                            setState(() {
+                              _genderCtrl.text = val!;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            /// PROFILE FIELDS
-            TextField(
-              controller: _firstNameCtrl,
-              decoration: const InputDecoration(labelText: "First Name"),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _lastNameCtrl,
-              decoration: const InputDecoration(labelText: "Last Name"),
-            ),
-            const SizedBox(height: 10),
-
-            TextField(
-              controller: _emailCtrl,
-              decoration: const InputDecoration(labelText: "Email"),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 15.0),
-                  child: Text(
-                    "Gender",
-                    style: TextStyle(
-                      fontSize: 12,
-
+              ExpansionTile(
+                title: const Text("Change Password"),
+                initiallyExpanded: _isChangingPassword,
+                onExpansionChanged: (val) {
+                  setState(() => _isChangingPassword = val);
+                },
+                children: [
+                  TextField(
+                    controller: _newPasswordCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: "New Password",
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RadioListTile<String>(
-                        title: const Text("M"),
-                        value: "M",
-                        groupValue: _genderCtrl.text,
-                        onChanged: (val) {
-                          setState(() {
-                            _genderCtrl.text = val!;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: RadioListTile<String>(
-                        title: const Text("F"),
-                        value: "F",
-                        groupValue: _genderCtrl.text,
-                        onChanged: (val) {
-                          setState(() {
-                            _genderCtrl.text = val!;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            /// PASSWORD SECTION
-            ExpansionTile(
-              title: const Text("Change Password"),
-              initiallyExpanded: _isChangingPassword,
-              onExpansionChanged: (val) {
-                setState(() => _isChangingPassword = val);
-              },
-              children: [
-                TextField(
-                  controller: _newPasswordCtrl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "New Password",
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => _changePassword(context),
+                    child: const Text("Update Password"),
                   ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () => _changePassword(context),
-                  child: const Text("Update Password"),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
 
@@ -263,6 +274,8 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
         ),
         ElevatedButton(
           onPressed: () {
+            if (!_formKey.currentState!.validate()) return;
+
             widget.onEdit(
               EditUserDto(
                 firstName: _firstNameCtrl.text,
@@ -271,6 +284,7 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
                 gender: _genderCtrl.text,
               ),
             );
+
             Navigator.pop(context);
           },
           child: const Text("Save"),

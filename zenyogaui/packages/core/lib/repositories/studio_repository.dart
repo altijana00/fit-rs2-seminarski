@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:core/dto/responses/participants_by_city.dart';
-
 import '../dto/requests/add_studio_dto.dart';
 import '../dto/requests/edit_studio_dto.dart';
 import '../dto/responses/studio_response_dto.dart';
-import '../models/studio_model.dart';
 import '../services/studio_api_service.dart';
 
 

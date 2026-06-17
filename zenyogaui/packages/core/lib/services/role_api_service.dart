@@ -9,6 +9,21 @@ class RoleApiService {
     final response = await dio.get('Role/getById?id=$id');
     if(response.statusCode == 200) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch role: ${response.data}');
     }
@@ -18,6 +33,21 @@ class RoleApiService {
     final response = await dio.get('Role/getAll');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch roles: ${response.data}');
     }
@@ -31,6 +61,21 @@ class RoleApiService {
     );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch roles: ${response.data}');
     }
@@ -49,7 +94,20 @@ class RoleApiService {
     }  else if (response.statusCode == 500) {
       var resp = Map<String, dynamic>.from(response.data);
       throw Exception(resp["error"]);
-    } else if (response.statusCode == 400) {
+    }else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
       throw (response.data["message"]);
     } else{
       throw Exception('Failed to delete role: ${response.data}');
@@ -72,6 +130,21 @@ class RoleApiService {
       var resp = response.data;
       throw Exception(resp["error"]);
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else{
       throw Exception('Failed to edit role: ${response.data}');
     }
@@ -89,8 +162,20 @@ class RoleApiService {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
     } else if (response.statusCode == 400) {
-      var resp = Map<String, dynamic>.from(response.data);
-      throw Exception(resp["error"]);
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to add role: ${response.data}');
     }

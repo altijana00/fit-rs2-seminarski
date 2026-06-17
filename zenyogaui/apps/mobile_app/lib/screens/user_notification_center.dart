@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:core/dto/responses/notification_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/notification_service.dart';
-
 import '../core/theme.dart';
 import '../widgets/notification_card.dart';
 

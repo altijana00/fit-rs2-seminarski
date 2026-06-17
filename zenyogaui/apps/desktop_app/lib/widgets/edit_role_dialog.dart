@@ -1,8 +1,6 @@
-
 import 'package:core/dto/requests/edit_role_dto.dart';
 import 'package:core/dto/responses/role_response_dto.dart';
 import 'package:flutter/material.dart';
-
 
 class EditRoleDialog extends StatefulWidget {
   final RoleResponseDto roleToEdit;
@@ -35,7 +33,12 @@ class _EditRoleDialogState extends State<EditRoleDialog> {
                 controller: TextEditingController(text: widget.roleToEdit.name),
                 decoration: InputDecoration(labelText: "Role Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must input a role name";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.roleToEdit.description),

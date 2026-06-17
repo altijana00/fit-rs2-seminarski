@@ -9,6 +9,21 @@ class YogaTypeApiService {
     final response = await dio.get('YogaType/getById?id=$id');
     if(response.statusCode == 200) {
       return Map<String, dynamic>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch yoga types: ${response.data}');
     }
@@ -18,6 +33,21 @@ class YogaTypeApiService {
     final response = await dio.get('YogaType/getAll');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch yoga types: ${response.data}');
     }
@@ -31,6 +61,21 @@ class YogaTypeApiService {
     );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch yoga types: ${response.data}');
     }
@@ -50,6 +95,19 @@ class YogaTypeApiService {
       var resp = Map<String, dynamic>.from(response.data);
       throw Exception(resp["error"]);
     } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
       throw (response.data["message"]);
     } else{
       throw Exception('Failed to delete yoga type: ${response.data}');
@@ -68,6 +126,21 @@ class YogaTypeApiService {
     if (response.statusCode == 200 || response.statusCode == 201){
       return response.data;
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else if (response.statusCode == 500) {
       var resp = response.data;
       throw Exception(resp["error"]);
@@ -89,6 +162,21 @@ class YogaTypeApiService {
     if (response.statusCode == 200 || response.statusCode == 201){
       return response.data;
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else if (response.statusCode == 500) {
       var resp = response.data;
       throw Exception(resp["error"]);

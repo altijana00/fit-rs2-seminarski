@@ -48,7 +48,6 @@ class YogaTypeProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_yogaTypeInterceptor != null) {
       dio.interceptors.remove(_yogaTypeInterceptor!);
     }

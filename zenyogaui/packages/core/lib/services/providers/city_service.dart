@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants.dart';
-import '../../models/city_model.dart';
-import '../../models/instructor_model.dart';
 import '../../repositories/city_repository.dart';
-import '../../repositories/instructor_repository.dart';
+
 
 class CityProvider extends ChangeNotifier {
   final CityRepository repository;
@@ -51,7 +49,7 @@ class CityProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
+
     if (_cityInterceptor != null) {
       dio.interceptors.remove(_cityInterceptor!);
     }

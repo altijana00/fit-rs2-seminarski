@@ -79,7 +79,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (addRole == null)
             {
                 _logger.LogInformation($"Attempt to add role with invalid data");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid role data" });
 
             }
 
@@ -131,8 +131,19 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editRole == null)
             {
                 _logger.LogInformation($"Attempt to edit role with invalid data");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid role data" });
 
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                                       .SelectMany(v => v.Errors)
+                                       .Select(e => e.ErrorMessage)
+                                       .ToList();
+
+                _logger.LogInformation("Role data was invalid: {Errors}", string.Join(", ", errors));
+                return BadRequest(new { Message = errors });
             }
 
             await upsertRoleService.Edit(editRole, id);

@@ -29,9 +29,14 @@ class _AddRoleDialogState extends State<AddRoleDialog> {
             spacing: 12.0,
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: "Role Name"),
+                decoration: const InputDecoration(labelText: "Role Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must input a role name";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Description"),

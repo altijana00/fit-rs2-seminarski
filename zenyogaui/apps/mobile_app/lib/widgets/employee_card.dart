@@ -21,7 +21,6 @@ class EmployeeCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile photo
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: instructor.profileImageUrl != null
@@ -41,8 +40,6 @@ class EmployeeCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Name
               Text(
                 "${instructor.firstName} ${instructor.lastName}",
                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -54,7 +51,6 @@ class EmployeeCard extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.normal),
                 textAlign: TextAlign.center,
               ),
-              // Email
               if (instructor.email.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
@@ -63,8 +59,6 @@ class EmployeeCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ],
-
-              // Diplomas
               if (instructor.diplomas != null && instructor.diplomas!.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(
@@ -74,7 +68,6 @@ class EmployeeCard extends StatelessWidget {
                 ),
               ],
 
-              // Certificates
               if (instructor.certificates != null && instructor.certificates!.isNotEmpty) ...[
                 const SizedBox(height: 6),
                 Text(

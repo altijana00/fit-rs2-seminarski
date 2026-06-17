@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -111,7 +110,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (addClass == null)
             {
                 _logger.LogDebug($"Attempt to add the class with invalid data for instructorId: {instructorId}");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid class data" });
             }
 
             if (!ModelState.IsValid)
@@ -152,7 +151,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editClass == null)
             {
                 _logger.LogDebug($"Attempt to edit class with invalid data for classID: {id}");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid class data" });
             }
 
             if (!ModelState.IsValid)

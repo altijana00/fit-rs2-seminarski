@@ -134,7 +134,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (addStudio == null) 
             {
                 _logger.LogInformation($"Attempted to add studio with bad data (model was null)");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid studio data" });
             
             }
 
@@ -189,7 +189,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editStudio == null)
             {
                 _logger.LogInformation($"Attempted to edit studio with bad data (model was null)");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid studio data" });
 
             }
 
@@ -269,10 +269,10 @@ namespace ZEN_YogaWebAPI.Controllers
         public async Task<IActionResult> UploadStudioPhoto([FromServices] IUploadStudioPhotoService uploadStudioPhotoService, IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded!");
+                return BadRequest(new { Message = "No file uploaded" });
 
             if (!FileValidationHelper.IsValidImage(file))
-                return BadRequest("Invalid file type.");
+                return BadRequest(new { Message = "Invalid file type" });
 
             var photoUrl = await uploadStudioPhotoService.UploadStudioPhoto(file);
             return Ok(photoUrl);
@@ -295,10 +295,10 @@ namespace ZEN_YogaWebAPI.Controllers
             }
 
             if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded!");
+                return BadRequest(new { Message = "No file uploaded" });
 
             if (!FileValidationHelper.IsValidImage(file))
-                return BadRequest("Invalid file type.");
+                return BadRequest(new { Message = "Invalid file type" });
 
             await uploadStudioGalleryService.UploadStudioGalleryPhoto(studioId, file);
             return Ok();
@@ -338,7 +338,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
             if (photoUrl.IsNullOrEmpty())
             {
-                return BadRequest("No file uploaded!");
+                return BadRequest(new { Message = "No file uploaded" });
             }
 
             _logger.LogInformation($"Edited studio photo for studio: {studioId}");

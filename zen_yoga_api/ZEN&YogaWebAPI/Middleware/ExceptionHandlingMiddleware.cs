@@ -38,6 +38,7 @@ namespace ZEN_YogaWebAPI.Middleware
                     ClassNotFoundException or              
                     YogaTypeNotFoundException or
                     RoleNotFoundException or
+                    CityNotFoundException or
                     UserNotFoundException => StatusCodes.Status404NotFound,
 
 

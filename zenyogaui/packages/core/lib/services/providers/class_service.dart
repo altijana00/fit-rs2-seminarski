@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants.dart';
 import '../../dto/responses/class_response_dto.dart';
-import '../../models/class_model.dart';
 import '../../repositories/class_repository.dart';
 
 class ClassProvider extends ChangeNotifier {
@@ -49,7 +48,6 @@ class ClassProvider extends ChangeNotifier {
   }
 
   void _attachInterceptor(String token) {
-    // remove old interceptor if exists
     if (_classInterceptor != null) {
       dio.interceptors.remove(_classInterceptor!);
     }

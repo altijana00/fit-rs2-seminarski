@@ -79,7 +79,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (addYogaType == null)
             {
                 _logger.LogInformation("Adding yoga type data was null");
-                return BadRequest();
+                return BadRequest(new { Message = "Invalid yoga type data" });
 
             }
 
@@ -130,8 +130,8 @@ namespace ZEN_YogaWebAPI.Controllers
         {
             if (editYogaType == null)
             {
-                _logger.LogInformation("Adding yoga type data was null");
-                return BadRequest();
+                _logger.LogInformation("Editing yoga type data was null");
+                return BadRequest(new { Message = "Invalid yoga type data" });
 
             }
 

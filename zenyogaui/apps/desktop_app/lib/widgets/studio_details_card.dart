@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zenyogaui/core/theme.dart';
 import 'package:zenyogaui/widgets/studio_statistics_modal.dart';
-
-
 import 'edit_studio_dialog.dart';
 import 'studio_gallery.dart';
 
@@ -96,7 +94,6 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
           backgroundColor: AppColors.deepGreen,
         ),
       );
-      // Reload gallery
       setState(() => _loadGallery());
     } finally {
       if (mounted) setState(() => _uploadingGalleryPhoto = false);
@@ -134,7 +131,6 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
           backgroundColor: AppColors.deepGreen,
         ),
       );
-      // Reload gallery
       setState(() => _loadGallery());
     } finally {
       if (mounted) setState(() => _deletingGalleryPhoto = false);
@@ -201,12 +197,6 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                               studioToEdit: studio,
                               onAdd: (updated) async {
                                 await widget.studioProvider.repository.editStudio(updated, studio.id);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Studio edited successfully!"),
-                                    backgroundColor: AppColors.deepGreen,
-                                  ),
-                                );
                                 await widget.onReload?.call();
                                 widget.studioProvider.notifyListeners();
                               },
@@ -237,12 +227,6 @@ class _StudioDetailsCardState extends State<StudioDetailsCard> {
                                   onPressed: () async {
                                     Navigator.pop(ctx);
                                     await widget.studioProvider.repository.deleteStudio(studio.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Studio deleted successfully!"),
-                                        backgroundColor: AppColors.deepGreen,
-                                      ),
-                                    );
                                     await widget.onReload?.call();
 
                                   },

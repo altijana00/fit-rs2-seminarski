@@ -30,7 +30,15 @@ class _AddCityDialogState extends State<AddCityDialog> {
               TextFormField(
                 decoration: InputDecoration(labelText: "City Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must enter a name.";
+                  }
+                  if (val.length > 50) {
+                    return "Must be less than 100 characters.";
+                  }
+                  return null;
+                },
               ),
             ],
           ),

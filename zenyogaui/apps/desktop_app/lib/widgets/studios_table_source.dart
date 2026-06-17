@@ -2,7 +2,6 @@ import 'package:core/dto/requests/studio_filter.dart';
 import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-import 'package:core/models/city_model.dart';
 import 'package:core/services/providers/city_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';

@@ -4,8 +4,6 @@ import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-
 import '../core/theme.dart';
 
 class AddClassDialog extends StatefulWidget {
@@ -99,32 +97,40 @@ class _AddClassDialogState extends State<AddClassDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Add Class"),
-      content: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 12.0,
-            children: [
-              FutureBuilder<List<YogaTypeResponseDto>>(
+      title: const Text("Add Class"),
+
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Form(
+          key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 12.0,
+              children: [
+
+                FutureBuilder<List<YogaTypeResponseDto>>(
                   future: Provider.of<YogaTypeProvider>(
                     context,
                     listen: false,
                   ).repository.getAllYogaTypes(),
-                builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(padding: EdgeInsets.symmetric(vertical: 12),
-                      child: CircularProgressIndicator(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: CircularProgressIndicator(),
                       );
                     }
-                    if(snapshot.hasError) {
+
+                    if (snapshot.hasError) {
                       return const Text(
                         "Failed to load yoga types",
                         style: TextStyle(color: AppColors.darkRed),
                       );
                     }
-                    final yogaTypes = snapshot.data!;
+
+                    final yogaTypes = snapshot.data ?? [];
 
                     return DropdownButtonFormField<int>(
                       decoration: const InputDecoration(
@@ -132,110 +138,149 @@ class _AddClassDialogState extends State<AddClassDialog> {
                       ),
                       value: _yogaTypeId,
                       items: yogaTypes.map((y) {
-                        return DropdownMenuItem<int>(value: y.id, child: Text(y.name),
+                        return DropdownMenuItem<int>(
+                          value: y.id,
+                          child: Text(y.name),
                         );
                       }).toList(),
                       onChanged: (value) {
                         setState(() {
-                          _yogaTypeId = value!;
+                          _yogaTypeId = value;
                         });
                       },
                       validator: (value) =>
                       value == null ? "Select a yoga type" : null,
                     );
-                },
-              ),
-
-              TextFormField(
-                decoration: InputDecoration(labelText: "Class Name"),
-                onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: "Description"),
-                onSaved: (val) => _description = val ?? "",
-               ),
-
-              TextFormField(
-                decoration: InputDecoration(labelText: "Max Participants"),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                validator: (val) {
-                  if(val == null || val.isEmpty) {
-                    return 'Please enter a number';
-                  }
-                  final n = num.tryParse(val);
-                  if (n != null && (n <= 0 || n > 50)) {
-                    return 'Please enter a number between 1 and 50';
-                  }
-                  return null;
-                },
-                onSaved: (val) => _maxParticipants = int.tryParse(val!)!,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: "Location"),
-                onSaved: (val) => _location = val ?? "",
-              ),
-              TextFormField(
-                controller: _startDateController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  labelText: "Start Date",
-                  suffixIcon: Icon(Icons.calendar_today),
+                  },
                 ),
-                onTap: () => _pickStartDate(context),
-                validator: (_) {
-                  if(_pickedDate == null){
-                    return "Please select a start date";
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _startTimeController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  labelText: "Start Time",
-                  suffixIcon: Icon(Icons.access_time),
+
+                TextFormField(
+                  decoration: const InputDecoration(labelText: "Class Name"),
+                  onSaved: (val) => _name = val ?? "",
+                  validator: (val) {
+                    if (val == null || val.trim().isEmpty) {
+                      return "You must enter a name.";
+                    }
+                    if (val.length > 50) {
+                      return "Must be less than 50 characters.";
+                    }
+                    return null;
+                  },
                 ),
-                onTap: () => _pickStartTime(context),
-                validator: (_) {
-                  if (_pickedTime == null) {
-                    return "Please select a start time";
-                  }
-                  if (_startDate!= null &&
-                      _startDate!.isBefore(DateTime.now())) {
-                    return "Start time must be in the future";
-                  }
-                  return null;
-                },
-              ),
-            ],
+
+                TextFormField(
+                  decoration: const InputDecoration(labelText: "Description"),
+                  onSaved: (val) => _description = val,
+                  validator: (val) {
+                    if (val != null && val.length > 150) {
+                      return "Must be less than 150 characters.";
+                    }
+                    return null;
+                  },
+                ),
+
+                TextFormField(
+                  decoration: const InputDecoration(labelText: "Max Participants"),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return "You must enter max participants.";
+                    }
+
+                    final n = int.tryParse(val);
+                    if (n == null) return "Invalid number";
+
+                    if (n < 0 || n > 50) {
+                      return "Max number of participants is 50.";
+                    }
+
+                    return null;
+                  },
+                  onSaved: (val) => _maxParticipants = int.parse(val!),
+                ),
+
+                TextFormField(
+                  decoration: const InputDecoration(labelText: "Location"),
+                  onSaved: (val) => _location = val,
+                  validator: (val) {
+                    if (val != null && val.length > 20) {
+                      return "Must be less than 20 characters.";
+                    }
+                    return null;
+                  },
+                ),
+
+                TextFormField(
+                  controller: _startDateController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: "Start Date",
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  onTap: () => _pickStartDate(context),
+                  validator: (_) {
+                    if (_pickedDate == null) {
+                      return "Please select a start date";
+                    }
+                    return null;
+                  },
+                ),
+
+                TextFormField(
+                  controller: _startTimeController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: "Start Time",
+                    suffixIcon: Icon(Icons.access_time),
+                  ),
+                  onTap: () => _pickStartTime(context),
+                  validator: (_) {
+                    if (_pickedTime == null) {
+                      return "Please select a start time";
+                    }
+                    if (_startDate != null &&
+                        _startDate!.isBefore(DateTime.now())) {
+                      return "Start time must be in the future";
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
+
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Cancel"),
+        ),
+
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              widget.onAddDto(AddClassDto(
-                yogaTypeId: _yogaTypeId!,
-                name: _name,
-                description: _description,
-                location: _location,
-                startDate: _startDate!,
-                endDate: _endDate!,
-                maxParticipants: _maxParticipants,
-              ));
-              Navigator.pop(context);
 
+              widget.onAddDto(
+                AddClassDto(
+                  yogaTypeId: _yogaTypeId!,
+                  name: _name,
+                  description: _description,
+                  location: _location,
+                  startDate: _startDate!,
+                  endDate: _endDate!,
+                  maxParticipants: _maxParticipants,
+                ),
+              );
+
+              Navigator.pop(context);
             }
           },
-          child: Text("Add"),
+          child: const Text("Add"),
         ),
       ],
     );

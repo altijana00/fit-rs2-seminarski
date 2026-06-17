@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
-using System.Security.Claims;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -61,7 +60,7 @@ namespace ZEN_YogaWebAPI.Controllers
                     var adminNotification = new AddNotification()
                     {
                         Title = "Payment success",
-                        Content = $"Payment for studio {studio.Name} from user {user.FirstName} has ben successful.",
+                        Content = $"Payment for studio {studio.Name} from user {user.FirstName} has been successful.",
                         Type = NotificationType.Success.ToString(),
                         UserId = a.Id,
                     };
@@ -142,7 +141,7 @@ namespace ZEN_YogaWebAPI.Controllers
             var notificationFailed = new AddNotification()
             {
                 Title = "Refund failed",
-                Content = $"We are unable to redund your payment for {studio.Name}",
+                Content = $"We are unable to refund your payment for {studio.Name}",
                 Type = NotificationType.Error.ToString(),
                 UserId = userId,
             };

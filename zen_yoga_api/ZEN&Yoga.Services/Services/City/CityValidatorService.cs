@@ -22,7 +22,7 @@ namespace ZEN_Yoga.Services.Services.City
 
             if (city == null)
             {
-                throw new RoleNotFoundException("City not found!");
+                throw new CityNotFoundException("City not found!");
 
             }
 

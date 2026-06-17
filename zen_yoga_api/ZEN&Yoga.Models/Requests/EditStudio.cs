@@ -16,7 +16,7 @@ namespace ZEN_Yoga.Models.Requests
         [EmailAddress(ErrorMessage = "Please enter a valid email format. (studio@example.com)")]
         public string? ContactEmail { get; set; }
 
-        [Phone(ErrorMessage ="Please enter a valid email format. (...)")]
+        [Phone(ErrorMessage ="Please enter a valid phone format.")]
         public string? ContactPhone { get; set; }
         public string? ProfileImageUrl { get; set; }
         public required float MembershipPrice { get; set; }

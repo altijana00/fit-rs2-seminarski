@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:core/services/providers/payment_service.dart';
@@ -59,7 +58,6 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
     final totalPayments = await _paymentsFuture;
     if (analytics == null) return;
 
-    // ensure widget is rendered before capture
     await Future.delayed(const Duration(milliseconds: 300));
 
     final barChartImage = await captureWidget(_barChartKey);

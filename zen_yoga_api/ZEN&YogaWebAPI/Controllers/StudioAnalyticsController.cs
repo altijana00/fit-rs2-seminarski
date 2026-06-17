@@ -5,8 +5,6 @@ using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Services.Interfaces.Analytics;
 using ZEN_Yoga.Services.Interfaces.Studio;
-using ZEN_Yoga.Services.Services.Instructor;
-using ZEN_Yoga.Services.Services.Studio;
 
 namespace ZEN_YogaWebAPI.Controllers
 {

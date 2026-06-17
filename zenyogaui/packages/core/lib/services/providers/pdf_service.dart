@@ -24,7 +24,6 @@ class PdfService {
         margin: const pw.EdgeInsets.all(24),
         build: (context) => [
 
-          // HEADER
           pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
@@ -60,7 +59,6 @@ class PdfService {
 
           pw.SizedBox(height: 30),
 
-          // BAR CHART
           pw.Text("Most Popular Cities",
               style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
           pw.SizedBox(height: 10),

@@ -29,8 +29,8 @@ namespace ZEN_Yoga.Services.Services.UserClass
         public List<int> GetAllByYogaTypeId(int yogaTypeId)
         {
             List<int> classes = _dbContext.UserClasses
-                .Where(c => c.Class.YogaTypeId == yogaTypeId)
-                .GroupBy(c => c.Class.StudioId)
+                .Where(c => c.Class!.YogaTypeId == yogaTypeId)
+                .GroupBy(c => c.Class!.StudioId)
                 .OrderByDescending(g => g.Count())
                 .Take(3)
                 .Select(g => g.Key).ToList();
@@ -127,7 +127,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
                     Id = uc.Id,
                     UserId = uc.UserId,
                     ClassId = uc.ClassId,
-                    StudioId = uc.Class.StudioId,
+                    StudioId = uc.Class!.StudioId,
                     Name = uc.Class.Name,
                     StartDate = uc.Class.StartDate,
                     EndDate = uc.Class.EndDate,

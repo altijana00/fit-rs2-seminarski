@@ -10,7 +10,6 @@ import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/employee_card.dart';
 import '../widgets/owner_card.dart';
 import '../widgets/studio_gallery.dart';

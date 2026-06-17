@@ -1,6 +1,5 @@
 import 'package:core/dto/responses/notification_response_dto.dart';
 import 'package:flutter/material.dart';
-
 import '../core/theme.dart';
 
 class NotificationCard extends StatelessWidget {
@@ -59,7 +58,6 @@ class NotificationCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// ICON + UNREAD DOT
               Stack(
                 children: [
                   Icon(_getIcon(), color: color, size: 26),
@@ -81,8 +79,6 @@ class NotificationCard extends StatelessWidget {
               ),
 
               const SizedBox(width: 12),
-
-              /// CONTENT
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

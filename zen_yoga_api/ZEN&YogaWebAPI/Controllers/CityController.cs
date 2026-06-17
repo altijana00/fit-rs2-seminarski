@@ -69,7 +69,7 @@ namespace ZEN_YogaWebAPI.Controllers
             {
                 _logger.LogInformation("City data was null");
                 _logger.LogInformation("City data: {@addCity}", addCity);
-                return BadRequest();
+                return BadRequest(new { Message = "City data was null." });
 
             }
 
@@ -96,7 +96,7 @@ namespace ZEN_YogaWebAPI.Controllers
             if (editCity == null)
             {
                 _logger.LogInformation("City was null");
-                return BadRequest();
+                return BadRequest(new { Message = "City data was null" });
 
             }
 

@@ -40,9 +40,9 @@ class BarChartCard extends StatelessWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        interval: 1, // 👈 only whole numbers
+                        interval: 1,
                         getTitlesWidget: (value, meta) {
-                          if (value % 1 != 0) return const SizedBox(); // 👈 extra safety
+                          if (value % 1 != 0) return const SizedBox();
                           return Text(
                             value.toInt().toString(),
                             style: const TextStyle(fontSize: 10),
@@ -52,11 +52,11 @@ class BarChartCard extends StatelessWidget {
                     ),
 
                     rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false), // 👈 REMOVE right side
+                      sideTitles: SideTitles(showTitles: false),
                     ),
 
                     topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false), // 👈 clean look
+                      sideTitles: SideTitles(showTitles: false),
                     ),
 
                     bottomTitles: AxisTitles(
@@ -71,7 +71,7 @@ class BarChartCard extends StatelessWidget {
                             child: Text(
                               labels[index],
                               style: const TextStyle(fontSize: 10),
-                              overflow: TextOverflow.ellipsis, // 👈 prevents overflow
+                              overflow: TextOverflow.ellipsis,
                             ),
                           );
                         },

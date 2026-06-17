@@ -2,7 +2,6 @@ import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/models/yoga-type_model.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/class_service.dart';
-import 'package:core/services/providers/instructor_service.dart';
 import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
 import 'package:flutter/material.dart';

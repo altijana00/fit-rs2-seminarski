@@ -9,6 +9,21 @@ class NotificationApiService {
     final response = await dio.get('Notification/getAll');
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to fetch notifications: ${response.data}');
     }
@@ -22,6 +37,21 @@ class NotificationApiService {
     );
     if(response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(response.data);
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch notifications: ${response.data}');
     }
@@ -33,6 +63,21 @@ class NotificationApiService {
       return List<Map<String, dynamic>>.from(response.data);
     } else if (response.statusCode == 204) {
         return [];
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Falied to fetch notifications: ${response.data}');
     }
@@ -52,6 +97,19 @@ class NotificationApiService {
       var resp = Map<String, dynamic>.from(response.data);
       throw Exception(resp["error"]);
     } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
       throw (response.data["message"]);
     } else{
       throw Exception('Failed to delete notification: ${response.data}');
@@ -74,6 +132,21 @@ class NotificationApiService {
       var resp = response.data;
       throw Exception(resp["error"]);
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else{
       throw Exception('Failed to edit notification: ${response.data}');
     }
@@ -94,6 +167,21 @@ class NotificationApiService {
       var resp = response.data;
       throw Exception(resp["error"]);
 
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else{
       throw Exception('Failed to toggle read of notification: ${response.data}');
     }
@@ -107,10 +195,21 @@ class NotificationApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Map<String, dynamic>.from(response.data);
-    } else if (response.statusCode == 400) {
-      var resp = Map<String, dynamic>.from(response.data);
-      throw Exception(resp["error"]);
+    }else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
 
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
     } else {
       throw Exception('Failed to add notification: ${response.data}');
     }

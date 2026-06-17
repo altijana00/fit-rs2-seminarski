@@ -39,31 +39,66 @@ class _EditStudioDialogState extends State<EditStudioDialog> {
                 controller: TextEditingController(text: widget.studioToEdit.name),
                 decoration: InputDecoration(labelText: "Studio Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Studio name is required!";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.studioToEdit.description),
                 decoration: InputDecoration(labelText: "Description"),
+                maxLines: 3,
                 onSaved: (val) => _description = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a description" : null,
+                validator: (value) {
+                  if (value != null && value.length > 300) {
+                    return "Description can't have more than 300 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.studioToEdit.address),
                 decoration: InputDecoration(labelText: "Address"),
                 onSaved: (val) => _address = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter an address" : null,
+                validator: (value) {
+                  if (value != null && value.length > 100) {
+                    return "Address can't have more than 100 characters.";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.studioToEdit.contactEmail),
                 decoration: InputDecoration(labelText: "Contact Email"),
                 onSaved: (val) => _contactEmail = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter an email" : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return null;
+
+                  final emailRegex =
+                  RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                  if (!emailRegex.hasMatch(value)) {
+                    return "Please enter a valid email format (studio@example.com)";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 controller: TextEditingController(text: widget.studioToEdit.contactPhone),
                 decoration: InputDecoration(labelText: "Contact Phone"),
                 onSaved: (val) => _contactPhone = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter phone" : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return null;
+
+                  if (value.length < 6) {
+                    return "Please enter a valid phone format.";
+                  }
+
+                  return null;
+                },
               ),
 
             ],

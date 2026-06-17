@@ -11,6 +11,5 @@ namespace ZEN_Yoga.Models
         public DateTime? CreatedAt { get; set; }
         public int? TotalUsers { get; set; }
         public int? TotalStudios { get; set; }
-        public string? MostPopularCity { get; set; }
     }
 }

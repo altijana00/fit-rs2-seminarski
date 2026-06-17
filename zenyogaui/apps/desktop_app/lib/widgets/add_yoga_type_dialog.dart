@@ -31,7 +31,12 @@ class _AddYogaTypeDialogState extends State<AddYogaTypeDialog> {
               TextFormField(
                 decoration: InputDecoration(labelText: "Yoga Type Name"),
                 onSaved: (val) => _name = val ?? "",
-                validator: (val) => val!.isEmpty ? "Enter a name" : null,
+                validator: (val) {
+                  if (val == null || val.trim().isEmpty) {
+                    return "You must input a yoga type name";
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Description"),

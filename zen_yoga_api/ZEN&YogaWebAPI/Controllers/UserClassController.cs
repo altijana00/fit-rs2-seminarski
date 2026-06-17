@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
@@ -173,7 +171,7 @@ namespace ZEN_YogaWebAPI.Controllers
             }
 
             _logger.LogInformation($"User Class {id} not found");
-            return BadRequest();
+            return BadRequest(new { Message = "Cannot delete class property" });
         }
 
 

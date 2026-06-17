@@ -82,7 +82,6 @@ class MyClassesTabState extends State<MyClassesTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: const Text("My Classes")),
       body: Column(
         children: [
           TableCalendar<ClassResponseDto>(

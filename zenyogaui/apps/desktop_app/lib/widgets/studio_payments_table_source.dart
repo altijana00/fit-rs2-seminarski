@@ -1,9 +1,6 @@
-import 'package:core/dto/requests/payment_filter.dart';
-
 import 'package:core/dto/responses/payment_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
-
 import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
@@ -151,7 +148,7 @@ class StudioPaymentsTableViewState extends State<StudioPaymentsTableView>{
                     padding: EdgeInsets.all(24),
                     child: Center(
                       child: Text(
-                        "No payments found for the selected filters",
+                        "No payments found",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                     ),
