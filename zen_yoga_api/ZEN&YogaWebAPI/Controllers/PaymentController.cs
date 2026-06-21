@@ -247,27 +247,7 @@ namespace ZEN_YogaWebAPI.Controllers
             return Ok(payments);
         }
 
-        [Authorize(Roles = AuthRoles.AdminOrOwner)]
-        [HttpGet("getStudioPayments")]
-        public async Task<ActionResult<List<PaymentResponse>>> GetStudioPayments([FromServices] IGetPaymentService getPaymentService, [FromServices] IGetStudioService getStudioService, int studioId)
-        {
-            var studio = await getStudioService.GetById(studioId);
-            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
-            {
-                _logger.LogWarning($"Unauthorized attempt to get payments for other studioby : {User.FindFirst("id")?.Value}");
 
-                return Unauthorized();
-            }
-            var payments = await getPaymentService.GetStudioPayments(studioId);
-
-            if (payments == null)
-            {
-                _logger.LogInformation("No payments found");
-                return NoContent();
-            }
-            _logger.LogInformation($"{payments.Count} payments found");
-            return Ok(payments);
-        }
 
         [Authorize(Roles = AuthRoles.AdminOrOwner)]
         [HttpGet("getPaymentsOfOwnerStudios")]

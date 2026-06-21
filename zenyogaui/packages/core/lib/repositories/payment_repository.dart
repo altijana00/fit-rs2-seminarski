@@ -49,10 +49,7 @@ class PaymentRepository {
     return jsonList.map((json) => PaymentResponseDto.fromJson(json)).toList();
   }
 
-  Future<List<PaymentResponseDto>> getStudioPayments(int studioId) async {
-    final List<dynamic> jsonList = await api.getStudioPayments(studioId);
-    return jsonList.map((json) => PaymentResponseDto.fromJson(json)).toList();
-  }
+
 
   Future<List<PaymentResponseDto>> getPaymentsOfOwnerStudios(int ownerId) async {
     final List<dynamic> jsonList = await api.getPaymentsOfOwnerStudios(ownerId);

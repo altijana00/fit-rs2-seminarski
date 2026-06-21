@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-final DateFormat dateFormatter = DateFormat('dd.MM HH:mm');
+final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
 
 class _PaymentsTableData {
   final List payments;

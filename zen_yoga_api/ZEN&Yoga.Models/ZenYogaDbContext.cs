@@ -128,6 +128,10 @@ namespace ZEN_Yoga.Models
                 .HasForeignKey(uc => uc.ClassId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserClass>()
+                .HasIndex(uc => new { uc.UserId, uc.ClassId })
+                .IsUnique();
+
 
             modelBuilder.Entity<StudioAnalytics>()
                 .HasOne(sa => sa.Studio)

@@ -62,11 +62,6 @@ namespace ZEN_Yoga.Services.Services.Payment
             return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
-        public async Task<List<PaymentResponse>> GetStudioPayments(int studioId)
-        {
-            var payments = await _dbContext.Payments.Where(p => p.StudioId == studioId).ToListAsync();
-            return _mapper.Map<List<PaymentResponse>>(payments);
-        }
 
         public async Task<List<PaymentResponse>> GetPaymentsOfOwnerStudios(int ownerId)
         {

@@ -225,29 +225,7 @@ class PaymentApiService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getStudioPayments(int studioId) async {
-    final response = await dio.get('Payment/getStudioPayment?studioId=$studioId');
-    if(response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(response.data);
-    } else if (response.statusCode == 400) {
-      final data = Map<String, dynamic>.from(response.data);
 
-      if (data['message'] is List) {
-        final messages = (data['message'] as List)
-            .map((e) => e.toString())
-            .join('\n');
-
-        throw Exception(messages);
-      }
-
-      if (data['error'] != null) {
-        throw Exception(data['error'].toString());
-      }
-      throw (response.data["message"]);
-    } else {
-      throw Exception('Falied to fetch studio payments: ${response.data}');
-    }
-  }
 
   Future<List<Map<String, dynamic>>> getPaymentsOfOwnerStudios(int ownerId) async {
     final response = await dio.get('Payment/getPaymentsOfOwnerStudios?ownerId=$ownerId');

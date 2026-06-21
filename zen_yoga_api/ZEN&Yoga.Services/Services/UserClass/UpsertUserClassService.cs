@@ -30,7 +30,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
             }
 
             var mappedClass = _mapper.Map<ClassResponse>(classRes);
-            mappedClass.JoinedParticipants = await _dbContext.UserClasses.CountAsync(c=>c.Id == classId);
+            mappedClass.JoinedParticipants = await _dbContext.UserClasses.CountAsync(c=>c.ClassId == classId);
 
             var studioId = classRes.StudioId;
             
@@ -38,12 +38,10 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
             if (exists == null)
             {
-                if(mappedClass.JoinedParticipants < mappedClass.MaxParticipants)
+                if(mappedClass.JoinedParticipants <= mappedClass.MaxParticipants)
                 {
                     var userClass = new Models.UserClass
                     {
-
-
                         UserId = userId,
                         ClassId = classId,
                         JoinedAt = DateTime.UtcNow

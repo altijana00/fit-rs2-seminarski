@@ -15,7 +15,6 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
 
         Task<decimal> GetPaymentsTotal();
         Task<List<PaymentResponse>> GetUserPayments(int userId);
-        Task<List<PaymentResponse>> GetStudioPayments(int studioId);
 
         Task<List<PaymentResponse>> GetPaymentsOfOwnerStudios(int ownerId);
 
