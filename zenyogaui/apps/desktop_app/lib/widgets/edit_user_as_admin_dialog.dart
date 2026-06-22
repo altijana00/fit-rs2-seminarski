@@ -65,7 +65,7 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
     if (_newPasswordCtrl.text.trim().isEmpty) return;
 
     final dto = UpdateUserPasswordAsAdminDto(
-      id: widget.userToEdit.id,
+      userId: widget.userToEdit.id,
       newPassword: _newPasswordCtrl.text.trim(),
     );
 

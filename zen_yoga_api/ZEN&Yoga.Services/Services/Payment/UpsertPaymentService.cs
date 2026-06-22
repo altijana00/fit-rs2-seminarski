@@ -88,7 +88,15 @@ namespace ZEN_Yoga.Services.Services.Payment
         {
             var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId);
 
-            return payment == null ? false : true;
+            if (payment != null && payment.Status == PaymentStatus.Succeeded.ToString())
+            {
+                return true;
+            }
+            return false;
+            
+                
+            
+            
         }
 
         public async Task<bool> RefundPayment(int userId, int studioId)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Exceptions;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.UserClass;
@@ -44,7 +45,8 @@ namespace ZEN_Yoga.Services.Services.UserClass
                     {
                         UserId = userId,
                         ClassId = classId,
-                        JoinedAt = DateTime.UtcNow
+                        JoinedAt = DateTime.UtcNow,
+                        Status = UserClassStatus.Joined
                     };
 
                 

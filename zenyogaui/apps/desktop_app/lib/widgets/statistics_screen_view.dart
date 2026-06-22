@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/participants_by_city.dart';
 import 'package:core/services/providers/app_analytics_service.dart';
 import 'package:core/services/providers/payment_service.dart';
@@ -151,7 +152,7 @@ class _StatisticsScreenViewState extends State<StatisticsScreenView> {
                       final totalPayments = snapshot.data ?? 0.0;
                       return KpiCard(
                         title: "Total Payments",
-                        value: totalPayments.toStringAsFixed(2),
+                        value: totalPayments.toStringAsFixed(2) + Constants.currencyUSD,
                         icon: Icons.attach_money,
                         color: Colors.green,
                       );

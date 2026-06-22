@@ -2,7 +2,7 @@
 
 namespace ZEN_Yoga.Models
 {
-    [Table("Paymments")]
+    [Table("Payments")]
     public class Payment
     {
         public int Id { get; set; }

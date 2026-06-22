@@ -1,3 +1,4 @@
+import 'package:core/core/constants.dart';
 import 'package:core/core/payment_status_enum.dart';
 import 'package:core/dto/requests/payment_filter.dart';
 import 'package:core/dto/responses/payment_response_dto.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
+final DateFormat dateFormatter = DateFormat(Constants.dateTimeFormat);
 
 class _PaymentsTableData {
   final List payments;
@@ -47,7 +48,7 @@ class PaymentsTableSource extends DataTableSource {
     return DataRow(cells: [
       DataCell(Text(userNames[p.userId] ?? "-")),
       DataCell(Text(studioNames[p.studioId] ?? "-")),
-      DataCell(Text(p.amount.toString())),
+      DataCell(Text(p.amount.toString() + Constants.currencyUSD)),
       DataCell(Text(p.status)),
       DataCell(Text(dateFormatter.format(p.paymentDate))),
       DataCell(
@@ -63,33 +64,53 @@ class PaymentsTableSource extends DataTableSource {
               ),
               onPressed: p.paymentStatus == PaymentStatus.succeeded
                   ? () async {
-                try {
-                  final paymentProvider =
-                  context.read<PaymentProvider>();
-
-                  await paymentProvider.repository.refundPayment(
-                    p.userId,
-                    p.studioId,
-                  );
-                  onRefresh();
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Payment refunded successfully'),
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Refund payment"),
+                    content: Text(
+                      "Are you sure you want to refund payment by ${userNames[p.userId]}?",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        child: const Text("No"),
                       ),
-                    );
-                  }
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(ctx);
+                          try {
+                            final paymentProvider =
+                            context.read<PaymentProvider>();
 
-
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Refund failed: $e'),
+                            await paymentProvider.repository.refundPayment(
+                              p.userId,
+                              p.studioId,
+                            );
+                            onRefresh();
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Payment refunded successfully'),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Refund failed: $e'),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        child: const Text("Yes"),
                       ),
-                    );
-                  }
-                }
+                    ],
+                  ),
+                );
               }
                   : null,
             ),

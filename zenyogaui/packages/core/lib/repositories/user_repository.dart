@@ -48,12 +48,12 @@ class UserRepository {
   }
 
   Future<String> updateUserPasswordAsAdmin(UpdateUserPasswordAsAdminDto updateUserPasswordAsAdminDto) async {
-    final json = await api.updateUserPasswordAsAdmin(updateUserPasswordAsAdminDto);
+    final json = await api.updateUserPasswordAsAdmin(updateUserPasswordAsAdminDto.toJson());
     return json.values.first;
   }
 
   Future<String> updateYourUserPassword(UpdateYourUserPasswordDto updateYourUserPasswordDto) async {
-    final json = await api.updateYourUserPassword(updateYourUserPasswordDto);
+    final json = await api.updateYourUserPassword(updateYourUserPasswordDto.toJson());
     return json.values.first;
   }
 

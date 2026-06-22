@@ -34,12 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZEN&amp;Yoga.Models\ZEN&amp;Yoga.Models.csproj" />
-    <ProjectReference Include="..\ZEN&amp;Yoga.Services\ZEN&amp;Yoga.Services.csproj" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\ZEN&amp;Yoga.Models\ZEN&amp;Yoga.Models.csproj" />
+    <ProjectReference Include="..\ZEN&amp;Yoga.Services\ZEN&amp;Yoga.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,11 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'update_user_password_as_admin_dto.g.dart';
 @JsonSerializable()
 class UpdateUserPasswordAsAdminDto {
-  final int id;
+  final int userId;
   final String newPassword;
 
   UpdateUserPasswordAsAdminDto({
-    required this.id,
+    required this.userId,
     required this.newPassword,
 
   });

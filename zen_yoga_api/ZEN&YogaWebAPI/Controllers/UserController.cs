@@ -421,8 +421,8 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [Authorize(Roles = AuthRoles.Admin)]
-        [HttpPatch("updateUserPassword")]
-        public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordAsAdmin updateUserPassword, 
+        [HttpPut("updateUserPassword")]
+        public async Task<IActionResult> UpdateUserPassword([FromBody] UpdateUserPasswordAsAdmin updateUserPassword, 
                                                             [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
                                                             [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                             [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
@@ -456,8 +456,8 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [Authorize(Roles = AuthRoles.AllRoles)]
-        [HttpPatch("updateYourUserPassword")]
-        public async Task<IActionResult> UpdateYourUserPassword(UpdateYourPassword updateYourPassword,
+        [HttpPut("updateYourUserPassword")]
+        public async Task<IActionResult> UpdateYourUserPassword([FromBody] UpdateYourPassword updateYourPassword,
                                                            [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
                                                            [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                            [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)

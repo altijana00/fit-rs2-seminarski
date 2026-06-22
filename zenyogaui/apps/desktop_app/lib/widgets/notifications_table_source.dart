@@ -1,3 +1,4 @@
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/notification_response_dto.dart';
 import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/services/providers/notification_service.dart';
@@ -9,7 +10,7 @@ import 'package:zenyogaui/widgets/edit_notification_dialog.dart';
 import '../core/theme.dart';
 import 'package:core/dto/requests/notification_filter.dart';
 
-final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
+final DateFormat dateFormatter = DateFormat(Constants.dateTimeFormat);
 
 
 class _NotificationsTableData {

@@ -219,9 +219,10 @@ class UserApiService {
     }
   }
 
-  Future<Map<String, dynamic>> updateUserPasswordAsAdmin(UpdateUserPasswordAsAdminDto updateUserPasswordAsAdminDto) async {
-    final response = await dio.patch(
-      'User/updateUserPassword?UserId=${updateUserPasswordAsAdminDto.id}&NewPassword=${updateUserPasswordAsAdminDto.newPassword}',
+  Future<Map<String, dynamic>> updateUserPasswordAsAdmin(Map<String, dynamic> updateUserPasswordAsAdminDto) async {
+    final response = await dio.put(
+      'User/updateUserPassword',
+        data: updateUserPasswordAsAdminDto,
         options: Options(
           validateStatus: (status) => true,
         )
@@ -249,9 +250,10 @@ class UserApiService {
     }
   }
 
-  Future<Map<String, dynamic>> updateYourUserPassword(UpdateYourUserPasswordDto updateYourUserPasswordDto) async {
-    final response = await dio.patch(
-      'User/updateYourUserPassword?OldPassword=${updateYourUserPasswordDto.oldPassword}&NewPassword=${updateYourUserPasswordDto.newPassword}',
+  Future<Map<String, dynamic>> updateYourUserPassword(Map<String, dynamic> updateYourUserPasswordDto) async {
+    final response = await dio.put(
+      'User/updateYourUserPassword',
+        data: updateYourUserPasswordDto,
         options: Options(
           validateStatus: (status) => true,
         )

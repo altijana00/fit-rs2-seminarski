@@ -15,7 +15,7 @@ class NotificationCard extends StatelessWidget {
   });
 
   Color _getColor() {
-    switch (notification.type) {
+    switch (notification.type.toLowerCase()) {
       case "success":
         return Colors.green;
       case "warning":
@@ -28,7 +28,7 @@ class NotificationCard extends StatelessWidget {
   }
 
   IconData _getIcon() {
-    switch (notification.type) {
+    switch (notification.type.toLowerCase()) {
       case "success":
         return Icons.check_circle;
       case "warning":

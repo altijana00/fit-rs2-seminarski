@@ -627,35 +627,41 @@ namespace ZEN_Yoga.Models
                      Id = 1, 
                      UserId = 9, 
                      ClassId = 2, 
-                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                     JoinedAt = new DateTime(2026, 6, 14, 10, 0, 0),
+                     Status = "Joined"
+                     
                  },
                  new UserClass () 
                  { 
                      Id = 2, 
                      UserId = 10, 
                      ClassId = 3, 
-                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                     JoinedAt = new DateTime(2026, 6, 14, 10, 0, 0),
+                     Status = "Joined"
                  },
                  new UserClass () 
                  { 
                      Id = 3, 
                      UserId = 10, 
                      ClassId = 4, 
-                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                     JoinedAt = new DateTime(2026, 6, 14, 10, 0, 0),
+                     Status = "Joined"
                  },
                  new UserClass () 
                  { 
                      Id = 4, 
                      UserId = 11, 
                      ClassId = 3, 
-                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                     JoinedAt = new DateTime(2026, 6, 14, 10, 0, 0),
+                     Status = "Joined"
                  },
                  new UserClass () 
                  { 
                      Id = 5, 
                      UserId = 11, 
                      ClassId = 7, 
-                     JoinedAt = new DateTime(2026, 1, 14, 10, 0, 0) 
+                     JoinedAt = new DateTime(2026, 6, 14, 10, 0, 0),
+                     Status = "Joined"
                  }
                  
             );

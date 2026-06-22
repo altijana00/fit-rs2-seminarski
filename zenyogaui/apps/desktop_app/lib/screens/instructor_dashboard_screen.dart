@@ -1,3 +1,4 @@
+import 'package:core/core/constants.dart';
 import 'package:core/dto/requests/class_filter.dart';
 import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
@@ -19,7 +20,7 @@ import '../widgets/edit_class_dialog.dart';
 import '../widgets/edit_instructor_dialog.dart';
 
 
-final DateFormat dateFormatter = DateFormat('dd.MM HH:mm');
+final DateFormat dateFormatter = DateFormat(Constants.dateTimeFormat);
 
 
 class _InstructorClassesTableData {

@@ -1,3 +1,4 @@
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
@@ -8,8 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
-final DateFormat formattedTime = DateFormat('HH:mm');
+final DateFormat dateFormatter = DateFormat(Constants.dateFormat);
+final DateFormat formattedTime = DateFormat(Constants.timeFormat);
 
 class MyClassesTab extends StatefulWidget {
   const MyClassesTab({super.key});

@@ -5,18 +5,18 @@ import 'package:signalr_netcore/signalr_client.dart';
 
 class AppNotification {
   final String title;
-  final String message;
+  final String content;
   final String type;
 
   AppNotification({
     required this.title,
-    required this.message,
+    required this.content,
     this.type = 'info',
   });
 
   factory AppNotification.fromMap(Map<String, dynamic> map) => AppNotification(
     title: map['title'] ?? '',
-    message: map['message'] ?? '',
+    content: map['content'] ?? '',
     type: map['type'] ?? 'info',
   );
 }

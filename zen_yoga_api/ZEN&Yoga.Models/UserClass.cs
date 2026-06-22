@@ -11,5 +11,8 @@ namespace ZEN_Yoga.Models
         public int ClassId { get; set; }
         public Class? Class { get; set; }
         public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
+        public required string Status { get; set; }
+        public DateTime? CancelledAt { get; set; }
+        public int? CancelledByUserId { get; set; }
     }
 }

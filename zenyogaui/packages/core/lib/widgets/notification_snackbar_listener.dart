@@ -59,7 +59,7 @@ class _NotificationSnackbarListenerState
                   Text(n.title,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.white)),
-                  Text(n.message,
+                  Text(n.content,
                       style: const TextStyle(color: Colors.white70)),
                 ],
               ),

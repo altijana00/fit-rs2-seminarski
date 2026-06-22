@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/groupped_classes.dart';
 import 'package:core/dto/responses/instructor_classes.dart';
 import 'package:core/services/providers/class_service.dart';
@@ -135,7 +136,7 @@ class _StudioStatisticsDialogState extends State<StudioStatisticsDialog> {
 
                               return KpiCard(
                                 title: "Total Revenue",
-                                value: snapshot.data.toString(),
+                                value: snapshot.data.toString() + Constants.currencyUSD,
                                 icon: Icons.money,
                                 color: Colors.green,
                               );

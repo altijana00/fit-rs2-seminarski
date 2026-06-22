@@ -1,3 +1,4 @@
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/class_response_dto.dart';
 import 'package:core/models/yoga-type_model.dart';
 import 'package:core/services/providers/auth_service.dart';
@@ -11,7 +12,7 @@ import 'package:intl/intl.dart';
 
 import '../controller/payment_controller.dart';
 
-final DateFormat dateFormatter = DateFormat('dd.MM.yyyy HH:mm');
+final DateFormat dateFormatter = DateFormat(Constants.dateTimeFormat);
 
 class YogaTypeScreen extends StatefulWidget {
   final YogaTypeModel yogaType;

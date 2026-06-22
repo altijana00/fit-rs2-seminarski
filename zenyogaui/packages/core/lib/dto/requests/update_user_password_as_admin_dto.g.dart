@@ -9,10 +9,13 @@ part of 'update_user_password_as_admin_dto.dart';
 UpdateUserPasswordAsAdminDto _$UpdateUserPasswordAsAdminDtoFromJson(
   Map<String, dynamic> json,
 ) => UpdateUserPasswordAsAdminDto(
-  id: (json['id'] as num).toInt(),
+  userId: (json['userId'] as num).toInt(),
   newPassword: json['newPassword'] as String,
 );
 
 Map<String, dynamic> _$UpdateUserPasswordAsAdminDtoToJson(
   UpdateUserPasswordAsAdminDto instance,
-) => <String, dynamic>{'id': instance.id, 'newPassword': instance.newPassword};
+) => <String, dynamic>{
+  'userId': instance.userId,
+  'newPassword': instance.newPassword,
+};

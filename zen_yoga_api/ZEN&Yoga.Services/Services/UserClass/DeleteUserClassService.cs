@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Services.Interfaces.UserClass;
 
 namespace ZEN_Yoga.Services.Services.UserClass
@@ -20,7 +21,10 @@ namespace ZEN_Yoga.Services.Services.UserClass
             {
 
 
-                _dbContext.UserClasses.Remove(classRes);
+                classRes.Status = UserClassStatus.Cancelled;
+                classRes.CancelledAt = DateTime.Now;
+                classRes.CancelledByUserId = classRes.UserId;
+
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -34,8 +38,10 @@ namespace ZEN_Yoga.Services.Services.UserClass
             if (classRes != null)
             {
 
+                classRes.Status = UserClassStatus.Cancelled;
+                classRes.CancelledAt = DateTime.Now;
+                classRes.CancelledByUserId = userId;
 
-                _dbContext.UserClasses.Remove(classRes);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
