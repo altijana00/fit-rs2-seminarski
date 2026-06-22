@@ -19,14 +19,14 @@ namespace ZEN_Yoga.Services.Services.Studio
         }
         public async Task<List<StudioResponse>> GetAll()
         {
-            var studios = await _dbContext.Studios.ToListAsync();
+            var studios = await _dbContext.Studios.AsNoTracking().ToListAsync();
             return _mapper.Map<List<StudioResponse>>(studios).OrderByDescending(s => s.Id).ToList();
         }
 
         public async Task<List<StudioResponse>> GetStudiosQuery(StudioQuery studioQuery)
         {
 
-            IQueryable<ZEN_Yoga.Models.Studio> studios = _dbContext.Studios.AsQueryable();
+            IQueryable<ZEN_Yoga.Models.Studio> studios = _dbContext.Studios.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(studioQuery.Search))
             {
@@ -52,19 +52,19 @@ namespace ZEN_Yoga.Services.Services.Studio
 
         public async Task<List<StudioResponse>> GetByOwner(int ownerId)
         {
-            var studios = await _dbContext.Studios.Where(s => s.OwnerId == ownerId).ToListAsync();
+            var studios = await _dbContext.Studios.AsNoTracking().Where(s => s.OwnerId == ownerId).ToListAsync();
             return _mapper.Map<List<StudioResponse>>(studios).OrderByDescending(s => s.Id).ToList();
         }
 
         public async Task<StudioResponse> GetByOwnerAndStudioName(int ownerId, string name)
         {
-            var studio = await _dbContext.Studios.FirstOrDefaultAsync(s => s.OwnerId == ownerId && s.Name == name);
+            var studio = await _dbContext.Studios.AsNoTracking().FirstOrDefaultAsync(s => s.OwnerId == ownerId && s.Name == name);
             return _mapper.Map<StudioResponse>(studio);
         }
 
         public async Task<StudioResponse> GetById(int id)
         {
-            var studio = await _dbContext.Studios.FirstOrDefaultAsync(s => s.Id == id);
+            var studio = await _dbContext.Studios.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
 
             return _mapper.Map<StudioResponse>(studio);
         }

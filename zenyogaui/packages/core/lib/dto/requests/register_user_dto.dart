@@ -12,7 +12,6 @@ class RegisterUserDto {
   final String email;
   final String password;
   final String? profileImageUrl;
-  final int roleId;
   final int cityId;
 
   RegisterUserDto({
@@ -23,7 +22,6 @@ class RegisterUserDto {
     required this.email,
     required this.password,
     this.profileImageUrl,
-    required this.roleId,
     required this.cityId
   });
 

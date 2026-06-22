@@ -25,6 +25,7 @@ namespace ZEN_Yoga.Services.Services.User
 
         public async Task Add(IUserValidatorService userValidatorService, IRoleValidatorService roleValidatorService, ICityValidatorService cityValidatorService, RegisterUser registerUser)
         {
+          
             var user = _mapper.Map<Models.User>(registerUser);
 
             var hashedPassword = PasswordHelpers.HashPassword(registerUser.Password);
@@ -32,16 +33,32 @@ namespace ZEN_Yoga.Services.Services.User
 
             user.PasswordHash = hashedPassword.Hash;
             user.PasswordSalt = hashedPassword.Salt;
+            user.RoleId = int.Parse(AuthRoles.Participant);
 
 
             await userValidatorService.ValidateEmail(registerUser.Email);
-            await roleValidatorService.ValidateRoleId(registerUser.RoleId);
+            await roleValidatorService.ValidateRoleId(user.RoleId);
             await cityValidatorService.ValidateCity(registerUser.CityId);
 
 
             await _dbContext.Users.AddAsync(user);
 
             await _dbContext.SaveChangesAsync();
+
+
+        }
+
+        public async Task AddOwnerRole(int userId)
+        {
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                user.RoleId = int.Parse(AuthRoles.Owner);
+                await _dbContext.SaveChangesAsync();
+            }
+            
 
 
         }

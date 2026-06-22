@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Services.Interfaces.Instructor;
 using ZEN_Yoga.Services.Interfaces.User;
@@ -21,7 +22,8 @@ namespace ZEN_Yoga.Services.Services.Instructor
             var user = await getUserService.GetByEmail(email);
 
            await instructorValidatorService.ValidateEmail(email);
-            
+           user.RoleId = int.Parse(AuthRoles.Instructor);
+
                 var instructor = new Models.Instructor()
                 {
                     Id = user.Id,

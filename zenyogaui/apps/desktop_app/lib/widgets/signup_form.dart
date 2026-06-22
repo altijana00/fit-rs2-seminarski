@@ -191,19 +191,6 @@ class _SignupFormState extends State<SignupForm> {
         children: [
           _title("Account details"),
 
-          DropdownButtonFormField<RoleResponseDto>(
-            value: selectedRole,
-            decoration: const InputDecoration(labelText: "Role"),
-            items: widget.roles
-                .where((r) => r.id !=AppRole.admin && r.id != AppRole.participant)
-                .map((r) => DropdownMenuItem(
-              value: r,
-              child: Text(r.name),
-            ))
-                .toList(),
-            validator: (v) => v == null ? "Required" : null,
-            onChanged: (v) => setState(() => selectedRole = v),
-          ),
           const SizedBox(height: 12),
 
           TextFormField(
@@ -329,7 +316,6 @@ class _SignupFormState extends State<SignupForm> {
         dateOfBirth: dateOfBirth,
         email: email!,
         password: password!,
-        roleId: selectedRole!.id,
         cityId: cityId,
         profileImageUrl: "test",
       ),

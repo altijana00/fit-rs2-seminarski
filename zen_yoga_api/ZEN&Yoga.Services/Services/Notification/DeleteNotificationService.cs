@@ -13,9 +13,9 @@ namespace ZEN_Yoga.Services.Services.Notifications
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int userId)
         {
-            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(i => i.Id == id);
+            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(i => i.Id == id && i.UserId == userId);
 
             if (notification != null)
             {
@@ -26,5 +26,7 @@ namespace ZEN_Yoga.Services.Services.Notifications
 
             return false;
         }
+
+       
     }
 }

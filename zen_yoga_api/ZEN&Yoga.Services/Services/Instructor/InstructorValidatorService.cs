@@ -16,12 +16,12 @@ namespace ZEN_Yoga.Services.Services.Instructor
         }
         public async Task<bool> ValidateEmail(string email)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && u.RoleId == 3);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
 
 
             if (user == null) 
             {
-                throw new InstructorNotFoundException("There is no user registered as an instructor with this email.");
+                throw new InstructorNotFoundException("There is no user registered with this email.");
             }
             var instructor = await _dbContext.Instructors.FirstOrDefaultAsync(i => i.Id == user!.Id);
 

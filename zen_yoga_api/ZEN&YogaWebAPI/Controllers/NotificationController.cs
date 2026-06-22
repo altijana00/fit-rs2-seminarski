@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Helpers;
 using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
@@ -103,6 +105,8 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest(new { Message = "Invalid notification data" });
             }
 
+            
+
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values
@@ -144,14 +148,18 @@ namespace ZEN_YogaWebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id, int userId, [FromServices] IDeleteNotificationService deleteService)
         {
-            if (!AuthorizationHelper.CanAccessUserResource(User, userId))
+            var userIdClaim = User.FindFirst("id")?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            int notificationUserId = userRole == AuthRoles.Admin ? userId : int.Parse(userIdClaim!);
+            if (!AuthorizationHelper.CanAccessUserResource(User, notificationUserId))
             {
                 _logger.LogWarning($"Unauthorized attempt to delete other user notifications by user: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
+      
 
-
-            if (await deleteService.Delete(id))
+            if (await deleteService.Delete(id, notificationUserId))
             {
                 _logger.LogInformation($"Deleted notification {id}");
                 return Ok(new { Message = "Notification deleted!" });
@@ -175,7 +183,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest(new { Message = "Unable to fulfill the request" });
             }
 
-            await upsertNotificationService.ToggleReadNotification(id);
+            await upsertNotificationService.ToggleReadNotification(id, userId);
             return Ok(new { Message = "Notification edited successfully!" });
         }
 

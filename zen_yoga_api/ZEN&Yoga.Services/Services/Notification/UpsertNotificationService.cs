@@ -39,9 +39,9 @@ namespace ZEN_Yoga.Services.Services.Notifications
             }
         }
 
-        public async Task ToggleReadNotification(int id)
+        public async Task ToggleReadNotification(int id, int userId)
         {
-            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(u => u.Id == id);
+            var notification = await _dbContext.Notifications.FirstOrDefaultAsync(u => u.Id == id && u.UserId == userId);
 
             if (notification != null)
             {

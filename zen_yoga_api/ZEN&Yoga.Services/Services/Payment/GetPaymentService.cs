@@ -20,14 +20,14 @@ namespace ZEN_Yoga.Services.Services.Payment
 
         public async Task<List<PaymentResponse>> GetAll()
         {
-            var payments = await _dbContext.Payments.ToListAsync();
+            var payments = await _dbContext.Payments.AsNoTracking().ToListAsync();
             return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
 
         public async Task<decimal> GetPaymentsTotal()
         {
-            return await _dbContext.Payments.SumAsync(p => p.Amount);
+            return await _dbContext.Payments.AsNoTracking().SumAsync(p => p.Amount);
 
         }
 
@@ -52,20 +52,20 @@ namespace ZEN_Yoga.Services.Services.Payment
 
         public async Task<PaymentResponse> GetById(int paymentId)
         {
-            var payment = await _dbContext.Payments.FirstOrDefaultAsync(p => p.Id == paymentId);
+            var payment = await _dbContext.Payments.AsNoTracking().FirstOrDefaultAsync(p => p.Id == paymentId);
             return _mapper.Map<PaymentResponse>(payment);
         }
 
         public async Task<List<PaymentResponse>> GetUserPayments(int userId)
         {
-            var payments = await _dbContext.Payments.Where(p => p.UserId == userId).ToListAsync();
+            var payments = await _dbContext.Payments.AsNoTracking().Where(p => p.UserId == userId).ToListAsync();
             return _mapper.Map<List<PaymentResponse>>(payments).OrderByDescending(p => p.Id).ToList();
         }
 
 
         public async Task<List<PaymentResponse>> GetPaymentsOfOwnerStudios(int ownerId)
         {
-            var payments = await _dbContext.Payments
+            var payments = await _dbContext.Payments.AsNoTracking()
                 .Where(p => _dbContext.Studios
                     .Any(s => s.Id == p.StudioId && s.OwnerId == ownerId))
                 .ToListAsync();

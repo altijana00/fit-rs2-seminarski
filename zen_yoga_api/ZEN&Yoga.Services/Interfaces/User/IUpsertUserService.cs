@@ -12,5 +12,7 @@ namespace ZEN_Yoga.Services.Interfaces.User
         Task<string> UpdateUserPassword(UpdateUserPasswordAsAdmin updateUserPassword);
         Task<string> UpdateYourPassword(UpdateYourPassword updateUserPassword, int userId);
 
+        Task AddOwnerRole(int userId);
+
     }
 }

@@ -17,7 +17,6 @@ RegisterUserDto _$RegisterUserDtoFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       password: json['password'] as String,
       profileImageUrl: json['profileImageUrl'] as String?,
-      roleId: (json['roleId'] as num).toInt(),
       cityId: (json['cityId'] as num).toInt(),
     );
 
@@ -30,6 +29,5 @@ Map<String, dynamic> _$RegisterUserDtoToJson(RegisterUserDto instance) =>
       'email': instance.email,
       'password': instance.password,
       'profileImageUrl': instance.profileImageUrl,
-      'roleId': instance.roleId,
       'cityId': instance.cityId,
     };

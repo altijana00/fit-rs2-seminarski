@@ -233,6 +233,12 @@ class _ProfileTabState extends State<ProfileTab> {
                   decoration: const InputDecoration(
                     labelText: "Old password",
                   ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'Old password is required!';
+                    }
+                    return null;
+                  },
                   onSaved: (v) => oldPassword = v ?? '',
                 ),
                 const SizedBox(height: 12),
@@ -242,6 +248,12 @@ class _ProfileTabState extends State<ProfileTab> {
                   decoration: const InputDecoration(
                     labelText: "New password",
                   ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'New password is required!';
+                    }
+                    return null;
+                  },
                   onSaved: (v) => newPassword = v ?? '',
                 ),
                 const SizedBox(height: 12),

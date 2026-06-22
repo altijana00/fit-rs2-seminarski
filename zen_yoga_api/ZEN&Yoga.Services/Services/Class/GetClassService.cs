@@ -23,10 +23,10 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<List<ClassResponse>> GetAll()
         {
-            var classes = await _dbContext.Classes.ToListAsync();
+            var classes = await _dbContext.Classes.AsNoTracking().ToListAsync();
             var mappedClasses = _mapper.Map<List<ClassResponse>>(classes);
 
-            var participantCounts = await _dbContext.UserClasses
+            var participantCounts = await _dbContext.UserClasses.AsNoTracking()
                 .GroupBy(uc => uc.ClassId)
                 .Select(g => new { ClassId = g.Key, Count = g.Count() })
                 .ToListAsync();
@@ -41,7 +41,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<ClassResponse> GetById(int id)
         {
-            var clasRes = await _dbContext.Classes.FirstOrDefaultAsync(c => c.Id == id);
+            var clasRes = await _dbContext.Classes.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
            var mappedClass = _mapper.Map<ClassResponse>(clasRes);
             mappedClass.JoinedParticipants = await GetJoinedParticipantsByClassId(id);
@@ -52,7 +52,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<int> GetJoinedParticipantsByClassId(int classId)
         {
-            var classExists = await _dbContext.Classes.AnyAsync(c => c.Id == classId);
+            var classExists = await _dbContext.Classes.AsNoTracking().AnyAsync(c => c.Id == classId);
 
             if (!classExists)
                 throw new ClassNotFoundException("There is no class with this ID.");
@@ -65,7 +65,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<List<ClassResponse>> GetByInstructorId(int instructorId, ClassQuery? classQuery)
         {
-            var query = _dbContext.Classes
+            var query = _dbContext.Classes.AsNoTracking()
                         .Where(c => c.InstructorId == instructorId);
 
             if (!string.IsNullOrWhiteSpace(classQuery?.Search))
@@ -85,7 +85,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
             var classIds = mappedClasses.Select(c => c.Id).ToList();
 
-            var participantCounts = await _dbContext.UserClasses
+            var participantCounts = await _dbContext.UserClasses.AsNoTracking()
                 .Where(uc => classIds.Contains(uc.ClassId))
                 .GroupBy(uc => uc.ClassId)
                 .Select(g => new { ClassId = g.Key, Count = g.Count() })
@@ -101,7 +101,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<List<ClassResponse>> GetByStudioId(int studioId)
         {
-            var classes = await _dbContext.Classes
+            var classes = await _dbContext.Classes.AsNoTracking()
             .Where(c => c.StudioId == studioId)
             .ToListAsync();
 
@@ -109,7 +109,7 @@ namespace ZEN_Yoga.Services.Services.Class
 
             var classIds = mappedClasses.Select(c => c.Id).ToList();
 
-            var participantCounts = await _dbContext.UserClasses
+            var participantCounts = await _dbContext.UserClasses.AsNoTracking()
                 .Where(uc => classIds.Contains(uc.ClassId))
                 .GroupBy(uc => uc.ClassId)
                 .Select(g => new { ClassId = g.Key, Count = g.Count() })
@@ -127,12 +127,12 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<GrouppedClasses> GetGroupped()
         {
-            var classes = await _dbContext.Classes.ToListAsync();
+            var classes = await _dbContext.Classes.AsNoTracking().ToListAsync();
             var mappedClasses = _mapper.Map<List<ClassResponse>>(classes);
 
             var classIds = mappedClasses.Select(c => c.Id).ToList();
 
-            var participantCounts = await _dbContext.UserClasses
+            var participantCounts = await _dbContext.UserClasses.AsNoTracking()
                 .Where(uc => classIds.Contains(uc.ClassId))
                 .GroupBy(uc => uc.ClassId)
                 .Select(g => new { ClassId = g.Key, Count = g.Count() })
@@ -155,10 +155,10 @@ namespace ZEN_Yoga.Services.Services.Class
 
         public async Task<GrouppedClasses> GetStudioGroupped(int studioId, int userId, int userRoleId)
         {
-            var classes = await _dbContext.Classes
+            var classes = await _dbContext.Classes.AsNoTracking()
         .Where(c =>
             c.StudioId == studioId &&
-            !_dbContext.UserClasses.Any(uc =>
+            !_dbContext.UserClasses.AsNoTracking().Any(uc =>
                 uc.ClassId == c.Id &&
                 uc.UserId == userId))
         .Select(c => new ClassResponse
@@ -173,7 +173,7 @@ namespace ZEN_Yoga.Services.Services.Class
             StartDate = c.StartDate,
             EndDate = c.EndDate,
             MaxParticipants = c.MaxParticipants,
-            JoinedParticipants = _dbContext.UserClasses
+            JoinedParticipants = _dbContext.UserClasses.AsNoTracking()
                 .Count(uc => uc.ClassId == c.Id)
         })
         .ToListAsync();
@@ -199,16 +199,16 @@ namespace ZEN_Yoga.Services.Services.Class
         public async Task<List<InstructorClasses>> GetInstructorGrouppedByStudioId(int studioId)
         {
 
-            var result = await _dbContext.Instructors
+            var result = await _dbContext.Instructors.AsNoTracking()
         .Where(i => i.StudioId == studioId)
         .Select(i => new InstructorClasses
         {
-            Name = _dbContext.Users
+            Name = _dbContext.Users.AsNoTracking()
                 .Where(u => u.Id == i.Id)
                 .Select(u => u.FirstName + " " + u.LastName)
                 .FirstOrDefault()!,
 
-            NumberOfClasses = _dbContext.Classes
+            NumberOfClasses = _dbContext.Classes.AsNoTracking()
                 .Count(c => c.InstructorId == i.Id)
         })
         .ToListAsync();

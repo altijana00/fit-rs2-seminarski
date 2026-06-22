@@ -48,7 +48,6 @@ class _SignupFormMobileState extends State<SignupFormMobile> {
           dateOfBirth: dateOfBirth,
           email: email!,
           password: password!,
-          roleId: 4,
           cityId: selectedCityId!,
           profileImageUrl: "test",
         ),

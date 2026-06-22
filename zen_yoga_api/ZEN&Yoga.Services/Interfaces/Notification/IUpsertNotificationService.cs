@@ -7,6 +7,6 @@ namespace ZEN_Yoga.Services.Interfaces.Notification
     {
         Task Add(AddNotification addNotification);
 
-        Task ToggleReadNotification(int id);
+        Task ToggleReadNotification(int id, int userId);
     }
 }

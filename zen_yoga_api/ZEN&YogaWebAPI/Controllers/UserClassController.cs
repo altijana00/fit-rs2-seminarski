@@ -7,6 +7,7 @@ using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Base;
 using ZEN_Yoga.Services.Interfaces.Class;
 using ZEN_Yoga.Services.Interfaces.Notification;
+using ZEN_Yoga.Services.Interfaces.Payment;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.UserClass;
 
@@ -75,7 +76,9 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] IUpsertUserClassService upsertUserClassService, 
                                                 [FromServices] IGetClassService getClassService,
                                                 [FromServices] ISendInAppNotificationService sendInAppNotificationService,
-                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+                                                [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService,
+                                                [FromServices] IUpsertPaymentService upsertPaymentService,
+                                                ) 
 
         {
             if (!AuthorizationHelper.CanAccessUserResource(User, userId))
@@ -84,11 +87,18 @@ namespace ZEN_YogaWebAPI.Controllers
                 return Unauthorized();
             }
 
+            var classRes = await getClassService.GetById(classId);
+
+            if (!await upsertPaymentService.IsUserPaidMember(userId, classRes.StudioId))
+            {
+                return BadRequest(new { Message = "You have to pay membership for this studio!" });
+            }
+
             if (await upsertUserClassService.Join(classId, userId))
             {
                 _logger.LogInformation($"User {userId} joined class {classId}");
 
-                var classRes = await getClassService.GetById(classId);
+                
 
 
                 var notification = new AddNotification()

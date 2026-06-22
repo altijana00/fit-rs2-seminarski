@@ -32,8 +32,6 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
             var mappedClass = _mapper.Map<ClassResponse>(classRes);
             mappedClass.JoinedParticipants = await _dbContext.UserClasses.CountAsync(c=>c.ClassId == classId);
-
-            var studioId = classRes.StudioId;
             
             var exists = await _dbContext.UserClasses.FirstOrDefaultAsync(uc => uc.ClassId == classId && uc.UserId == userId);
 

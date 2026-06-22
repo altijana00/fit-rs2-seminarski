@@ -20,19 +20,19 @@ namespace ZEN_Yoga.Services.Services.Role
 
         public async Task<List<RoleResponse>> GetAll()
         {
-            var roles = await _dbContext.Roles.ToListAsync();
+            var roles = await _dbContext.Roles.AsNoTracking().ToListAsync();
             return _mapper.Map<List<RoleResponse>>(roles).OrderByDescending(r => r.Id).ToList();
         }
 
         public async Task<RoleResponse> GetById(int id)
         {
-            var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Id == id);
+            var role = await _dbContext.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
             return _mapper.Map<RoleResponse>(role);
         }
 
         public async Task<List<RoleResponse>> GetRolesQuery(RoleQuery roleQuery)
         {
-            IQueryable<ZEN_Yoga.Models.Role> roles = _dbContext.Roles.AsQueryable();
+            IQueryable<ZEN_Yoga.Models.Role> roles = _dbContext.Roles.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(roleQuery.Search))
             {

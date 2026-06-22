@@ -126,12 +126,6 @@ namespace ZEN_YogaWebAPI.Controllers
                 return BadRequest(new { Message = "Invalid user data" });
             }
 
-            if (registerUser.RoleId == int.Parse(AuthRoles.Admin))
-            {
-                _logger.LogWarning($"Unauthorized attempt to add admin by{registerUser.FirstName}{registerUser.LastName}");
-
-                return Unauthorized();
-            }
 
             if (!ModelState.IsValid)
             {
@@ -356,6 +350,56 @@ namespace ZEN_YogaWebAPI.Controllers
             await upsertNotificationService.Add(notification);
 
             return Ok();
+        }
+
+
+        [Authorize(Roles = AuthRoles.Admin)]
+        [HttpPatch("addOwnerRole")]
+        public async Task<IActionResult> AddOwnerRole(int userId,
+                                    [FromServices] IUpsertUserService<RegisterUser> upsertUserService,
+                                    [FromServices] IGetUserService getUserService,
+                                    [FromServices] ISendInAppNotificationService sendInAppNotificationService,
+                                    [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
+        {
+
+            var user = await getUserService.GetById(userId);
+            await upsertUserService.AddOwnerRole(userId);
+            _logger.LogInformation($"Assigned owner role to: {user.FirstName} {user.LastName}");
+
+            
+            var admins = await getUserService.GetAdminUsers(int.Parse(AuthRoles.Admin));
+
+            var notification = new AddNotification()
+            {
+                Title = "Welcome owner",
+                Content = $"Hello {user.FirstName}, welcome to Zen&Yoga! Your owner role has been assigned.",
+                Type = NotificationType.Info.ToString(),
+                UserId = user.Id,
+            };
+
+            _logger.LogDebug($"Sending notification to userId: {user.Id}");
+            await sendInAppNotificationService.SendToUserAsync(user.Id.ToString(), notification);
+
+            await upsertNotificationService.Add(notification);
+
+            foreach (var a in admins)
+            {
+                var adminNotification = new AddNotification()
+                {
+                    Title = "New owner",
+                    Content = $"New owner has joined the app!",
+                    Type = NotificationType.Info.ToString(),
+                    UserId = a.Id,
+                };
+
+                _logger.LogDebug($"Sending notification to userId: {a.Id}");
+                await sendInAppNotificationService.SendToUserAsync(a.Id.ToString(), adminNotification);
+                await upsertNotificationService.Add(adminNotification);
+            }
+
+
+
+            return Ok(new { Message = "User registered!" });
         }
 
 

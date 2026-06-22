@@ -262,12 +262,18 @@ class _EditUserAsAdminDialogState extends State<EditUserAsAdminDialog> {
                   setState(() => _isChangingPassword = val);
                 },
                 children: [
-                  TextField(
+                  TextFormField(
                     controller: _newPasswordCtrl,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "New Password",
                     ),
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return 'New password is required!';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(

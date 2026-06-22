@@ -15,7 +15,7 @@ namespace ZEN_Yoga.Services.Services.Studio
 
         public async Task<List<string>> GetStudioGalleryPhotos(int studioId)
         {
-            return await _dbContext.StudioGalleries
+            return await _dbContext.StudioGalleries.AsNoTracking()
                         .Where(g => g.StudioId == studioId)
                         .Select(g => g.PhotoUrl!)
                         .ToListAsync();

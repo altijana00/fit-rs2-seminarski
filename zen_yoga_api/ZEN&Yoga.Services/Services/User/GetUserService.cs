@@ -23,14 +23,14 @@ namespace ZEN_Yoga.Services.Services.User
 
         public async Task<List<UserResponse>> GetAll() 
         { 
-            var users = await _dbContext.Users.ToListAsync(); 
+            var users = await _dbContext.Users.AsNoTracking().ToListAsync(); 
             
             return _mapper.Map<List<UserResponse>>(users).OrderByDescending(u => u.Id).ToList(); 
         }
 
         public async Task<List<UserResponse>> GetUsersQuery(UserQuery userQuery)
         { 
-            IQueryable<ZEN_Yoga.Models.User> users = _dbContext.Users.AsQueryable();
+            IQueryable<ZEN_Yoga.Models.User> users = _dbContext.Users.AsNoTracking().AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(userQuery.Search))
             {
@@ -59,21 +59,21 @@ namespace ZEN_Yoga.Services.Services.User
 
         public async Task<UserResponse> GetByEmail(string email)
         {
-            var user = await _dbContext.Users.
+            var user = await _dbContext.Users.AsNoTracking().
                 FirstOrDefaultAsync(u => u.Email == email);
             return _mapper.Map<UserResponse>(user);
         }
 
         public async Task<UserResponse> GetByEmailandPassword(string email, string password)
         {
-            var user = await _dbContext.Users.
+            var user = await _dbContext.Users.AsNoTracking().
                    FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == PasswordHelpers.HashPassword(password).Hash);
             return _mapper.Map<UserResponse>(user);
         }
 
         public async Task<UserResponse> GetById(int id)
         {
-            var user = await _dbContext.Users.
+            var user = await _dbContext.Users.AsNoTracking().
                 FirstOrDefaultAsync(u => u.Id == id);
 
 
@@ -84,7 +84,7 @@ namespace ZEN_Yoga.Services.Services.User
 
         public async Task<List<UserResponse>> GetAdminUsers(int roleId) 
         {
-            var users = await _dbContext.Users.Where(u => u.RoleId == roleId).ToListAsync();
+            var users = await _dbContext.Users.AsNoTracking().Where(u => u.RoleId == roleId).ToListAsync();
 
             return _mapper.Map<List<UserResponse>>(users).OrderByDescending(u => u.Id).ToList();
         }

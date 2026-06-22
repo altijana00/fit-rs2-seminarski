@@ -42,7 +42,6 @@ class _AddUserDialogState extends State<AddUserDialog> {
         dateOfBirth: dateOfBirth,
         email: email!,
         password: password!,
-        roleId: AppRole.participant,
         cityId: selectedCityId!,
         profileImageUrl: "test",
       ),

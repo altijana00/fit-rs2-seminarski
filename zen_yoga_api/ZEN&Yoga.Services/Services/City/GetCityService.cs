@@ -22,7 +22,7 @@ namespace ZEN_Yoga.Services.Services.City
 
         public async Task<List<CityResponse>> GetAll()
         {
-            var cities = await _dbContext.Cities.ToListAsync();
+            var cities = await _dbContext.Cities.AsNoTracking().ToListAsync();
 
             return _mapper.Map<List<CityResponse>>(cities).OrderByDescending(c => c.Id).ToList();
 
@@ -30,7 +30,7 @@ namespace ZEN_Yoga.Services.Services.City
 
         public async Task<CityResponse> GetById(int id)
         {
-            var city = await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
+            var city = await _dbContext.Cities.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
             return _mapper.Map<CityResponse>(city);
         }
@@ -38,7 +38,7 @@ namespace ZEN_Yoga.Services.Services.City
 
         public async Task<List<CityResponse>> GetCitiesQuery(CityQuery cityQuery)
         {
-            var query = _dbContext.Cities.AsQueryable();
+            var query = _dbContext.Cities.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(cityQuery.Search))
             {

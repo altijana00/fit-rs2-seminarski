@@ -20,21 +20,21 @@ namespace ZEN_Yoga.Services.Services.YogaType
 
         public async Task<List<YogaTypeResponse>> GetAll()
         {
-            var types = await _dbContext.YogaTypes.ToListAsync();
+            var types = await _dbContext.YogaTypes.AsNoTracking().ToListAsync();
 
             return _mapper.Map<List<YogaTypeResponse>>(types);
         }
 
         public async Task<YogaTypeResponse> GetById(int id)
         {
-            var type = await _dbContext.YogaTypes.FirstOrDefaultAsync(t => t.Id == id);
+            var type = await _dbContext.YogaTypes.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
 
             return _mapper.Map<YogaTypeResponse>(type);
         }
 
         public async Task<List<YogaTypeResponse>> GetYogaTypesQuery(YogaTypeQuery yogaTypeQuery)
         {
-            IQueryable<ZEN_Yoga.Models.YogaType> yogaTypes = _dbContext.YogaTypes.AsQueryable();
+            IQueryable<ZEN_Yoga.Models.YogaType> yogaTypes = _dbContext.YogaTypes.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(yogaTypeQuery.Search))
             {

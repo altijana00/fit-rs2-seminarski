@@ -21,9 +21,6 @@ namespace ZEN_Yoga.Models.Requests
         public required string Password { get; set; }
         public string? ProfileImageUrl { get; set; }
 
-        [Required(ErrorMessage ="You must choose a role!")]
-        public int RoleId { get; set; }
-
         [Required(ErrorMessage = "You must choose a city!")]
         public int CityId { get; set; }
     }

@@ -2,7 +2,8 @@
 
 namespace ZEN_Yoga.Services.Interfaces.Notification
 {
-    public interface IDeleteNotificationService : IDeleteService
+    public interface IDeleteNotificationService 
     {
+        Task<bool> Delete(int id, int userId);
     }
 }

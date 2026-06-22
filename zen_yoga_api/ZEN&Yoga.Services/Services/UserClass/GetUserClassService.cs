@@ -29,6 +29,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
         public List<int> GetAllByYogaTypeId(int yogaTypeId)
         {
             List<int> classes = _dbContext.UserClasses
+                .AsNoTracking()
                 .Where(c => c.Class!.YogaTypeId == yogaTypeId)
                 .GroupBy(c => c.Class!.StudioId)
                 .OrderByDescending(g => g.Count())
@@ -53,7 +54,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
         public async Task<List<ClassResponse>> GetByUserId(int userId)
         {
-            var classes = await _dbContext.UserClasses
+            var classes = await _dbContext.UserClasses.AsNoTracking()
                 .Where(uc => uc.UserId == userId)
                 .Select(uc => uc.Class)
                 .ToListAsync();
@@ -68,13 +69,14 @@ namespace ZEN_Yoga.Services.Services.UserClass
         public async Task<List<StudioResponse>> GetUserRecommendedStudios(int userId, IGetStudioService getStudioService)
         {
             var userClasses = await GetByUser(userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             var userYogaType = await GetUserMostAppliedYogaTypeId(userId, userClasses);
 
             var mostApplied = GetAllByYogaTypeId(userYogaType);
 
-            var recommendedStudios = await _dbContext.Studios
-                .Where(s => mostApplied.Contains(s.Id))
+            var recommendedStudios = await _dbContext.Studios.AsNoTracking()
+                .Where(s => mostApplied.Contains(s.Id) && s.CityId == user!.CityId)
                 .Select(s => new StudioResponse
                 {
                     Id = s.Id,
@@ -121,7 +123,7 @@ namespace ZEN_Yoga.Services.Services.UserClass
 
         private IQueryable<UserClassesResponse> GetBaseUserClassesQuery()
         {
-            return _dbContext.UserClasses
+            return _dbContext.UserClasses.AsNoTracking()
                 .Select(uc => new UserClassesResponse
                 {
                     Id = uc.Id,

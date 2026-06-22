@@ -269,20 +269,32 @@ class _EditUserDialogState extends State<EditUserDialog> {
                   setState(() => _isChangingPassword = val);
                 },
                 children: [
-                  TextField(
+                  TextFormField(
                     controller: _oldPasswordCtrl,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "Current Password",
                     ),
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return 'Current password is required!';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
-                  TextField(
+                  TextFormField(
                     controller: _newPasswordCtrl,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: "New Password",
                     ),
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return 'New password is required!';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(

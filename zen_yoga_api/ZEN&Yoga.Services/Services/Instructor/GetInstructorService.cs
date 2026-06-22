@@ -16,10 +16,10 @@ namespace ZEN_Yoga.Services.Services.Instructor
 
         private IQueryable<InstructorResponse> GetBaseInstructorQuery()
         {
-            return _dbContext.Users
+            return _dbContext.Users.AsNoTracking()
                 .Where(user => user.RoleId == 3)
                 .Join(
-                    _dbContext.Instructors,
+                    _dbContext.Instructors.AsNoTracking(),
                     user => user.Id,
                     instructor => instructor.Id,
                     (user, instructor) => new InstructorResponse

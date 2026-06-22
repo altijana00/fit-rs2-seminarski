@@ -10,6 +10,7 @@ import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/core/app_roles.dart';
 import 'package:zenyogaui/core/theme.dart';
 import 'package:zenyogaui/widgets/edit_user_dialog.dart';
 import '../widgets/add_instructor_dialog.dart';
@@ -256,6 +257,20 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               label: const Text("Add Studio"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             ),
+          ],
+        ),
+      );
+    }
+    else if (_user?.roleId != AppRole.owner) {
+      rightContent = Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Welcome to Zen&Yoga. Please be patient until someone assigns you your role.",
+              style: TextStyle(color: AppColors.deepGreen),
+            ),
+            const SizedBox(height: 12),
           ],
         ),
       );
