@@ -94,11 +94,23 @@ namespace ZEN_YogaWebAPI.Controllers
                                             string email, 
                                             int studioId)
         {
+
+            var studio = await getStudioService.GetById(studioId);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, studio.OwnerId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to add instructor for different user by : {User.FindFirst("id")?.Value}");
+
+                return Unauthorized();
+            }
+
             if (addInstructor == null)
             {
                 _logger.LogInformation($"Attempt to add instructor with bad data for studio ID: {studioId}");
                 return BadRequest(new { Message = "Failed to add. Instructor property is empty!" });
             }
+
+            
 
             if (!ModelState.IsValid)
             {
@@ -115,7 +127,7 @@ namespace ZEN_YogaWebAPI.Controllers
 
             _logger.LogInformation($"Success: Instructor added to studio ID: {studioId}");
 
-            var studio = await getStudioService.GetById(studioId);
+            
 
             var notification = new AddNotification()
             {

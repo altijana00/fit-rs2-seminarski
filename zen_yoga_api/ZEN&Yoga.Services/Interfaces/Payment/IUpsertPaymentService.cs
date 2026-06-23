@@ -9,7 +9,7 @@ namespace ZEN_Yoga.Services.Interfaces.Payment
 {
     public interface IUpsertPaymentService
     {
-        Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId);
+        Task<bool> AddPayment(int userId, int studioId, string paymentIntentId);
 
         Task<bool> RefundPayment(int userId, int studioId);
 

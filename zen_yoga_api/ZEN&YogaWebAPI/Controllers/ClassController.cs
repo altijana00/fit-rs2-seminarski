@@ -9,6 +9,7 @@ using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Class;
 using ZEN_Yoga.Services.Interfaces.Notification;
 using ZEN_Yoga.Services.Interfaces.YogaType;
+using ZEN_Yoga.Services.Services.Class;
 
 namespace ZEN_YogaWebAPI.Controllers
 {
@@ -104,9 +105,15 @@ namespace ZEN_YogaWebAPI.Controllers
                                              int instructorId, 
                                              [FromServices] IYogaTypeValidatorService yogaTypeValidatorService,
                                              [FromServices] ISendInAppNotificationService sendInAppNotificationService,
-                                             [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService
-            )
+                                             [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService)
         {
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, instructorId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to add class by user: {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
+
             if (addClass == null)
             {
                 _logger.LogDebug($"Attempt to add the class with invalid data for instructorId: {instructorId}");
@@ -146,13 +153,27 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrInstructor)]
         [HttpPut("edit")]
-        public async Task<IActionResult> EditClass([FromServices] IUpsertClassService<AddClass> upsertService, [FromBody] EditClass editClass, int id)
+        public async Task<IActionResult> EditClass([FromServices] IUpsertClassService<AddClass> upsertService, 
+                                                   [FromBody] EditClass editClass,
+                                                   [FromServices] IGetClassService getClassService,
+                                                   int id)
+
         {
+
+            var classToEdit = await getClassService.GetById(id);
+
+            if (!AuthorizationHelper.CanAccessUserResource(User, classToEdit.InstructorId))
+            {
+                _logger.LogWarning($"Unauthorized attempt to edit class by user: {User.FindFirst("id")?.Value}");
+                return Unauthorized();
+            }
+
             if (editClass == null)
             {
                 _logger.LogDebug($"Attempt to edit class with invalid data for classID: {id}");
                 return BadRequest(new { Message = "Invalid class data" });
             }
+
 
             if (!ModelState.IsValid)
             {
@@ -182,7 +203,6 @@ namespace ZEN_YogaWebAPI.Controllers
                 _logger.LogWarning($"Unauthorized attempt to delete class by user: {User.FindFirst("id")?.Value}");
                 return Unauthorized();
             }
-
 
             if (await deleteService.Delete(id))
             {

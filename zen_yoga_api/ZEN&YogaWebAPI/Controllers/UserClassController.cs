@@ -77,7 +77,7 @@ namespace ZEN_YogaWebAPI.Controllers
                                                 [FromServices] IGetClassService getClassService,
                                                 [FromServices] ISendInAppNotificationService sendInAppNotificationService,
                                                 [FromServices] IUpsertNotificationService<AddNotification> upsertNotificationService,
-                                                [FromServices] IUpsertPaymentService upsertPaymentService,
+                                                [FromServices] IUpsertPaymentService upsertPaymentService
                                                 ) 
 
         {

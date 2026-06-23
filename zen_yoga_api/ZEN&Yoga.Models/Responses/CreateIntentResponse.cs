@@ -9,6 +9,8 @@
     string Customer,
 
     [property: System.Text.Json.Serialization.JsonPropertyName("ephemeralKey")]
-    string EphemeralKey
+    string EphemeralKey,
+    [property: System.Text.Json.Serialization.JsonPropertyName("amount")]
+    int Amount
     );
 }

@@ -27,7 +27,7 @@ namespace ZEN_YogaWebAPI.Controllers
         [Authorize(Roles = AuthRoles.Participant)]
         [HttpPost("add")]
         public async Task<IActionResult> AddPayment([FromServices] IUpsertPaymentService paymentService,
-                                                    int studioId, int amount, string paymentIntentId,
+                                                    int studioId, string paymentIntentId,
                                                     [FromServices] IGetStudioService getStudioService,
                                                     [FromServices] IGetUserService getUserService,
                                                     [FromServices] ISendInAppNotificationService sendInAppNotificationService,
@@ -38,7 +38,7 @@ namespace ZEN_YogaWebAPI.Controllers
             var studio = await getStudioService.GetById(studioId);
             var admins = await getUserService.GetAdminUsers((int.Parse(AuthRoles.Admin)));
 
-            if (await paymentService.AddPayment(userId, studioId, amount, paymentIntentId))
+            if (await paymentService.AddPayment(userId, studioId, paymentIntentId))
             {
                 _logger.LogInformation($"Processing payment for (UserID): {userId} to (StudioID): {studioId}");
 
@@ -176,12 +176,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Participant)]
         [HttpPost("create-intent")]
-        public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, [FromServices] IUpsertPaymentService paymentService)
+        public async Task<IActionResult> CreateIntent([FromBody] CreateIntentRequest request, 
+                                                      [FromServices] IUpsertPaymentService paymentService,
+                                                      [FromServices] IGetStudioService getStudioService)
         {
             try
             {
+                var studio = await getStudioService.GetById(request.studioId);
+
                 var result = await paymentService.CreatePaymentIntentAsync(
-                    request.Amount.ToString(),
+                    studio!.MembershipPrice.ToString(),
                     request.Currency
                 );
                 return Ok(result);

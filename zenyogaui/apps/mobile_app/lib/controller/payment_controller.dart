@@ -10,7 +10,14 @@ import '../main.dart';
 class PaymentController extends GetxController {
   Map<String, dynamic>? paymentIntentData;
 
+
   final paymentProvider =
+  Provider.of<PaymentProvider>(
+    navigatorKey.currentContext!,
+    listen: false,
+  );
+
+  final studioProvider =
   Provider.of<PaymentProvider>(
     navigatorKey.currentContext!,
     listen: false,
@@ -19,13 +26,12 @@ class PaymentController extends GetxController {
 
 
   Future<void> makePayment({
-    required int amount,
     required String currency,
     required int userId,
     required int studioId
   }) async {
     try {
-      final createIntentRequest = CreateIntentRequest(amount: amount, currency: currency);
+      final createIntentRequest = CreateIntentRequest(studioId: studioId, currency: currency);
       paymentIntentData = await createPaymentIntent(createIntentRequest);
 
       final paymentIntentId = paymentIntentData!['client_secret'].split('_secret_')[0];
@@ -43,7 +49,7 @@ class PaymentController extends GetxController {
           ),
         );
 
-        await displayPaymentSheet(studioId, amount, paymentIntentId);
+       await displayPaymentSheet(studioId, paymentIntentData!['amount'], paymentIntentId);
       }
     } catch (e, s) {
       print('exception: $e $s');

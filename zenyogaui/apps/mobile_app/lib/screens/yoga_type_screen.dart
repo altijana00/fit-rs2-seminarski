@@ -165,7 +165,6 @@ class _ClassCardState extends State<_ClassCard> {
 
       if (!isPaid) {
         await widget.paymentController.makePayment(
-          amount: widget.membershipPrice.toInt(),
           currency: 'USD',
           userId: widget.user!.id,
           studioId: widget.studioId,

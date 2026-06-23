@@ -18,6 +18,7 @@ namespace ZEN_Yoga.Services.Services.Payment
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly StripeSettings _stripeSettings;
         private ConnectionFactory _connectionFactory;
+        private PaymentIntentService _paymentIntentService;
 
         public UpsertPaymentService(ZenYogaDbContext dbContext, IOptions<RabbitMqSettings> options, IOptions<StripeSettings> stripeSettingsOptions)
         {
@@ -32,10 +33,12 @@ namespace ZEN_Yoga.Services.Services.Payment
                 UserName = _rabbitMqSettings.User!,
                 Password = _rabbitMqSettings.Password!
             };
+            _paymentIntentService = new PaymentIntentService();
         }
 
-        public async Task<bool> AddPayment(int userId, int studioId, int amount, string paymentIntentId)
+        public async Task<bool> AddPayment(int userId, int studioId, string paymentIntentId)
         {
+
             var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId);
 
             if (payment != null)
@@ -43,9 +46,10 @@ namespace ZEN_Yoga.Services.Services.Payment
                 return false;
             }
 
-            await SendMessageToRabbitMQ(userId, studioId, amount, paymentIntentId);
+            var paymentIntent = await _paymentIntentService.GetAsync(paymentIntentId);
+            var amount = paymentIntent.Amount / 100;
 
-          
+            await SendMessageToRabbitMQ(userId, studioId, amount, paymentIntentId);
 
             return true;
         }
@@ -80,7 +84,8 @@ namespace ZEN_Yoga.Services.Services.Payment
             return new CreateIntentResponse(
                 ClientSecret: paymentIntent.ClientSecret,
                 Customer: customer.Id,
-                EphemeralKey: ephemeralKey.Secret
+                EphemeralKey: ephemeralKey.Secret,
+                Amount: int.Parse(amountInCents)
             );
         }
 

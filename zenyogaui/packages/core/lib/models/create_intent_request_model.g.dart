@@ -8,13 +8,13 @@ part of 'create_intent_request_model.dart';
 
 CreateIntentRequest _$CreateIntentRequestFromJson(Map<String, dynamic> json) =>
     CreateIntentRequest(
-      amount: (json['amount'] as num).toInt(),
+      studioId: (json['studioId'] as num).toInt(),
       currency: json['currency'] as String,
     );
 
 Map<String, dynamic> _$CreateIntentRequestToJson(
   CreateIntentRequest instance,
 ) => <String, dynamic>{
-  'amount': instance.amount,
+  'studioId': instance.studioId,
   'currency': instance.currency,
 };
