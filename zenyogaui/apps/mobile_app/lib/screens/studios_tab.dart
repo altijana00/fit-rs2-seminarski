@@ -2,11 +2,14 @@ import 'package:core/dto/responses/city_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
 import 'package:core/services/providers/auth_service.dart';
 import 'package:core/services/providers/city_service.dart';
+import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_class_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_app/screens/studio_details_screen.dart';
 import 'package:provider/provider.dart';
+import '../controller/payment_controller.dart';
 import '../widgets/studio_card.dart';
 
 class _StudiosTabData {
@@ -154,6 +157,9 @@ class _StudiosTabState extends State<StudiosTab> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
+    final paymentController = Get.put(PaymentController());
+    final paymentProvider = context.read<PaymentProvider>();
 
     return Scaffold(
       body: Column(
@@ -230,6 +236,9 @@ class _StudiosTabState extends State<StudiosTab> {
                                   builder: (_) => StudioDetailsScreen(
                                     studio: studio,
                                     cityName: data.cityNames[studio.cityId] ?? '-',
+                                    paymentController: paymentController,
+                                    paymentProvider: paymentProvider,
+                                    user: user!,
                                   ),
                                 ),
                               );
@@ -295,6 +304,9 @@ class _StudiosTabState extends State<StudiosTab> {
                                   builder: (_) => StudioDetailsScreen(
                                     studio: studio,
                                     cityName: data.cityNames[studio.cityId] ?? '-',
+                                    paymentController: paymentController,
+                                    paymentProvider: paymentProvider,
+                                    user: user!,
                                   ),
                                 ),
                               );

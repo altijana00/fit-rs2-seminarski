@@ -52,7 +52,7 @@ class PaymentController extends GetxController {
        await displayPaymentSheet(studioId, paymentIntentData!['amount'], paymentIntentId);
       }
     } catch (e, s) {
-      print('exception: $e $s');
+      throw Exception(e.toString());
     }
   }
 
@@ -66,9 +66,11 @@ class PaymentController extends GetxController {
 
 
     } on StripeException catch (e) {
-      print('Stripe error: ${e.error.localizedMessage}');
+      throw Exception(e.error.localizedMessage.toString());
+
     } catch (e) {
-      print('Unexpected error: $e');
+      throw Exception(e.toString());
+
     }
   }
 

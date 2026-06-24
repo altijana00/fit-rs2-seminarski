@@ -19,7 +19,6 @@ class YogaTypeScreen extends StatefulWidget {
   final List<ClassResponseDto> initialClasses;
   final Map<int, String> instructorMap;
   final int studioId;
-  final double membershipPrice;
 
   const YogaTypeScreen({
     super.key,
@@ -27,7 +26,6 @@ class YogaTypeScreen extends StatefulWidget {
     required this.initialClasses,
     required this.instructorMap,
     required this.studioId,
-    required this.membershipPrice,
   });
 
   @override
@@ -114,8 +112,7 @@ class _YogaTypeScreenState extends State<YogaTypeScreen> {
                   paymentProvider: paymentProvider,
                   paymentController: paymentController,
                   userClassProvider: userClassProvider,
-                  onJoined: _reloadClasses,
-                  membershipPrice: widget.membershipPrice,
+                  onJoined: _reloadClasses
                 );
               }).toList(),
             ),
@@ -135,7 +132,6 @@ class _ClassCard extends StatefulWidget {
   final PaymentController paymentController;
   final UserClassProvider userClassProvider;
   final VoidCallback onJoined;
-  final double membershipPrice;
 
   const _ClassCard({
     required this.yogaClass,
@@ -145,8 +141,7 @@ class _ClassCard extends StatefulWidget {
     required this.paymentProvider,
     required this.paymentController,
     required this.userClassProvider,
-    required this.onJoined,
-    required this.membershipPrice,
+    required this.onJoined
   });
 
   @override
@@ -160,16 +155,6 @@ class _ClassCardState extends State<_ClassCard> {
     setState(() => _isLoading = true);
 
     try {
-      final isPaid = await widget.paymentProvider.repository
-          .isUserPaidMember(widget.user!.id, widget.studioId);
-
-      if (!isPaid) {
-        await widget.paymentController.makePayment(
-          currency: 'USD',
-          userId: widget.user!.id,
-          studioId: widget.studioId,
-        );
-      }
 
       await widget.userClassProvider.repository
           .join(widget.yogaClass.id, widget.user!.id);
@@ -190,6 +175,8 @@ class _ClassCardState extends State<_ClassCard> {
       if (mounted) setState(() => _isLoading = false);
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

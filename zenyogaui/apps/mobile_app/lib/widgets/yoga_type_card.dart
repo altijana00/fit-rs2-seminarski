@@ -31,7 +31,7 @@ class YogaTypeCard extends StatelessWidget {
               initialClasses: classes,
               instructorMap: instructorMap,
               studioId: studioId,
-              membershipPrice: membershipPrice,
+
             ),
           ),
         );

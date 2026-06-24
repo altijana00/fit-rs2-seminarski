@@ -1,4 +1,5 @@
 
+import 'package:core/core/constants.dart';
 import 'package:core/dto/responses/groupped_classes.dart';
 import 'package:core/dto/responses/instructor_response_dto.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
@@ -6,24 +7,55 @@ import 'package:core/dto/responses/user_response_dto.dart';
 import 'package:core/models/yoga-type_model.dart';
 import 'package:core/services/providers/class_service.dart';
 import 'package:core/services/providers/instructor_service.dart';
+import 'package:core/services/providers/payment_service.dart';
 import 'package:core/services/providers/studio_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/controller/payment_controller.dart';
 import 'package:provider/provider.dart';
+import '../core/theme.dart';
 import '../widgets/employee_card.dart';
 import '../widgets/owner_card.dart';
 import '../widgets/studio_gallery.dart';
 import '../widgets/yoga_type_card.dart';
 
-class StudioDetailsScreen extends StatelessWidget {
+class StudioDetailsScreen extends StatefulWidget {
   final StudioResponseDto studio;
   final String cityName;
+ final UserResponseDto user;
+  final PaymentProvider paymentProvider;
+  final PaymentController paymentController;
 
   const StudioDetailsScreen({
     super.key,
     required this.studio,
     required this.cityName,
+  required this.user,
+   required this.paymentProvider,
+    required this.paymentController
   });
+
+  @override
+  State<StudioDetailsScreen> createState() => _StudioDetailsScreenState();
+
+}
+
+class _StudioDetailsScreenState extends State<StudioDetailsScreen> {
+  bool _isLoading = false;
+  bool _isMember = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _checkMembership();
+  }
+
+  Future<void> _checkMembership() async {
+    final isPaid = await context.read<PaymentProvider>().repository
+        .isUserPaidMember(widget.user.id, widget.studio.id);
+    setState(() => _isMember = isPaid);
+  }
 
   Map<int, String> _buildInstructorMap(
       List<InstructorResponseDto> instructors,
@@ -34,6 +66,33 @@ class StudioDetailsScreen extends StatelessWidget {
     };
   }
 
+  Future<void> _handlePayment() async {
+    setState(() => _isLoading = true);
+    try {
+      if (!_isMember) {
+        await widget.paymentController.makePayment(
+          currency: 'USD',
+          userId: widget.user.id,
+          studioId: widget.studio.id,
+        );
+        setState(() => _isMember = true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Congratulations, you are now a member!"), backgroundColor: AppColors.deepGreen,),
+        );
+      }
+    } catch (e) {
+      setState(() => _isMember = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: Exception: ', '')),
+          ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final studioProvider = context.read<StudioProvider>();
@@ -42,12 +101,42 @@ class StudioDetailsScreen extends StatelessWidget {
     final classProvider = context.read<ClassProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: Text(studio.name)),
+      appBar: AppBar(title: Text(widget.studio.name)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child:Text(
+                "Membership price: ${widget.studio.membershipPrice} ${Constants.currencyUSD}",
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Center(
+              child:
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0, top: 10.0),
+                child: ElevatedButton(
+                  onPressed: (_isLoading || _isMember) ? null : _handlePayment,
+                  style: ElevatedButton.styleFrom(fixedSize: const Size(150, 50)),
+                  child: _isLoading
+                      ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                      : Text(_isMember ? "You are a member" : "Become a member"),
+
+                ),
+              )
+
+
+            ),
+
 
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +144,7 @@ class StudioDetailsScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    studio.profileImageUrl ?? '',
+                    widget.studio.profileImageUrl ?? '',
                     height: 180,
                     width: 180,
                     fit: BoxFit.cover,
@@ -72,27 +161,27 @@ class StudioDetailsScreen extends StatelessWidget {
                         children: [
                           const Icon(Icons.location_city, size: 18, color: Colors.grey),
                           const SizedBox(width: 8),
-                          Text(cityName,
+                          Text(widget.cityName,
                               style: const TextStyle(fontSize: 12, color: Colors.grey)),
                         ],
                       ),
                       const SizedBox(height: 12),
-                      if (studio.contactEmail?.isNotEmpty == true)
+                      if (widget.studio.contactEmail?.isNotEmpty == true)
                         Row(
                           children: [
                             const Icon(Icons.email, size: 18, color: Colors.grey),
                             const SizedBox(width: 8),
-                            Text(studio.contactEmail!,
+                            Text(widget.studio.contactEmail!,
                                 style: const TextStyle(fontSize: 8)),
                           ],
                         ),
-                      if (studio.contactPhone?.isNotEmpty == true) ...[
+                      if (widget.studio.contactPhone?.isNotEmpty == true) ...[
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             const Icon(Icons.phone, size: 18, color: Colors.grey),
                             const SizedBox(width: 8),
-                            Text(studio.contactPhone!,
+                            Text(widget.studio.contactPhone!,
                                 style: const TextStyle(fontSize: 12)),
                           ],
                         ),
@@ -109,7 +198,7 @@ class StudioDetailsScreen extends StatelessWidget {
             Text("Gallery", style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
             FutureBuilder<List<String>>(
-              future: studioProvider.repository.getStudioGalleryPhotos(studio.id),
+              future: studioProvider.repository.getStudioGalleryPhotos(widget.studio.id),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox(
@@ -143,8 +232,8 @@ class StudioDetailsScreen extends StatelessWidget {
             const SizedBox(height: 12),
             FutureBuilder(
               future: Future.wait([
-                userProvider.repository.getUser(studio.ownerId),
-                instructorProvider.repository.getByStudioId(studio.id),
+                userProvider.repository.getUser(widget.studio.ownerId),
+                instructorProvider.repository.getByStudioId(widget.studio.id),
               ]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -177,8 +266,8 @@ class StudioDetailsScreen extends StatelessWidget {
 
             FutureBuilder(
               future: Future.wait([
-                instructorProvider.repository.getByStudioId(studio.id),
-                classProvider.repository.getStudioGroupped(studio.id),
+                instructorProvider.repository.getByStudioId(widget.studio.id),
+                classProvider.repository.getStudioGroupped(widget.studio.id),
               ]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -202,8 +291,8 @@ class StudioDetailsScreen extends StatelessWidget {
                         ),
                         classes: grouped.hathaYoga,
                         instructorMap: instructorMap,
-                        studioId: studio.id,
-                        membershipPrice: studio.membershipPrice,
+                        studioId: widget.studio.id,
+                        membershipPrice: widget.studio.membershipPrice,
                       ),
                     if (grouped.vinyasaYoga.isNotEmpty)
                       YogaTypeCard(
@@ -214,8 +303,8 @@ class StudioDetailsScreen extends StatelessWidget {
                         ),
                         classes: grouped.vinyasaYoga,
                         instructorMap: instructorMap,
-                        studioId: studio.id,
-                        membershipPrice: studio.membershipPrice,
+                        studioId: widget.studio.id,
+                        membershipPrice: widget.studio.membershipPrice,
                       ),
                     if (grouped.yinYoga.isNotEmpty)
                       YogaTypeCard(
@@ -226,8 +315,8 @@ class StudioDetailsScreen extends StatelessWidget {
                         ),
                         classes: grouped.yinYoga,
                         instructorMap: instructorMap,
-                        studioId: studio.id,
-                        membershipPrice: studio.membershipPrice,
+                        studioId: widget.studio.id,
+                        membershipPrice: widget.studio.membershipPrice,
                       ),
                   ],
                 );
