@@ -203,7 +203,7 @@ class _StudiosTabState extends State<StudiosTab> {
                   children: [
                     _buildFilters(data),
                     Text(
-                      "Recommended for you",
+                      "Popular in your location by other users",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

@@ -8,6 +8,7 @@ import 'package:core/services/providers/role_service.dart';
 import 'package:core/services/providers/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zenyogaui/core/app_roles.dart';
 import 'package:zenyogaui/widgets/edit_user_as_admin_dialog.dart';
 import 'package:zenyogaui/widgets/role_badge.dart';
 import '../core/theme.dart';
@@ -41,6 +42,7 @@ class UsersTableSource extends DataTableSource {
   final void Function(UserResponseDto) onEditRequest;
   final void Function(List<CityResponseDto>) onAddRequest;
   final void Function(UserResponseDto) onSendNotificationRequest;
+  final void Function(UserResponseDto) onRoleChange;
 
   UsersTableSource({
     required this.users,
@@ -50,7 +52,8 @@ class UsersTableSource extends DataTableSource {
     required this.onDeleteRequest,
     required this.onEditRequest,
     required this.onSendNotificationRequest,
-    required this.onAddRequest
+    required this.onAddRequest,
+    required this.onRoleChange,
 
   });
 
@@ -106,6 +109,17 @@ class UsersTableSource extends DataTableSource {
               ),
               onPressed: () => onDeleteRequest(u),
             ),
+            if(u.roleId == AppRole.participant) ...[
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.lock),
+                  label: const Text("Owner Role"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow,
+                    fixedSize: const Size(120, 30),
+                  ),
+                  onPressed: () => onRoleChange(u),
+                ),
+              ],
           ],
         ),
       ),
@@ -343,7 +357,8 @@ class _UsersTableViewState extends State<UsersTableView> {
                   onDeleteRequest: _confirmDelete,
                   onEditRequest: _confirmEdit,
                   onAddRequest: _confirmAdd,
-                  onSendNotificationRequest: _confirmSendNotification
+                  onSendNotificationRequest: _confirmSendNotification,
+                  onRoleChange: _confirmRoleChange
                 ),
               ),
             ],
@@ -375,6 +390,35 @@ class _UsersTableViewState extends State<UsersTableView> {
               await context.read<UserProvider>()
                   .repository
                   .deleteUser(user.id);
+              _refresh();
+            },
+            child: const Text("Yes"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmRoleChange(UserResponseDto user) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text("Change role"),
+        content: Text(
+          "Are you sure you want to assign owner role to ${user.firstName} ${user.lastName}?",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text("No"),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              await context.read<UserProvider>()
+                  .repository
+                  .addOwnerRole(user.id);
               _refresh();
             },
             child: const Text("Yes"),

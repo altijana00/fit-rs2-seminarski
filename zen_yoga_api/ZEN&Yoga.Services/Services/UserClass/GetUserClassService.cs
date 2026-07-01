@@ -139,7 +139,10 @@ namespace ZEN_Yoga.Services.Services.UserClass
                     YogaTypeId = uc.Class.YogaTypeId,
                     Description = uc.Class.Description,
                     Location = uc.Class.Location,
-                    JoinedAt = uc.JoinedAt
+                    JoinedAt = uc.JoinedAt,
+                    Status = uc.Status,
+                    CancelledAt = uc.CancelledAt,
+                    CancelledByUserId = uc.CancelledByUserId
                 });
         }
     }

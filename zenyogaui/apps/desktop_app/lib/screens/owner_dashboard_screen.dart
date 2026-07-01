@@ -261,20 +261,6 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
         ),
       );
     }
-    else if (_user?.roleId != AppRole.owner) {
-      rightContent = Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Welcome to Zen&Yoga. Please be patient until someone assigns you your role.",
-              style: TextStyle(color: AppColors.deepGreen),
-            ),
-            const SizedBox(height: 12),
-          ],
-        ),
-      );
-    }
     else {
       rightContent = Padding(
         padding: const EdgeInsets.all(16.0),

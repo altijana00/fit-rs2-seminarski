@@ -347,4 +347,31 @@ class UserApiService {
       throw Exception('Failed to edit photo: ${response.data}');
     }
   }
+
+  Future<String> addOwnerRole(int userId) async {
+    final response = await dio.patch(
+        'User/addOwnerRole?userId=$userId'
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data;
+    } else if (response.statusCode == 400) {
+      final data = Map<String, dynamic>.from(response.data);
+
+      if (data['message'] is List) {
+        final messages = (data['message'] as List)
+            .map((e) => e.toString())
+            .join('\n');
+
+        throw Exception(messages);
+      }
+
+      if (data['error'] != null) {
+        throw Exception(data['error'].toString());
+      }
+      throw (response.data["message"]);
+    } else {
+      throw Exception('Failed to assign admin role: ${response.data}');
+    }
+  }
 }

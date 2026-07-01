@@ -44,6 +44,8 @@ class _LoginFormState extends State<LoginForm> {
             break;
           case 3:
           Navigator.pushReplacementNamed(context, '/instructorDashboard', arguments: user);
+          case 4:
+            Navigator.pushReplacementNamed(context, '/general', arguments: user);
           break;
           default:
             ScaffoldMessenger.of(context).showSnackBar(

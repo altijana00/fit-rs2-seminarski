@@ -41,6 +41,7 @@ import 'package:zenyogaui/screens/admin_dashboard_screen.dart';
 import 'package:zenyogaui/screens/desktop_signup_screen.dart';
 import 'package:zenyogaui/screens/instructor_dashboard_screen.dart';
 import 'package:zenyogaui/screens/owner_dashboard_screen.dart';
+import 'package:zenyogaui/screens/unassigned_role_screen.dart';
 import 'package:zenyogaui/widgets/user_notification_center.dart';
 import 'core/theme.dart';
 import 'screens/desktop_login_screen.dart';
@@ -147,6 +148,7 @@ class MyApp extends StatelessWidget {
         '/instructorDashboard': (_) => NotificationSnackbarListener(child: InstructorDashboard()),
         '/signup': (_) => DesktopSignupScreen(),
         '/notifications': (_) => UserNotificationCenter(),
+        '/general': (_) => UnassignedRoleScreen()
 
       },
     );

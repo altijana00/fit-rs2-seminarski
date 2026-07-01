@@ -39,7 +39,7 @@ namespace ZEN_Yoga.Services.Services.Payment
         public async Task<bool> AddPayment(int userId, int studioId, string paymentIntentId)
         {
 
-            var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId);
+            var payment = await _dbContext.Payments.FirstOrDefaultAsync(ss => ss.StudioId == studioId && ss.UserId == userId && ss.Status == PaymentStatus.Succeeded.ToString());
 
             if (payment != null)
             {

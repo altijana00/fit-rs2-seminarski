@@ -67,4 +67,9 @@ class UserRepository {
     final json = await api.editUserPhoto(photoURL!, userId!);
     return json;
   }
+
+  Future<String> addOwnerRole(int userId) async {
+    final json = await api.addOwnerRole(userId);
+    return json;
+  }
 }

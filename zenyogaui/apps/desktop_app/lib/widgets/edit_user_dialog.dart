@@ -86,6 +86,13 @@ class _EditUserDialogState extends State<EditUserDialog> {
         _isChangingPassword = false;
       });
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password updated successfully"),
+          backgroundColor: AppColors.deepGreen,
+        ),
+      );
+
     }catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

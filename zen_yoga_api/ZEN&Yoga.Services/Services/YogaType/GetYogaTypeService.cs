@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.YogaType;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ZEN_Yoga.Services.Services.YogaType
 {
@@ -18,11 +20,26 @@ namespace ZEN_Yoga.Services.Services.YogaType
             _mapper = mapper;
         }
 
-        public async Task<List<YogaTypeResponse>> GetAll()
+        public async Task<PagedResponse<YogaTypeResponse>> GetAll(PagedRequest request)
         {
-            var types = await _dbContext.YogaTypes.AsNoTracking().ToListAsync();
+            var query = _dbContext.YogaTypes
+                                  .AsNoTracking()
+                                  .OrderByDescending(r => r.Id);
 
-            return _mapper.Map<List<YogaTypeResponse>>(types);
+            var totalCount = await query.CountAsync();
+
+            var yogaTypes = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return new PagedResponse<YogaTypeResponse>
+            {
+                Items = _mapper.Map<List<YogaTypeResponse>>(yogaTypes),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public async Task<YogaTypeResponse> GetById(int id)
@@ -32,7 +49,7 @@ namespace ZEN_Yoga.Services.Services.YogaType
             return _mapper.Map<YogaTypeResponse>(type);
         }
 
-        public async Task<List<YogaTypeResponse>> GetYogaTypesQuery(YogaTypeQuery yogaTypeQuery)
+        public async Task<PagedResponse<YogaTypeResponse>> GetYogaTypesQuery(YogaTypeQuery yogaTypeQuery, PagedRequest request)
         {
             IQueryable<ZEN_Yoga.Models.YogaType> yogaTypes = _dbContext.YogaTypes.AsNoTracking().AsQueryable();
 
@@ -45,10 +62,25 @@ namespace ZEN_Yoga.Services.Services.YogaType
                     u.Description!.ToLower().Contains(search) 
                     
                 );
-            }
 
-            var result = await yogaTypes.ToListAsync();
-            return _mapper.Map<List<YogaTypeResponse>>(result);
+               var results = await yogaTypes
+               .Skip((request.Page - 1) * request.PageSize)
+               .Take(request.PageSize)
+               .ToListAsync();
+
+                
+
+            }
+            var totalCount = await yogaTypes.CountAsync();
+
+            return new PagedResponse<YogaTypeResponse>
+            {
+                Items = _mapper.Map<List<YogaTypeResponse>>(yogaTypes),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
+
         }
     }
 }
