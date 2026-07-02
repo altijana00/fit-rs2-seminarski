@@ -1,6 +1,8 @@
 
 import 'package:core/dto/requests/edit_yoga_type_dto.dart';
+import '../core/paging_defaults.dart';
 import '../dto/requests/add_yoga_type_dto.dart';
+import '../dto/responses/paged_response.dart';
 import '../dto/responses/yoga_type_response_dto.dart';
 import '../services/yoga-type_api_service.dart';
 
@@ -15,14 +17,17 @@ class YogaTypeRepository {
     return YogaTypeResponseDto.fromJson(json);
   }
 
-  Future<List<YogaTypeResponseDto>> getAllYogaTypes() async {
-    final List<dynamic> jsonList = await api.getAllYogaTypes();
-    return jsonList.map((json) => YogaTypeResponseDto.fromJson(json)).toList();
+  Future<PagedResponse<YogaTypeResponseDto>> getAllYogaTypes({
+    int page = PagingDefaults.firstPage,
+    int pageSize = PagingDefaults.pageSize}) async {
+
+    return api.getAllYogaTypes(page: page, pageSize: pageSize);
   }
 
-  Future<List<YogaTypeResponseDto>> getYogaTypeQuery(String? search) async {
-    final List<dynamic> jsonList = await api.getYogaTypesQuery(search);
-    return jsonList.map((json) => YogaTypeResponseDto.fromJson(json)).toList();
+  Future<PagedResponse<YogaTypeResponseDto>> getYogaTypeQuery(String? search, {
+    int page = PagingDefaults.firstPage,
+    int pageSize = PagingDefaults.pageSize}) async {
+    return api.getAllYogaTypes(page: page, pageSize: pageSize);
   }
 
   Future<String> deleteYogaType(int? yogaTypeId) async {

@@ -51,31 +51,33 @@ namespace ZEN_Yoga.Services.Services.YogaType
 
         public async Task<PagedResponse<YogaTypeResponse>> GetYogaTypesQuery(YogaTypeQuery yogaTypeQuery, PagedRequest request)
         {
-            IQueryable<ZEN_Yoga.Models.YogaType> yogaTypes = _dbContext.YogaTypes.AsNoTracking().AsQueryable();
+            IQueryable<ZEN_Yoga.Models.YogaType> query = _dbContext.YogaTypes.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(yogaTypeQuery.Search))
             {
                 var search = yogaTypeQuery.Search.ToLower();
 
-                yogaTypes = yogaTypes.Where(u =>
+                query = query.Where(u =>
                     u.Name.ToLower().Contains(search) ||
                     u.Description!.ToLower().Contains(search) 
                     
                 );
 
-               var results = await yogaTypes
+
+            }
+
+            query = query.OrderByDescending(c => c.Id);
+            var totalCount = await query.CountAsync();
+
+            var results = await query
                .Skip((request.Page - 1) * request.PageSize)
                .Take(request.PageSize)
                .ToListAsync();
-
-                
-
-            }
-            var totalCount = await yogaTypes.CountAsync();
+           
 
             return new PagedResponse<YogaTypeResponse>
             {
-                Items = _mapper.Map<List<YogaTypeResponse>>(yogaTypes),
+                Items = _mapper.Map<List<YogaTypeResponse>>(results),
                 TotalCount = totalCount,
                 Page = request.Page,
                 PageSize = request.PageSize

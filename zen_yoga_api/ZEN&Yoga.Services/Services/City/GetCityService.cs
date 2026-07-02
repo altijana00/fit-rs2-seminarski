@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
-using ZEN_Yoga.Models.Responses;
-using ZEN_Yoga.Models;
 using Microsoft.EntityFrameworkCore;
-using ZEN_Yoga.Services.Interfaces.City;
+using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Requests;
+using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
+using ZEN_Yoga.Services.Interfaces.City;
 
 namespace ZEN_Yoga.Services.Services.City
 {
@@ -20,11 +22,26 @@ namespace ZEN_Yoga.Services.Services.City
 
         }
 
-        public async Task<List<CityResponse>> GetAll()
+        public async Task<PagedResponse<CityResponse>> GetAll(PagedRequest request)
         {
-            var cities = await _dbContext.Cities.AsNoTracking().ToListAsync();
+            var query = _dbContext.Cities
+                                  .AsNoTracking()
+                                  .OrderByDescending(r => r.Id);
 
-            return _mapper.Map<List<CityResponse>>(cities).OrderByDescending(c => c.Id).ToList();
+            var totalCount = await query.CountAsync();
+
+            var cities = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return new PagedResponse<CityResponse>
+            {
+                Items = _mapper.Map<List<CityResponse>>(cities),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
 
         }
 
@@ -36,7 +53,7 @@ namespace ZEN_Yoga.Services.Services.City
         }
 
 
-        public async Task<List<CityResponse>> GetCitiesQuery(CityQuery cityQuery)
+        public async Task<PagedResponse<CityResponse>> GetCitiesQuery(CityQuery cityQuery, PagedRequest request)
         {
             var query = _dbContext.Cities.AsNoTracking().AsQueryable();
 
@@ -46,7 +63,23 @@ namespace ZEN_Yoga.Services.Services.City
                 query = query.Where(u => u.Name.ToLower().Contains(search));
             }
 
-            return _mapper.Map<List<CityResponse>>(await query.ToListAsync()).OrderByDescending(c => c.Id).ToList();
+            query = query.OrderByDescending(c => c.Id);
+            var totalCount = await query.CountAsync();
+
+            var results = await query
+               .Skip((request.Page - 1) * request.PageSize)
+               .Take(request.PageSize)
+               .ToListAsync();
+            
+
+            return new PagedResponse<CityResponse>
+            {
+                Items = _mapper.Map<List<CityResponse>>(results),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
+
         }
 
 

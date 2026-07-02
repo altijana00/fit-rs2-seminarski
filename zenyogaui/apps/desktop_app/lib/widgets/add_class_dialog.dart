@@ -1,4 +1,5 @@
 import 'package:core/dto/requests/add_class_dto.dart';
+import 'package:core/dto/responses/paged_response.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,7 @@ class _AddClassDialogState extends State<AddClassDialog> {
               spacing: 12.0,
               children: [
 
-                FutureBuilder<List<YogaTypeResponseDto>>(
+                FutureBuilder<PagedResponse<YogaTypeResponseDto>>(
                   future: Provider.of<YogaTypeProvider>(
                     context,
                     listen: false,
@@ -130,7 +131,7 @@ class _AddClassDialogState extends State<AddClassDialog> {
                       );
                     }
 
-                    final yogaTypes = snapshot.data ?? [];
+                    final yogaTypes = snapshot.data?.items ?? [];
 
                     return DropdownButtonFormField<int>(
                       decoration: const InputDecoration(

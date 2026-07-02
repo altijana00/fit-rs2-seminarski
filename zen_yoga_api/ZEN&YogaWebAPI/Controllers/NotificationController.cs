@@ -22,16 +22,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<NotificationResponse>>> GetAll([FromServices] IGetNotificationService getNotificationService)
+        public async Task<ActionResult<PagedResponse<NotificationResponse>>> GetAll([FromServices] IGetNotificationService getNotificationService, [FromQuery] PagedRequest request)
         {
-            var notifications = await getNotificationService.GetAll();
+            var notifications = await getNotificationService.GetAll(request);
 
             if (notifications == null)
             {
                 _logger.LogInformation("No notifications found");
                 return NoContent();
             }
-            _logger.LogInformation($"Notifications retrieved: {notifications.Count}");
+            _logger.LogInformation($"Notifications retrieved: {notifications.Items.Count}");
             return Ok(notifications);
         }
 
@@ -53,9 +53,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getNotificationsQuery")]
-        public async Task<ActionResult<List<NotificationResponse>>> GetNotificationsQuery([FromServices] IGetNotificationService getNotificationService, [FromQuery] NotificationQuery notificationQuery)
+        public async Task<ActionResult<PagedResponse<NotificationResponse>>> GetNotificationsQuery([FromServices] IGetNotificationService getNotificationService, [FromQuery] NotificationQuery notificationQuery, [FromQuery] PagedRequest request)
         {
-            var nofications = await getNotificationService.GetNotificationsQuery(notificationQuery);
+            var nofications = await getNotificationService.GetNotificationsQuery(notificationQuery, request);
 
             if (nofications == null)
             {

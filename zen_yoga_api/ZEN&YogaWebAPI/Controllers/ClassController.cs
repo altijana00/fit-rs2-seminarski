@@ -25,16 +25,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<ClassResponse>>> GetAll([FromServices] IGetClassService getClassService)
+        public async Task<ActionResult<PagedResponse<ClassResponse>>> GetAll([FromServices] IGetClassService getClassService, [FromQuery] PagedRequest request)
         {
-            var classes = await getClassService.GetAll();
+            var classes = await getClassService.GetAll(request);
 
             if (classes == null)
             {
                 _logger.LogInformation("No classes retrieved");
                 return NoContent();
             }
-            _logger.LogInformation($"Success: classes retrieved: {classes.Count}");
+            _logger.LogInformation($"Success: classes retrieved: {classes.Items.Count}");
             return Ok(classes);
         }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Studio;
@@ -17,22 +18,38 @@ namespace ZEN_Yoga.Services.Services.Studio
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public async Task<List<StudioResponse>> GetAll()
+        public async Task<PagedResponse<StudioResponse>> GetAll(PagedRequest request)
         {
-            var studios = await _dbContext.Studios.AsNoTracking().ToListAsync();
-            return _mapper.Map<List<StudioResponse>>(studios).OrderByDescending(s => s.Id).ToList();
+            var query = _dbContext.Studios
+                                 .AsNoTracking()
+                                 .OrderByDescending(r => r.Id);
+
+            var totalCount = await query.CountAsync();
+
+            var result = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return new PagedResponse<StudioResponse>
+            {
+                Items = _mapper.Map<List<StudioResponse>>(result),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
-        public async Task<List<StudioResponse>> GetStudiosQuery(StudioQuery studioQuery)
+        public async Task<PagedResponse<StudioResponse>> GetStudiosQuery(StudioQuery studioQuery, PagedRequest request)
         {
 
-            IQueryable<ZEN_Yoga.Models.Studio> studios = _dbContext.Studios.AsNoTracking().AsQueryable();
+            IQueryable<ZEN_Yoga.Models.Studio> query = _dbContext.Studios.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(studioQuery.Search))
             {
                 var search = studioQuery.Search.ToLower();
 
-                studios = studios.Where(s =>
+                query = query.Where(s =>
                     s.Name.ToLower().Contains(search) ||
                     s.Address!.ToLower().Contains(search) ||
                     s.ContactEmail!.ToLower().Contains(search) ||
@@ -43,11 +60,26 @@ namespace ZEN_Yoga.Services.Services.Studio
 
             if (studioQuery.CityId.HasValue)
             {
-                studios = studios.Where(s => s.CityId == studioQuery.CityId);
+                query = query.Where(s => s.CityId == studioQuery.CityId);
             }
 
-            var result = await studios.ToListAsync();
-            return _mapper.Map<List<StudioResponse>>(result).OrderByDescending(s => s.Id).ToList();
+
+            query = query.OrderByDescending(c => c.Id);
+            var totalCount = await query.CountAsync();
+
+            var results = await query
+               .Skip((request.Page - 1) * request.PageSize)
+               .Take(request.PageSize)
+               .ToListAsync();
+
+
+            return new PagedResponse<StudioResponse>
+            {
+                Items = _mapper.Map<List<StudioResponse>>(results),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public async Task<List<StudioResponse>> GetByOwner(int ownerId)

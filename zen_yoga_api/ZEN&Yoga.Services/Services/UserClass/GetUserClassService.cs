@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Studio;
 using ZEN_Yoga.Services.Interfaces.UserClass;
@@ -20,11 +21,25 @@ namespace ZEN_Yoga.Services.Services.UserClass
         }
 
 
-        public async Task<List<UserClassesResponse>> GetAll()
+        public async Task<PagedResponse<UserClassesResponse>> GetAll(PagedRequest request)
         {
-            var classes = await GetBaseUserClassesQuery().ToListAsync();
+            var query = GetBaseUserClassesQuery()
+                  .OrderByDescending(r => r.Id);
 
-            return _mapper.Map<List<UserClassesResponse>>(classes).OrderByDescending(uc => uc.Id).ToList();
+            var totalCount = await query.CountAsync();
+
+            var result = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return new PagedResponse<UserClassesResponse>
+            {
+                Items = _mapper.Map<List<UserClassesResponse>>(result),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public List<int> GetAllByYogaTypeId(int yogaTypeId)

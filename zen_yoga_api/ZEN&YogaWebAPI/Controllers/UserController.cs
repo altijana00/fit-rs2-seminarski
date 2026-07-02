@@ -28,9 +28,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getAll")]        
-        public async Task<ActionResult<List<UserResponse>>> GetAll([FromServices] IGetUserService getUserService)
+        public async Task<ActionResult<PagedResponse<UserResponse>>> GetAll([FromServices] IGetUserService getUserService, [FromQuery] PagedRequest request)
         {
-            var users = await getUserService.GetAll();
+            var users = await getUserService.GetAll(request);
 
             if (users == null)
             {
@@ -38,15 +38,15 @@ namespace ZEN_YogaWebAPI.Controllers
                 return NoContent();
             }
 
-            _logger.LogInformation($"{users.Count} users found");
+            _logger.LogInformation($"{users.Items.Count} users found");
             return Ok(users);
         }
 
         [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getUsersQuery")]
-        public async Task<ActionResult<List<UserResponse>>> GetUsersQuery([FromServices] IGetUserService getUserService, [FromQuery] UserQuery userQuery)
+        public async Task<ActionResult<PagedResponse<UserResponse>>> GetUsersQuery([FromServices] IGetUserService getUserService, [FromQuery] UserQuery userQuery, [FromQuery] PagedRequest request)
         {
-            var users = await getUserService.GetUsersQuery(userQuery);
+            var users = await getUserService.GetUsersQuery(userQuery, request);
 
             if (users == null)
             {
@@ -55,7 +55,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 return NoContent();
             }
 
-            _logger.LogInformation($"{users.Count} users found with query: {userQuery.Search} ");
+            _logger.LogInformation($"{users.Items.Count} users found with query: {userQuery.Search} ");
             return Ok(users);
         }
 

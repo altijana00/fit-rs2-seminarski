@@ -1,3 +1,4 @@
+import 'package:core/dto/responses/paged_response.dart';
 import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:core/services/providers/yoga-type_service.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'edit_yogatype_dialog.dart';
 
 
 class _YogaTypesTableData {
-  final List<YogaTypeResponseDto> yogaTypes;
+  final PagedResponse<YogaTypeResponseDto> yogaTypes;
 
 
   _YogaTypesTableData({
@@ -212,7 +213,7 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildFilters(data),
-              if (data.yogaTypes.isEmpty)
+              if (data.yogaTypes.items.isEmpty)
                 const Padding(
                   padding: EdgeInsets.all(24),
                   child: Center(
@@ -233,7 +234,7 @@ class _YogaTypesTableViewState extends State<YogaTypesTableView> {
                     DataColumn(label: Text("Actions")),
                   ],
                   source: YogaTypesTableSource(
-                    yogaTypes: data.yogaTypes,
+                    yogaTypes: data.yogaTypes.items,
                     onDeleteRequest: _confirmDelete,
                     onEditRequest: _confirmEdit,
                   ),

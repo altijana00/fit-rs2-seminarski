@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Notification;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ZEN_Yoga.Services.Services.Notifications
 {
@@ -18,11 +20,26 @@ namespace ZEN_Yoga.Services.Services.Notifications
             _mapper = mapper;
 
         }
-        public async Task<List<NotificationResponse>> GetAll()
+        public async Task<PagedResponse<NotificationResponse>> GetAll(PagedRequest request)
         {
-            var notifications = await _dbContext.Notifications.AsNoTracking().ToListAsync();
+            var query = _dbContext.Notifications
+                                  .AsNoTracking()
+                                  .OrderByDescending(r => r.Id);
 
-            return _mapper.Map<List<NotificationResponse>>(notifications).OrderByDescending(n => n.Id).ToList();
+            var totalCount = await query.CountAsync();
+
+            var result = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            return new PagedResponse<NotificationResponse>
+            {
+                Items = _mapper.Map<List<NotificationResponse>>(result),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public async Task<NotificationResponse> GetById(int id)
@@ -39,23 +56,38 @@ namespace ZEN_Yoga.Services.Services.Notifications
             return _mapper.Map<List<NotificationResponse>>(notifications).OrderByDescending(n => n.Id).ToList();
         }
 
-        public async Task<List<NotificationResponse>> GetNotificationsQuery(NotificationQuery notificationQuery)
+        public async Task<PagedResponse<NotificationResponse>> GetNotificationsQuery(NotificationQuery notificationQuery, PagedRequest request)
         {
-            IQueryable<ZEN_Yoga.Models.Notification> notifications = _dbContext.Notifications.AsNoTracking().AsQueryable();
+            IQueryable<ZEN_Yoga.Models.Notification> query = _dbContext.Notifications.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(notificationQuery.Search))
             {
                 var search = notificationQuery.Search.ToLower();
 
-                notifications = notifications.Where(u =>
+                query = query.Where(u =>
                     u.Title.ToLower().Contains(search)
 
                 );
             }
 
+            query = query.OrderByDescending(c => c.Id);
+            var totalCount = await query.CountAsync();
 
-            var result = await notifications.ToListAsync();
-            return _mapper.Map<List<NotificationResponse>>(result).OrderByDescending(n => n.Id).ToList();
+            var results = await query
+               .Skip((request.Page - 1) * request.PageSize)
+               .Take(request.PageSize)
+               .ToListAsync();
+
+
+            return new PagedResponse<NotificationResponse>
+            {
+                Items = _mapper.Map<List<NotificationResponse>>(results),
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
+
+
         }
     }
 }

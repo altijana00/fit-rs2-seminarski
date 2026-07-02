@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../core/constants.dart';
+import '../../core/paging_defaults.dart';
+import '../../dto/responses/paged_response.dart';
 import '../../dto/responses/yoga_type_response_dto.dart';
 import '../../repositories/yoga-type_repository.dart';
 
@@ -11,7 +13,7 @@ class YogaTypeProvider extends ChangeNotifier {
   final FlutterSecureStorage storage;
 
 
-  List<YogaTypeResponseDto>? _yogaTypes;
+  PagedResponse<YogaTypeResponseDto>? _yogaTypes;
   String? _token;
 
   String? _error;
@@ -26,7 +28,7 @@ class YogaTypeProvider extends ChangeNotifier {
   }
 
 
-  List<YogaTypeResponseDto>? get yogaTypes => _yogaTypes;
+  PagedResponse<YogaTypeResponseDto>? get yogaTypes => _yogaTypes;
 
   String? get error => _error;
 
@@ -37,7 +39,8 @@ class YogaTypeProvider extends ChangeNotifier {
 
     if (token != null && token.isNotEmpty) {
       try {
-        _yogaTypes = await repository.getAllYogaTypes();
+        _yogaTypes = await repository.getAllYogaTypes(page: PagingDefaults.firstPage,
+          pageSize: PagingDefaults.pageSize,);
         _token = token;
         _attachInterceptor(token);
         notifyListeners();

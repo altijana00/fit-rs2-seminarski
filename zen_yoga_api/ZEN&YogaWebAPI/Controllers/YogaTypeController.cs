@@ -22,16 +22,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<YogaTypeResponse>>> GetAll([FromServices] IGetYogaTypeService getYogaTypeService)
+        public async Task<ActionResult<PagedResponse<YogaTypeResponse>>> GetAll([FromServices] IGetYogaTypeService getYogaTypeService, [FromQuery] PagedRequest request)
         {
-            var yogaTypes = await getYogaTypeService.GetAll();
+            var yogaTypes = await getYogaTypeService.GetAll(request);
 
             if (yogaTypes == null)
             {
                 _logger.LogInformation("No yoga types found");
                 return NoContent();
             }
-            _logger.LogInformation($"{yogaTypes.Count} yoga types found");
+            _logger.LogInformation($"Returned {yogaTypes.Items.Count} yoga types (page {yogaTypes.Page}) out of {yogaTypes.TotalCount} total.");
             return Ok(yogaTypes);
         }
 
@@ -54,9 +54,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getYogaTypesQuery")]
-        public async Task<ActionResult<List<YogaTypeResponse>>> GetYogaTypesQuery([FromServices] IGetYogaTypeService getYogaTypeService, [FromQuery] YogaTypeQuery yogaTypeQuery)
+        public async Task<ActionResult<PagedResponse<YogaTypeResponse>>> GetYogaTypesQuery([FromServices] IGetYogaTypeService getYogaTypeService, [FromQuery] YogaTypeQuery yogaTypeQuery, [FromQuery] PagedRequest request)
         {
-            var yogaTypes = await getYogaTypeService.GetYogaTypesQuery(yogaTypeQuery);
+            var yogaTypes = await getYogaTypeService.GetYogaTypesQuery(yogaTypeQuery, request);
 
             if (yogaTypes == null)
             {

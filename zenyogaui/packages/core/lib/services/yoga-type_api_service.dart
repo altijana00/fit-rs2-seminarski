@@ -1,4 +1,8 @@
+import 'package:core/dto/responses/paged_response.dart';
+import 'package:core/dto/responses/yoga_type_response_dto.dart';
 import 'package:dio/dio.dart';
+
+import '../core/paging_defaults.dart';
 
 class YogaTypeApiService {
   final Dio dio;
@@ -29,10 +33,19 @@ class YogaTypeApiService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllYogaTypes() async {
-    final response = await dio.get('YogaType/getAll');
+  Future<PagedResponse<YogaTypeResponseDto>> getAllYogaTypes({int page = PagingDefaults.firstPage,
+    int pageSize = PagingDefaults.pageSize}) async {
+
+    final response = await dio.get('YogaType/getAll',
+    queryParameters:
+      {
+        'page': page,
+        'pageSize': pageSize
+      });
     if(response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(response.data);
+      return PagedResponse<YogaTypeResponseDto>.fromJson(
+          response.data,
+              (json) => YogaTypeResponseDto.fromJson(json));
     } else if (response.statusCode == 400) {
       final data = Map<String, dynamic>.from(response.data);
 
@@ -53,10 +66,13 @@ class YogaTypeApiService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getYogaTypesQuery(String? search) async {
+  Future<PagedResponse<YogaTypeResponseDto>> getYogaTypesQuery(String? search, {int page = PagingDefaults.firstPage,
+    int pageSize = PagingDefaults.pageSize}) async {
     final response = await dio.get('YogaType/getYogaTypesQuery',
       queryParameters: {
         if(search != null) 'search': search,
+        'page': page,
+        'pageSize': pageSize
 
       },
         options: Options(
@@ -64,7 +80,9 @@ class YogaTypeApiService {
         )
     );
     if(response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(response.data);
+      return PagedResponse<YogaTypeResponseDto>.fromJson(
+          response.data,
+              (json) => YogaTypeResponseDto.fromJson(json));
     } else if (response.statusCode == 400) {
       final data = Map<String, dynamic>.from(response.data);
 

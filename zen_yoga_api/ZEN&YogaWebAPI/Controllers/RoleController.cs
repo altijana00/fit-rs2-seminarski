@@ -21,9 +21,9 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<RoleResponse>>> GetAll([FromServices] IGetRoleService getRoleService)
+        public async Task<ActionResult<PagedResponse<RoleResponse>>> GetAll([FromServices] IGetRoleService getRoleService, [FromQuery] PagedRequest request)
         {
-            var roles = await getRoleService.GetAll();
+            var roles = await getRoleService.GetAll(request);
 
             if (roles == null)
             {
@@ -31,7 +31,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 return NoContent();
             }
 
-            _logger.LogInformation($"Retrieved roles: {roles.Count}");
+            _logger.LogInformation($"Retrieved roles: {roles.Items.Count}");
             return Ok(roles);
         }
 
@@ -52,9 +52,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getRolesQuery")]
-        public async Task<ActionResult<List<RoleResponse>>> GetRolesQuery([FromServices] IGetRoleService getRoleService, [FromQuery] RoleQuery roleQuery)
+        public async Task<ActionResult<PagedResponse<RoleResponse>>> GetRolesQuery([FromServices] IGetRoleService getRoleService, [FromQuery] RoleQuery roleQuery, [FromQuery] PagedRequest request)
         {
-            var roles = await getRoleService.GetRolesQuery(roleQuery);
+            var roles = await getRoleService.GetRolesQuery(roleQuery, request);
 
             if (roles == null)
             {

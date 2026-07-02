@@ -1,15 +1,27 @@
+import 'package:core/dto/responses/paged_response.dart';
 import 'package:core/dto/responses/studio_response_dto.dart';
+import 'package:core/dto/responses/user_classes_response_dto.dart';
 import 'package:dio/dio.dart';
+
+import '../core/paging_defaults.dart';
 
 class UserClassApiService {
   final Dio dio;
 
   UserClassApiService(this.dio);
 
-  Future<List<Map<String, dynamic>>> getAllUserClasses() async {
-    final response = await dio.get('UserClass/getAll');
+  Future<PagedResponse<UserClassesResponseDto>> getAllUserClasses({int page = PagingDefaults.firstPage,
+    int pageSize = PagingDefaults.pageSize}) async {
+    final response = await dio.get('UserClass/getAll',
+        queryParameters:
+        {
+          'page': page,
+          'pageSize': pageSize
+        });
     if(response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(response.data);
+      return PagedResponse<UserClassesResponseDto>.fromJson(
+          response.data,
+              (json) => UserClassesResponseDto.fromJson(json));
     } else if (response.statusCode == 400) {
       final data = Map<String, dynamic>.from(response.data);
 

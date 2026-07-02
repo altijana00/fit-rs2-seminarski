@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Services.Interfaces.Instructor;
 
@@ -40,10 +41,25 @@ namespace ZEN_Yoga.Services.Services.Instructor
                     });
         }
 
-        public async Task<List<InstructorResponse>> GetAll()
+        public async Task<PagedResponse<InstructorResponse>> GetAll(PagedRequest request)
         {
-            return await GetBaseInstructorQuery()
+            var query = GetBaseInstructorQuery()
+        .OrderByDescending(x => x.Id);
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .ToListAsync();
+
+            return new PagedResponse<InstructorResponse>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public async Task<InstructorResponse?> GetByEmail(string email)

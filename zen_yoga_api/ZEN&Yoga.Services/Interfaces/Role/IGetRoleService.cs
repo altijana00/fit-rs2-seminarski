@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZEN_Yoga.Models;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Base;
@@ -12,7 +13,7 @@ namespace ZEN_Yoga.Services.Interfaces.Role
 {
     public interface IGetRoleService : IGetService<Models.Role, RoleResponse>
     {
-        Task<List<RoleResponse>> GetRolesQuery(RoleQuery roleQuery);
+        Task<PagedResponse<RoleResponse>> GetRolesQuery(RoleQuery roleQuery, PagedRequest request);
 
        
     }

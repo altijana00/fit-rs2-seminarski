@@ -24,9 +24,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AdminOrOwnerOrInstructor)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<StudioResponse>>> GetAll([FromServices] IGetStudioService getStudioService)
+        public async Task<ActionResult<PagedResponse<StudioResponse>>> GetAll([FromServices] IGetStudioService getStudioService, [FromQuery] PagedRequest request)
         {
-            var studios = await getStudioService.GetAll();
+            var studios = await getStudioService.GetAll(request);
 
             if (studios == null)
             {
@@ -34,16 +34,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
                 return NoContent();
             }
-            _logger.LogInformation($"Retrieved studios: {studios.Count}");
+            _logger.LogInformation($"Retrieved studios: {studios.Items.Count}");
 
             return Ok(studios);
         }
 
         [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getStudiosQuery")]
-        public async Task<ActionResult<List<StudioResponse>>> GetStudiosQuery([FromServices] IGetStudioService getStudioService, [FromQuery] StudioQuery studioQuery)
+        public async Task<ActionResult<PagedResponse<StudioResponse>>> GetStudiosQuery([FromServices] IGetStudioService getStudioService, [FromQuery] StudioQuery studioQuery, [FromQuery] PagedRequest request)
         {
-            var studios = await getStudioService.GetStudiosQuery(studioQuery);
+            var studios = await getStudioService.GetStudiosQuery(studioQuery, request);
 
             if (studios == null)
             {
@@ -51,7 +51,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 return NoContent();
             }
 
-            _logger.LogInformation($" {studios.Count} studios found for query: {studioQuery.Search}");
+            _logger.LogInformation($" {studios.Items.Count} studios found for query: {studioQuery.Search}");
             return Ok(studios);
         }
 

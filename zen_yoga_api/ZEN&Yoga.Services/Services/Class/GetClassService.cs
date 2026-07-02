@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using ZEN_Yoga.Models;
 using ZEN_Yoga.Models.Enums;
 using ZEN_Yoga.Models.Exceptions;
+using ZEN_Yoga.Models.Requests;
 using ZEN_Yoga.Models.Responses;
 using ZEN_Yoga.Models.SearchObjects;
 using ZEN_Yoga.Services.Interfaces.Class;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ZEN_Yoga.Services.Services.Class
 {
@@ -21,22 +23,45 @@ namespace ZEN_Yoga.Services.Services.Class
             _dbContext = dbContext;
         }
 
-        public async Task<List<ClassResponse>> GetAll()
+        public async Task<PagedResponse<ClassResponse>> GetAll(PagedRequest request)
         {
-            var classes = await _dbContext.Classes.AsNoTracking().ToListAsync();
+            var query = _dbContext.Classes
+                .AsNoTracking()
+                .OrderByDescending(c => c.Id);
+
+            var totalCount = await query.CountAsync();
+
+            var classes = await query
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
             var mappedClasses = _mapper.Map<List<ClassResponse>>(classes);
 
-            var participantCounts = await _dbContext.UserClasses.AsNoTracking()
+            var participantCounts = await _dbContext.UserClasses
+                .AsNoTracking()
                 .GroupBy(uc => uc.ClassId)
-                .Select(g => new { ClassId = g.Key, Count = g.Count() })
+                .Select(g => new
+                {
+                    ClassId = g.Key,
+                    Count = g.Count()
+                })
                 .ToListAsync();
 
             var countDict = participantCounts.ToDictionary(x => x.ClassId, x => x.Count);
 
             foreach (var c in mappedClasses)
+            {
                 c.JoinedParticipants = countDict.GetValueOrDefault(c.Id, 0);
+            }
 
-            return mappedClasses.OrderByDescending(c => c.Id).ToList();
+            return new PagedResponse<ClassResponse>
+            {
+                Items = mappedClasses,
+                TotalCount = totalCount,
+                Page = request.Page,
+                PageSize = request.PageSize
+            };
         }
 
         public async Task<ClassResponse> GetById(int id)

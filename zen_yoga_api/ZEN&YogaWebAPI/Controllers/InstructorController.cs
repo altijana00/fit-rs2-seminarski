@@ -23,16 +23,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.AllRoles)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<InstructorResponse>> GetAll([FromServices] IGetInstructorService getInstructorService)
+        public async Task<ActionResult<PagedResponse<InstructorResponse>>> GetAll([FromServices] IGetInstructorService getInstructorService, [FromQuery] PagedRequest request)
         {
-            var instructors = await getInstructorService.GetAll();
+            var instructors = await getInstructorService.GetAll(request);
 
-            if (!instructors.Any())
+            if (instructors == null)
             {
                 _logger.LogInformation("No instructors retrieved");
                 return NoContent();
             }
-            _logger.LogInformation("No instructors retrieved");
+            _logger.LogInformation($"Instructors retrieved: {instructors.Items.Count}");
             return Ok(instructors);
         }
 

@@ -24,9 +24,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<UserClassesResponse>>> GetAll([FromServices] IGetUserClassService getUserClassService)
+        public async Task<ActionResult<PagedResponse<UserClassesResponse>>> GetAll([FromServices] IGetUserClassService getUserClassService, [FromQuery] PagedRequest request)
         {
-            var classes = await getUserClassService.GetAll();
+            var classes = await getUserClassService.GetAll(request);
 
             if (classes == null)
             {
@@ -34,7 +34,7 @@ namespace ZEN_YogaWebAPI.Controllers
                 return NoContent();
             }
 
-            _logger.LogInformation($"User classes found: {classes.Count}");
+            _logger.LogInformation($"User classes found: {classes.Items.Count}");
             return Ok(classes);
         }
 

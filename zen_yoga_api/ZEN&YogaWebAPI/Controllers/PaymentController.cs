@@ -198,16 +198,16 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<PaymentResponse>>> GetAll([FromServices] IGetPaymentService getPaymentService)
+        public async Task<ActionResult<PagedResponse<PaymentResponse>>> GetAll([FromServices] IGetPaymentService getPaymentService, [FromQuery] PagedRequest request)
         {
-            var payments = await getPaymentService.GetAll();
+            var payments = await getPaymentService.GetAll(request);
 
             if (payments == null)
             {
                 _logger.LogInformation("No payments found");
                 return NoContent();
             }
-            _logger.LogInformation($"{payments.Count} payments found");
+            _logger.LogInformation($"{payments.Items.Count} payments found");
             return Ok(payments);
         }
 
@@ -223,9 +223,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getPaymentsQuery")]
-        public async Task<ActionResult<List<PaymentResponse>>> GetPaymentsQuery([FromServices] IGetPaymentService getPaymentService, [FromQuery] PaymentQuery paymentQuery)
+        public async Task<ActionResult<PagedResponse<PaymentResponse>>> GetPaymentsQuery([FromServices] IGetPaymentService getPaymentService, [FromQuery] PaymentQuery paymentQuery, [FromQuery] PagedRequest request)
         {
-            var cities = await getPaymentService.GetPaymentsQuery(paymentQuery);
+            var cities = await getPaymentService.GetPaymentsQuery(paymentQuery, request);
 
             if (cities == null)
             {

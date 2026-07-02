@@ -18,16 +18,16 @@ namespace ZEN_YogaWebAPI.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<CityResponse>>> GetAll([FromServices] IGetCityService getCityService)
+        public async Task<ActionResult<PagedResponse<CityResponse>>> GetAll([FromServices] IGetCityService getCityService, [FromQuery] PagedRequest request)
         {
-            var cities = await getCityService.GetAll();
+            var cities = await getCityService.GetAll(request);
 
             if (cities == null)
             {
                 _logger.LogInformation("No cities found");
                 return NoContent();
             }
-            _logger.LogInformation($"Successfully retrieved cities: {cities.Count}");
+            _logger.LogInformation($"Successfully retrieved cities: {cities.Items.Count}");
             return Ok(cities);
         }
 
@@ -48,9 +48,9 @@ namespace ZEN_YogaWebAPI.Controllers
 
         [Authorize(Roles = AuthRoles.Admin)]
         [HttpGet("getCitiesQuery")]
-        public async Task<ActionResult<List<CityResponse>>> GetCitiesQuery([FromServices] IGetCityService getCityService, [FromQuery] CityQuery cityQuery)
+        public async Task<ActionResult<PagedResponse<CityResponse>>> GetCitiesQuery([FromServices] IGetCityService getCityService, [FromQuery] CityQuery cityQuery, [FromQuery] PagedRequest request)
         {
-            var cities = await getCityService.GetCitiesQuery(cityQuery);
+            var cities = await getCityService.GetCitiesQuery(cityQuery, request);
 
             if (cities == null)
             {
